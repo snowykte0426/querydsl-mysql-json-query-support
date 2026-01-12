@@ -6,24 +6,24 @@
 [![MySQL: 8.0.17+](https://img.shields.io/badge/MySQL-8.0.17%2B-blue.svg)](https://dev.mysql.com/doc/refman/8.0/en/json.html)
 [![Status: Alpha](https://img.shields.io/badge/Status-Alpha-red.svg)]()
 
-MySQL 8.0.17+의 모든 JSON 함수를 QueryDSL에서 타입 안전하고 유창한 메서드 체이닝 방식으로 사용할 수 있게 해주는 확장 라이브러리입니다.
+A QueryDSL extension library that enables type-safe, fluent method chaining for all MySQL 8.0.17+ JSON functions.
 
-> ⚠️ **Early Development**: 이 프로젝트는 현재 활발히 개발 중입니다. API는 안정적이지 않으며 변경될 수 있습니다.
+> **Warning**: This project is in early development. APIs are unstable and subject to change.
 
 ---
 
-## 🎯 Why This Library?
+## Why This Library?
 
-### Before (기존 방식)
+### Before
 ```java
-// 문자열 템플릿 - 타입 안전하지 않고 오류 발생 가능
+// String-based templates - not type-safe, error-prone
 Expressions.stringTemplate("JSON_EXTRACT({0}, {1})", user.metadata, "$.role")
     .eq("admin");
 ```
 
-### After (이 라이브러리 사용 시)
+### After
 ```java
-// 타입 안전한 메서드 체이닝 - IDE 자동완성 지원
+// Type-safe method chaining with IDE autocompletion
 user.metadata
     .jsonExtract("$.role")
     .eq("admin");
@@ -31,59 +31,63 @@ user.metadata
 
 ---
 
-## ✨ Features
+## Features
 
-### 🎉 Complete Coverage
-**35개의 MySQL JSON 함수를 모두 지원합니다:**
+### Complete MySQL JSON Function Coverage
 
-- ✅ **Creation Functions** (3): `JSON_ARRAY`, `JSON_OBJECT`, `JSON_QUOTE`
-- ✅ **Search Functions** (10): `JSON_EXTRACT`, `JSON_CONTAINS`, `JSON_SEARCH`, etc.
-- ✅ **Modification Functions** (10): `JSON_SET`, `JSON_INSERT`, `JSON_REPLACE`, etc.
-- ✅ **Attribute Functions** (4): `JSON_DEPTH`, `JSON_LENGTH`, `JSON_TYPE`, `JSON_VALID`
-- ✅ **Utility Functions** (3): `JSON_PRETTY`, `JSON_STORAGE_SIZE`, `JSON_STORAGE_FREE`
-- ✅ **Schema Validation** (2): `JSON_SCHEMA_VALID`, `JSON_SCHEMA_VALIDATION_REPORT`
-- ✅ **Aggregate Functions** (2): `JSON_ARRAYAGG`, `JSON_OBJECTAGG`
-- ✅ **Table Functions** (1): `JSON_TABLE`
+This library provides type-safe QueryDSL expressions for all 35 MySQL JSON functions:
 
-### 🏗️ Multi-Module Architecture
-필요한 모듈만 선택해서 사용할 수 있습니다:
+- **Creation Functions** (3): `JSON_ARRAY`, `JSON_OBJECT`, `JSON_QUOTE`
+- **Search Functions** (10): `JSON_EXTRACT`, `JSON_CONTAINS`, `JSON_SEARCH`, `JSON_VALUE`, `JSON_OVERLAPS`, `MEMBER OF`, and more
+- **Modification Functions** (10): `JSON_SET`, `JSON_INSERT`, `JSON_REPLACE`, `JSON_REMOVE`, `JSON_ARRAY_APPEND`, `JSON_MERGE_PATCH`, and more
+- **Attribute Functions** (4): `JSON_DEPTH`, `JSON_LENGTH`, `JSON_TYPE`, `JSON_VALID`
+- **Utility Functions** (3): `JSON_PRETTY`, `JSON_STORAGE_SIZE`, `JSON_STORAGE_FREE`
+- **Schema Validation** (2): `JSON_SCHEMA_VALID`, `JSON_SCHEMA_VALIDATION_REPORT`
+- **Aggregate Functions** (2): `JSON_ARRAYAGG`, `JSON_OBJECTAGG`
+- **Table Functions** (1): `JSON_TABLE`
 
-- **`querydsl-mysql-json-core`**: 공통 기능
-- **`querydsl-mysql-json-sql`**: QueryDSL SQL 지원
-- **`querydsl-mysql-json-jpa`**: QueryDSL JPA 지원
+### Multi-Module Architecture
 
-### 🔒 Type-Safe
-- 컴파일 타임 타입 체크
-- IDE 자동완성 및 리팩토링 지원
-- SQL Injection 방지
+Choose only the modules you need:
 
-### 🚀 Built on OpenFeign QueryDSL
-활발히 유지보수되는 [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) 포크 버전 기반
+- **`querydsl-mysql-json-core`**: Core functionality and operators
+- **`querydsl-mysql-json-sql`**: Support for QueryDSL SQL module
+- **`querydsl-mysql-json-jpa`**: Support for QueryDSL JPA module
+
+### Type Safety
+
+- Compile-time type checking
+- IDE autocompletion and refactoring support
+- SQL injection prevention through parameterized queries
+
+### Built on OpenFeign QueryDSL
+
+Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) fork (version 7.1).
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### Gradle
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-M1'
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.1'
 
     // Choose your module
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-M1'   // For SQL
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.1'   // For SQL
     // OR
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-M1'   // For JPA
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.1'   // For JPA
 }
 ```
 
-> ⚠️ **Note**: Binary releases are not yet available. The project is in early development.
+> **Note**: Binary releases are not yet available. The project is in early development.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### Basic Usage Example
+### Basic Usage Examples
 
 ```java
 // JSON_EXTRACT: Extract value from JSON path
@@ -123,92 +127,82 @@ List<String> emailsPerDept = queryFactory
 
 ---
 
-## 📋 Supported MySQL Versions
+## Requirements
 
-- **MySQL 8.0.17+** (recommended)
-- All MySQL 8.0+ JSON functions supported
+- Java 17 or higher
+- MySQL 8.0.17 or higher
+- QueryDSL (OpenFeign fork) 7.1
 
 ---
 
-## 🛣️ Roadmap
+## Project Status
 
-### v0.1.0-M1 (Current) ✅
-- [x] Project infrastructure
-- [x] Multi-module setup
-- [x] 35 JSON operators defined
-- [x] OpenFeign QueryDSL integration
+### v0.1.0-Dev.1 (Current)
+- Project infrastructure setup
+- Multi-module Gradle configuration
+- 35 JSON operators defined as enums
+- OpenFeign QueryDSL 7.1 integration
+- Initial build system complete
 
-### v0.1.0-M2 (Next)
-- [ ] Expression classes
-- [ ] Search functions implementation
-- [ ] Creation functions implementation
-- [ ] Basic integration tests
+### v0.1.0-Dev.2 (Next)
+- Expression classes implementation
+- Search functions implementation
+- Creation functions implementation
+- Basic integration tests with Testcontainers
 
-### v0.1.0-M3
-- [ ] Modification functions
-- [ ] Attribute & utility functions
-- [ ] Comprehensive testing
+### v0.1.0-Dev.3
+- Modification functions implementation
+- Attribute and utility functions
+- Comprehensive test coverage
 
 ### v0.1.0 (Stable Release)
-- [ ] All 35 functions implemented
-- [ ] Complete documentation
-- [ ] Production-ready
-- [ ] Maven Central release
+- All 35 functions fully implemented
+- Complete documentation and examples
+- Production-ready quality
+- Maven Central publication
 
 ---
 
-## 📚 Documentation
+## Documentation
 
-- **[Implementation Plan](./IMPLEMENTATION_PLAN.md)** - 상세 구현 계획
-- **[Progress Log](./PROGRESS.md)** - 진행 상황
-- **[MySQL JSON Functions Reference](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html)** - MySQL 공식 문서
+- [MySQL JSON Functions Reference](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html) - Official MySQL documentation
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! This project is in early development and we're open to:
+Contributions are welcome! This project is in early development and we're looking for:
 
-- 🐛 Bug reports
-- 💡 Feature requests
-- 📝 Documentation improvements
-- 🔧 Code contributions
-
-Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+- Bug reports
+- Feature requests
+- Documentation improvements
+- Code contributions
 
 ---
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **OpenFeign Team** - For maintaining the QueryDSL fork
-- **Original QueryDSL Team** - For the excellent foundation
-- **MySQL Team** - For comprehensive JSON support
+- **Original QueryDSL Team** - For the excellent type-safe query DSL foundation
+- **MySQL Team** - For comprehensive JSON function support
 
 ---
 
-## 📞 Contact
+## Contact
 
-- **GitHub**: [@snowykte0426](https://github.com/snowykte0426)
-- **Email**: snowykte0426@naver.com
-
----
-
-## ⭐ Star History
-
-If you find this project useful, please consider giving it a star! ⭐
+- GitHub: [@snowykte0426](https://github.com/snowykte0426)
+- Email: snowykte0426@naver.com
 
 ---
 
 <div align="center">
 
-**[View on GitHub](https://github.com/snowykte0426/querydsl-mysql-json-query-support)** • **[Report Bug](https://github.com/snowykte0426/querydsl-mysql-json-query-support/issues)** • **[Request Feature](https://github.com/snowykte0426/querydsl-mysql-json-query-support/issues)**
-
-Made with ❤️ by [snowykte0426](https://github.com/snowykte0426)
+[View on GitHub](https://github.com/snowykte0426/querydsl-mysql-json-query-support) • [Report Bug](https://github.com/snowykte0426/querydsl-mysql-json-query-support/issues) • [Request Feature](https://github.com/snowykte0426/querydsl-mysql-json-query-support/issues)
 
 </div>
