@@ -1,0 +1,1 @@
+rootProject.name = "querydsl-mysql-json-query-support"
