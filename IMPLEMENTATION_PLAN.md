@@ -7,10 +7,11 @@
 
 ## Current Status
 
-- **프로젝트 상태**: 완전히 새로운 프로젝트 (src/main/java 비어있음)
+- **프로젝트 상태**: 멀티 모듈 구조 설정 완료
 - **빌드 설정**: Gradle 9.2.1, Java 17/25, JUnit 5
-- **의존성**: 현재 JUnit만 설정됨 (QueryDSL, MySQL 의존성 추가 필요)
-- **Git**: 9개 커밋, 기본 프로젝트 구조만 설정됨
+- **QueryDSL 버전**: OpenFeign QueryDSL 7.1 (io.github.openfeign.querydsl)
+- **모듈 구조**: core, sql, jpa 3개 모듈
+- **참고**: 원본 QueryDSL은 운영 종료, OpenFeign 포크 버전 사용
 
 ## MySQL JSON Functions (Complete List)
 
@@ -354,6 +355,7 @@ queryFactory
 ## References
 
 - [MySQL 8.0 JSON Function Reference](https://dev.mysql.com/doc/refman/8.0/en/json-function-reference.html)
+- [OpenFeign QueryDSL (Maintained Fork)](https://github.com/OpenFeign/querydsl)
+- [OpenFeign QueryDSL Maven Central](https://central.sonatype.com/artifact/io.github.openfeign.querydsl/querydsl-core)
 - [QueryDSL Reference Documentation](http://querydsl.com/static/querydsl/latest/reference/html/)
-- [QueryDSL MySQLTemplates Source](https://github.com/querydsl/querydsl/blob/master/querydsl-sql/src/main/java/com/querydsl/sql/MySQLTemplates.java)
 - [Testcontainers MySQL Module](https://testcontainers.com/modules/mysql/)
