@@ -15,7 +15,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         mavenCentral()
         maven("https://jitpack.io")
