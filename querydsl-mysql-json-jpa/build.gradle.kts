@@ -17,8 +17,8 @@ dependencies {
     // Core module
     api(project(":querydsl-mysql-json-core"))
 
-    // QueryDSL JPA
-    api("com.querydsl:querydsl-jpa:5.1.0:jakarta")
+    // OpenFeign QueryDSL JPA (maintained fork)
+    api("io.github.openfeign.querydsl:querydsl-jpa:7.1:jakarta")
 
     // Jakarta Persistence API
     compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
@@ -27,7 +27,7 @@ dependencies {
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
 
     // Code Generation (for annotation processing)
-    annotationProcessor("com.querydsl:querydsl-apt:5.1.0:jakarta")
+    annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:7.1:jakarta")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     // Testing

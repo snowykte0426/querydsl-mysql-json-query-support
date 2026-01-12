@@ -14,8 +14,8 @@ java {
 }
 
 dependencies {
-    // QueryDSL Core
-    api("com.querydsl:querydsl-core:5.1.0")
+    // OpenFeign QueryDSL Core (maintained fork)
+    api("io.github.openfeign.querydsl:querydsl-core:7.1")
 
     // MySQL Connector (compileOnly, users will provide their own)
     compileOnly("com.mysql:mysql-connector-j:8.2.0")

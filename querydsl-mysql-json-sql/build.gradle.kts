@@ -17,8 +17,8 @@ dependencies {
     // Core module
     api(project(":querydsl-mysql-json-core"))
 
-    // QueryDSL SQL
-    api("com.querydsl:querydsl-sql:5.1.0")
+    // OpenFeign QueryDSL SQL (maintained fork)
+    api("io.github.openfeign.querydsl:querydsl-sql:7.1")
 
     // MySQL Connector (compileOnly, users will provide their own)
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
@@ -36,8 +36,8 @@ dependencies {
     // MySQL for Tests
     testImplementation("com.mysql:mysql-connector-j:8.2.0")
 
-    // QueryDSL SQL Codegen
-    testImplementation("com.querydsl:querydsl-sql-codegen:5.1.0")
+    // OpenFeign QueryDSL SQL Codegen
+    testImplementation("io.github.openfeign.querydsl:querydsl-sql-codegen:7.1")
 
     // Logging for Tests
     testImplementation("ch.qos.logback:logback-classic:1.4.14")
