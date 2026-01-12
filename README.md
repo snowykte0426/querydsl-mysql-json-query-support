@@ -37,22 +37,26 @@ user.metadata
 
 This library provides type-safe QueryDSL expressions for all 35 MySQL JSON functions:
 
-- **Creation Functions** (3): `JSON_ARRAY`, `JSON_OBJECT`, `JSON_QUOTE`
-- **Search Functions** (10): `JSON_EXTRACT`, `JSON_CONTAINS`, `JSON_SEARCH`, `JSON_VALUE`, `JSON_OVERLAPS`, `MEMBER OF`, and more
-- **Modification Functions** (10): `JSON_SET`, `JSON_INSERT`, `JSON_REPLACE`, `JSON_REMOVE`, `JSON_ARRAY_APPEND`, `JSON_MERGE_PATCH`, and more
-- **Attribute Functions** (4): `JSON_DEPTH`, `JSON_LENGTH`, `JSON_TYPE`, `JSON_VALID`
-- **Utility Functions** (3): `JSON_PRETTY`, `JSON_STORAGE_SIZE`, `JSON_STORAGE_FREE`
-- **Schema Validation** (2): `JSON_SCHEMA_VALID`, `JSON_SCHEMA_VALIDATION_REPORT`
-- **Aggregate Functions** (2): `JSON_ARRAYAGG`, `JSON_OBJECTAGG`
-- **Table Functions** (1): `JSON_TABLE`
+| Category | Count | Functions |
+| :--- | :---: | :--- |
+| **Creation Functions** | 3 | `JSON_ARRAY`, `JSON_OBJECT`, `JSON_QUOTE` |
+| **Search Functions** | 10 | `JSON_EXTRACT`, `JSON_CONTAINS`, `JSON_SEARCH`, `JSON_VALUE`, `JSON_OVERLAPS`, `MEMBER OF`, and more |
+| **Modification Functions** | 10 | `JSON_SET`, `JSON_INSERT`, `JSON_REPLACE`, `JSON_REMOVE`, `JSON_ARRAY_APPEND`, `JSON_MERGE_PATCH`, and more |
+| **Attribute Functions** | 4 | `JSON_DEPTH`, `JSON_LENGTH`, `JSON_TYPE`, `JSON_VALID` |
+| **Utility Functions** | 3 | `JSON_PRETTY`, `JSON_STORAGE_SIZE`, `JSON_STORAGE_FREE` |
+| **Schema Validation** | 2 | `JSON_SCHEMA_VALID`, `JSON_SCHEMA_VALIDATION_REPORT` |
+| **Aggregate Functions** | 2 | `JSON_ARRAYAGG`, `JSON_OBJECTAGG` |
+| **Table Functions** | 1 | `JSON_TABLE` |
 
-### Multi-Module Architecture
+### Multi-Module
 
 Choose only the modules you need:
 
-- **`querydsl-mysql-json-core`**: Core functionality and operators
-- **`querydsl-mysql-json-sql`**: Support for QueryDSL SQL module
-- **`querydsl-mysql-json-jpa`**: Support for QueryDSL JPA module
+| Module | Description |
+| :--- | :--- |
+| **`querydsl-mysql-json-core`** | Core functionality and operators |
+| **`querydsl-mysql-json-sql`** | Support for QueryDSL SQL module |
+| **`querydsl-mysql-json-jpa`** | Support for QueryDSL JPA module |
 
 ### Type Safety
 
