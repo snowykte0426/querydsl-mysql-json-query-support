@@ -164,12 +164,12 @@ com.github.snowykte0426.querydsl.mysql.json/
 ### Phase 1: Foundation and Core Infrastructure (Week 1-2)
 
 **Step 1.1: Project Setup and Dependencies**
-- [ ] Update build.gradle.kts with all required dependencies
-- [ ] Configure annotation processors for code generation
-- [ ] Set up module structure (core, sql, jpa)
+- [x] Update build.gradle.kts with all required dependencies (OpenFeign QueryDSL 7.1)
+- [x] Configure annotation processors for code generation
+- [x] Set up module structure (core, sql, jpa)
 
 **Step 1.2: Core Operator Registry**
-- [ ] Create `JsonOperators.java` with all 35 MySQL JSON functions
+- [x] Create `JsonOperators.java` with all 35 MySQL JSON functions (as enum)
 - [ ] Define operator precedence and argument types
 - [ ] Implement `JsonOperatorTemplates.java` with SQL template strings
 
