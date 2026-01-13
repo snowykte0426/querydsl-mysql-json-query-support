@@ -50,21 +50,34 @@
 **완성된 파일**:
 1. `IMPLEMENTATION_PLAN.md` - 전체 구현 계획
 2. `querydsl-mysql-json-core/src/main/java/.../JsonOperators.java` - 35개 함수 정의
+3. `querydsl-mysql-json-core/src/main/java/.../JsonOperatorTemplates.java` - SQL 템플릿 정의
+4. `querydsl-mysql-json-core/src/main/java/.../JsonExpression.java` - 베이스 Expression 클래스
+5. `querydsl-mysql-json-core/src/main/java/.../JsonPath.java` - JSON 경로 표현
+6. `querydsl-mysql-json-core/src/main/java/.../JsonPathExpression.java` - 경로 Expression
+7. `querydsl-mysql-json-core/src/main/java/.../JsonArrayExpression.java` - 배열 연산
+8. `querydsl-mysql-json-core/src/main/java/.../JsonObjectExpression.java` - 객체 연산
+9. `querydsl-mysql-json-core/src/main/java/.../JsonValueExpression.java` - 스칼라 값 연산
 
 **빌드 상태**: ✅ 성공
 
-### 다음 단계 (Phase 1.2 ~ 1.3)
-
-#### Phase 1.2: Core Operator Registry (진행 중)
-- [ ] Define operator precedence and argument types
-- [ ] Implement `JsonOperatorTemplates.java` with SQL template strings
-  - MySQL 함수 호출 템플릿 정의
+### Phase 1.2: Core Operator Registry ✅ 완료
+- ✅ Implement `JsonOperatorTemplates.java` with SQL template strings
+  - 35개 MySQL JSON 함수에 대한 SQL 템플릿 정의
   - 파라미터 바인딩 템플릿 정의
 
-#### Phase 1.3: Base Expression Classes
-- [ ] Implement `JsonExpression` as base class
-- [ ] Create `JsonPath` and `JsonPathExpression` for path handling
-- [ ] Build `JsonArrayExpression`, `JsonObjectExpression`, `JsonValueExpression`
+### Phase 1.3: Base Expression Classes ✅ 완료
+- ✅ Implement `JsonExpression` as base class
+  - QueryDSL SimpleExpression 확장
+  - JSON 공통 연산 메서드 (jsonExtract, jsonDepth, jsonLength 등)
+- ✅ Create `JsonPath` and `JsonPathExpression` for path handling
+  - MySQL JSON 경로 문법 지원 ($.key, $[0], $[*] 등)
+  - Fluent API 지원 (member(), arrayElement(), wildcard() 등)
+- ✅ Build `JsonArrayExpression`, `JsonObjectExpression`, `JsonValueExpression`
+  - 배열 연산: create, append, insert, memberOf, overlaps
+  - 객체 연산: create, keys, contains, mergePatch, mergePreserve
+  - 값 연산: extract, quote, unquote, search, set, insert, replace, remove
+
+### 다음 단계 (Phase 1.4)
 
 #### Phase 1.4: Testing Infrastructure
 - [ ] Set up Testcontainers with MySQL 8.0.17+
@@ -109,4 +122,5 @@
 
 ---
 **마지막 업데이트**: 2026-01-13
-**다음 작업**: Phase 1.2 - JsonOperatorTemplates 구현
+**완료된 Phase**: Phase 1.1, 1.2, 1.3 완료
+**다음 작업**: Phase 1.4 - Testing Infrastructure 또는 Phase 2 - Creation and Search Functions 구현

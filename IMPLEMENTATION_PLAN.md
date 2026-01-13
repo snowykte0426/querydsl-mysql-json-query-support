@@ -170,13 +170,13 @@ com.github.snowykte0426.querydsl.mysql.json/
 
 **Step 1.2: Core Operator Registry**
 - [x] Create `JsonOperators.java` with all 35 MySQL JSON functions (as enum)
-- [ ] Define operator precedence and argument types
-- [ ] Implement `JsonOperatorTemplates.java` with SQL template strings
+- [x] Define operator precedence and argument types
+- [x] Implement `JsonOperatorTemplates.java` with SQL template strings
 
 **Step 1.3: Base Expression Classes**
-- [ ] Implement `JsonExpression` as base class
-- [ ] Create `JsonPath` and `JsonPathExpression` for path handling
-- [ ] Build `JsonArrayExpression`, `JsonObjectExpression`, `JsonValueExpression`
+- [x] Implement `JsonExpression` as base class
+- [x] Create `JsonPath` and `JsonPathExpression` for path handling
+- [x] Build `JsonArrayExpression`, `JsonObjectExpression`, `JsonValueExpression`
 
 **Step 1.4: Testing Infrastructure**
 - [ ] Set up Testcontainers with MySQL 8.0.17+
