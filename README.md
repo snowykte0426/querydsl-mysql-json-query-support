@@ -76,12 +76,12 @@ Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFei
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.1'
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.2'
 
     // Choose your module
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.1'   // For SQL
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.2'   // For SQL
     // OR
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.1'   // For JPA
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.2'   // For JPA
 }
 ```
 
@@ -136,34 +136,6 @@ List<String> emailsPerDept = queryFactory
 - Java 17 or higher
 - MySQL 8.0.17 or higher
 - QueryDSL (OpenFeign fork) 7.1
-
----
-
-## Project Status
-
-### v0.1.0-Dev.1 (Current)
-- Project infrastructure setup
-- Multi-module Gradle configuration
-- 35 JSON operators defined as enums
-- OpenFeign QueryDSL 7.1 integration
-- Initial build system complete
-
-### v0.1.0-Dev.2 (Next)
-- Expression classes implementation
-- Search functions implementation
-- Creation functions implementation
-- Basic integration tests with Testcontainers
-
-### v0.1.0-Dev.3
-- Modification functions implementation
-- Attribute and utility functions
-- Comprehensive test coverage
-
-### v0.1.0 (Stable Release)
-- All 35 functions fully implemented
-- Complete documentation and examples
-- Production-ready quality
-- Maven Central publication
 
 ---
 
