@@ -205,9 +205,6 @@ public abstract class AbstractJsonFunctionTest {
         String sql = "SELECT " + localSerializer.toString();
         List<Object> constants = localSerializer.getConstants();
 
-        System.out.println("Generated SQL: " + sql);  // Debug log
-        System.out.println("Parameters: " + constants);  // Debug log
-
         // If no parameters, use simple statement
         if (constants.isEmpty()) {
             return executeScalar(sql);

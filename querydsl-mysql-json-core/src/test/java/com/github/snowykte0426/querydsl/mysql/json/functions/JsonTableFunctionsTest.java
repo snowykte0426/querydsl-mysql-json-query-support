@@ -39,7 +39,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT jt.* FROM " + table.toSql();
+        String sql = "SELECT jt.* FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -71,7 +71,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -104,7 +104,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -141,7 +141,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -174,7 +174,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -216,7 +216,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String> ages = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -248,7 +248,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -283,7 +283,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -422,7 +422,7 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT * FROM " + table.toSql();
+        String sql = "SELECT * FROM " + table.toCompleteSql();
         List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
