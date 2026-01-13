@@ -249,10 +249,11 @@ com.github.snowykte0426.querydsl.mysql.json/
 - [ ] Write aggregate function tests
 
 **Step 4.4: Table Function (1 function)**
-- [ ] Design and implement `JSON_TABLE()` with column definitions
-- [ ] Create `SQLJsonTableExpression` class
-- [ ] Create `JsonTableBuilder` for fluent API
-- [ ] Handle complex nested path specifications
+- [x] Design and implement `JSON_TABLE()` with column definitions
+- [x] Create `JsonTableExpression` class
+- [x] Create `JsonTableColumn` for column definitions
+- [x] Create `JsonTableFunctions` factory class
+- [x] Implement fluent Builder API
 - [ ] Write comprehensive JSON_TABLE tests
 
 ### Phase 5: Module Separation and Integration (Week 9-10)
