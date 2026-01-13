@@ -62,7 +62,10 @@ public class JsonTableExpression {
      *
      * <p>Format: {@code JSON_TABLE(json_doc, path COLUMNS(...)) AS alias}
      *
-     * @return SQL string for JSON_TABLE
+     * <p>This method generates a QueryDSL template string with {0} placeholder
+     * for the JSON document expression. For direct SQL usage, use {@link #toCompleteSql()}.
+     *
+     * @return SQL template string for QueryDSL
      */
     public String toSql() {
         StringBuilder sql = new StringBuilder();
@@ -70,6 +73,53 @@ public class JsonTableExpression {
 
         // JSON document (will be parameterized by QueryDSL)
         sql.append("{0}");
+
+        sql.append(", ");
+
+        // Path
+        sql.append(quoteIfNeeded(path));
+
+        // Columns
+        sql.append(" COLUMNS(");
+        sql.append(columns.stream()
+            .map(JsonTableColumn::toSql)
+            .collect(Collectors.joining(", ")));
+        sql.append(")");
+
+        sql.append(")");
+
+        // Table alias
+        if (tableAlias != null && !tableAlias.isEmpty()) {
+            sql.append(" AS ").append(tableAlias);
+        }
+
+        return sql.toString();
+    }
+
+    /**
+     * Generates complete SQL with all values inlined (for testing).
+     *
+     * <p>This method converts the JSON document expression to its literal
+     * representation and generates executable SQL.
+     *
+     * @return complete SQL string
+     */
+    public String toCompleteSql() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("JSON_TABLE(");
+
+        // JSON document - convert expression to SQL literal
+        if (jsonDoc instanceof com.querydsl.core.types.ConstantImpl) {
+            Object value = ((com.querydsl.core.types.ConstantImpl<?>) jsonDoc).getConstant();
+            if (value instanceof String) {
+                sql.append("'").append(((String) value).replace("'", "''")).append("'");
+            } else {
+                sql.append(value);
+            }
+        } else {
+            // For non-constant expressions, use toString() as fallback
+            sql.append(jsonDoc.toString());
+        }
 
         sql.append(", ");
 

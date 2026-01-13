@@ -244,7 +244,7 @@ public final class JsonSchemaFunctions {
         Expression<?> document
     ) {
         return Expressions.stringTemplate(
-            "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$[\"schema-location\"]'))",
+            "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$.\"schema-location\"'))",
             schema,
             document
         );
@@ -262,7 +262,7 @@ public final class JsonSchemaFunctions {
         Expression<?> document
     ) {
         return Expressions.stringTemplate(
-            "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$[\"document-location\"]'))",
+            "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$.\"document-location\"'))",
             schema,
             document
         );
