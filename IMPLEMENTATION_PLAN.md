@@ -211,20 +211,20 @@ com.github.snowykte0426.querydsl.mysql.json/
 ### Phase 3: Modification and Attribute Functions (Week 5-6)
 
 **Step 3.1: Modification Functions (10 functions)**
-- [ ] Implement `JSON_SET()`, `JSON_INSERT()`, `JSON_REPLACE()`
-- [ ] Implement `JSON_REMOVE()` with multiple paths
-- [ ] Implement `JSON_ARRAY_APPEND()` and `JSON_ARRAY_INSERT()`
-- [ ] Implement `JSON_MERGE_PATCH()` and `JSON_MERGE_PRESERVE()`
-- [ ] Implement `JSON_UNQUOTE()`
-- [ ] Create `JsonModifyFunctions.java` factory class
+- [x] Implement `JSON_SET()`, `JSON_INSERT()`, `JSON_REPLACE()`
+- [x] Implement `JSON_REMOVE()` with multiple paths
+- [x] Implement `JSON_ARRAY_APPEND()` and `JSON_ARRAY_INSERT()`
+- [x] Implement `JSON_MERGE_PATCH()` and `JSON_MERGE_PRESERVE()`
+- [x] Implement `JSON_UNQUOTE()`
+- [x] Create `JsonModifyFunctions.java` factory class
 - [ ] Write modification function tests
 
 **Step 3.2: Attribute Functions (4 functions)**
-- [ ] Implement `JSON_DEPTH()` for nesting level
-- [ ] Implement `JSON_LENGTH()` with optional path
-- [ ] Implement `JSON_TYPE()` for type inspection
-- [ ] Implement `JSON_VALID()` for validation
-- [ ] Create `JsonAttributeFunctions.java` factory class
+- [x] Implement `JSON_DEPTH()` for nesting level
+- [x] Implement `JSON_LENGTH()` with optional path
+- [x] Implement `JSON_TYPE()` for type inspection
+- [x] Implement `JSON_VALID()` for validation
+- [x] Create `JsonAttributeFunctions.java` factory class
 - [ ] Write attribute function tests
 
 ### Phase 4: Utility, Schema, and Aggregate Functions (Week 7-8)

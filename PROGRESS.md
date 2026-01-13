@@ -71,6 +71,10 @@
 15. `querydsl-mysql-json-core/src/test/java/.../JsonCreationFunctionsTest.java` - Creation 함수 테스트
 16. `querydsl-mysql-json-core/src/test/java/.../JsonSearchFunctionsTest.java` - Search 함수 테스트
 
+**Phase 3 Functions:**
+17. `querydsl-mysql-json-core/src/main/java/.../JsonModifyFunctions.java` - Modify 함수 팩토리 (9개 함수)
+18. `querydsl-mysql-json-core/src/main/java/.../JsonAttributeFunctions.java` - Attribute 함수 팩토리 (4개 함수 + 6개 편의 메서드)
+
 **빌드 상태**: ✅ 성공
 
 ### Phase 1.2: Core Operator Registry ✅ 완료
@@ -136,13 +140,39 @@
 - ✅ JsonCreationFunctionsTest - 15개 테스트 케이스
 - ✅ JsonSearchFunctionsTest - 18개 테스트 케이스
 
-### 다음 단계 (Phase 3)
+### Phase 3: Modification and Attribute Functions ✅ 완료 (Implementation)
 
-#### Phase 3: Modification and Attribute Functions
-- [ ] Implement JSON_SET, JSON_INSERT, JSON_REPLACE
-- [ ] Implement JSON_REMOVE, JSON_ARRAY_APPEND, JSON_ARRAY_INSERT
-- [ ] Implement JSON_MERGE_PATCH, JSON_MERGE_PRESERVE
-- [ ] Implement JSON_DEPTH, JSON_LENGTH, JSON_TYPE, JSON_VALID
+#### Step 3.1: Modification Functions (9 functions) ✅
+- ✅ JsonModifyFunctions 팩토리 클래스
+  - jsonSet() - 값 삽입 또는 업데이트 (단일/복수 경로)
+  - jsonInsert() - 값 삽입 (교체 안 함)
+  - jsonReplace() - 기존 값만 교체
+  - jsonRemove() - 경로에서 데이터 제거
+  - jsonArrayAppend() - 배열 끝에 추가
+  - jsonArrayInsert() - 배열 특정 위치에 삽입
+  - jsonMergePatch() - RFC 7386 병합
+  - jsonMergePreserve() - 중복 키 보존 병합
+  - jsonUnquote() - JSON 문자열 언퀴팅
+
+#### Step 3.2: Attribute Functions (4 functions) ✅
+- ✅ JsonAttributeFunctions 팩토리 클래스
+  - jsonDepth() - 최대 중첩 깊이
+  - jsonLength() - 요소 개수 (경로 옵션)
+  - jsonType() - 타입 문자열 반환
+  - jsonValid() - JSON 유효성 검증
+  - 편의 메서드: isEmpty(), isNotEmpty(), isArray(), isObject(), isScalar(), isNull()
+
+#### 테스트 상태
+- [ ] JsonModifyFunctionsTest - 미작성
+- [ ] JsonAttributeFunctionsTest - 미작성
+
+### 다음 단계 (Phase 4)
+
+#### Phase 4: Utility, Schema, and Aggregate Functions
+- [ ] Implement JSON_PRETTY, JSON_STORAGE_SIZE, JSON_STORAGE_FREE
+- [ ] Implement JSON_SCHEMA_VALID, JSON_SCHEMA_VALIDATION_REPORT
+- [ ] Implement JSON_ARRAYAGG, JSON_OBJECTAGG
+- [ ] Implement JSON_TABLE
 
 ### 기술 스택
 
@@ -181,5 +211,11 @@
 
 ---
 **마지막 업데이트**: 2026-01-13
-**완료된 Phase**: Phase 1, 2 완료 ✅
-**다음 작업**: Phase 3 - Modification and Attribute Functions 구현
+**완료된 Phase**: Phase 1, 2, 3 (implementation) 완료 ✅
+**구현된 함수**: 27개 / 35개 (77%)
+  - Creation: 3개 ✅
+  - Search: 10개 ✅
+  - Modification: 9개 ✅
+  - Attribute: 4개 ✅
+  - Remaining: Utility (3개), Schema (2개), Aggregate (2개), Table (1개)
+**다음 작업**: Phase 4 - Utility, Schema, and Aggregate Functions 구현
