@@ -40,6 +40,9 @@ dependencies {
     // MySQL for Tests
     testImplementation("com.mysql:mysql-connector-j:8.2.0")
 
+    // QueryDSL SQL for test infrastructure
+    testImplementation("io.github.openfeign.querydsl:querydsl-sql:7.1")
+
     // Assertions
     testImplementation("org.assertj:assertj-core:3.25.1")
 }
