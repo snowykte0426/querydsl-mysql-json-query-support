@@ -187,26 +187,26 @@ com.github.snowykte0426.querydsl.mysql.json/
 ### Phase 2: Creation and Search Functions (Week 3-4)
 
 **Step 2.1: Creation Functions (3 functions)**
-- [ ] Implement `JSON_ARRAY()` with varargs support
-- [ ] Implement `JSON_OBJECT()` with key-value pairs
-- [ ] Implement `JSON_QUOTE()` for string escaping
-- [ ] Create `JsonCreationFunctions.java` factory class
-- [ ] Write integration tests for creation functions
+- [x] Implement `JSON_ARRAY()` with varargs support
+- [x] Implement `JSON_OBJECT()` with key-value pairs
+- [x] Implement `JSON_QUOTE()` for string escaping
+- [x] Create `JsonCreationFunctions.java` factory class
+- [x] Write integration tests for creation functions
 
 **Step 2.2: Basic Search Functions (6 functions)**
-- [ ] Implement `JSON_EXTRACT()` with path expressions
-- [ ] Implement `JSON_VALUE()` with type conversion
-- [ ] Implement `->` and `->>` operators
-- [ ] Implement `JSON_CONTAINS()` and `JSON_CONTAINS_PATH()`
-- [ ] Create `JsonSearchFunctions.java` factory class
-- [ ] Write comprehensive tests for each function
+- [x] Implement `JSON_EXTRACT()` with path expressions
+- [x] Implement `JSON_VALUE()` with type conversion
+- [x] Implement `->` and `->>` operators
+- [x] Implement `JSON_CONTAINS()` and `JSON_CONTAINS_PATH()`
+- [x] Create `JsonSearchFunctions.java` factory class
+- [x] Write comprehensive tests for each function
 
 **Step 2.3: Advanced Search Functions (4 functions)**
-- [ ] Implement `JSON_KEYS()` with optional path
-- [ ] Implement `JSON_SEARCH()` with pattern matching
-- [ ] Implement `JSON_OVERLAPS()` (MySQL 8.0.17+)
-- [ ] Implement `MEMBER OF()` operator (MySQL 8.0.17+)
-- [ ] Write advanced search function tests
+- [x] Implement `JSON_KEYS()` with optional path
+- [x] Implement `JSON_SEARCH()` with pattern matching
+- [x] Implement `JSON_OVERLAPS()` (MySQL 8.0.17+)
+- [x] Implement `MEMBER OF()` operator (MySQL 8.0.17+)
+- [x] Write advanced search function tests
 
 ### Phase 3: Modification and Attribute Functions (Week 5-6)
 

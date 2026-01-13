@@ -65,6 +65,12 @@
 11. `querydsl-mysql-json-core/src/test/java/.../TestDataBuilder.java` - 테스트 데이터 빌더
 12. `querydsl-mysql-json-core/src/test/java/.../TestInfrastructureTest.java` - 인프라 검증 테스트
 
+**Phase 2 Functions:**
+13. `querydsl-mysql-json-core/src/main/java/.../JsonCreationFunctions.java` - Creation 함수 팩토리
+14. `querydsl-mysql-json-core/src/main/java/.../JsonSearchFunctions.java` - Search 함수 팩토리
+15. `querydsl-mysql-json-core/src/test/java/.../JsonCreationFunctionsTest.java` - Creation 함수 테스트
+16. `querydsl-mysql-json-core/src/test/java/.../JsonSearchFunctionsTest.java` - Search 함수 테스트
+
 **빌드 상태**: ✅ 성공
 
 ### Phase 1.2: Core Operator Registry ✅ 완료
@@ -101,12 +107,42 @@
   - 자동 JSON 직렬화
   - UserBuilder, ProductBuilder, OrderBuilder
 
-### 다음 단계 (Phase 2)
+### Phase 2: Creation and Search Functions ✅ 완료
 
-#### Phase 2: Creation and Search Functions
-- [ ] Implement JSON_ARRAY, JSON_OBJECT, JSON_QUOTE
-- [ ] Implement JSON_EXTRACT, JSON_VALUE, JSON_CONTAINS
-- [ ] Write integration tests for each function
+#### Step 2.1: Creation Functions (3 functions) ✅
+- ✅ JsonCreationFunctions 팩토리 클래스
+  - jsonArray() - 배열 생성, varargs 지원
+  - jsonObject() - 객체 생성, builder 패턴 지원
+  - jsonQuote() - 문자열 인용
+  - 편의 메서드: jsonArrayFrom(), jsonObjectFrom(), jsonNull()
+
+#### Step 2.2: Basic Search Functions (6 functions) ✅
+- ✅ JsonSearchFunctions 팩토리 클래스
+  - jsonExtract() - 경로로 데이터 추출
+  - jsonValue() - 스칼라 값 추출 (MySQL 8.0.21+)
+  - jsonUnquoteExtract() - ->> 연산자
+  - jsonContains() - 값 포함 여부 확인
+  - jsonContainsPath() - 경로 존재 여부 확인
+
+#### Step 2.3: Advanced Search Functions (4 functions) ✅
+- ✅ 고급 검색 함수
+  - jsonKeys() - 객체 키 추출
+  - jsonSearch() - 값으로 경로 찾기
+  - jsonOverlaps() - 문서 겹침 확인 (MySQL 8.0.17+)
+  - memberOf() - 배열 멤버십 확인 (MySQL 8.0.17+)
+  - 편의 메서드: jsonLength(), jsonIsEmpty()
+
+#### 테스트 완료
+- ✅ JsonCreationFunctionsTest - 15개 테스트 케이스
+- ✅ JsonSearchFunctionsTest - 18개 테스트 케이스
+
+### 다음 단계 (Phase 3)
+
+#### Phase 3: Modification and Attribute Functions
+- [ ] Implement JSON_SET, JSON_INSERT, JSON_REPLACE
+- [ ] Implement JSON_REMOVE, JSON_ARRAY_APPEND, JSON_ARRAY_INSERT
+- [ ] Implement JSON_MERGE_PATCH, JSON_MERGE_PRESERVE
+- [ ] Implement JSON_DEPTH, JSON_LENGTH, JSON_TYPE, JSON_VALID
 
 ### 기술 스택
 
@@ -145,5 +181,5 @@
 
 ---
 **마지막 업데이트**: 2026-01-13
-**완료된 Phase**: Phase 1 전체 완료 (1.1, 1.2, 1.3, 1.4) ✅
-**다음 작업**: Phase 2 - Creation and Search Functions 구현
+**완료된 Phase**: Phase 1, 2 완료 ✅
+**다음 작업**: Phase 3 - Modification and Attribute Functions 구현
