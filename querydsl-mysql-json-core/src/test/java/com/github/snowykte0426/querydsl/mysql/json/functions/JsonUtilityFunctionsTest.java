@@ -30,7 +30,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression pretty = jsonPretty("{\"a\":1,\"b\":2}");
 
         // When
-        String result = executeScalar("SELECT " + pretty.toString());
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("\"a\"", "\"b\"");
@@ -45,7 +45,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression pretty = jsonPretty("[1,2,3,4,5]");
 
         // When
-        String result = executeScalar("SELECT " + pretty.toString());
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("1", "2", "3", "4", "5");
@@ -59,7 +59,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression pretty = jsonPretty(Expressions.constant(doc));
 
         // When
-        String result = executeScalar("SELECT " + pretty.toString());
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("\"user\"", "\"name\"", "\"John\"");
@@ -73,7 +73,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression pretty = jsonPretty(arrayExpr);
 
         // When
-        String result = executeScalar("SELECT " + pretty.toString());
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("1", "2", "3");
@@ -86,7 +86,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression pretty = format(Expressions.constant(doc));
 
         // When
-        String result = executeScalar("SELECT " + pretty.toString());
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("\"a\"", "1");
@@ -103,7 +103,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         NumberExpression<Integer> size = jsonStorageSize("{\"a\": 1}");
 
         // When
-        String result = executeScalar("SELECT " + size.toString());
+        String result = executeScalar(size);
 
         // Then
         int sizeValue = Integer.parseInt(result);
@@ -117,7 +117,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         NumberExpression<Integer> size = jsonStorageSize("[1, 2, 3, 4, 5]");
 
         // When
-        String result = executeScalar("SELECT " + size.toString());
+        String result = executeScalar(size);
 
         // Then
         int sizeValue = Integer.parseInt(result);
@@ -133,7 +133,7 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         NumberExpression<Integer> size = jsonStorageSize(jsonExpr);
 
         // When
-        String result = executeScalar("SELECT " + size.toString());
+        String result = executeScalar(size);
 
         // Then
         int sizeValue = Integer.parseInt(result);
@@ -150,8 +150,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         NumberExpression<Integer> largeSize = jsonStorageSize(large);
 
         // When
-        String smallResult = executeScalar("SELECT " + smallSize.toString());
-        String largeResult = executeScalar("SELECT " + largeSize.toString());
+        String smallResult = executeScalar(smallSize);
+        String largeResult = executeScalar(largeSize);
 
         // Then
         int smallValue = Integer.parseInt(smallResult);

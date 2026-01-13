@@ -32,7 +32,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression arr = jsonArray("a", "b", "c");
 
         // When
-        String result = executeScalar("SELECT " + arr.toString());
+        String result = executeScalar(arr);
 
         // Then - Note: MySQL formats JSON with spaces
         assertThat(result).isIn(
@@ -47,7 +47,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression arr = jsonArray(1, 2, 3);
 
         // When
-        String result = executeScalar("SELECT " + arr.toString());
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).isIn("[1, 2, 3]", "[1,2,3]");
@@ -59,7 +59,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression arr = jsonArray("text", 42, true, 3.14);
 
         // When
-        String result = executeScalar("SELECT " + arr.toString());
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).contains("text", "42", "true", "3.14");
@@ -71,7 +71,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression arr = emptyJsonArray();
 
         // When
-        String result = executeScalar("SELECT " + arr.toString());
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).isEqualTo("[]");
@@ -84,7 +84,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression arr = jsonArrayFrom(list);
 
         // When
-        String result = executeScalar("SELECT " + arr.toString());
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).contains("x", "y", "z");
@@ -100,7 +100,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonObjectExpression obj = jsonObject("name", "John", "age", 30);
 
         // When
-        String result = executeScalar("SELECT " + obj.toString());
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).contains("\"name\"", "\"John\"", "\"age\"", "30");
@@ -115,7 +115,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
             .build();
 
         // When
-        String result = executeScalar("SELECT " + obj.toString());
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).contains("\"city\"", "\"Seoul\"", "\"country\"", "\"Korea\"");
@@ -127,7 +127,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonObjectExpression obj = emptyJsonObject();
 
         // When
-        String result = executeScalar("SELECT " + obj.toString());
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).isEqualTo("{}");
@@ -151,7 +151,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonObjectExpression obj = jsonObjectFrom(map);
 
         // When
-        String result = executeScalar("SELECT " + obj.toString());
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).contains("\"status\"", "\"active\"", "\"count\"", "5");
@@ -167,7 +167,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("hello");
 
         // When
-        String result = executeScalar("SELECT " + quoted.toString());
+        String result = executeScalar(quoted);
 
         // Then
         assertThat(result).isEqualTo("\"hello\"");
@@ -179,7 +179,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("Hello \"World\"");
 
         // When
-        String result = executeScalar("SELECT " + quoted.toString());
+        String result = executeScalar(quoted);
 
         // Then
         assertThat(result).contains("Hello").contains("World");
@@ -193,7 +193,7 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("line1\nline2");
 
         // When
-        String result = executeScalar("SELECT " + quoted.toString());
+        String result = executeScalar(quoted);
 
         // Then
         assertThat(result).contains("line1").contains("line2");

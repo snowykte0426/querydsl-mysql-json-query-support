@@ -46,7 +46,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, validDoc);
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -59,7 +59,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -72,7 +72,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -85,7 +85,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -98,7 +98,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, validDoc);
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -114,8 +114,8 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression invalidCheck = jsonSchemaValid(ARRAY_SCHEMA, invalidArray);
 
         // When
-        String validResult = executeScalar("SELECT " + validCheck.toString());
-        String invalidResult = executeScalar("SELECT " + invalidCheck.toString());
+        String validResult = executeScalar(validCheck);
+        String invalidResult = executeScalar(invalidCheck);
 
         // Then
         assertThat(validResult).isEqualTo("1");
@@ -131,7 +131,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, docExpr);
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -148,7 +148,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, validDoc);
 
         // When
-        String result = executeScalar("SELECT " + report.toString());
+        String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -162,7 +162,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar("SELECT " + report.toString());
+        String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -177,7 +177,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar("SELECT " + report.toString());
+        String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -192,7 +192,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar("SELECT " + report.toString());
+        String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -214,7 +214,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -230,7 +230,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -246,7 +246,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + valid.toString());
+        String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -262,7 +262,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + reason.toString());
+        String result = executeScalar(reason);
 
         // Then
         assertThat(result).isNotNull();
@@ -280,7 +280,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + reason.toString());
+        String result = executeScalar(reason);
 
         // Then
         assertThat(result).isNull();
@@ -296,7 +296,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + location.toString());
+        String result = executeScalar(location);
 
         // Then
         if (result != null) {
@@ -315,7 +315,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         );
 
         // When
-        String result = executeScalar("SELECT " + location.toString());
+        String result = executeScalar(location);
 
         // Then
         if (result != null) {
@@ -402,8 +402,8 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression invalidCheck = jsonSchemaValid(complexSchema, invalidDoc);
 
         // When
-        String validResult = executeScalar("SELECT " + validCheck.toString());
-        String invalidResult = executeScalar("SELECT " + invalidCheck.toString());
+        String validResult = executeScalar(validCheck);
+        String invalidResult = executeScalar(invalidCheck);
 
         // Then
         assertThat(validResult).isEqualTo("1");
@@ -427,8 +427,8 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         BooleanExpression invalidCheck = jsonSchemaValid(enumSchema, invalidDoc);
 
         // When
-        String validResult = executeScalar("SELECT " + validCheck.toString());
-        String invalidResult = executeScalar("SELECT " + invalidCheck.toString());
+        String validResult = executeScalar(validCheck);
+        String invalidResult = executeScalar(invalidCheck);
 
         // Then
         assertThat(validResult).isEqualTo("1");

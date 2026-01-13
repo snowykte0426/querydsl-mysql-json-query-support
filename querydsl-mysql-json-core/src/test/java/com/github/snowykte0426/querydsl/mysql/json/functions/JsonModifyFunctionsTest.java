@@ -33,7 +33,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonSet(Expressions.constant(doc), "$.age", 31);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"");
@@ -48,7 +48,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonSet(Expressions.constant(doc), "$.age", 25);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"name\"", "\"John\"");
@@ -62,7 +62,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonSet(Expressions.constant(doc), "$.age", 31, "$.city", "Seoul");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"", "31");
@@ -88,7 +88,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonInsert(Expressions.constant(doc), "$.age", 25);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"", "25");
@@ -101,7 +101,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonInsert(Expressions.constant(doc), "$.age", 25);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"", "30");
@@ -115,7 +115,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonInsert(Expressions.constant(doc), "$.age", 25, "$.city", "Seoul");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"", "25");
@@ -133,7 +133,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonReplace(Expressions.constant(doc), "$.age", 31);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"", "31");
@@ -147,7 +147,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonReplace(Expressions.constant(doc), "$.age", 25);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).doesNotContain("\"age\"");
@@ -161,7 +161,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonReplace(Expressions.constant(doc), "$.age", 31, "$.city", "Busan");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"age\"", "31");
@@ -179,7 +179,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonRemove(Expressions.constant(doc), "$.age");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"name\"", "\"John\"");
@@ -194,7 +194,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonValueExpression result = jsonRemove(Expressions.constant(doc), "$.age", "$.city");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"name\"", "\"John\"");
@@ -209,7 +209,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonRemove(Expressions.constant(doc), "$[1]");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"a\"", "\"c\"", "\"d\"");
@@ -227,7 +227,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression result = jsonArrayAppend(Expressions.constant(doc), "$", 4);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).isIn("[1, 2, 3, 4]", "[1,2,3,4]");
@@ -240,7 +240,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression result = jsonArrayAppend(Expressions.constant(doc), "$.tags", "scala");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"java\"", "\"kotlin\"", "\"scala\"");
@@ -253,7 +253,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression result = jsonArrayAppend(Expressions.constant(doc), "$.tags1", "b", "$.tags2", "y");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).contains("\"a\"", "\"b\"");
@@ -271,7 +271,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression result = jsonArrayInsert(Expressions.constant(doc), "$[1]", "b");
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).isIn("[\"a\", \"b\", \"c\", \"d\"]", "[\"a\",\"b\",\"c\",\"d\"]");
@@ -284,7 +284,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         JsonArrayExpression result = jsonArrayInsert(Expressions.constant(doc), "$[0]", 1);
 
         // When
-        String modified = executeScalar("SELECT " + result.toString());
+        String modified = executeScalar(result);
 
         // Then
         assertThat(modified).isIn("[1, 2, 3, 4]", "[1,2,3,4]");
@@ -302,7 +302,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonMergePatch(Expressions.constant(doc1), doc2);
 
         // When
-        String merged = executeScalar("SELECT " + result.toString());
+        String merged = executeScalar(result);
 
         // Then
         assertThat(merged).contains("\"a\"", "1");
@@ -318,7 +318,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonMergePatch(Expressions.constant(doc1), doc2);
 
         // When
-        String merged = executeScalar("SELECT " + result.toString());
+        String merged = executeScalar(result);
 
         // Then
         assertThat(merged).contains("\"a\"", "1");
@@ -334,7 +334,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonMergePatch(Expressions.constant(doc1), doc2, doc3);
 
         // When
-        String merged = executeScalar("SELECT " + result.toString());
+        String merged = executeScalar(result);
 
         // Then
         assertThat(merged).contains("\"a\"", "1");
@@ -354,7 +354,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonMergePreserve(Expressions.constant(doc1), Expressions.constant(doc2));
 
         // When
-        String merged = executeScalar("SELECT " + result.toString());
+        String merged = executeScalar(result);
 
         // Then
         assertThat(merged).contains("\"a\"");
@@ -369,7 +369,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonMergePreserve(Expressions.constant(doc1), Expressions.constant(doc2));
 
         // When
-        String merged = executeScalar("SELECT " + result.toString());
+        String merged = executeScalar(result);
 
         // Then
         assertThat(merged).isIn("[1, 2, 3, 4]", "[1,2,3,4]");
@@ -386,7 +386,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonUnquote(quotedString);
 
         // When
-        String unquoted = executeScalar("SELECT " + result.toString());
+        String unquoted = executeScalar(result);
 
         // Then
         assertThat(unquoted).isEqualTo("hello");
@@ -399,7 +399,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonUnquote(quotedString);
 
         // When
-        String unquoted = executeScalar("SELECT " + result.toString());
+        String unquoted = executeScalar(result);
 
         // Then
         assertThat(unquoted).contains("hello");
@@ -414,7 +414,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
         StringExpression result = jsonUnquote(extracted);
 
         // When
-        String unquoted = executeScalar("SELECT " + result.toString());
+        String unquoted = executeScalar(result);
 
         // Then
         assertThat(unquoted).isEqualTo("John");
