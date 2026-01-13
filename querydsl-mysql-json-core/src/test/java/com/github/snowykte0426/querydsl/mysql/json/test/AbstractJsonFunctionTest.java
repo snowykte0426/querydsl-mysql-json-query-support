@@ -1,5 +1,9 @@
 package com.github.snowykte0426.querydsl.mysql.json.test;
 
+import com.querydsl.core.types.Expression;
+import com.querydsl.sql.Configuration;
+import com.querydsl.sql.MySQLTemplates;
+import com.querydsl.sql.SQLSerializer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,10 +12,8 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.List;
 
 /**
  * Base test class for JSON function tests using Testcontainers.
@@ -47,6 +49,16 @@ public abstract class AbstractJsonFunctionTest {
     protected static Connection connection;
 
     /**
+     * QueryDSL configuration for MySQL with JSON support.
+     */
+    protected static Configuration querydslConfig;
+
+    /**
+     * SQL serializer for converting QueryDSL expressions to SQL strings.
+     */
+    protected static SQLSerializer serializer;
+
+    /**
      * Starts the MySQL container and establishes connection.
      */
     @BeforeAll
@@ -57,6 +69,19 @@ public abstract class AbstractJsonFunctionTest {
             MYSQL_CONTAINER.getUsername(),
             MYSQL_CONTAINER.getPassword()
         );
+
+        // Initialize QueryDSL configuration for SQL serialization
+        // Create templates with literal rendering enabled
+        var templates = MySQLTemplates.builder()
+            .printSchema()
+            .quote()
+            .newLineToSingleSpace()
+            .build();
+
+        querydslConfig = new Configuration(templates);
+        querydslConfig.setUseLiterals(true);
+        serializer = new SQLSerializer(querydslConfig);
+
         initializeTestSchema();
     }
 
@@ -162,6 +187,59 @@ public abstract class AbstractJsonFunctionTest {
             }
             return null;
         }
+    }
+
+    /**
+     * Executes a QueryDSL expression and returns a single string result.
+     * This method converts the expression to SQL using the MySQL serializer
+     * and handles parameter binding with PreparedStatement.
+     *
+     * @param expression the QueryDSL expression to execute
+     * @return the result string, or null if no result
+     * @throws SQLException if query execution fails
+     */
+    protected String executeScalar(Expression<?> expression) throws SQLException {
+        SQLSerializer localSerializer = new SQLSerializer(querydslConfig);
+        localSerializer.handle(expression);
+
+        String sql = "SELECT " + localSerializer.toString();
+        List<Object> constants = localSerializer.getConstants();
+
+        System.out.println("Generated SQL: " + sql);  // Debug log
+        System.out.println("Parameters: " + constants);  // Debug log
+
+        // If no parameters, use simple statement
+        if (constants.isEmpty()) {
+            return executeScalar(sql);
+        }
+
+        // Use PreparedStatement for parameterized queries
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Bind parameters
+            for (int i = 0; i < constants.size(); i++) {
+                stmt.setObject(i + 1, constants.get(i));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Converts a QueryDSL expression to SQL string.
+     *
+     * @param expression the expression to convert
+     * @return SQL string representation
+     */
+    protected String toSql(Expression<?> expression) {
+        // Create a new serializer instance for each conversion to avoid state issues
+        SQLSerializer newSerializer = new SQLSerializer(querydslConfig);
+        newSerializer.handle(expression);
+        return newSerializer.toString();
     }
 
     /**
