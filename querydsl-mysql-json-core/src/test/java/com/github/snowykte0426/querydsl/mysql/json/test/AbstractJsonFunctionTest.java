@@ -33,11 +33,11 @@ import java.sql.Statement;
 public abstract class AbstractJsonFunctionTest {
 
     /**
-     * MySQL container with version 8.0.33 (supports all JSON functions).
+     * MySQL container with version configured via system property (default: 8.0.33).
      */
     @Container
     protected static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>(
-        DockerImageName.parse("mysql:8.0.33")
+        DockerImageName.parse(System.getProperty("test.mysql.image", "mysql:8.0.33"))
     )
         .withDatabaseName("testdb")
         .withUsername("test")

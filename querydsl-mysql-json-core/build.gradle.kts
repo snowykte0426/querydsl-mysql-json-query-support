@@ -46,4 +46,5 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    systemProperty("test.mysql.image", System.getProperty("test.mysql.image", "mysql:8.0.33"))
 }
