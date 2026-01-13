@@ -9,7 +9,7 @@ subprojects {
 
     configure<JavaPluginExtension> {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(25)
+            languageVersion = JavaLanguageVersion.of(System.getProperty("java.toolchain.version", "25"))
         }
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
