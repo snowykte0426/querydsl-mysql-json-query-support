@@ -179,10 +179,10 @@ com.github.snowykte0426.querydsl.mysql.json/
 - [x] Build `JsonArrayExpression`, `JsonObjectExpression`, `JsonValueExpression`
 
 **Step 1.4: Testing Infrastructure**
-- [ ] Set up Testcontainers with MySQL 8.0.17+
-- [ ] Create `AbstractJsonFunctionTest` base test class
-- [ ] Configure test database schemas
-- [ ] Create `TestDataBuilder` for test data generation
+- [x] Set up Testcontainers with MySQL 8.0.17+
+- [x] Create `AbstractJsonFunctionTest` base test class
+- [x] Configure test database schemas
+- [x] Create `TestDataBuilder` for test data generation
 
 ### Phase 2: Creation and Search Functions (Week 3-4)
 

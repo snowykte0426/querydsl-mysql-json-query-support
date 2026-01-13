@@ -48,6 +48,8 @@
 **QueryDSL 버전**: OpenFeign QueryDSL 7.1
 
 **완성된 파일**:
+
+**Main Code:**
 1. `IMPLEMENTATION_PLAN.md` - 전체 구현 계획
 2. `querydsl-mysql-json-core/src/main/java/.../JsonOperators.java` - 35개 함수 정의
 3. `querydsl-mysql-json-core/src/main/java/.../JsonOperatorTemplates.java` - SQL 템플릿 정의
@@ -57,6 +59,11 @@
 7. `querydsl-mysql-json-core/src/main/java/.../JsonArrayExpression.java` - 배열 연산
 8. `querydsl-mysql-json-core/src/main/java/.../JsonObjectExpression.java` - 객체 연산
 9. `querydsl-mysql-json-core/src/main/java/.../JsonValueExpression.java` - 스칼라 값 연산
+
+**Test Infrastructure:**
+10. `querydsl-mysql-json-core/src/test/java/.../AbstractJsonFunctionTest.java` - 테스트 베이스 클래스
+11. `querydsl-mysql-json-core/src/test/java/.../TestDataBuilder.java` - 테스트 데이터 빌더
+12. `querydsl-mysql-json-core/src/test/java/.../TestInfrastructureTest.java` - 인프라 검증 테스트
 
 **빌드 상태**: ✅ 성공
 
@@ -77,13 +84,29 @@
   - 객체 연산: create, keys, contains, mergePatch, mergePreserve
   - 값 연산: extract, quote, unquote, search, set, insert, replace, remove
 
-### 다음 단계 (Phase 1.4)
+### Phase 1.4: Testing Infrastructure ✅ 완료
+- ✅ Set up Testcontainers with MySQL 8.0.17+
+  - MySQL 8.0.33 컨테이너 설정
+  - Testcontainers BOM 1.19.3 의존성 추가
+- ✅ Create `AbstractJsonFunctionTest` base test class
+  - 자동 컨테이너 시작/종료
+  - DB 연결 관리
+  - 테스트 간 데이터 정리
+- ✅ Configure test database schemas
+  - users 테이블 (JSON: metadata, settings)
+  - products 테이블 (JSON: attributes, tags)
+  - orders 테이블 (JSON: order_data, shipping_info)
+- ✅ Create `TestDataBuilder` for test data generation
+  - Fluent API로 테스트 데이터 생성
+  - 자동 JSON 직렬화
+  - UserBuilder, ProductBuilder, OrderBuilder
 
-#### Phase 1.4: Testing Infrastructure
-- [ ] Set up Testcontainers with MySQL 8.0.17+
-- [ ] Create `AbstractJsonFunctionTest` base test class
-- [ ] Configure test database schemas
-- [ ] Create `TestDataBuilder` for test data generation
+### 다음 단계 (Phase 2)
+
+#### Phase 2: Creation and Search Functions
+- [ ] Implement JSON_ARRAY, JSON_OBJECT, JSON_QUOTE
+- [ ] Implement JSON_EXTRACT, JSON_VALUE, JSON_CONTAINS
+- [ ] Write integration tests for each function
 
 ### 기술 스택
 
@@ -122,5 +145,5 @@
 
 ---
 **마지막 업데이트**: 2026-01-13
-**완료된 Phase**: Phase 1.1, 1.2, 1.3 완료
-**다음 작업**: Phase 1.4 - Testing Infrastructure 또는 Phase 2 - Creation and Search Functions 구현
+**완료된 Phase**: Phase 1 전체 완료 (1.1, 1.2, 1.3, 1.4) ✅
+**다음 작업**: Phase 2 - Creation and Search Functions 구현
