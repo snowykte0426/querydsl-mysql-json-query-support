@@ -230,22 +230,22 @@ com.github.snowykte0426.querydsl.mysql.json/
 ### Phase 4: Utility, Schema, and Aggregate Functions (Week 7-8)
 
 **Step 4.1: Utility Functions (3 functions)**
-- [ ] Implement `JSON_PRETTY()` for formatting
-- [ ] Implement `JSON_STORAGE_SIZE()` for size calculation
-- [ ] Implement `JSON_STORAGE_FREE()` for optimization info
-- [ ] Create `JsonUtilityFunctions.java` factory class
+- [x] Implement `JSON_PRETTY()` for formatting
+- [x] Implement `JSON_STORAGE_SIZE()` for size calculation
+- [x] Implement `JSON_STORAGE_FREE()` for optimization info
+- [x] Create `JsonUtilityFunctions.java` factory class
 - [ ] Write utility function tests
 
 **Step 4.2: Schema Functions (2 functions)**
-- [ ] Implement `JSON_SCHEMA_VALID()` (MySQL 8.0.17+)
-- [ ] Implement `JSON_SCHEMA_VALIDATION_REPORT()` (MySQL 8.0.17+)
-- [ ] Create `JsonSchemaFunctions.java` factory class
+- [x] Implement `JSON_SCHEMA_VALID()` (MySQL 8.0.17+)
+- [x] Implement `JSON_SCHEMA_VALIDATION_REPORT()` (MySQL 8.0.17+)
+- [x] Create `JsonSchemaFunctions.java` factory class
 - [ ] Write schema validation tests
 
 **Step 4.3: Aggregate Functions (2 functions)**
-- [ ] Implement `JSON_ARRAYAGG()` for array aggregation
-- [ ] Implement `JSON_OBJECTAGG()` for object aggregation
-- [ ] Create `JsonAggregateFunctions.java` factory class
+- [x] Implement `JSON_ARRAYAGG()` for array aggregation
+- [x] Implement `JSON_OBJECTAGG()` for object aggregation
+- [x] Create `JsonAggregateFunctions.java` factory class
 - [ ] Write aggregate function tests
 
 **Step 4.4: Table Function (1 function)**

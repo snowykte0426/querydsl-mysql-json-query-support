@@ -75,6 +75,11 @@
 17. `querydsl-mysql-json-core/src/main/java/.../JsonModifyFunctions.java` - Modify 함수 팩토리 (9개 함수)
 18. `querydsl-mysql-json-core/src/main/java/.../JsonAttributeFunctions.java` - Attribute 함수 팩토리 (4개 함수 + 6개 편의 메서드)
 
+**Phase 4 Functions:**
+19. `querydsl-mysql-json-core/src/main/java/.../JsonUtilityFunctions.java` - Utility 함수 팩토리 (3개 함수 + 3개 편의 메서드)
+20. `querydsl-mysql-json-core/src/main/java/.../JsonSchemaFunctions.java` - Schema 함수 팩토리 (2개 함수 + 5개 편의 메서드)
+21. `querydsl-mysql-json-core/src/main/java/.../JsonAggregateFunctions.java` - Aggregate 함수 팩토리 (2개 함수 + 5개 편의 메서드)
+
 **빌드 상태**: ✅ 성공
 
 ### Phase 1.2: Core Operator Registry ✅ 완료
@@ -166,13 +171,36 @@
 - [ ] JsonModifyFunctionsTest - 미작성
 - [ ] JsonAttributeFunctionsTest - 미작성
 
-### 다음 단계 (Phase 4)
+### Phase 4: Utility, Schema, and Aggregate Functions ✅ 완료 (Implementation)
 
-#### Phase 4: Utility, Schema, and Aggregate Functions
-- [ ] Implement JSON_PRETTY, JSON_STORAGE_SIZE, JSON_STORAGE_FREE
-- [ ] Implement JSON_SCHEMA_VALID, JSON_SCHEMA_VALIDATION_REPORT
-- [ ] Implement JSON_ARRAYAGG, JSON_OBJECTAGG
-- [ ] Implement JSON_TABLE
+#### Step 4.1: Utility Functions (3 functions) ✅
+- ✅ JsonUtilityFunctions 팩토리 클래스
+  - jsonPretty() - JSON 포맷팅 (읽기 쉬운 형식)
+  - jsonStorageSize() - 저장 공간 크기 (바이트)
+  - jsonStorageFree() - 부분 업데이트 후 해제된 공간
+  - 편의 메서드: format(), storageEfficiency(), hasSignificantFreedSpace()
+
+#### Step 4.2: Schema Functions (2 functions) ✅
+- ✅ JsonSchemaFunctions 팩토리 클래스 (MySQL 8.0.17+)
+  - jsonSchemaValid() - JSON 스키마 검증
+  - jsonSchemaValidationReport() - 상세 검증 리포트
+  - 편의 메서드: validate(), isValidFromReport(), getValidationReason(), getFailedSchemaLocation(), getFailedDocumentLocation()
+
+#### Step 4.3: Aggregate Functions (2 functions) ✅
+- ✅ JsonAggregateFunctions 팩토리 클래스
+  - jsonArrayAgg() - 값들을 JSON 배열로 집계
+  - jsonObjectAgg() - 키-값 쌍을 JSON 객체로 집계
+  - 편의 메서드: arrayAgg(), objectAgg(), aggregateObjects(), groupIntoArray()
+
+#### 테스트 상태
+- [ ] JsonUtilityFunctionsTest - 미작성
+- [ ] JsonSchemaFunctionsTest - 미작성
+- [ ] JsonAggregateFunctionsTest - 미작성
+
+### 다음 단계 (Phase 4.4)
+
+#### Phase 4.4: Table Function (Advanced)
+- [ ] Implement JSON_TABLE() - JSON을 관계형 테이블로 변환 (복잡한 구현 필요)
 
 ### 기술 스택
 
@@ -211,11 +239,14 @@
 
 ---
 **마지막 업데이트**: 2026-01-13
-**완료된 Phase**: Phase 1, 2, 3 (implementation) 완료 ✅
-**구현된 함수**: 27개 / 35개 (77%)
+**완료된 Phase**: Phase 1, 2, 3, 4 (implementation) 완료 ✅
+**구현된 함수**: 34개 / 35개 (97%)
   - Creation: 3개 ✅
   - Search: 10개 ✅
   - Modification: 9개 ✅
   - Attribute: 4개 ✅
-  - Remaining: Utility (3개), Schema (2개), Aggregate (2개), Table (1개)
-**다음 작업**: Phase 4 - Utility, Schema, and Aggregate Functions 구현
+  - Utility: 3개 ✅
+  - Schema: 2개 ✅
+  - Aggregate: 2개 ✅
+  - Remaining: Table (1개 - JSON_TABLE, 고급 기능)
+**다음 작업**: Phase 4.4 - JSON_TABLE 구현 (옵션) 또는 Phase 5 - Module Separation
