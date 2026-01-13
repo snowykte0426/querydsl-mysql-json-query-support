@@ -376,7 +376,19 @@ public final class JsonModifyFunctions {
      * @return merged JSON expression
      */
     public static StringExpression jsonMergePreserve(Expression<?>... jsonDocs) {
-        return Expressions.stringTemplate("json_merge_preserve({0})", (Object[]) jsonDocs);
+        if (jsonDocs.length == 0) {
+            throw new IllegalArgumentException("json_merge_preserve requires at least one argument");
+        }
+
+        // Build template with proper number of placeholders
+        StringBuilder template = new StringBuilder("json_merge_preserve(");
+        for (int i = 0; i < jsonDocs.length; i++) {
+            if (i > 0) template.append(", ");
+            template.append("{").append(i).append("}");
+        }
+        template.append(")");
+
+        return Expressions.stringTemplate(template.toString(), (Object[]) jsonDocs);
     }
 
     // ========================================

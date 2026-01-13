@@ -50,14 +50,27 @@ public class JsonArrayExpression extends JsonExpression<String> {
      * @return JsonArrayExpression
      */
     public static JsonArrayExpression create(Object... values) {
+        if (values.length == 0) {
+            return empty();
+        }
+
         Expression<?>[] args = new Expression<?>[values.length];
         for (int i = 0; i < values.length; i++) {
             args[i] = values[i] instanceof Expression
                 ? (Expression<?>) values[i]
                 : Expressions.constant(values[i]);
         }
+
+        // Build template with proper number of placeholders
+        StringBuilder template = new StringBuilder("json_array(");
+        for (int i = 0; i < args.length; i++) {
+            if (i > 0) template.append(", ");
+            template.append("{").append(i).append("}");
+        }
+        template.append(")");
+
         return new JsonArrayExpression(
-            Expressions.stringTemplate("json_array({0})", (Object[]) args)
+            Expressions.stringTemplate(template.toString(), (Object[]) args)
         );
     }
 

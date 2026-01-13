@@ -65,6 +65,10 @@ public class JsonObjectExpression extends JsonExpression<String> {
             );
         }
 
+        if (keyValuePairs.length == 0) {
+            return empty();
+        }
+
         Expression<?>[] args = new Expression<?>[keyValuePairs.length];
         for (int i = 0; i < keyValuePairs.length; i++) {
             args[i] = keyValuePairs[i] instanceof Expression
@@ -72,8 +76,16 @@ public class JsonObjectExpression extends JsonExpression<String> {
                 : Expressions.constant(keyValuePairs[i]);
         }
 
+        // Build template with proper number of placeholders
+        StringBuilder template = new StringBuilder("json_object(");
+        for (int i = 0; i < args.length; i++) {
+            if (i > 0) template.append(", ");
+            template.append("{").append(i).append("}");
+        }
+        template.append(")");
+
         return new JsonObjectExpression(
-            Expressions.stringTemplate("json_object({0})", (Object[]) args)
+            Expressions.stringTemplate(template.toString(), (Object[]) args)
         );
     }
 

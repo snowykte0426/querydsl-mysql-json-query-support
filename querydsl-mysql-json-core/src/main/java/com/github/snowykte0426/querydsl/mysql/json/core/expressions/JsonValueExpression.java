@@ -280,8 +280,16 @@ public class JsonValueExpression extends JsonExpression<String> {
             args[i + 1] = Expressions.constant(paths[i]);
         }
 
+        // Build template with proper number of placeholders
+        StringBuilder template = new StringBuilder("json_remove(");
+        for (int i = 0; i < args.length; i++) {
+            if (i > 0) template.append(", ");
+            template.append("{").append(i).append("}");
+        }
+        template.append(")");
+
         return new JsonValueExpression(
-            Expressions.stringTemplate("json_remove({0})", (Object[]) args)
+            Expressions.stringTemplate(template.toString(), (Object[]) args)
         );
     }
 
