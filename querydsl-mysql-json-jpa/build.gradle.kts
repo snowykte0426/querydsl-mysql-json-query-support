@@ -17,11 +17,17 @@ dependencies {
     // Core module
     api(project(":querydsl-mysql-json-core"))
 
-    // OpenFeign QueryDSL JPA (maintained fork)
-    api("io.github.openfeign.querydsl:querydsl-jpa:7.1:jakarta")
+    // OpenFeign QueryDSL JPA (maintained fork) - 7.1 already supports Jakarta
+    api("io.github.openfeign.querydsl:querydsl-jpa:7.1")
 
     // Jakarta Persistence API
     compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    // JetBrains annotations (for @Nullable)
+    compileOnly("org.jetbrains:annotations:24.0.0")
+
+    // Spring Data JPA (for QuerydslRepositorySupport)
+    compileOnly("org.springframework.data:spring-data-jpa:3.2.1")
 
     // MySQL Connector (compileOnly, users will provide their own)
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
@@ -29,6 +35,10 @@ dependencies {
     // Code Generation (for annotation processing)
     annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:7.1:jakarta")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    // Test annotation processing (for Q-classes from test entities)
+    testAnnotationProcessor("io.github.openfeign.querydsl:querydsl-apt:7.1:jakarta")
+    testAnnotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     // Testing
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
