@@ -92,12 +92,12 @@ Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFei
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.3'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.3'
 
     // Choose your module
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3'   // For SQL
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3'   // For SQL
     // OR
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3'   // For JPA
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3'   // For JPA
 }
 ```
 
@@ -110,8 +110,8 @@ dependencies {
 ### JPA Module Example
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.jpa.JPAJsonFunctions;
-import com.github.snowykte0426.querydsl.mysql.json.jpa.expressions.JPAJsonExpression;
+import jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonFunctions;
+import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
 import static com.example.entity.QUser.user;
 
 // Static function style
@@ -153,8 +153,8 @@ List<Tuple> emailsByDept = queryFactory
 ### SQL Module Example
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.sql.SqlJsonFunctions;
-import com.github.snowykte0426.querydsl.mysql.json.sql.expressions.SqlJsonExpression;
+import sql.io.github.snowykte0426.querydsl.mysql.json.SqlJsonFunctions;
+import expressions.sql.io.github.snowykte0426.querydsl.mysql.json.SqlJsonExpression;
 import static com.example.QUsers.users;
 
 // Configure QueryFactory with MySQLJsonTemplates

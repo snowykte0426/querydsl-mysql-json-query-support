@@ -111,7 +111,7 @@ dependencies {
 ## Detailed Package Structure
 
 ```
-com.github.snowykte0426.querydsl.mysql.json/
+io.github.snowykte0426.querydsl.mysql.json/
 ├── core/                                    # Shared core functionality
 │   ├── operators/
 │   │   ├── JsonOperators.java              # Central registry of all JSON operators

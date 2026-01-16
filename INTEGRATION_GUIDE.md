@@ -29,7 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // QueryDSL MySQL JSON
-    implementation("com.github.snowykte0426:querydsl-mysql-json-jpa:1.0-SNAPSHOT")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3")
 
     // QueryDSL JPA
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
@@ -120,8 +120,8 @@ public class User {
 #### 5. Service Layer
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.jpa.JPAJsonFunctions;
-import com.github.snowykte0426.querydsl.mysql.json.jpa.expressions.JPAJsonExpression;
+import jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonFunctions;
+import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -182,7 +182,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
     // QueryDSL MySQL JSON
-    implementation("com.github.snowykte0426:querydsl-mysql-json-sql:1.0-SNAPSHOT")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3")
 
     // QueryDSL SQL
     implementation("io.github.openfeign.querydsl:querydsl-sql:7.1")
@@ -198,7 +198,7 @@ dependencies {
 #### 2. Configuration
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.sql.MySQLJsonTemplates;
+import sql.io.github.snowykte0426.querydsl.mysql.json.MySQLJsonTemplates;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import org.springframework.context.annotation.Bean;
@@ -224,7 +224,7 @@ public class SqlQueryDSLConfig {
 #### 3. Repository Pattern
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.sql.SqlJsonFunctions;
+import sql.io.github.snowykte0426.querydsl.mysql.json.SqlJsonFunctions;
 import com.querydsl.sql.SQLQueryFactory;
 import org.springframework.stereotype.Repository;
 import static com.example.QUsers.users;
@@ -284,8 +284,8 @@ public interface UserRepositoryCustom {
 #### 2. Extend JsonFunctionRepositorySupport
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.jpa.spring.JsonFunctionRepositorySupport;
-import com.github.snowykte0426.querydsl.mysql.json.jpa.expressions.JPAJsonExpression;
+import spring.jpa.io.github.snowykte0426.querydsl.mysql.json.JsonFunctionRepositorySupport;
+import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
 import org.springframework.stereotype.Repository;
 import static com.example.entity.QUser.user;
 

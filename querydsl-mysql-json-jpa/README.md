@@ -34,7 +34,7 @@ The JPA module provides seamless integration of MySQL JSON functions with QueryD
 
 ```kotlin
 dependencies {
-    implementation("com.github.snowykte0426:querydsl-mysql-json-jpa:1.0-SNAPSHOT")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3")
 
     // Required dependencies (if not already included)
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
@@ -51,9 +51,9 @@ dependencies {
 ```xml
 <dependencies>
     <dependency>
-        <groupId>com.github.snowykte0426</groupId>
+        <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1.0-Dev.3</version>
     </dependency>
 
     <!-- Required dependencies -->
@@ -203,9 +203,9 @@ This generates `QUser` with type-safe paths for your entity.
 ### 3. Query with JSON Functions
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.jpa.JPAJsonFunctions;
-import com.github.snowykte0426.querydsl.mysql.json.jpa.expressions.JPAJsonExpression;
-import static com.github.snowykte0426.querydsl.mysql.json.jpa.entity.QUser.user;
+import jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonFunctions;
+import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
+import static entity.jpa.io.github.snowykte0426.querydsl.mysql.json.QUser.user;
 
 // Static Function Style
 JPAQueryFactory queryFactory = DatabaseConfig.getQueryFactory();
@@ -306,8 +306,8 @@ All 35 MySQL JSON functions are available in the JPA module:
 ### 1. Complex Queries with Joins
 
 ```java
-import static com.github.snowykte0426.querydsl.mysql.json.jpa.entity.QUser.user;
-import static com.github.snowykte0426.querydsl.mysql.json.jpa.entity.QProduct.product;
+import static entity.jpa.io.github.snowykte0426.querydsl.mysql.json.QUser.user;
+import static entity.jpa.io.github.snowykte0426.querydsl.mysql.json.QProduct.product;
 
 // Join with JSON condition
 List<Tuple> results = queryFactory
@@ -357,7 +357,7 @@ em.createNativeQuery(
 ### 3. Aggregate Functions
 
 ```java
-import static com.github.snowykte0426.querydsl.mysql.json.jpa.entity.QUser.user;
+import static entity.jpa.io.github.snowykte0426.querydsl.mysql.json.QUser.user;
 
 // Group users by department, aggregate names as JSON array
 List<Tuple> departmentUsers = queryFactory
@@ -455,8 +455,8 @@ String report = JPAJsonFunctions
 ### 1. Extend JsonFunctionRepositorySupport
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.jpa.spring.JsonFunctionRepositorySupport;
-import com.github.snowykte0426.querydsl.mysql.json.jpa.expressions.JPAJsonExpression;
+import spring.jpa.io.github.snowykte0426.querydsl.mysql.json.JsonFunctionRepositorySupport;
+import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
 import org.springframework.stereotype.Repository;
 import static com.example.entity.QUser.user;
 
@@ -624,15 +624,15 @@ public class ProductRepositoryImpl extends JsonFunctionRepositorySupport
 ### Core Classes
 
 - **`JPAJsonFunctions`** - Static entry point for all JSON functions
-  - Location: `com.github.snowykte0426.querydsl.mysql.json.jpa`
+  - Location: `io.github.snowykte0426.querydsl.mysql.json.jpa`
   - Usage: `JPAJsonFunctions.jsonExtract(...)`
 
 - **`JPAJsonExpression`** - Fluent API wrapper for method chaining
-  - Location: `com.github.snowykte0426.querydsl.mysql.json.jpa.expressions`
+  - Location: `io.github.snowykte0426.querydsl.mysql.json.jpa.expressions`
   - Usage: `JPAJsonExpression.of(user.metadata).extract("$.key")`
 
 - **`JsonFunctionRepositorySupport`** - Spring Data JPA base class
-  - Location: `com.github.snowykte0426.querydsl.mysql.json.jpa.spring`
+  - Location: `io.github.snowykte0426.querydsl.mysql.json.jpa.spring`
   - Usage: Extend in custom repository implementations
 
 ### Expression Types

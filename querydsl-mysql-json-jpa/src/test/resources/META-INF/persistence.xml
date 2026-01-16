@@ -8,9 +8,9 @@
     <persistence-unit name="test-pu" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>com.github.snowykte0426.querydsl.mysql.json.jpa.entity.User</class>
-        <class>com.github.snowykte0426.querydsl.mysql.json.jpa.entity.Product</class>
-        <class>com.github.snowykte0426.querydsl.mysql.json.jpa.entity.TestOrder</class>
+        <class>io.github.snowykte0426.querydsl.mysql.json.jpa.entity.User</class>
+        <class>io.github.snowykte0426.querydsl.mysql.json.jpa.entity.Product</class>
+        <class>io.github.snowykte0426.querydsl.mysql.json.jpa.entity.TestOrder</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

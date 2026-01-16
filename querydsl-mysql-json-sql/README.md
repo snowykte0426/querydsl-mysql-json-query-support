@@ -47,10 +47,10 @@ The SQL module provides type-safe access to all 35 MySQL JSON functions through 
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.2'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.3'
 
     // SQL module
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.2'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3'
 
     // QueryDSL SQL (if not already included)
     implementation 'io.github.openfeign.querydsl:querydsl-sql:7.1'
@@ -69,16 +69,16 @@ dependencies {
 <dependencies>
     <!-- Core module -->
     <dependency>
-        <groupId>com.github.snowykte0426</groupId>
+        <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.1.0-Dev.2</version>
+        <version>0.1.0-Dev.3</version>
     </dependency>
 
     <!-- SQL module -->
     <dependency>
-        <groupId>com.github.snowykte0426</groupId>
+        <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.1.0-Dev.2</version>
+        <version>0.1.0-Dev.3</version>
     </dependency>
 
     <!-- QueryDSL SQL -->
@@ -106,7 +106,7 @@ dependencies {
 First, configure QueryDSL SQL with `MySQLJsonTemplates`:
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.sql.MySQLJsonTemplates;
+import sql.io.github.snowykte0426.querydsl.mysql.json.MySQLJsonTemplates;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import com.zaxxer.hikari.HikariConfig;
@@ -143,7 +143,7 @@ public class QueryDslConfig {
 Use `SqlJsonFunctions` for direct function calls:
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.sql.SqlJsonFunctions;
+import sql.io.github.snowykte0426.querydsl.mysql.json.SqlJsonFunctions;
 import com.querydsl.core.Tuple;
 import com.querydsl.sql.SQLQueryFactory;
 
@@ -191,7 +191,7 @@ public class UserRepository {
 Use `SqlJsonExpression` for method chaining:
 
 ```java
-import com.github.snowykte0426.querydsl.mysql.json.sql.expressions.SqlJsonExpression;
+import expressions.sql.io.github.snowykte0426.querydsl.mysql.json.SqlJsonExpression;
 import com.querydsl.core.Tuple;
 
 import java.util.List;
