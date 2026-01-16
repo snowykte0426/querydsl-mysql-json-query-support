@@ -16,6 +16,11 @@ jobs:
         java: [ '17', '21', '25' ]
         gradle: [ '8.5', '8.10.2', '9.2.1' ]
         mysql: [ 'mysql:8.0.33', 'mysql:latest' ]
+      exclude:
+        - java: '25'
+          gradle: '8.5'
+        - java: '25'
+          gradle: '8.10.2'
 
     steps:
     - uses: actions/checkout@v6
