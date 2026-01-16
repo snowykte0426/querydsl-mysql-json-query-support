@@ -206,8 +206,8 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
             .columnName("status")
             .sqlType("VARCHAR(50)")
             .jsonPath("$.status")
-            .onEmpty("DEFAULT 'unknown'")
-            .onError("DEFAULT 'error'")
+            .onEmpty("DEFAULT '\"unknown\"'")
+            .onError("DEFAULT '\"error\"'")
             .build();
 
         JsonTableExpression table = jsonTable(json, "$[*]")
