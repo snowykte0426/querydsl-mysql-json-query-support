@@ -124,12 +124,14 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should use DEFAULT on empty")
         void useDefaultOnEmpty() {
             // Test DEFAULT value when path doesn't exist
+            // Note: DEFAULT value in JSON_TABLE must be a valid JSON literal if it's treated as JSON?
+            // Actually, for VARCHAR column, a simple string literal should work, but let's try quoting it as JSON string '"NONE"'
             String sql = """
                 SELECT jt.shipping_notes
                 FROM orders,
                 JSON_TABLE(order_data, '$'
                     COLUMNS (
-                        shipping_notes VARCHAR(100) PATH '$.notes' DEFAULT 'N/A' ON EMPTY NULL ON ERROR
+                        shipping_notes VARCHAR(100) PATH '$.notes' DEFAULT '"NONE"' ON EMPTY NULL ON ERROR
                     )
                 ) AS jt
                 WHERE order_number = 'ORD-001'
@@ -138,7 +140,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             // When path is empty/missing, DEFAULT value is returned
-            assertThat(result).isIn("N/A", null);
+            assertThat(result).isIn("NONE", null);
         }
     }
 

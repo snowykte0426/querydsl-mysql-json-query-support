@@ -267,8 +267,9 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 0 for incomplete JSON")
         void return0ForIncompleteJson() {
-            // Use a clearly invalid JSON string (missing closing brace)
-            String sql = "SELECT JSON_VALID('{\"key\": \"value\"')";
+            // Use a clearly invalid JSON string (missing closing bracket)
+            // Using array to avoid colon which Hibernate might interpret as parameter
+            String sql = "SELECT JSON_VALID('[1, 2')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
