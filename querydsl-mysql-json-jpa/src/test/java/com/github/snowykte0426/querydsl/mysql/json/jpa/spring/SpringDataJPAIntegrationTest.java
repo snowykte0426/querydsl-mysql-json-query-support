@@ -84,6 +84,9 @@ class SpringDataJPAIntegrationTest {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
 
+        // Clean up existing data to avoid unique constraint violations
+        entityManager.createNativeQuery("DELETE FROM users").executeUpdate();
+
         // Admin user with full metadata
         User admin = new User();
         admin.setName("Admin User");
@@ -136,7 +139,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_CONTAINS permission")
         void findUsersByJsonContainsPermission() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_CONTAINS(JSON_EXTRACT(metadata, '$.permissions'), '\"write\"')"
             ).getResultList();
 
