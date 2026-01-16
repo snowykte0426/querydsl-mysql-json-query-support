@@ -3,14 +3,17 @@ package io.github.snowykte0426.querydsl.mysql.json.functions;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonTableExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.types.JsonTableColumn;
 import io.github.snowykte0426.querydsl.mysql.json.test.AbstractJsonFunctionTest;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.dsl.Expressions;
 import org.junit.jupiter.api.Test;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.github.snowykte0426.querydsl.mysql.json.core.functions.JsonTableFunctions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 /**
  * Tests for JSON_TABLE function.
