@@ -23,6 +23,9 @@ dependencies {
     // MySQL Connector (compileOnly, users will provide their own)
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
 
+    // JetBrains Annotations
+    compileOnly("org.jetbrains:annotations:24.1.0")
+
     // Testing
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -45,6 +48,9 @@ dependencies {
 
     // Assertions
     testImplementation("org.assertj:assertj-core:3.25.1")
+
+    // HikariCP for connection pooling in tests
+    testImplementation("com.zaxxer:HikariCP:5.1.0")
 }
 
 tasks.test {
