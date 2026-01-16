@@ -449,19 +449,22 @@
 **완료된 모듈**:
 - ✅ Core Module: 100% (35 functions + 178 tests)
 - ✅ SQL Module: 100% (implementation + 106 tests + README)
-- ✅ JPA Module: 95% (implementation + 178 tests + README) - 남은 5% 확인 필요
+- ✅ JPA Module: 100% (implementation + 178 tests + README) **← Completed!**
 
 **문서화**:
 - ✅ Phase 1 (Critical): 100% (4개 문서)
 - ✅ Phase 2 (Architecture & Reference): 100% (2개 문서)
 - ⏳ Phase 3 (Support Docs): 0% (MIGRATION.md, TROUBLESHOOTING.md, CONTRIBUTING.md)
 
-**전체 진행률**: ~97% 완료
+**전체 진행률**: ~99% 완료 (Phase 3 문서 및 배포 준비만 남음)
+
+**해결된 이슈**:
+1. JPA Module `JSON_VALID` 테스트 실패 수정 (Hibernate 파라미터 파싱 문제)
+2. JPA Module `JSON_TABLE` 테스트 실패 수정 (DEFAULT 값 JSON 리터럴 문제)
 
 **다음 작업**:
-1. JPA 모듈 남은 5% 확인 및 완료
-2. (선택) Phase 3 문서 작성
-3. (선택) 배포 준비
+1. (선택) Phase 3 문서 작성 (MIGRATION.md, TROUBLESHOOTING.md, CONTRIBUTING.md)
+2. (선택) 배포 준비 (Maven Central)
 
 ---
 **마지막 업데이트**: 2026-01-17
@@ -470,6 +473,6 @@
   - Core 모듈: 35개 함수 ✅ (178 tests)
   - SQL 모듈: 35개 함수 ✅ (106 tests)
   - JPA 모듈: 35개 함수 ✅ (178 tests)
-**🧪 총 테스트**: 462 테스트 케이스 작성 완료 ✅
+**🧪 총 테스트**: 462 테스트 케이스 작성 완료 및 통과 ✅
 **📚 문서화**: 6개 주요 문서 완성 (9.5/10 점수) ✅
-**다음 작업**: JPA 모듈 마무리 (5% 남음)
+**다음 작업**: 배포 준비 또는 추가 문서화
