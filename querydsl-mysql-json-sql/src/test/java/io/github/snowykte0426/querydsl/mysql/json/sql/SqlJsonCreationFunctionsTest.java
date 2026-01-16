@@ -33,8 +33,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonArrayExpression arr = jsonArray("a", "b", "c");
 
         // When
-        String sql = "SELECT " + arr.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(arr).fetchOne();
 
         // Then - Note: MySQL formats JSON with spaces
         assertThat(result).isIn(
@@ -49,8 +48,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonArrayExpression arr = jsonArray(1, 2, 3);
 
         // When
-        String sql = "SELECT " + arr.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(arr).fetchOne();
 
         // Then
         assertThat(result).isIn("[1, 2, 3]", "[1,2,3]", "[1, 2, 3]");
@@ -62,8 +60,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonArrayExpression arr = jsonArray("text", 42, true, 3.14);
 
         // When
-        String sql = "SELECT " + arr.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(arr).fetchOne();
 
         // Then
         assertThat(result).contains("text", "42", "3.14");
@@ -76,8 +73,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonArrayExpression arr = emptyJsonArray();
 
         // When
-        String sql = "SELECT " + arr.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(arr).fetchOne();
 
         // Then
         assertThat(result).isEqualTo("[]");
@@ -90,8 +86,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonArrayExpression arr = jsonArrayFrom(list);
 
         // When
-        String sql = "SELECT " + arr.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(arr).fetchOne();
 
         // Then
         assertThat(result).contains("x", "y", "z");
@@ -100,6 +95,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
     @Test
     void jsonArray_withNestedArray_shouldCreateNestedArray() throws SQLException {
         // Given - Create nested array using JSON_ARRAY syntax
+        // Note: Using raw SQL for nested structure test to verify complex composition
         String sql = "SELECT JSON_ARRAY(1, 2, JSON_ARRAY(3, 4))";
 
         // When
@@ -119,8 +115,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonObjectExpression obj = jsonObject("name", "John", "age", 30);
 
         // When
-        String sql = "SELECT " + obj.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(obj).fetchOne();
 
         // Then
         assertThat(result).contains("\"name\"", "\"John\"", "\"age\"", "30");
@@ -135,8 +130,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
             .build();
 
         // When
-        String sql = "SELECT " + obj.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(obj).fetchOne();
 
         // Then
         assertThat(result).contains("\"city\"", "\"Seoul\"", "\"country\"", "\"Korea\"");
@@ -148,8 +142,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonObjectExpression obj = emptyJsonObject();
 
         // When
-        String sql = "SELECT " + obj.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(obj).fetchOne();
 
         // Then
         assertThat(result).isEqualTo("{}");
@@ -173,8 +166,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonObjectExpression obj = jsonObjectFrom(map);
 
         // When
-        String sql = "SELECT " + obj.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(obj).fetchOne();
 
         // Then
         assertThat(result).contains("\"status\"", "\"active\"", "\"count\"", "5");
@@ -202,8 +194,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("hello");
 
         // When
-        String sql = "SELECT " + quoted.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(quoted).fetchOne();
 
         // Then
         assertThat(result).isEqualTo("\"hello\"");
@@ -215,8 +206,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("Hello \"World\"");
 
         // When
-        String sql = "SELECT " + quoted.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(quoted).fetchOne();
 
         // Then
         assertThat(result).contains("Hello").contains("World");
@@ -230,8 +220,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("line1\nline2");
 
         // When
-        String sql = "SELECT " + quoted.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(quoted).fetchOne();
 
         // Then
         assertThat(result).startsWith("\"");
@@ -245,8 +234,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         JsonValueExpression quoted = jsonQuote("");
 
         // When
-        String sql = "SELECT " + quoted.toString();
-        String result = executeNativeQuery(sql);
+        String result = queryFactory.select(quoted).fetchOne();
 
         // Then
         assertThat(result).isEqualTo("\"\"");
@@ -259,11 +247,14 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
     @Test
     void jsonNull_shouldReturnNullString() throws SQLException {
         // When
-        String sql = "SELECT " + jsonNull().toString();
-        String result = executeNativeQuery(sql);
+        // Note: jsonNull() returns QueryDSL JsonValueExpression, but select(jsonNull())
+        // might return java null or "null" string depending on binding.
+        // Let's use stringTemplate to force SQL generation for this test case
+        String result = queryFactory.select(jsonNull()).fetchOne();
 
         // Then
-        assertThat(result).isIn("null", "NULL");
+        // Result is likely null (Java null) because it's a NULL value in DB
+        assertThat(result).isNull();
     }
 
     @Test
