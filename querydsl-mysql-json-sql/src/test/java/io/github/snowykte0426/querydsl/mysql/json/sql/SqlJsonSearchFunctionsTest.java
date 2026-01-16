@@ -397,7 +397,7 @@ class SqlJsonSearchFunctionsTest extends AbstractSqlJsonFunctionTest {
     void whereClause_withJsonExtract_shouldFilterResults() throws SQLException {
         // When
         String result = executeNativeQuery(
-            "SELECT COUNT(*) FROM users WHERE JSON_EXTRACT(metadata, '$.role') = '\"admin\"'"
+            "SELECT COUNT(*) FROM users WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) = 'admin'"
         );
 
         // Then

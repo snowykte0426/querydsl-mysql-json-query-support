@@ -80,7 +80,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
         String sql = "SELECT * FROM JSON_TABLE(" +
             "'[{\"name\":\"Alice\"},{\"name\":\"Bob\"},{\"name\":\"Charlie\"}]', " +
             "'$[*]' COLUMNS(" +
-            "row_number FOR ORDINALITY, " +
+            "rn FOR ORDINALITY, " +
             "name VARCHAR(50) PATH '$.name'" +
             ")) AS jt";
         
@@ -89,7 +89,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
             
             int expectedRow = 1;
             while (rs.next()) {
-                assertThat(rs.getInt("row_number")).isEqualTo(expectedRow);
+                assertThat(rs.getInt("rn")).isEqualTo(expectedRow);
                 expectedRow++;
             }
             assertThat(expectedRow).isEqualTo(4); // Should have 3 rows
