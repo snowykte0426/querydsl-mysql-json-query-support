@@ -53,26 +53,26 @@ SqlJsonExpression.of(user.metadata)
 
 This library provides type-safe QueryDSL expressions for all 35 MySQL JSON functions:
 
-| Category | Count | Functions |
-| :--- | :---: | :--- |
-| **Creation Functions** | 3 | `JSON_ARRAY`, `JSON_OBJECT`, `JSON_QUOTE` |
-| **Search Functions** | 10 | `JSON_EXTRACT`, `JSON_CONTAINS`, `JSON_SEARCH`, `JSON_VALUE`, `JSON_OVERLAPS`, `MEMBER OF`, and more |
-| **Modification Functions** | 10 | `JSON_SET`, `JSON_INSERT`, `JSON_REPLACE`, `JSON_REMOVE`, `JSON_ARRAY_APPEND`, `JSON_MERGE_PATCH`, and more |
-| **Attribute Functions** | 4 | `JSON_DEPTH`, `JSON_LENGTH`, `JSON_TYPE`, `JSON_VALID` |
-| **Utility Functions** | 3 | `JSON_PRETTY`, `JSON_STORAGE_SIZE`, `JSON_STORAGE_FREE` |
-| **Schema Validation** | 2 | `JSON_SCHEMA_VALID`, `JSON_SCHEMA_VALIDATION_REPORT` |
-| **Aggregate Functions** | 2 | `JSON_ARRAYAGG`, `JSON_OBJECTAGG` |
-| **Table Functions** | 1 | `JSON_TABLE` |
+| Category                   | Count | Functions                                                                                                   |
+|:---------------------------|:-----:|:------------------------------------------------------------------------------------------------------------|
+| **Creation Functions**     |   3   | `JSON_ARRAY`, `JSON_OBJECT`, `JSON_QUOTE`                                                                   |
+| **Search Functions**       |  10   | `JSON_EXTRACT`, `JSON_CONTAINS`, `JSON_SEARCH`, `JSON_VALUE`, `JSON_OVERLAPS`, `MEMBER OF`, and more        |
+| **Modification Functions** |  10   | `JSON_SET`, `JSON_INSERT`, `JSON_REPLACE`, `JSON_REMOVE`, `JSON_ARRAY_APPEND`, `JSON_MERGE_PATCH`, and more |
+| **Attribute Functions**    |   4   | `JSON_DEPTH`, `JSON_LENGTH`, `JSON_TYPE`, `JSON_VALID`                                                      |
+| **Utility Functions**      |   3   | `JSON_PRETTY`, `JSON_STORAGE_SIZE`, `JSON_STORAGE_FREE`                                                     |
+| **Schema Validation**      |   2   | `JSON_SCHEMA_VALID`, `JSON_SCHEMA_VALIDATION_REPORT`                                                        |
+| **Aggregate Functions**    |   2   | `JSON_ARRAYAGG`, `JSON_OBJECTAGG`                                                                           |
+| **Table Functions**        |   1   | `JSON_TABLE`                                                                                                |
 
 ### Multi-Module
 
 Choose only the modules you need:
 
-| Module | Description |
-| :--- | :--- |
+| Module                         | Description                      |
+|:-------------------------------|:---------------------------------|
 | **`querydsl-mysql-json-core`** | Core functionality and operators |
-| **`querydsl-mysql-json-sql`** | Support for QueryDSL SQL module |
-| **`querydsl-mysql-json-jpa`** | Support for QueryDSL JPA module |
+| **`querydsl-mysql-json-sql`**  | Support for QueryDSL SQL module  |
+| **`querydsl-mysql-json-jpa`**  | Support for QueryDSL JPA module  |
 
 ### Type Safety
 
@@ -92,12 +92,12 @@ Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFei
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.2'
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.3'
 
     // Choose your module
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.2'   // For SQL
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3'   // For SQL
     // OR
-    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.2'   // For JPA
+    implementation 'com.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3'   // For JPA
 }
 ```
 
@@ -199,18 +199,18 @@ SqlJsonFunctions.jsonTable(
 
 ### Module Comparison
 
-| Feature | JPA Module | SQL Module |
-|---------|-----------|------------|
-| **Use Case** | JPA entities with JSON columns | Direct SQL queries, complex queries |
-| **Configuration** | EntityManager + JPAQueryFactory | SQLQueryFactory + MySQLJsonTemplates |
-| **Entity Mapping** | `@Entity` with `@Column(columnDefinition="JSON")` | Q-classes from `CREATE TABLE` schema |
-| **API Entry Point** | `JPAJsonFunctions` | `SqlJsonFunctions` |
-| **Fluent API** | `JPAJsonExpression` | `SqlJsonExpression` |
-| **Transaction Support** | JPA transactions (`@Transactional`) | Manual JDBC transactions |
-| **Spring Integration** | `JsonFunctionRepositorySupport` | Standard Spring JDBC |
-| **Updates** | Entity merge + `em.merge()` | Direct `UPDATE` statements |
-| **Performance** | ORM overhead | Direct SQL (faster) |
-| **Best For** | Domain-driven design, ORM apps | High-performance, reporting queries |
+| Feature                 | JPA Module                                        | SQL Module                           |
+|-------------------------|---------------------------------------------------|--------------------------------------|
+| **Use Case**            | JPA entities with JSON columns                    | Direct SQL queries, complex queries  |
+| **Configuration**       | EntityManager + JPAQueryFactory                   | SQLQueryFactory + MySQLJsonTemplates |
+| **Entity Mapping**      | `@Entity` with `@Column(columnDefinition="JSON")` | Q-classes from `CREATE TABLE` schema |
+| **API Entry Point**     | `JPAJsonFunctions`                                | `SqlJsonFunctions`                   |
+| **Fluent API**          | `JPAJsonExpression`                               | `SqlJsonExpression`                  |
+| **Transaction Support** | JPA transactions (`@Transactional`)               | Manual JDBC transactions             |
+| **Spring Integration**  | `JsonFunctionRepositorySupport`                   | Standard Spring JDBC                 |
+| **Updates**             | Entity merge + `em.merge()`                       | Direct `UPDATE` statements           |
+| **Performance**         | ORM overhead                                      | Direct SQL (faster)                  |
+| **Best For**            | Domain-driven design, ORM apps                    | High-performance, reporting queries  |
 
 **Choosing a Module:**
 - Use **JPA Module** if you're building a standard Spring Boot application with JPA entities
