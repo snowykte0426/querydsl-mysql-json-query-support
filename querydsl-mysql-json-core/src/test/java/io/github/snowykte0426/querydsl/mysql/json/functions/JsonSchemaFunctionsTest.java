@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+import static io.github.snowykte0426.querydsl.mysql.json.core.functions.JsonSchemaFunctions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
