@@ -268,7 +268,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should return 0 for incomplete JSON")
         void return0ForIncompleteJson() {
             // Use a clearly invalid JSON string (missing closing brace)
-            String sql = "SELECT JSON_VALID('{\"key\": ')";
+            String sql = "SELECT JSON_VALID('{\"key\": \"value\"')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
