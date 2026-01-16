@@ -151,7 +151,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_CONTAINS_PATH")
         void findUsersByJsonContainsPath() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', '$.level')"
             ).getResultList();
 
@@ -163,7 +163,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_LENGTH")
         void findUsersByJsonLength() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_LENGTH(roles) >= 2"
             ).getResultList();
 
@@ -175,7 +175,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_DEPTH")
         void findUsersByJsonDepth() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_DEPTH(metadata) >= 3"
             ).getResultList();
 
@@ -187,7 +187,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by theme setting")
         void findUsersByThemeSetting() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_UNQUOTE(JSON_EXTRACT(settings, '$.theme')) = 'dark'"
             ).getResultList();
 
@@ -199,7 +199,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should order users by JSON value")
         void orderUsersByJsonValue() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', '$.level') ORDER BY JSON_EXTRACT(metadata, '$.level') DESC"
             ).getResultList();
 
@@ -217,7 +217,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should combine multiple JSON conditions")
         void combineMultipleJsonConditions() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT email FROM users WHERE " +
                     "JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) = 'user' AND " +
                     "JSON_UNQUOTE(JSON_EXTRACT(settings, '$.theme')) = 'light'"
@@ -231,7 +231,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_SEARCH for value lookup")
         void useJsonSearchForValueLookup() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_SEARCH(roles, 'one', 'ROLE_ADMIN') IS NOT NULL"
             ).getResultList();
 
@@ -243,7 +243,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should validate JSON with JSON_VALID")
         void validateJsonWithJsonValid() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_VALID(metadata) = 1"
             ).getResultList();
 
@@ -255,7 +255,7 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should check JSON type")
         void checkJsonType() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
+            List<Object> results = entityManager.createNativeQuery(
                     "SELECT name FROM users WHERE JSON_TYPE(roles) = 'ARRAY'"
             ).getResultList();
 
