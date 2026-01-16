@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.github.snowykte0426"
-version = "1.0-SNAPSHOT"
+version = "0.1.0-Dev.3"
 
 java {
     toolchain {
