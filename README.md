@@ -18,15 +18,31 @@ A QueryDSL extension library that enables type-safe, fluent method chaining for 
 ```java
 // String-based templates - not type-safe, error-prone
 Expressions.stringTemplate("JSON_EXTRACT({0}, {1})", user.metadata, "$.role")
-    .eq("admin");
+    .eq("\"admin\"");
 ```
 
-### After
+### After (JPA Module)
 ```java
-// Type-safe method chaining with IDE autocompletion
-user.metadata
-    .jsonExtract("$.role")
-    .eq("admin");
+// Type-safe static functions with IDE autocompletion
+JPAJsonFunctions.jsonExtract(user.metadata, "$.role")
+    .eq("\"admin\"");
+
+// Or fluent API for method chaining
+JPAJsonExpression.of(user.metadata)
+    .extract("$.role")
+    .eq("\"admin\"");
+```
+
+### After (SQL Module)
+```java
+// Type-safe static functions
+SqlJsonFunctions.jsonExtract(user.metadata, "$.role")
+    .eq("\"admin\"");
+
+// Or fluent API
+SqlJsonExpression.of(user.metadata)
+    .extract("$.role")
+    .eq("\"admin\"");
 ```
 
 ---
@@ -91,43 +107,119 @@ dependencies {
 
 ## Quick Start
 
-### Basic Usage Examples
+### JPA Module Example
 
 ```java
-// JSON_EXTRACT: Extract value from JSON path
+import com.github.snowykte0426.querydsl.mysql.json.jpa.JPAJsonFunctions;
+import com.github.snowykte0426.querydsl.mysql.json.jpa.expressions.JPAJsonExpression;
+import static com.example.entity.QUser.user;
+
+// Static function style
 List<User> admins = queryFactory
     .selectFrom(user)
-    .where(user.metadata.jsonExtract("$.role").eq("admin"))
+    .where(JPAJsonFunctions.jsonExtract(user.metadata, "$.role")
+        .eq("\"admin\""))
+    .fetch();
+
+// Fluent API style
+JPAJsonExpression metadata = JPAJsonExpression.of(user.metadata);
+
+List<User> premiumUsers = queryFactory
+    .selectFrom(user)
+    .where(metadata.extract("$.plan").eq("\"premium\""))
     .fetch();
 
 // JSON_CONTAINS: Check if JSON contains value
 List<User> users = queryFactory
     .selectFrom(user)
-    .where(JsonFunctions.jsonContains(
+    .where(JPAJsonFunctions.jsonContains(
         user.preferences,
         "\"notifications\"",
         "$.settings"
     ))
     .fetch();
 
-// JSON_SET: Update JSON value
-queryFactory
-    .update(user)
-    .set(user.metadata, JsonFunctions.jsonSet(
-        user.metadata,
-        "$.lastLogin",
-        LocalDateTime.now()
-    ))
-    .where(user.id.eq(userId))
-    .execute();
-
 // JSON_ARRAYAGG: Aggregate as JSON array
-List<String> emailsPerDept = queryFactory
-    .select(JsonFunctions.arrayAgg(user.email))
+List<Tuple> emailsByDept = queryFactory
+    .select(
+        user.department,
+        JPAJsonFunctions.jsonArrayAgg(user.email)
+    )
     .from(user)
     .groupBy(user.department)
     .fetch();
 ```
+
+### SQL Module Example
+
+```java
+import com.github.snowykte0426.querydsl.mysql.json.sql.SqlJsonFunctions;
+import com.github.snowykte0426.querydsl.mysql.json.sql.expressions.SqlJsonExpression;
+import static com.example.QUsers.users;
+
+// Configure QueryFactory with MySQLJsonTemplates
+Configuration configuration = new Configuration(MySQLJsonTemplates.DEFAULT);
+SQLQueryFactory queryFactory = new SQLQueryFactory(configuration, dataSource);
+
+// Static function style
+List<Tuple> admins = queryFactory
+    .select(users.id, users.name, users.email)
+    .from(users)
+    .where(SqlJsonFunctions.jsonExtract(users.metadata, "$.role")
+        .eq("\"admin\""))
+    .fetch();
+
+// Fluent API style
+SqlJsonExpression metadata = SqlJsonExpression.of(users.metadata);
+
+List<Tuple> premiumUsers = queryFactory
+    .select(users.all())
+    .from(users)
+    .where(metadata.extract("$.plan").eq("\"premium\""))
+    .fetch();
+
+// Complex query with joins
+List<Tuple> results = queryFactory
+    .select(users.name, products.name)
+    .from(users)
+    .join(products)
+    .on(SqlJsonFunctions.memberOf(products.category, users.interests))
+    .fetch();
+
+// JSON_TABLE for flattening JSON arrays
+SqlJsonFunctions.jsonTable(
+    users.orders,
+    "$.items[*]"
+)
+.column("item_id", "INT", "$.id")
+.column("item_name", "VARCHAR(255)", "$.name")
+.column("quantity", "INT", "$.quantity")
+.build();
+```
+
+### Module Comparison
+
+| Feature | JPA Module | SQL Module |
+|---------|-----------|------------|
+| **Use Case** | JPA entities with JSON columns | Direct SQL queries, complex queries |
+| **Configuration** | EntityManager + JPAQueryFactory | SQLQueryFactory + MySQLJsonTemplates |
+| **Entity Mapping** | `@Entity` with `@Column(columnDefinition="JSON")` | Q-classes from `CREATE TABLE` schema |
+| **API Entry Point** | `JPAJsonFunctions` | `SqlJsonFunctions` |
+| **Fluent API** | `JPAJsonExpression` | `SqlJsonExpression` |
+| **Transaction Support** | JPA transactions (`@Transactional`) | Manual JDBC transactions |
+| **Spring Integration** | `JsonFunctionRepositorySupport` | Standard Spring JDBC |
+| **Updates** | Entity merge + `em.merge()` | Direct `UPDATE` statements |
+| **Performance** | ORM overhead | Direct SQL (faster) |
+| **Best For** | Domain-driven design, ORM apps | High-performance, reporting queries |
+
+**Choosing a Module:**
+- Use **JPA Module** if you're building a standard Spring Boot application with JPA entities
+- Use **SQL Module** if you need maximum performance or complex analytical queries
+- Both modules delegate 100% to the core module, ensuring consistent behavior
+
+For detailed examples and documentation:
+- [JPA Module README](./querydsl-mysql-json-jpa/README.md)
+- [SQL Module README](./querydsl-mysql-json-sql/README.md)
 
 ---
 
@@ -141,7 +233,19 @@ List<String> emailsPerDept = queryFactory
 
 ## Documentation
 
+### Module Documentation
+- [JPA Module README](./querydsl-mysql-json-jpa/README.md) - Complete JPA module guide with Spring Data integration
+- [SQL Module README](./querydsl-mysql-json-sql/README.md) - Complete SQL module guide with MySQLJsonTemplates
+- [Core Module](./querydsl-mysql-json-core/README.md) - Core module internals (advanced users)
+
+### Project Documentation
+- [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) - Complete reference for all 35 JSON functions
+- [PROGRESS.md](./PROGRESS.md) - Development progress and testing status
+
+### External Resources
 - [MySQL JSON Functions Reference](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html) - Official MySQL documentation
+- [QueryDSL Documentation](http://querydsl.com/static/querydsl/latest/reference/html/) - QueryDSL reference
+- [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) - Maintained QueryDSL fork
 
 ---
 
