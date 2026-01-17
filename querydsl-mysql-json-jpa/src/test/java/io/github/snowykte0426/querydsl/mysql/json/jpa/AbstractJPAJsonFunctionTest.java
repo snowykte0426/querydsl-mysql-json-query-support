@@ -12,10 +12,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,11 +40,15 @@ import java.util.Map;
 public abstract class AbstractJPAJsonFunctionTest {
 
     @Container
-    protected static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.33")
+    protected static final MySQLContainer<?> mysql = new MySQLContainer<>(
+        DockerImageName.parse(System.getProperty("test.mysql.image", "mysql:8.0.33"))
+    )
         .withDatabaseName("json_test")
         .withUsername("test")
         .withPassword("test")
-        .withCommand("--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci");
+        .withCommand("--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci")
+        .waitingFor(Wait.forLogMessage(".*ready for connections.*", 2))
+        .withStartupTimeout(Duration.ofSeconds(120));
 
     protected static EntityManagerFactory entityManagerFactory;
     protected EntityManager entityManager;
@@ -50,7 +57,7 @@ public abstract class AbstractJPAJsonFunctionTest {
     @BeforeAll
     static void setupEntityManagerFactory() {
         Map<String, Object> properties = new HashMap<>();
-        properties.put("jakarta.persistence.jdbc.url", mysql.getJdbcUrl());
+        properties.put("jakarta.persistence.jdbc.url", mysql.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000");
         properties.put("jakarta.persistence.jdbc.user", mysql.getUsername());
         properties.put("jakarta.persistence.jdbc.password", mysql.getPassword());
         properties.put("jakarta.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");

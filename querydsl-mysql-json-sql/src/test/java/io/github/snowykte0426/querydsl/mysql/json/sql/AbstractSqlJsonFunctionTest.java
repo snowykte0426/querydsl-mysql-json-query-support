@@ -9,10 +9,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import javax.sql.DataSource;
+import java.time.Duration;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -40,11 +43,15 @@ import java.sql.Statement;
 public abstract class AbstractSqlJsonFunctionTest {
 
     @Container
-    protected static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.33")
+    protected static final MySQLContainer<?> mysql = new MySQLContainer<>(
+        DockerImageName.parse(System.getProperty("test.mysql.image", "mysql:8.0.33"))
+    )
         .withDatabaseName("json_test")
         .withUsername("test")
         .withPassword("test")
-        .withCommand("--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci");
+        .withCommand("--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci")
+        .waitingFor(Wait.forLogMessage(".*ready for connections.*", 2))
+        .withStartupTimeout(Duration.ofSeconds(120));
 
     protected static Configuration configuration;
     protected static SQLQueryFactory queryFactory;
@@ -58,7 +65,7 @@ public abstract class AbstractSqlJsonFunctionTest {
 
         // Setup HikariCP DataSource
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(mysql.getJdbcUrl());
+        hikariConfig.setJdbcUrl(mysql.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000");
         hikariConfig.setUsername(mysql.getUsername());
         hikariConfig.setPassword(mysql.getPassword());
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");

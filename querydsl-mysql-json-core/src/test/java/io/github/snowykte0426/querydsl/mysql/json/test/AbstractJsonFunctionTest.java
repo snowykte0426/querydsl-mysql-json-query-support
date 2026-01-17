@@ -8,11 +8,13 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.sql.*;
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -44,7 +46,9 @@ public abstract class AbstractJsonFunctionTest {
         .withDatabaseName("testdb")
         .withUsername("test")
         .withPassword("test")
-        .withReuse(true);
+        .withReuse(true)
+        .waitingFor(Wait.forLogMessage(".*ready for connections.*", 2))
+        .withStartupTimeout(Duration.ofSeconds(120));
 
     protected static Connection connection;
 
@@ -65,7 +69,7 @@ public abstract class AbstractJsonFunctionTest {
     static void setUp() throws SQLException {
         MYSQL_CONTAINER.start();
         connection = DriverManager.getConnection(
-            MYSQL_CONTAINER.getJdbcUrl(),
+            MYSQL_CONTAINER.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000",
             MYSQL_CONTAINER.getUsername(),
             MYSQL_CONTAINER.getPassword()
         );
