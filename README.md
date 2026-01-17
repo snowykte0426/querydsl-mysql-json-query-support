@@ -92,12 +92,12 @@ Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFei
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.3'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.4'
 
     // Choose your module
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3'   // For SQL
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.4'   // For SQL
     // OR
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3'   // For JPA
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.4'   // For JPA
 }
 ```
 
@@ -110,7 +110,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.1.0-Dev.3</version>
+        <version>0.1.0-Dev.4</version>
     </dependency>
 
     <!-- Choose your module -->
@@ -118,14 +118,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.1.0-Dev.3</version>
+        <version>0.1.0-Dev.4</version>
     </dependency>
 
     <!-- OR for JPA -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.1.0-Dev.3</version>
+        <version>0.1.0-Dev.4</version>
     </dependency>
 </dependencies>
 ```

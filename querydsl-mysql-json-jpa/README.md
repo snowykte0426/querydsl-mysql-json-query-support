@@ -38,7 +38,7 @@ The JPA module provides seamless integration of MySQL JSON functions with QueryD
 
 ```kotlin
 dependencies {
-    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.4")
 
     // Required dependencies (if not already included)
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
@@ -57,7 +57,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.1.0-Dev.3</version>
+        <version>0.1.0-Dev.4</version>
     </dependency>
 
     <!-- Required dependencies -->

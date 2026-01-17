@@ -29,7 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // QueryDSL MySQL JSON
-    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.3")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.4")
 
     // QueryDSL JPA
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
@@ -182,7 +182,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
     // QueryDSL MySQL JSON
-    implementation("io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.3")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.4")
 
     // QueryDSL SQL
     implementation("io.github.openfeign.querydsl:querydsl-sql:7.1")
