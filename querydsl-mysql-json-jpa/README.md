@@ -207,7 +207,7 @@ import jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonFunctions;
 import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
 import static entity.jpa.io.github.snowykte0426.querydsl.mysql.json.QUser.user;
 
-// Static Function Style
+// Static function style
 JPAQueryFactory queryFactory = DatabaseConfig.getQueryFactory();
 
 List<User> admins = queryFactory
@@ -216,7 +216,7 @@ List<User> admins = queryFactory
         .eq("\"admin\""))
     .fetch();
 
-// Fluent API Style
+// Fluent API style
 JPAJsonExpression metadata = JPAJsonExpression.of(user.metadata);
 
 List<User> premiumUsers = queryFactory

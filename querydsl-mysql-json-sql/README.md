@@ -582,8 +582,8 @@ Expressions.nullExpression()
 - [Main Project README](../README.md)
 - [Core Module](../querydsl-mysql-json-core/README.md)
 - [JPA Module](../querydsl-mysql-json-jpa/README.md)
-- [Integration Guide](../docs/INTEGRATION_GUIDE.md)
-- [Function Reference](../docs/FUNCTIONS.md)
+- [Integration Guide](../INTEGRATION_GUIDE.md)
+- [Function Reference](../FUNCTIONS.md)
 - [MySQL JSON Functions](https://dev.mysql.com/doc/refman/8.0/en/json-functions.html)
 
 ---

@@ -103,6 +103,33 @@ dependencies {
 
 > **Note**: Binary releases are not yet available. The project is in early development.
 
+### Maven
+```xml
+<dependencies>
+    <!-- Core module (required) -->
+    <dependency>
+        <groupId>io.github.snowykte0426</groupId>
+        <artifactId>querydsl-mysql-json-core</artifactId>
+        <version>0.1.0-Dev.3</version>
+    </dependency>
+
+    <!-- Choose your module -->
+    <!-- For SQL -->
+    <dependency>
+        <groupId>io.github.snowykte0426</groupId>
+        <artifactId>querydsl-mysql-json-sql</artifactId>
+        <version>0.1.0-Dev.3</version>
+    </dependency>
+
+    <!-- OR for JPA -->
+    <dependency>
+        <groupId>io.github.snowykte0426</groupId>
+        <artifactId>querydsl-mysql-json-jpa</artifactId>
+        <version>0.1.0-Dev.3</version>
+    </dependency>
+</dependencies>
+```
+
 ---
 
 ## Quick Start
@@ -113,6 +140,8 @@ dependencies {
 import jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonFunctions;
 import expressions.jpa.io.github.snowykte0426.querydsl.mysql.json.JPAJsonExpression;
 import static com.example.entity.QUser.user;
+
+JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
 
 // Static function style
 List<User> admins = queryFactory
@@ -228,6 +257,37 @@ For detailed examples and documentation:
 - Java 17 or higher
 - MySQL 8.0.17 or higher
 - QueryDSL (OpenFeign fork) 7.1
+
+---
+
+## FAQ
+
+### Q: Which module should I use?
+
+**A**:
+- Use **JPA Module** if you're building a standard Spring Boot application with JPA entities
+- Use **SQL Module** if you need maximum performance or complex analytical queries
+- Both modules delegate 100% to the core module, ensuring consistent behavior
+
+### Q: Is this compatible with standard QueryDSL?
+
+**A**: Yes, this library extends QueryDSL and works alongside it. It uses OpenFeign QueryDSL 7.1 (maintained fork).
+
+### Q: What MySQL versions are supported?
+
+**A**: MySQL 8.0.17+ is required for full JSON function support.
+
+### Q: Can I mix JPA and SQL modules?
+
+**A**: Yes, they can coexist in the same project, but they serve different use cases. Use JPA for entity operations and SQL for complex analytical queries.
+
+### Q: Are there performance differences?
+
+**A**: SQL module is faster as it bypasses ORM overhead. JPA module provides entity management benefits.
+
+For more detailed FAQs, see:
+- [JPA Module FAQ](./querydsl-mysql-json-jpa/README.md#faq)
+- [SQL Module FAQ](./querydsl-mysql-json-sql/README.md#faq)
 
 ---
 
