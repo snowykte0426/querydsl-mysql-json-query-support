@@ -15,7 +15,7 @@ jobs:
       matrix:
         java: [ '17', '21', '25' ]
         gradle: [ '8.5', '8.10.2', '9.2.1' ]
-        mysql: [ 'mysql:8.0.33', 'mysql:latest' ]
+        mysql: [ 'mysql:8.0.33', 'mysql:8.4', 'mysql:9.2' ]
         exclude:
           - java: '25'
             gradle: '8.5'
