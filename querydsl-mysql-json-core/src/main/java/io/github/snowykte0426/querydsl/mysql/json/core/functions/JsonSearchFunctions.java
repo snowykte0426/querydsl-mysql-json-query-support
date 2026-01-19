@@ -154,7 +154,7 @@ public final class JsonSearchFunctions {
      * @return boolean expression
      */
     public static BooleanExpression jsonContains(Expression<?> jsonDoc, String value) {
-        return Expressions.booleanTemplate("json_contains({0}, {1}, NULL)", jsonDoc, Expressions.constant(value));
+        return Expressions.booleanTemplate("json_contains({0}, {1})", jsonDoc, Expressions.constant(value));
     }
 
     /**
@@ -189,7 +189,7 @@ public final class JsonSearchFunctions {
      * @return boolean expression
      */
     public static BooleanExpression jsonContains(Expression<?> jsonDoc, Expression<?> value) {
-        return Expressions.booleanTemplate("json_contains({0}, {1}, NULL)", jsonDoc, value);
+        return Expressions.booleanTemplate("json_contains({0}, {1})", jsonDoc, value);
     }
 
     // ========================================
