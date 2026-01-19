@@ -96,7 +96,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      * @return new JsonPathExpression with appended member
      */
     public JsonPathExpression member(String key) {
-        return new JsonPathExpression(path.member(key));
+        return new JsonPathExpression(JsonPath.member(key));
     }
 
     /**
@@ -107,7 +107,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      * @return new JsonPathExpression with appended array access
      */
     public JsonPathExpression arrayElement(int index) {
-        return new JsonPathExpression(path.arrayElement(index));
+        return new JsonPathExpression(JsonPath.arrayElement(index));
     }
 
     /**
