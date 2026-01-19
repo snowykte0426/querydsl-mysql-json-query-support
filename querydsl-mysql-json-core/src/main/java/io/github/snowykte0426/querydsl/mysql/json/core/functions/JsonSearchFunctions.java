@@ -3,6 +3,7 @@ package io.github.snowykte0426.querydsl.mysql.json.core.functions;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonArrayExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonValueExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.types.JsonExpression;
+import io.github.snowykte0426.querydsl.mysql.json.core.utils.JsonEscapeUtils;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -190,6 +191,133 @@ public final class JsonSearchFunctions {
      */
     public static BooleanExpression jsonContains(Expression<?> jsonDoc, Expression<?> value) {
         return Expressions.booleanTemplate("json_contains({0}, {1})", jsonDoc, value);
+    }
+
+    // ========================================
+    // JSON_CONTAINS - Convenience methods with auto-escaping
+    // ========================================
+
+    /**
+     * Tests whether a JSON document contains a plain string value.
+     *
+     * <p>
+     * This method automatically escapes the string as a JSON string literal.
+     * </p>
+     *
+     * <p>
+     * Example:
+     *
+     * <pre>{@code
+     * // Before (manual escaping):
+     * jsonContains(user.roles, "\"admin\"")
+     *
+     * // After (automatic):
+     * jsonContainsString(user.roles, "admin")
+     * }</pre>
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param plainString
+     *            the plain string value (will be auto-escaped)
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString) {
+        return jsonContains(jsonDoc, JsonEscapeUtils.escapeString(plainString));
+    }
+
+    /**
+     * Tests whether a JSON document contains a string value at a specific path.
+     *
+     * <p>
+     * This method automatically escapes the string as a JSON string literal.
+     * </p>
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param plainString
+     *            the plain string value (will be auto-escaped)
+     * @param path
+     *            the JSON path to search within
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString, String path) {
+        return jsonContains(jsonDoc, JsonEscapeUtils.escapeString(plainString), path);
+    }
+
+    /**
+     * Tests whether a JSON document contains a numeric value.
+     *
+     * <p>
+     * Example:
+     *
+     * <pre>{@code
+     * jsonContainsNumber(product.features, 42)
+     * }</pre>
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param number
+     *            the number to search for
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number) {
+        return jsonContains(jsonDoc, JsonEscapeUtils.escapeNumber(number));
+    }
+
+    /**
+     * Tests whether a JSON document contains a numeric value at a specific path.
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param number
+     *            the number to search for
+     * @param path
+     *            the JSON path to search within
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number, String path) {
+        return jsonContains(jsonDoc, JsonEscapeUtils.escapeNumber(number), path);
+    }
+
+    /**
+     * Tests whether a JSON document contains a boolean value.
+     *
+     * <p>
+     * Example:
+     *
+     * <pre>{@code
+     * jsonContainsBoolean(user.settings, true)
+     * }</pre>
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param bool
+     *            the boolean value to search for
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool) {
+        return jsonContains(jsonDoc, JsonEscapeUtils.escapeBoolean(bool));
+    }
+
+    /**
+     * Tests whether a JSON document contains a boolean value at a specific path.
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param bool
+     *            the boolean value to search for
+     * @param path
+     *            the JSON path to search within
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool, String path) {
+        return jsonContains(jsonDoc, JsonEscapeUtils.escapeBoolean(bool), path);
     }
 
     // ========================================
