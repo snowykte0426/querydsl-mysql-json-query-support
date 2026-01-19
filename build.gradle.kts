@@ -51,7 +51,7 @@ subprojects {
 
     configure<MavenPublishBaseExtension> {
         publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-        
+
         signAllPublications()
 
         pom {
