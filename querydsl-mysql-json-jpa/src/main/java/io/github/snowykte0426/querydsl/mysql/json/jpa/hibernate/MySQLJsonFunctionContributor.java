@@ -2,6 +2,9 @@ package io.github.snowykte0426.querydsl.mysql.json.jpa.hibernate;
 
 import org.hibernate.boot.model.FunctionContributions;
 import org.hibernate.boot.model.FunctionContributor;
+import org.hibernate.query.sqm.function.NamedSqmFunctionDescriptor;
+import org.hibernate.query.sqm.produce.function.StandardArgumentsValidators;
+import org.hibernate.query.sqm.produce.function.StandardFunctionReturnTypeResolvers;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.spi.TypeConfiguration;
 
@@ -43,6 +46,17 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
     }
 
     /**
+     * Helper to register functions that support variable arguments (varargs).
+     */
+    private void registerVarargsFunction(FunctionContributions fc, String name, BasicType<?> returnType) {
+        fc.getFunctionRegistry().register(name, new NamedSqmFunctionDescriptor(
+                name,
+                false,
+                StandardArgumentsValidators.VARARGS,
+                StandardFunctionReturnTypeResolvers.invariant(returnType)));
+    }
+
+    /**
      * Registers JSON functions that return BOOLEAN values.
      * <p>
      * These functions can be used directly in WHERE clauses without additional type
@@ -70,22 +84,9 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
                         typeConfig)
                 .setArgumentListSignature("(target, candidate[, path])");
 
-        // json_contains_path: 3-4 arguments (most common usage)
-        // json_contains_path(target, one_or_all, path...) - Returns 1 if paths exist in
-        // target
-        // Note: Support for 5+ paths can be added via additional registerPattern()
-        // calls if needed
-        fc.getFunctionRegistry()
-                .registerTernaryQuaternaryPattern("json_contains_path",
-                        typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN),
-                        "json_contains_path(?1, ?2, ?3)",
-                        "json_contains_path(?1, ?2, ?3, ?4)",
-                        STRING,
-                        STRING,
-                        STRING,
-                        STRING,
-                        typeConfig)
-                .setArgumentListSignature("(target, one_or_all, path[, path2])");
+        // json_contains_path: 2+ arguments (target, one_or_all, path1, path2, ...)
+        registerVarargsFunction(fc, "json_contains_path",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
 
         // json_overlaps(json1, json2) - Returns 1 if json1 and json2 have any
         // overlapping elements
@@ -120,20 +121,9 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      *            the type configuration for resolving return types
      */
     private void registerStringFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
-        // json_extract: 2-3 arguments (most common usage)
-        // json_extract(json_doc, path...) - Extracts data from JSON document
-        // Note: Support for 4+ paths can be added via additional registerPattern()
-        // calls if needed
-        fc.getFunctionRegistry()
-                .registerBinaryTernaryPattern("json_extract",
-                        typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING),
-                        "json_extract(?1, ?2)",
-                        "json_extract(?1, ?2, ?3)",
-                        STRING,
-                        STRING,
-                        STRING,
-                        typeConfig)
-                .setArgumentListSignature("(json_doc, path[, path2])");
+        // json_extract: 2+ arguments (json_doc, path1, path2, ...)
+        registerVarargsFunction(fc, "json_extract",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
         // json_unquote(json_val) - Unquotes JSON value and returns result as string
         fc.getFunctionRegistry().registerPattern("json_unquote",
@@ -145,22 +135,10 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
                 "json_type(?1)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_search: 3-4 arguments (most common usage)
-        // json_search(json_doc, one_or_all, search_str[, escape]) - Searches for string
-        // in JSON
-        // Note: Support for 5+ arguments can be added via additional registerPattern()
-        // calls if needed
-        fc.getFunctionRegistry()
-                .registerTernaryQuaternaryPattern("json_search",
-                        typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING),
-                        "json_search(?1, ?2, ?3)",
-                        "json_search(?1, ?2, ?3, ?4)",
-                        STRING,
-                        STRING,
-                        STRING,
-                        STRING,
-                        typeConfig)
-                .setArgumentListSignature("(json_doc, one_or_all, search_str[, escape])");
+        // json_search: 3+ arguments (json_doc, one_or_all, search_str[, escape, path1,
+        // ...])
+        registerVarargsFunction(fc, "json_search",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
         // json_keys: 1-2 arguments
         // json_keys(json_doc) - Returns keys from JSON object as JSON array
