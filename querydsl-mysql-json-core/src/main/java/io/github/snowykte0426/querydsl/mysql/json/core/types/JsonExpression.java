@@ -326,7 +326,7 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
         @Override
         @Nullable
         public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
-            return ((Expression<T>) mixin).accept(v, context);
+            return mixin.accept(v, context);
         }
     }
 
@@ -341,7 +341,7 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
         @Override
         @Nullable
         public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
-            return ((Expression<T>) mixin).accept(v, context);
+            return mixin.accept(v, context);
         }
     }
 }

@@ -277,6 +277,6 @@ public class JsonObjectExpression extends JsonExpression<String> {
     @Override
     @Nullable
     public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
-        return ((Expression<String>) mixin).accept(v, context);
+        return mixin.accept(v, context);
     }
 }

@@ -7,6 +7,8 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 /**
  * Expression class for JSON array operations.
  *
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class JsonArrayExpression extends JsonExpression<String> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -204,6 +207,6 @@ public class JsonArrayExpression extends JsonExpression<String> {
     @Override
     @Nullable
     public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
-        return ((Expression<String>) mixin).accept(v, context);
+        return mixin.accept(v, context);
     }
 }
