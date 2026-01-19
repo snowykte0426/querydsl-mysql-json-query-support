@@ -1,10 +1,11 @@
 # QueryDSL MySQL JSON Query Support
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0--Beta.1-blue.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
 [![MySQL: 8.0.17+](https://img.shields.io/badge/MySQL-8.0.17%2B-blue.svg)](https://dev.mysql.com/doc/refman/8.0/en/json.html)
-[![Status: Alpha](https://img.shields.io/badge/Status-Alpha-red.svg)]()
+[![Status: Beta](https://img.shields.io/badge/Status-Beta-yellow.svg)]()
 
 A QueryDSL extension library that enables type-safe, fluent method chaining for all MySQL 8.0.17+ JSON functions.
 
@@ -84,6 +85,13 @@ Choose only the modules you need:
 
 Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) fork (version 7.1).
 
+### What's New in Beta.1
+
+- **Hibernate 6.4+ Support**: Automatic function registration via `FunctionContributor` SPI
+- **JSON Validation Utilities**: Optional client-side validation and serialization helpers
+
+See [RELEASE_NOTES.md](RELEASE_NOTES.md) for details.
+
 ---
 
 ## Installation
@@ -92,12 +100,12 @@ Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFei
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.4'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Beta.1'
 
     // Choose your module
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.4'   // For SQL
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Beta.1'   // For SQL
     // OR
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Dev.4'   // For JPA
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Beta.1'   // For JPA
 }
 ```
 
@@ -110,7 +118,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.1.0-Dev.4</version>
+        <version>0.1.0-Beta.1</version>
     </dependency>
 
     <!-- Choose your module -->
@@ -118,14 +126,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.1.0-Dev.4</version>
+        <version>0.1.0-Beta.1</version>
     </dependency>
 
     <!-- OR for JPA -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.1.0-Dev.4</version>
+        <version>0.1.0-Beta.1</version>
     </dependency>
 </dependencies>
 ```
@@ -257,6 +265,18 @@ For detailed examples and documentation:
 - Java 17 or higher
 - MySQL 8.0.17 or higher
 - QueryDSL (OpenFeign fork) 7.1
+
+---
+
+## Compatibility
+
+| Component | Supported Versions |
+|-----------|-------------------|
+| Java | 17+ |
+| MySQL | 8.0.17+ |
+| QueryDSL | 7.1 (OpenFeign fork) |
+| Hibernate | 6.4.1+, 6.5.x, 7.0.x |
+| Spring Boot | 3.x |
 
 ---
 
