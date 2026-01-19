@@ -2,9 +2,6 @@ plugins {
     `java-library`
 }
 
-group = "io.github.snowykte0426"
-version = "0.1.0-Beta.4"
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
