@@ -37,4 +37,4 @@ jobs:
         gradle-version: ${{ matrix.gradle }}
 
     - name: Run Tests
-      run: gradle check -Djava.toolchain.version=${{ matrix.java }} -Dtest.mysql.image="${{ matrix.mysql }}" --info
+      run: gradle check -Djava.toolchain.version=${{ matrix.java }} -Dtest.mysql.image="${{ matrix.mysql }}" --no-configuration-cache --info
