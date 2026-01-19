@@ -6,6 +6,9 @@ build/
 .kotlin
 gradle.properties
 
+### Release Notes ###
+RELEASE_NOTES.md
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
