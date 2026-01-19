@@ -227,7 +227,7 @@ public final class JsonCreationFunctions {
      * @return JsonArrayExpression
      */
     public static JsonArrayExpression jsonArrayFrom(Iterable<?> collection) {
-        Object[] array = new Object[]{};
+        Object[] array;
         if (collection instanceof java.util.Collection) {
             array = ((java.util.Collection<?>) collection).toArray();
         } else {
