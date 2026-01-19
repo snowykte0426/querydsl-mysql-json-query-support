@@ -20,7 +20,7 @@ configure<SpotlessExtension> {
 
 allprojects {
     group = "io.github.snowykte0426"
-    version = "0.1.0-Beta.4"
+    version = "0.1.0-Beta.5"
 }
 
 subprojects {
