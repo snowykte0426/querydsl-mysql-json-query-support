@@ -8,6 +8,8 @@ import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 /**
  * Expression class for JSON scalar value operations.
  *
@@ -35,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class JsonValueExpression extends JsonExpression<String> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

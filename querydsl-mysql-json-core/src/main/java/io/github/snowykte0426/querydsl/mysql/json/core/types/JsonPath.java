@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.types;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -33,6 +34,7 @@ import java.util.regex.Pattern;
  */
 public final class JsonPath implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

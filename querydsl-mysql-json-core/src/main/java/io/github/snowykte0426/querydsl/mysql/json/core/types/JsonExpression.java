@@ -7,6 +7,8 @@ import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 /**
  * Base expression class for MySQL JSON operations.
  *
@@ -31,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class JsonExpression<T> extends SimpleExpression<T> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

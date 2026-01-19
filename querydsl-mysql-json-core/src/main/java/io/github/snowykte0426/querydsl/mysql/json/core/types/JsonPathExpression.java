@@ -6,6 +6,8 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -33,6 +35,7 @@ import java.util.Objects;
  */
 public class JsonPathExpression extends SimpleExpression<String> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final JsonPath path;

@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import java.util.List;
  */
 public class JsonObjectExpression extends JsonExpression<String> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

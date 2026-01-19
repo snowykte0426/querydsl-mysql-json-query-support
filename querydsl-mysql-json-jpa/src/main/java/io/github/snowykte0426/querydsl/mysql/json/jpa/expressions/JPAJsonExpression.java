@@ -10,6 +10,8 @@ import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.*;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
+
 /**
  * JPA-specific JSON expression wrapper that provides fluent method chaining for
  * JSON operations on JPA entity properties.
@@ -48,6 +50,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class JPAJsonExpression extends SimpleExpression<String> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Expression<?> jsonDoc;
