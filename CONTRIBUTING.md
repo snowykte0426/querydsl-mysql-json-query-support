@@ -54,9 +54,8 @@ cd querydsl-mysql-json-query-support
 **Recommended: IntelliJ IDEA**
 
 1. Install the Spotless plugin
-2. Install the Kotlin plugin (for Kotlin DSL build files)
-3. Enable auto-import cleanup
-4. Configure Java SDK (17, 21, or 25)
+2. Enable auto-import cleanup
+3. Configure Java SDK (17, 21, or 25)
 
 ---
 
@@ -92,17 +91,14 @@ querydsl-mysql-json-query-support/
 
 ### Code Formatting
 
-We use automated code formatters to maintain consistent style:
+We use Spotless to maintain consistent code style:
 
 **Before committing, always run:**
 ```bash
-./gradlew spotlessApply ktlintFormat
+./gradlew spotlessApply
 ```
 
-- **Spotless**: Formats Java code
-- **ktlint**: Formats Kotlin DSL (build.gradle.kts files)
-
-The CI pipeline automatically checks formatting.
+This formats all Java code according to project standards. The CI pipeline automatically checks formatting.
 
 ### Naming Conventions
 
@@ -247,8 +243,8 @@ changes
 ### 4. Code and Test
 
 ```bash
-# Format code (Java + Kotlin)
-./gradlew spotlessApply ktlintFormat
+# Format code
+./gradlew spotlessApply
 
 # Run tests
 ./gradlew test
@@ -261,7 +257,7 @@ changes
 
 **PR Checklist:**
 
-- [ ] Code follows Spotless and ktlint formatting rules
+- [ ] Code follows Spotless formatting rules
 - [ ] All tests pass locally
 - [ ] New features have corresponding tests
 - [ ] Public APIs have JavaDoc
@@ -297,7 +293,6 @@ All PRs must pass:
 - ✅ Build succeeds on all combinations
 - ✅ All tests pass
 - ✅ Spotless formatting check
-- ✅ ktlint formatting check
 
 ---
 
