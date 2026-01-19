@@ -2,9 +2,6 @@ package io.github.snowykte0426.querydsl.mysql.json.jpa.hibernate;
 
 import org.hibernate.boot.model.FunctionContributions;
 import org.hibernate.boot.model.FunctionContributor;
-import org.hibernate.query.sqm.function.NamedSqmFunctionDescriptor;
-import org.hibernate.query.sqm.produce.function.StandardArgumentsValidators;
-import org.hibernate.query.sqm.produce.function.StandardFunctionReturnTypeResolvers;
 import org.hibernate.type.BasicType;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.spi.TypeConfiguration;
@@ -113,36 +110,26 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
     private void registerStringFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
         final BasicType<String> stringType = typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING);
 
-        // json_extract: Register with NamedSqmFunctionDescriptor and NULL argument type
-        // resolver
-        // to allow correct type inference for JSON columns and parameters.
-        fc.getFunctionRegistry().register("json_extract",
-                new NamedSqmFunctionDescriptor("json_extract",
-                        false,
-                        StandardArgumentsValidators.exactly(2),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null // Allow argument type inference
-                ));
+        // json_extract: Register with CAST to CHAR to ensure consistent string
+        // comparison.
+        // Using explicit patterns for various argument counts to support varargs
+        // simulation.
+        fc.getFunctionRegistry()
+                .registerBinaryTernaryPattern("json_extract",
+                        stringType,
+                        "cast(json_extract(?1, ?2) as char)",
+                        "cast(json_extract(?1, ?2, ?3) as char)",
+                        STRING,
+                        STRING,
+                        STRING,
+                        typeConfig)
+                .setArgumentListSignature("(json_doc, path1[, path2])");
 
-        // Support for more arguments (3, 4, 5)
-        fc.getFunctionRegistry().register("json_extract_3",
-                new NamedSqmFunctionDescriptor("json_extract",
-                        false,
-                        StandardArgumentsValidators.exactly(3),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null));
-        fc.getFunctionRegistry().register("json_extract_4",
-                new NamedSqmFunctionDescriptor("json_extract",
-                        false,
-                        StandardArgumentsValidators.exactly(4),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null));
-        fc.getFunctionRegistry().register("json_extract_5",
-                new NamedSqmFunctionDescriptor("json_extract",
-                        false,
-                        StandardArgumentsValidators.exactly(5),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null));
+        // Support for 4 and 5 arguments with CAST
+        fc.getFunctionRegistry()
+                .registerPattern("json_extract_4", "cast(json_extract(?1, ?2, ?3, ?4) as char)", stringType);
+        fc.getFunctionRegistry()
+                .registerPattern("json_extract_5", "cast(json_extract(?1, ?2, ?3, ?4, ?5) as char)", stringType);
 
         // json_unquote(json_val)
         fc.getFunctionRegistry().registerPattern("json_unquote", "json_unquote(?1)", stringType);
@@ -150,27 +137,22 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
         // json_type(json_val)
         fc.getFunctionRegistry().registerPattern("json_type", "json_type(?1)", stringType);
 
-        // json_search: Register manually for type inference
-        fc.getFunctionRegistry().register("json_search",
-                new NamedSqmFunctionDescriptor("json_search",
-                        false,
-                        StandardArgumentsValidators.exactly(3),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null));
+        // json_search: Register with CAST to CHAR for consistency
+        fc.getFunctionRegistry()
+                .registerTernaryQuaternaryPattern("json_search",
+                        stringType,
+                        "cast(json_search(?1, ?2, ?3) as char)",
+                        "cast(json_search(?1, ?2, ?3, ?4) as char)",
+                        STRING,
+                        STRING,
+                        STRING,
+                        STRING,
+                        typeConfig)
+                .setArgumentListSignature("(json_doc, one_or_all, search_str[, escape])");
 
-        // Support for 4 and 5 arguments
-        fc.getFunctionRegistry().register("json_search_4",
-                new NamedSqmFunctionDescriptor("json_search",
-                        false,
-                        StandardArgumentsValidators.exactly(4),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null));
-        fc.getFunctionRegistry().register("json_search_5",
-                new NamedSqmFunctionDescriptor("json_search",
-                        false,
-                        StandardArgumentsValidators.exactly(5),
-                        StandardFunctionReturnTypeResolvers.invariant(stringType),
-                        null));
+        // Support for 5 arguments with CAST
+        fc.getFunctionRegistry()
+                .registerPattern("json_search_5", "cast(json_search(?1, ?2, ?3, ?4, ?5) as char)", stringType);
 
         // json_keys: 1-2 arguments
         fc.getFunctionRegistry()
