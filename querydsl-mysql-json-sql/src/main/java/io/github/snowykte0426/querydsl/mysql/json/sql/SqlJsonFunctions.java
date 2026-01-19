@@ -304,6 +304,113 @@ public final class SqlJsonFunctions {
     }
 
     /**
+     * Tests whether a JSON document contains a plain string value (auto-escaped).
+     *
+     * <p>
+     * This convenience method automatically escapes the plain string as a JSON
+     * string literal, so you don't need to manually add quotes.
+     * </p>
+     *
+     * <p>
+     * Example:
+     *
+     * <pre>{@code
+     * // Instead of:
+     * SqlJsonFunctions.jsonContains(apiKey.scopes, "\"student:read\"")
+     *
+     * // You can write:
+     * SqlJsonFunctions.jsonContainsString(apiKey.scopes, "student:read")
+     * }</pre>
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param plainString
+     *            the plain string (will be escaped as JSON string)
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString) {
+        return JsonSearchFunctions.jsonContainsString(jsonDoc, plainString);
+    }
+
+    /**
+     * Tests whether a JSON document contains a string value at a path
+     * (auto-escaped).
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param plainString
+     *            the plain string (will be escaped)
+     * @param path
+     *            the JSON path
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString, String path) {
+        return JsonSearchFunctions.jsonContainsString(jsonDoc, plainString, path);
+    }
+
+    /**
+     * Tests whether a JSON document contains a numeric value.
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param number
+     *            the number to search for
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number) {
+        return JsonSearchFunctions.jsonContainsNumber(jsonDoc, number);
+    }
+
+    /**
+     * Tests whether a JSON document contains a numeric value at a path.
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param number
+     *            the number to search for
+     * @param path
+     *            the JSON path
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number, String path) {
+        return JsonSearchFunctions.jsonContainsNumber(jsonDoc, number, path);
+    }
+
+    /**
+     * Tests whether a JSON document contains a boolean value.
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param bool
+     *            the boolean value to search for
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool) {
+        return JsonSearchFunctions.jsonContainsBoolean(jsonDoc, bool);
+    }
+
+    /**
+     * Tests whether a JSON document contains a boolean value at a path.
+     *
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param bool
+     *            the boolean value to search for
+     * @param path
+     *            the JSON path
+     * @return boolean expression
+     * @since 0.1.0-Beta.4
+     */
+    public static BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool, String path) {
+        return JsonSearchFunctions.jsonContainsBoolean(jsonDoc, bool, path);
+    }
+
+    /**
      * Tests whether a JSON document contains data at the specified paths.
      *
      * <p>
