@@ -1,11 +1,16 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa;
 
+import io.github.snowykte0426.querydsl.mysql.json.jpa.entity.QUser;
+import io.github.snowykte0426.querydsl.mysql.json.jpa.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * Tests for MySQL JSON search functions in JPA environment.
@@ -362,6 +367,186 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("ARRAY");
+        }
+    }
+
+    @Nested
+    @DisplayName("QueryDSL Integration (Hibernate 6.4+ Support)")
+    class QueryDSLIntegrationTests {
+
+        @Test
+        @DisplayName("jsonContains should work in QueryDSL WHERE clause without errors")
+        void jsonContains_inQueryDSLWhereClause_shouldWork() {
+            // When: Query using jsonContains in WHERE clause with QueryDSL
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .where(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\""))
+                    .fetch();
+
+                // Then: Should not throw "Non-boolean expression" error
+                assertThat(results).hasSize(1);
+                assertThat(results.get(0).getName()).isEqualTo("John");
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonContains with path should work in QueryDSL WHERE clause")
+        void jsonContainsWithPath_inQueryDSLWhereClause_shouldWork() {
+            // When: Query using jsonContains with path in WHERE clause
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .where(JPAJsonFunctions.jsonContains(
+                        QUser.user.metadata,
+                        "\"write\"",
+                        "$.permissions"
+                    ))
+                    .fetch();
+
+                // Then: Should not throw error and find users with write permission
+                assertThat(results).hasSize(2);
+                assertThat(results).extracting(User::getName)
+                    .containsExactlyInAnyOrder("John", "Bob");
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonContainsPath should work in QueryDSL WHERE clause")
+        void jsonContainsPath_inQueryDSLWhereClause_shouldWork() {
+            // When: Query using jsonContainsPath in WHERE clause
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .where(JPAJsonFunctions.jsonContainsPath(
+                        QUser.user.metadata,
+                        "one",
+                        "$.profile.age"
+                    ))
+                    .fetch();
+
+                // Then: Should not throw error and find all users with profile.age
+                assertThat(results).hasSize(3);
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonOverlaps should work in QueryDSL WHERE clause")
+        void jsonOverlaps_inQueryDSLWhereClause_shouldWork() {
+            // When: Query using jsonOverlaps in WHERE clause
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .where(JPAJsonFunctions.jsonOverlaps(
+                        QUser.user.roles,
+                        "[\"admin\", \"superuser\"]"
+                    ))
+                    .fetch();
+
+                // Then: Should not throw error and find users with overlapping roles
+                assertThat(results).hasSize(1);
+                assertThat(results.get(0).getName()).isEqualTo("John");
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonValid should work in QueryDSL WHERE clause")
+        void jsonValid_inQueryDSLWhereClause_shouldWork() {
+            // When: Query using jsonValid in WHERE clause
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .where(JPAJsonFunctions.jsonValid(QUser.user.metadata))
+                    .fetch();
+
+                // Then: Should not throw error and find all users with valid JSON
+                assertThat(results).hasSize(3);
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("Complex query with multiple JSON functions should work")
+        void complexQueryWithMultipleJsonFunctions_shouldWork() {
+            // When: Complex query combining multiple JSON functions
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .where(
+                        JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"")
+                            .and(JPAJsonFunctions.jsonContainsPath(
+                                QUser.user.metadata,
+                                "one",
+                                "$.permissions"
+                            ))
+                            .and(JPAJsonFunctions.jsonExtract(QUser.user.metadata, "$.role")
+                                .eq("\"admin\""))
+                    )
+                    .fetch();
+
+                // Then: Should not throw error and find matching users
+                assertThat(results).hasSize(1);
+                assertThat(results.get(0).getName()).isEqualTo("John");
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonContains in ORDER BY should work")
+        void jsonContains_inOrderBy_shouldWork() {
+            // When: Query using jsonContains in ORDER BY
+            assertThatCode(() -> {
+                List<User> results = queryFactory
+                    .selectFrom(QUser.user)
+                    .orderBy(
+                        JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"").desc(),
+                        QUser.user.name.asc()
+                    )
+                    .fetch();
+
+                // Then: Should not throw error and order correctly
+                assertThat(results).hasSize(3);
+                assertThat(results.get(0).getName()).isEqualTo("John"); // has admin role
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonContains with COUNT should work")
+        void jsonContains_withCount_shouldWork() {
+            // When: COUNT query with jsonContains
+            assertThatCode(() -> {
+                Long count = queryFactory
+                    .select(QUser.user.count())
+                    .from(QUser.user)
+                    .where(JPAJsonFunctions.jsonContains(
+                        QUser.user.metadata,
+                        "\"read\"",
+                        "$.permissions"
+                    ))
+                    .fetchOne();
+
+                // Then: Should not throw error and return correct count
+                assertThat(count).isEqualTo(3L);
+            }).doesNotThrowAnyException();
+        }
+
+        @Test
+        @DisplayName("jsonExtract with jsonContains should work together")
+        void jsonExtractWithJsonContains_shouldWorkTogether() {
+            // When: Query selecting json_extract result with jsonContains filter
+            assertThatCode(() -> {
+                List<String> roles = queryFactory
+                    .select(JPAJsonFunctions.jsonExtract(QUser.user.metadata, "$.role"))
+                    .from(QUser.user)
+                    .where(JPAJsonFunctions.jsonContains(
+                        QUser.user.metadata,
+                        "\"write\"",
+                        "$.permissions"
+                    ))
+                    .fetch();
+
+                // Then: Should not throw error and return correct roles
+                assertThat(roles).hasSize(2);
+                assertThat(roles).containsExactlyInAnyOrder("\"admin\"", "\"moderator\"");
+            }).doesNotThrowAnyException();
         }
     }
 }
