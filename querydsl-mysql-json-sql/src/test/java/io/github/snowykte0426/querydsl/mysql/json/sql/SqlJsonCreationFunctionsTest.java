@@ -16,7 +16,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * Tests for JSON creation functions in SQL module.
  *
- * <p>Tests JSON_ARRAY, JSON_OBJECT, and JSON_QUOTE functions.
+ * <p>
+ * Tests JSON_ARRAY, JSON_OBJECT, and JSON_QUOTE functions.
  *
  * @author snowykte0426
  * @since 0.1.0-Dev.3
@@ -36,10 +37,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
         String result = queryFactory.select(arr).fetchOne();
 
         // Then - Note: MySQL formats JSON with spaces
-        assertThat(result).isIn(
-            "[\"a\", \"b\", \"c\"]",
-            "[\"a\",\"b\",\"c\"]"
-        );
+        assertThat(result).isIn("[\"a\", \"b\", \"c\"]", "[\"a\",\"b\",\"c\"]");
     }
 
     @Test
@@ -124,10 +122,7 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
     @Test
     void jsonObject_withBuilder_shouldCreateObject() throws SQLException {
         // Given
-        JsonObjectExpression obj = jsonObjectBuilder()
-            .put("city", "Seoul")
-            .put("country", "Korea")
-            .build();
+        JsonObjectExpression obj = jsonObjectBuilder().put("city", "Seoul").put("country", "Korea").build();
 
         // When
         String result = queryFactory.select(obj).fetchOne();
@@ -151,18 +146,14 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
     @Test
     void jsonObject_withOddArguments_shouldThrowException() {
         // When/Then
-        assertThatThrownBy(() -> jsonObject("key"))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("even number");
+        assertThatThrownBy(() -> jsonObject("key")).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("even number");
     }
 
     @Test
     void jsonObjectFrom_withMap_shouldCreateObject() throws SQLException {
         // Given
-        Map<String, Object> map = Map.of(
-            "status", "active",
-            "count", 5
-        );
+        Map<String, Object> map = Map.of("status", "active", "count", 5);
         JsonObjectExpression obj = jsonObjectFrom(map);
 
         // When
@@ -261,10 +252,8 @@ class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
     @Test
     void jsonArray_combinedWithJsonObject_shouldCreateComplexStructure() throws SQLException {
         // Given - Create array of objects
-        String sql = "SELECT JSON_ARRAY(" +
-            "JSON_OBJECT('id', 1, 'name', 'Alice'), " +
-            "JSON_OBJECT('id', 2, 'name', 'Bob')" +
-            ")";
+        String sql = "SELECT JSON_ARRAY(" + "JSON_OBJECT('id', 1, 'name', 'Alice'), "
+                + "JSON_OBJECT('id', 2, 'name', 'Bob')" + ")";
 
         // When
         String result = executeNativeQuery(sql);

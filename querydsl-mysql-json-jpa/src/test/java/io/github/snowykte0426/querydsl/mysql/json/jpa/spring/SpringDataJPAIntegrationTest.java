@@ -23,7 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for Spring Data JPA with QueryDSL JSON functions.
  *
- * <p>Tests demonstrate how to use JSON functions in a Spring Data JPA environment
+ * <p>
+ * Tests demonstrate how to use JSON functions in a Spring Data JPA environment
  * with native queries and QueryDSL expressions.
  */
 @Testcontainers
@@ -31,10 +32,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SpringDataJPAIntegrationTest {
 
     @Container
-    static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.33")
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test")
+    static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.33").withDatabaseName("testdb")
+            .withUsername("test").withPassword("test")
             .withCommand("--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci");
 
     private static EntityManagerFactory entityManagerFactory;
@@ -127,8 +126,8 @@ class SpringDataJPAIntegrationTest {
         void findUsersByJsonExtractRole() {
             @SuppressWarnings("unchecked")
             List<Object[]> results = entityManager.createNativeQuery(
-                    "SELECT name, JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) as role FROM users WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) = 'admin'"
-            ).getResultList();
+                    "SELECT name, JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) as role FROM users WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) = 'admin'")
+                    .getResultList();
 
             assertThat(results).hasSize(1);
             assertThat(results.get(0)[0]).isEqualTo("Admin User");
@@ -140,8 +139,8 @@ class SpringDataJPAIntegrationTest {
         void findUsersByJsonContainsPermission() {
             @SuppressWarnings("unchecked")
             List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_CONTAINS(JSON_EXTRACT(metadata, '$.permissions'), '\"write\"')"
-            ).getResultList();
+                    "SELECT name FROM users WHERE JSON_CONTAINS(JSON_EXTRACT(metadata, '$.permissions'), '\"write\"')")
+                    .getResultList();
 
             assertThat(results).hasSize(1);
             assertThat(results.get(0)).isEqualTo("Admin User");
@@ -151,9 +150,9 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_CONTAINS_PATH")
         void findUsersByJsonContainsPath() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', '$.level')"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT name FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', '$.level')")
+                    .getResultList();
 
             // Admin and Regular have level, Guest does not
             assertThat(results).hasSize(2);
@@ -163,9 +162,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_LENGTH")
         void findUsersByJsonLength() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_LENGTH(roles) >= 2"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT name FROM users WHERE JSON_LENGTH(roles) >= 2").getResultList();
 
             assertThat(results).hasSize(1);
             assertThat(results.get(0)).isEqualTo("Admin User");
@@ -175,9 +173,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by JSON_DEPTH")
         void findUsersByJsonDepth() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_DEPTH(metadata) >= 3"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT name FROM users WHERE JSON_DEPTH(metadata) >= 3").getResultList();
 
             // Admin and Regular have nested permissions array (depth 3)
             assertThat(results).hasSize(2);
@@ -187,9 +184,10 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should find users by theme setting")
         void findUsersByThemeSetting() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_UNQUOTE(JSON_EXTRACT(settings, '$.theme')) = 'dark'"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery(
+                            "SELECT name FROM users WHERE JSON_UNQUOTE(JSON_EXTRACT(settings, '$.theme')) = 'dark'")
+                    .getResultList();
 
             assertThat(results).hasSize(1);
             assertThat(results.get(0)).isEqualTo("Admin User");
@@ -200,8 +198,8 @@ class SpringDataJPAIntegrationTest {
         void orderUsersByJsonValue() {
             @SuppressWarnings("unchecked")
             List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', '$.level') ORDER BY JSON_EXTRACT(metadata, '$.level') DESC"
-            ).getResultList();
+                    "SELECT name FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', '$.level') ORDER BY JSON_EXTRACT(metadata, '$.level') DESC")
+                    .getResultList();
 
             assertThat(results).hasSize(2);
             assertThat(results.get(0)).isEqualTo("Admin User");
@@ -218,10 +216,9 @@ class SpringDataJPAIntegrationTest {
         void combineMultipleJsonConditions() {
             @SuppressWarnings("unchecked")
             List<Object> results = entityManager.createNativeQuery(
-                    "SELECT email FROM users WHERE " +
-                    "JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) = 'user' AND " +
-                    "JSON_UNQUOTE(JSON_EXTRACT(settings, '$.theme')) = 'light'"
-            ).getResultList();
+                    "SELECT email FROM users WHERE " + "JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) = 'user' AND "
+                            + "JSON_UNQUOTE(JSON_EXTRACT(settings, '$.theme')) = 'light'")
+                    .getResultList();
 
             assertThat(results).hasSize(1);
             assertThat(results.get(0)).isEqualTo("user@example.com");
@@ -231,9 +228,10 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_SEARCH for value lookup")
         void useJsonSearchForValueLookup() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_SEARCH(roles, 'one', 'ROLE_ADMIN') IS NOT NULL"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery(
+                            "SELECT name FROM users WHERE JSON_SEARCH(roles, 'one', 'ROLE_ADMIN') IS NOT NULL")
+                    .getResultList();
 
             assertThat(results).hasSize(1);
             assertThat(results.get(0)).isEqualTo("Admin User");
@@ -243,9 +241,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should validate JSON with JSON_VALID")
         void validateJsonWithJsonValid() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_VALID(metadata) = 1"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT name FROM users WHERE JSON_VALID(metadata) = 1").getResultList();
 
             // All users should have valid JSON metadata
             assertThat(results).hasSize(3);
@@ -255,9 +252,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should check JSON type")
         void checkJsonType() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT name FROM users WHERE JSON_TYPE(roles) = 'ARRAY'"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT name FROM users WHERE JSON_TYPE(roles) = 'ARRAY'").getResultList();
 
             // All users should have array type for roles
             assertThat(results).hasSize(3);
@@ -272,9 +268,9 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should project JSON value extraction")
         void projectJsonValueExtraction() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) FROM users ORDER BY name"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) FROM users ORDER BY name")
+                    .getResultList();
 
             assertThat(results).containsExactly("admin", "guest", "user");
         }
@@ -283,37 +279,35 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should project JSON length")
         void projectJsonLength() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT JSON_LENGTH(roles) FROM users ORDER BY name"
-            ).getResultList();
+            List<Object> results = entityManager.createNativeQuery("SELECT JSON_LENGTH(roles) FROM users ORDER BY name")
+                    .getResultList();
 
             assertThat(results).hasSize(3);
-            assertThat(((Number) results.get(0)).intValue()).isEqualTo(2);  // Admin
-            assertThat(((Number) results.get(1)).intValue()).isEqualTo(1);  // Guest
-            assertThat(((Number) results.get(2)).intValue()).isEqualTo(1);  // Regular
+            assertThat(((Number) results.get(0)).intValue()).isEqualTo(2); // Admin
+            assertThat(((Number) results.get(1)).intValue()).isEqualTo(1); // Guest
+            assertThat(((Number) results.get(2)).intValue()).isEqualTo(1); // Regular
         }
 
         @Test
         @DisplayName("should project JSON depth")
         void projectJsonDepth() {
             @SuppressWarnings("unchecked")
-            List<Object> results = entityManager.createNativeQuery(
-                    "SELECT JSON_DEPTH(metadata) FROM users ORDER BY name"
-            ).getResultList();
+            List<Object> results = entityManager
+                    .createNativeQuery("SELECT JSON_DEPTH(metadata) FROM users ORDER BY name").getResultList();
 
             assertThat(results).hasSize(3);
             // Admin has depth 3 (permissions array), Guest has depth 2, Regular has depth 3
-            assertThat(((Number) results.get(0)).intValue()).isEqualTo(3);  // Admin
-            assertThat(((Number) results.get(1)).intValue()).isEqualTo(2);  // Guest
-            assertThat(((Number) results.get(2)).intValue()).isEqualTo(3);  // Regular
+            assertThat(((Number) results.get(0)).intValue()).isEqualTo(3); // Admin
+            assertThat(((Number) results.get(1)).intValue()).isEqualTo(2); // Guest
+            assertThat(((Number) results.get(2)).intValue()).isEqualTo(3); // Regular
         }
 
         @Test
         @DisplayName("should project JSON keys")
         void projectJsonKeys() {
-            Object result = entityManager.createNativeQuery(
-                    "SELECT JSON_KEYS(metadata) FROM users WHERE email = 'guest@example.com'"
-            ).getSingleResult();
+            Object result = entityManager
+                    .createNativeQuery("SELECT JSON_KEYS(metadata) FROM users WHERE email = 'guest@example.com'")
+                    .getSingleResult();
 
             assertThat(result.toString()).contains("role");
         }
@@ -326,9 +320,8 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should use JSON_ARRAYAGG")
         void useJsonArrayAgg() {
-            String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_ARRAYAGG(name) FROM users"
-            ).getSingleResult();
+            String result = (String) entityManager.createNativeQuery("SELECT JSON_ARRAYAGG(name) FROM users")
+                    .getSingleResult();
 
             assertThat(result).contains("Admin User", "Regular User", "Guest User");
         }
@@ -336,9 +329,10 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should use JSON_OBJECTAGG")
         void useJsonObjectAgg() {
-            String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_OBJECTAGG(email, JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role'))) FROM users"
-            ).getSingleResult();
+            String result = (String) entityManager
+                    .createNativeQuery(
+                            "SELECT JSON_OBJECTAGG(email, JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role'))) FROM users")
+                    .getSingleResult();
 
             assertThat(result).contains("admin@example.com");
             assertThat(result).contains("admin");
@@ -348,14 +342,13 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should aggregate by category")
         void aggregateByCategory() {
             @SuppressWarnings("unchecked")
-            List<Object[]> results = entityManager.createNativeQuery(
-                    "SELECT JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) as role, " +
-                    "JSON_ARRAYAGG(name) as names FROM users " +
-                    "GROUP BY JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) " +
-                    "ORDER BY role"
-            ).getResultList();
+            List<Object[]> results = entityManager
+                    .createNativeQuery("SELECT JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) as role, "
+                            + "JSON_ARRAYAGG(name) as names FROM users "
+                            + "GROUP BY JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.role')) " + "ORDER BY role")
+                    .getResultList();
 
-            assertThat(results).hasSize(3);  // admin, guest, user
+            assertThat(results).hasSize(3); // admin, guest, user
         }
     }
 
@@ -367,8 +360,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_SET in select")
         void useJsonSetInSelect() {
             String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_SET(metadata, '$.newField', 'newValue') FROM users WHERE email = 'guest@example.com'"
-            ).getSingleResult();
+                    "SELECT JSON_SET(metadata, '$.newField', 'newValue') FROM users WHERE email = 'guest@example.com'")
+                    .getSingleResult();
 
             assertThat(result).contains("newField");
             assertThat(result).contains("newValue");
@@ -378,8 +371,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_INSERT in select")
         void useJsonInsertInSelect() {
             String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_INSERT(metadata, '$.inserted', 123) FROM users WHERE email = 'guest@example.com'"
-            ).getSingleResult();
+                    "SELECT JSON_INSERT(metadata, '$.inserted', 123) FROM users WHERE email = 'guest@example.com'")
+                    .getSingleResult();
 
             assertThat(result).contains("inserted");
             assertThat(result).contains("123");
@@ -388,9 +381,10 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should use JSON_REMOVE in select")
         void useJsonRemoveInSelect() {
-            String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_REMOVE(metadata, '$.role') FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+            String result = (String) entityManager
+                    .createNativeQuery(
+                            "SELECT JSON_REMOVE(metadata, '$.role') FROM users WHERE email = 'admin@example.com'")
+                    .getSingleResult();
 
             assertThat(result).doesNotContain("\"role\"");
             assertThat(result).contains("level");
@@ -400,8 +394,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_REPLACE in select")
         void useJsonReplaceInSelect() {
             String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_REPLACE(metadata, '$.role', 'superadmin') FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+                    "SELECT JSON_REPLACE(metadata, '$.role', 'superadmin') FROM users WHERE email = 'admin@example.com'")
+                    .getSingleResult();
 
             assertThat(result).contains("superadmin");
         }
@@ -410,8 +404,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_ARRAY_APPEND in select")
         void useJsonArrayAppendInSelect() {
             String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_ARRAY_APPEND(roles, '$', 'ROLE_NEW') FROM users WHERE email = 'guest@example.com'"
-            ).getSingleResult();
+                    "SELECT JSON_ARRAY_APPEND(roles, '$', 'ROLE_NEW') FROM users WHERE email = 'guest@example.com'")
+                    .getSingleResult();
 
             assertThat(result).contains("ROLE_NEW");
             assertThat(result).contains("ROLE_GUEST");
@@ -421,8 +415,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should use JSON_MERGE_PATCH in select")
         void useJsonMergePatchInSelect() {
             String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_MERGE_PATCH(settings, '{\"language\": \"en\"}') FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+                    "SELECT JSON_MERGE_PATCH(settings, '{\"language\": \"en\"}') FROM users WHERE email = 'admin@example.com'")
+                    .getSingleResult();
 
             assertThat(result).contains("language");
             assertThat(result).contains("theme");
@@ -436,9 +430,9 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should use JSON_PRETTY")
         void useJsonPretty() {
-            String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_PRETTY(metadata) FROM users WHERE email = 'guest@example.com'"
-            ).getSingleResult();
+            String result = (String) entityManager
+                    .createNativeQuery("SELECT JSON_PRETTY(metadata) FROM users WHERE email = 'guest@example.com'")
+                    .getSingleResult();
 
             assertThat(result).contains("\n");
             assertThat(result).contains("role");
@@ -447,9 +441,10 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should use JSON_STORAGE_SIZE")
         void useJsonStorageSize() {
-            Object result = entityManager.createNativeQuery(
-                    "SELECT JSON_STORAGE_SIZE(metadata) FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+            Object result = entityManager
+                    .createNativeQuery(
+                            "SELECT JSON_STORAGE_SIZE(metadata) FROM users WHERE email = 'admin@example.com'")
+                    .getSingleResult();
 
             assertThat(((Number) result).intValue()).isGreaterThan(0);
         }
@@ -457,9 +452,10 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should use JSON_STORAGE_FREE")
         void useJsonStorageFree() {
-            Object result = entityManager.createNativeQuery(
-                    "SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+            Object result = entityManager
+                    .createNativeQuery(
+                            "SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE email = 'admin@example.com'")
+                    .getSingleResult();
 
             // For non-updated columns, should return 0
             assertThat(((Number) result).intValue()).isGreaterThanOrEqualTo(0);
@@ -475,8 +471,8 @@ class SpringDataJPAIntegrationTest {
         void validateJsonAgainstSchema() {
             String schema = "'{\"type\": \"object\", \"properties\": {\"role\": {\"type\": \"string\"}}}'";
             Object result = entityManager.createNativeQuery(
-                    "SELECT JSON_SCHEMA_VALID(" + schema + ", metadata) FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+                    "SELECT JSON_SCHEMA_VALID(" + schema + ", metadata) FROM users WHERE email = 'admin@example.com'")
+                    .getSingleResult();
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
         }
@@ -485,9 +481,8 @@ class SpringDataJPAIntegrationTest {
         @DisplayName("should get validation report")
         void getValidationReport() {
             String schema = "'{\"type\": \"object\"}'";
-            String result = (String) entityManager.createNativeQuery(
-                    "SELECT JSON_SCHEMA_VALIDATION_REPORT(" + schema + ", metadata) FROM users WHERE email = 'admin@example.com'"
-            ).getSingleResult();
+            String result = (String) entityManager.createNativeQuery("SELECT JSON_SCHEMA_VALIDATION_REPORT(" + schema
+                    + ", metadata) FROM users WHERE email = 'admin@example.com'").getSingleResult();
 
             assertThat(result).contains("valid");
             assertThat(result).contains("true");

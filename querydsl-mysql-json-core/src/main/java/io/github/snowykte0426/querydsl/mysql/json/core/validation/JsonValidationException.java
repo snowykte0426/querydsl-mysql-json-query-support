@@ -5,9 +5,9 @@ package io.github.snowykte0426.querydsl.mysql.json.core.validation;
  * <p>
  * This exception is thrown by {@link JsonValidator} when:
  * <ul>
- *     <li>Invalid JSON syntax is detected</li>
- *     <li>Object serialization to JSON fails</li>
- *     <li>JSON parsing encounters an error</li>
+ * <li>Invalid JSON syntax is detected</li>
+ * <li>Object serialization to JSON fails</li>
+ * <li>JSON parsing encounters an error</li>
  * </ul>
  *
  * @since 0.1.0-Beta.1
@@ -19,7 +19,8 @@ public class JsonValidationException extends RuntimeException {
     /**
      * Constructs a new JSON validation exception with the specified message.
      *
-     * @param message the detail message explaining why validation failed
+     * @param message
+     *            the detail message explaining why validation failed
      */
     public JsonValidationException(String message) {
         super(message);
@@ -27,10 +28,13 @@ public class JsonValidationException extends RuntimeException {
     }
 
     /**
-     * Constructs a new JSON validation exception with the specified message and cause.
+     * Constructs a new JSON validation exception with the specified message and
+     * cause.
      *
-     * @param message the detail message explaining why validation failed
-     * @param cause the underlying cause of the validation failure
+     * @param message
+     *            the detail message explaining why validation failed
+     * @param cause
+     *            the underlying cause of the validation failure
      */
     public JsonValidationException(String message, Throwable cause) {
         super(message, cause);
@@ -38,10 +42,13 @@ public class JsonValidationException extends RuntimeException {
     }
 
     /**
-     * Constructs a new JSON validation exception with the specified message and invalid input.
+     * Constructs a new JSON validation exception with the specified message and
+     * invalid input.
      *
-     * @param message the detail message explaining why validation failed
-     * @param invalidInput the input value that failed validation
+     * @param message
+     *            the detail message explaining why validation failed
+     * @param invalidInput
+     *            the input value that failed validation
      */
     public JsonValidationException(String message, String invalidInput) {
         super(message + " (input: " + truncate(invalidInput) + ")");
@@ -49,11 +56,15 @@ public class JsonValidationException extends RuntimeException {
     }
 
     /**
-     * Constructs a new JSON validation exception with the specified message, invalid input, and cause.
+     * Constructs a new JSON validation exception with the specified message,
+     * invalid input, and cause.
      *
-     * @param message the detail message explaining why validation failed
-     * @param invalidInput the input value that failed validation
-     * @param cause the underlying cause of the validation failure
+     * @param message
+     *            the detail message explaining why validation failed
+     * @param invalidInput
+     *            the input value that failed validation
+     * @param cause
+     *            the underlying cause of the validation failure
      */
     public JsonValidationException(String message, String invalidInput, Throwable cause) {
         super(message + " (input: " + truncate(invalidInput) + ")", cause);
@@ -72,7 +83,8 @@ public class JsonValidationException extends RuntimeException {
     /**
      * Truncates a string to a maximum length for error messages.
      *
-     * @param input the input to truncate
+     * @param input
+     *            the input to truncate
      * @return the truncated string
      */
     private static String truncate(String input) {

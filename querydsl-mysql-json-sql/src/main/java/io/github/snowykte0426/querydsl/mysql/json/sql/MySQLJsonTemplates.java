@@ -9,10 +9,13 @@ import java.util.Map;
 /**
  * MySQL SQL templates with JSON function support.
  *
- * <p>This class extends {@link MySQLTemplates} to register all 35 MySQL JSON operators
- * from the core module, enabling type-safe JSON function usage in QueryDSL SQL queries.
+ * <p>
+ * This class extends {@link MySQLTemplates} to register all 35 MySQL JSON
+ * operators from the core module, enabling type-safe JSON function usage in
+ * QueryDSL SQL queries.
  *
  * <h2>Usage Example</h2>
+ *
  * <pre>{@code
  * // Create configuration with JSON support
  * Configuration configuration = new Configuration(MySQLJsonTemplates.DEFAULT);
@@ -22,24 +25,27 @@ import java.util.Map;
  *
  * // Use JSON functions in queries
  * QUser user = QUser.user;
- * List<Tuple> results = queryFactory
- *     .select(user.name, user.email)
- *     .from(user)
- *     .where(SqlJsonFunctions.jsonExtract(user.metadata, "$.role").eq("\"admin\""))
- *     .fetch();
+ * List<Tuple> results = queryFactory.select(user.name, user.email).from(user)
+ *         .where(SqlJsonFunctions.jsonExtract(user.metadata, "$.role").eq("\"admin\"")).fetch();
  * }</pre>
  *
  * <h2>Registered Operators</h2>
- * <p>This template registers the following MySQL JSON function categories:
+ * <p>
+ * This template registers the following MySQL JSON function categories:
  * <ul>
- *   <li><b>Creation Functions (3)</b>: JSON_ARRAY, JSON_OBJECT, JSON_QUOTE</li>
- *   <li><b>Search Functions (10)</b>: JSON_EXTRACT, JSON_CONTAINS, JSON_SEARCH, etc.</li>
- *   <li><b>Modification Functions (10)</b>: JSON_SET, JSON_INSERT, JSON_REMOVE, etc.</li>
- *   <li><b>Attribute Functions (4)</b>: JSON_DEPTH, JSON_LENGTH, JSON_TYPE, JSON_VALID</li>
- *   <li><b>Utility Functions (3)</b>: JSON_PRETTY, JSON_STORAGE_SIZE, JSON_STORAGE_FREE</li>
- *   <li><b>Schema Functions (2)</b>: JSON_SCHEMA_VALID, JSON_SCHEMA_VALIDATION_REPORT</li>
- *   <li><b>Aggregate Functions (2)</b>: JSON_ARRAYAGG, JSON_OBJECTAGG</li>
- *   <li><b>Table Functions (1)</b>: JSON_TABLE</li>
+ * <li><b>Creation Functions (3)</b>: JSON_ARRAY, JSON_OBJECT, JSON_QUOTE</li>
+ * <li><b>Search Functions (10)</b>: JSON_EXTRACT, JSON_CONTAINS, JSON_SEARCH,
+ * etc.</li>
+ * <li><b>Modification Functions (10)</b>: JSON_SET, JSON_INSERT, JSON_REMOVE,
+ * etc.</li>
+ * <li><b>Attribute Functions (4)</b>: JSON_DEPTH, JSON_LENGTH, JSON_TYPE,
+ * JSON_VALID</li>
+ * <li><b>Utility Functions (3)</b>: JSON_PRETTY, JSON_STORAGE_SIZE,
+ * JSON_STORAGE_FREE</li>
+ * <li><b>Schema Functions (2)</b>: JSON_SCHEMA_VALID,
+ * JSON_SCHEMA_VALIDATION_REPORT</li>
+ * <li><b>Aggregate Functions (2)</b>: JSON_ARRAYAGG, JSON_OBJECTAGG</li>
+ * <li><b>Table Functions (1)</b>: JSON_TABLE</li>
  * </ul>
  *
  * @author snowykte0426
@@ -51,7 +57,8 @@ import java.util.Map;
 public class MySQLJsonTemplates extends MySQLTemplates {
 
     /**
-     * Default singleton instance with standard MySQL configuration and JSON support.
+     * Default singleton instance with standard MySQL configuration and JSON
+     * support.
      */
     public static final MySQLJsonTemplates DEFAULT = new MySQLJsonTemplates();
 
@@ -66,7 +73,8 @@ public class MySQLJsonTemplates extends MySQLTemplates {
     /**
      * Creates a new MySQLJsonTemplates instance with quoted identifiers.
      *
-     * @param quote whether to quote identifiers
+     * @param quote
+     *            whether to quote identifiers
      */
     protected MySQLJsonTemplates(boolean quote) {
         super(quote);
@@ -76,10 +84,11 @@ public class MySQLJsonTemplates extends MySQLTemplates {
     /**
      * Registers all MySQL JSON operators with their SQL templates.
      *
-     * <p>This method retrieves operator templates from {@link JsonOperatorTemplates}
-     * and registers them with QueryDSL's template system. Each operator is registered
-     * with precedence level -1 (no precedence), as most JSON functions don't require
-     * special precedence handling.
+     * <p>
+     * This method retrieves operator templates from {@link JsonOperatorTemplates}
+     * and registers them with QueryDSL's template system. Each operator is
+     * registered with precedence level -1 (no precedence), as most JSON functions
+     * don't require special precedence handling.
      */
     private void registerJsonOperators() {
         // Get all JSON operator templates from core module
@@ -95,7 +104,9 @@ public class MySQLJsonTemplates extends MySQLTemplates {
     /**
      * Creates a MySQLJsonTemplates instance with quoted identifiers.
      *
-     * <p>Example usage:
+     * <p>
+     * Example usage:
+     *
      * <pre>{@code
      * Configuration config = new Configuration(MySQLJsonTemplates.quoted());
      * }</pre>

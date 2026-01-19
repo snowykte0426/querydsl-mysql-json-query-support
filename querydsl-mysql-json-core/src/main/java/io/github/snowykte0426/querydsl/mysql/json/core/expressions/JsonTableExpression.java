@@ -13,22 +13,20 @@ import java.util.stream.Collectors;
 /**
  * Builder for MySQL JSON_TABLE function.
  *
- * <p>JSON_TABLE converts JSON data into a relational table format,
- * allowing JSON documents to be queried using standard SQL.
+ * <p>
+ * JSON_TABLE converts JSON data into a relational table format, allowing JSON
+ * documents to be queried using standard SQL.
  *
- * <p>This class provides a fluent API for building JSON_TABLE expressions.
- * The final expression can be obtained via {@link #asExpression()}.
+ * <p>
+ * This class provides a fluent API for building JSON_TABLE expressions. The
+ * final expression can be obtained via {@link #asExpression()}.
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
+ *
  * <pre>
- * SimpleExpression&lt;Object&gt; table = JsonTableExpression.builder()
- *     .jsonDoc(user.metadata)
- *     .path("$")
- *     .column("id", "INT", "$.id")
- *     .column("name", "VARCHAR(100)", "$.name")
- *     .alias("jt")
- *     .build()
- *     .asExpression();
+ * SimpleExpression&lt;Object&gt; table = JsonTableExpression.builder().jsonDoc(user.metadata).path("$")
+ *         .column("id", "INT", "$.id").column("name", "VARCHAR(100)", "$.name").alias("jt").build().asExpression();
  * </pre>
  *
  * @author snowykte0426
@@ -60,10 +58,12 @@ public class JsonTableExpression {
     /**
      * Generates the complete JSON_TABLE SQL expression.
      *
-     * <p>Format: {@code JSON_TABLE(json_doc, path COLUMNS(...)) AS alias}
+     * <p>
+     * Format: {@code JSON_TABLE(json_doc, path COLUMNS(...)) AS alias}
      *
-     * <p>This method generates a QueryDSL template string with {0} placeholder
-     * for the JSON document expression. For direct SQL usage, use {@link #toCompleteSql()}.
+     * <p>
+     * This method generates a QueryDSL template string with {0} placeholder for the
+     * JSON document expression. For direct SQL usage, use {@link #toCompleteSql()}.
      *
      * @return SQL template string for QueryDSL
      */
@@ -81,9 +81,7 @@ public class JsonTableExpression {
 
         // Columns
         sql.append(" COLUMNS(");
-        sql.append(columns.stream()
-            .map(JsonTableColumn::toSql)
-            .collect(Collectors.joining(", ")));
+        sql.append(columns.stream().map(JsonTableColumn::toSql).collect(Collectors.joining(", ")));
         sql.append(")");
 
         sql.append(")");
@@ -99,7 +97,8 @@ public class JsonTableExpression {
     /**
      * Generates complete SQL with all values inlined (for testing).
      *
-     * <p>This method converts the JSON document expression to its literal
+     * <p>
+     * This method converts the JSON document expression to its literal
      * representation and generates executable SQL.
      *
      * @return complete SQL string
@@ -128,9 +127,7 @@ public class JsonTableExpression {
 
         // Columns
         sql.append(" COLUMNS(");
-        sql.append(columns.stream()
-            .map(JsonTableColumn::toSql)
-            .collect(Collectors.joining(", ")));
+        sql.append(columns.stream().map(JsonTableColumn::toSql).collect(Collectors.joining(", ")));
         sql.append(")");
 
         sql.append(")");
@@ -190,7 +187,8 @@ public class JsonTableExpression {
         /**
          * Sets the JSON document to query.
          *
-         * @param jsonDoc JSON document expression
+         * @param jsonDoc
+         *            JSON document expression
          * @return this builder
          */
         public Builder jsonDoc(Expression<?> jsonDoc) {
@@ -201,7 +199,8 @@ public class JsonTableExpression {
         /**
          * Sets the JSON document from a string literal.
          *
-         * @param jsonString JSON string
+         * @param jsonString
+         *            JSON string
          * @return this builder
          */
         public Builder jsonDoc(String jsonString) {
@@ -212,7 +211,8 @@ public class JsonTableExpression {
         /**
          * Sets the root JSON path for the table.
          *
-         * @param path JSON path (e.g., "$", "$[*]", "$.data")
+         * @param path
+         *            JSON path (e.g., "$", "$[*]", "$.data")
          * @return this builder
          */
         public Builder path(String path) {
@@ -223,9 +223,12 @@ public class JsonTableExpression {
         /**
          * Adds a column definition.
          *
-         * @param columnName the column name
-         * @param sqlType the SQL data type
-         * @param jsonPath the JSON path for this column
+         * @param columnName
+         *            the column name
+         * @param sqlType
+         *            the SQL data type
+         * @param jsonPath
+         *            the JSON path for this column
          * @return this builder
          */
         public Builder column(String columnName, String sqlType, String jsonPath) {
@@ -236,7 +239,8 @@ public class JsonTableExpression {
         /**
          * Adds a column definition with custom settings.
          *
-         * @param column the column definition
+         * @param column
+         *            the column definition
          * @return this builder
          */
         public Builder column(JsonTableColumn column) {
@@ -247,7 +251,8 @@ public class JsonTableExpression {
         /**
          * Adds multiple column definitions.
          *
-         * @param columns column definitions
+         * @param columns
+         *            column definitions
          * @return this builder
          */
         public Builder columns(JsonTableColumn... columns) {
@@ -258,8 +263,10 @@ public class JsonTableExpression {
         /**
          * Adds an EXISTS column that returns 1/0 based on path existence.
          *
-         * @param columnName the column name
-         * @param jsonPath the JSON path to check
+         * @param columnName
+         *            the column name
+         * @param jsonPath
+         *            the JSON path to check
          * @return this builder
          */
         public Builder existsColumn(String columnName, String jsonPath) {
@@ -270,7 +277,8 @@ public class JsonTableExpression {
         /**
          * Adds an ORDINALITY column for row numbering.
          *
-         * @param columnName the column name
+         * @param columnName
+         *            the column name
          * @return this builder
          */
         public Builder ordinalityColumn(String columnName) {
@@ -281,7 +289,8 @@ public class JsonTableExpression {
         /**
          * Sets the table alias for this JSON_TABLE.
          *
-         * @param alias the table alias (e.g., "jt", "data_table")
+         * @param alias
+         *            the table alias (e.g., "jt", "data_table")
          * @return this builder
          */
         public Builder alias(String alias) {

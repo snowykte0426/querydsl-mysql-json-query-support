@@ -20,9 +20,7 @@ class SqlJsonAggregateFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonArrayAgg_shouldAggregateValues() throws SQLException {
-        String result = executeNativeQuery(
-            "SELECT JSON_ARRAYAGG(name) FROM users"
-        );
+        String result = executeNativeQuery("SELECT JSON_ARRAYAGG(name) FROM users");
         assertThat(result).contains("Alice", "Bob", "Charlie");
     }
 
@@ -30,18 +28,14 @@ class SqlJsonAggregateFunctionsTest extends AbstractSqlJsonFunctionTest {
     void jsonArrayAgg_withNumbers_shouldWork() throws SQLException {
         createProduct("P1", BigDecimal.valueOf(100), "cat1", "{}");
         createProduct("P2", BigDecimal.valueOf(200), "cat1", "{}");
-        
-        String result = executeNativeQuery(
-            "SELECT JSON_ARRAYAGG(price) FROM products"
-        );
+
+        String result = executeNativeQuery("SELECT JSON_ARRAYAGG(price) FROM products");
         assertThat(result).contains("100", "200");
     }
 
     @Test
     void jsonObjectAgg_shouldAggregateKeyValues() throws SQLException {
-        String result = executeNativeQuery(
-            "SELECT JSON_OBJECTAGG(name, email) FROM users LIMIT 3"
-        );
+        String result = executeNativeQuery("SELECT JSON_OBJECTAGG(name, email) FROM users LIMIT 3");
         assertThat(result).contains("Alice", "alice@example.com");
     }
 
@@ -50,20 +44,17 @@ class SqlJsonAggregateFunctionsTest extends AbstractSqlJsonFunctionTest {
         createProduct("P1", BigDecimal.valueOf(100), "electronics", "{}");
         createProduct("P2", BigDecimal.valueOf(200), "electronics", "{}");
         createProduct("P3", BigDecimal.valueOf(50), "books", "{}");
-        
+
         String result = executeNativeQuery(
-            "SELECT category, JSON_ARRAYAGG(name) FROM products GROUP BY category LIMIT 1"
-        );
+                "SELECT category, JSON_ARRAYAGG(name) FROM products GROUP BY category LIMIT 1");
         assertThat(result).isNotNull();
     }
 
     @Test
     void jsonArrayAgg_empty_shouldReturnNull() throws SQLException {
         clearTestData();
-        
-        String result = executeNativeQuery(
-            "SELECT JSON_ARRAYAGG(name) FROM users"
-        );
+
+        String result = executeNativeQuery("SELECT JSON_ARRAYAGG(name) FROM users");
         assertThat(result).isNull();
     }
 }

@@ -11,13 +11,16 @@ import com.querydsl.core.types.dsl.*;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * SQL-specific JSON expression wrapper that provides fluent method chaining
- * for JSON operations on SQL table columns.
+ * SQL-specific JSON expression wrapper that provides fluent method chaining for
+ * JSON operations on SQL table columns.
  *
- * <p>This class wraps a SQL path (typically a String column containing JSON)
- * and provides convenient methods for all MySQL JSON functions.
+ * <p>
+ * This class wraps a SQL path (typically a String column containing JSON) and
+ * provides convenient methods for all MySQL JSON functions.
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
+ *
  * <pre>{@code
  * // Given a Q-type with a JSON column
  * QUser user = QUser.user;
@@ -26,18 +29,12 @@ import org.jetbrains.annotations.Nullable;
  * SqlJsonExpression jsonMetadata = SqlJsonExpression.of(user.metadata);
  *
  * // Use fluent API for queries
- * List<Tuple> admins = queryFactory
- *     .select(user.name, user.email)
- *     .from(user)
- *     .where(jsonMetadata.extract("$.role").eq("\"admin\""))
- *     .fetch();
+ * List<Tuple> admins = queryFactory.select(user.name, user.email).from(user)
+ *         .where(jsonMetadata.extract("$.role").eq("\"admin\"")).fetch();
  *
  * // Or use static method style
- * List<Tuple> users = queryFactory
- *     .select(user.name)
- *     .from(user)
- *     .where(SqlJsonExpression.of(user.settings).contains("\"dark\"", "$.theme"))
- *     .fetch();
+ * List<Tuple> users = queryFactory.select(user.name).from(user)
+ *         .where(SqlJsonExpression.of(user.settings).contains("\"dark\"", "$.theme")).fetch();
  * }</pre>
  *
  * @author snowykte0426
@@ -52,7 +49,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a new SqlJsonExpression wrapping the given expression.
      *
-     * @param jsonDoc the underlying JSON document expression
+     * @param jsonDoc
+     *            the underlying JSON document expression
      */
     protected SqlJsonExpression(Expression<?> jsonDoc) {
         super(jsonDoc instanceof Path ? (Path<String>) jsonDoc : Expressions.stringPath("json_doc"));
@@ -62,7 +60,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a SqlJsonExpression from any expression.
      *
-     * @param expression the expression (typically a JPA path)
+     * @param expression
+     *            the expression (typically a JPA path)
      * @return SqlJsonExpression wrapper
      */
     public static SqlJsonExpression of(Expression<?> expression) {
@@ -72,7 +71,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a SqlJsonExpression from a StringPath (Q-class property).
      *
-     * @param path the string path
+     * @param path
+     *            the string path
      * @return SqlJsonExpression wrapper
      */
     public static SqlJsonExpression of(StringPath path) {
@@ -101,9 +101,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Extracts data from this JSON document at the specified path.
      *
-     * <p>SQL: {@code JSON_EXTRACT(json_doc, path)}
+     * <p>
+     * SQL: {@code JSON_EXTRACT(json_doc, path)}
      *
-     * @param path JSON path expression (e.g., "$.key")
+     * @param path
+     *            JSON path expression (e.g., "$.key")
      * @return extracted JSON expression
      */
     public JsonExpression<String> extract(String path) {
@@ -113,7 +115,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Extracts data from this JSON document at multiple paths.
      *
-     * @param paths JSON path expressions
+     * @param paths
+     *            JSON path expressions
      * @return extracted JSON expression
      */
     public JsonExpression<String> extract(String... paths) {
@@ -123,9 +126,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Extracts and unquotes a value from this JSON document.
      *
-     * <p>SQL: {@code json_doc ->> path}
+     * <p>
+     * SQL: {@code json_doc ->> path}
      *
-     * @param path JSON path expression
+     * @param path
+     *            JSON path expression
      * @return unquoted string expression
      */
     public StringExpression extractUnquoted(String path) {
@@ -135,9 +140,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Extracts a scalar value from this JSON document.
      *
-     * <p>SQL: {@code JSON_VALUE(json_doc, path)} (MySQL 8.0.21+)
+     * <p>
+     * SQL: {@code JSON_VALUE(json_doc, path)} (MySQL 8.0.21+)
      *
-     * @param path JSON path expression
+     * @param path
+     *            JSON path expression
      * @return scalar value expression
      */
     public JsonValueExpression value(String path) {
@@ -151,9 +158,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Tests whether this JSON document contains a specific value.
      *
-     * <p>SQL: {@code JSON_CONTAINS(json_doc, val)}
+     * <p>
+     * SQL: {@code JSON_CONTAINS(json_doc, val)}
      *
-     * @param value the value to search for
+     * @param value
+     *            the value to search for
      * @return boolean expression
      */
     public BooleanExpression contains(String value) {
@@ -163,28 +172,32 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Tests whether this JSON document contains a value at a specific path.
      *
-     * <p>SQL: {@code JSON_CONTAINS(json_doc, val, path)}
+     * <p>
+     * SQL: {@code JSON_CONTAINS(json_doc, val, path)}
      *
-     * @param value the value to search for
-     * @param path the JSON path
+     * @param value
+     *            the value to search for
+     * @param path
+     *            the JSON path
      * @return boolean expression
      */
     public BooleanExpression contains(String value, String path) {
-        return Expressions.booleanTemplate(
-            "json_contains({0}, {1}, {2})",
-            jsonDoc,
-            Expressions.constant(value),
-            Expressions.constant(path)
-        );
+        return Expressions.booleanTemplate("json_contains({0}, {1}, {2})",
+                jsonDoc,
+                Expressions.constant(value),
+                Expressions.constant(path));
     }
 
     /**
      * Tests whether this JSON document contains data at the specified paths.
      *
-     * <p>SQL: {@code JSON_CONTAINS_PATH(json_doc, one_or_all, path, ...)}
+     * <p>
+     * SQL: {@code JSON_CONTAINS_PATH(json_doc, one_or_all, path, ...)}
      *
-     * @param oneOrAll "one" or "all"
-     * @param paths the paths to check
+     * @param oneOrAll
+     *            "one" or "all"
+     * @param paths
+     *            the paths to check
      * @return boolean expression
      */
     public BooleanExpression containsPath(String oneOrAll, String... paths) {
@@ -207,9 +220,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the path to the first occurrence of a string.
      *
-     * <p>SQL: {@code JSON_SEARCH(json_doc, 'one', search_str)}
+     * <p>
+     * SQL: {@code JSON_SEARCH(json_doc, 'one', search_str)}
      *
-     * @param searchString the string to search for
+     * @param searchString
+     *            the string to search for
      * @return path expression
      */
     public JsonValueExpression search(String searchString) {
@@ -219,8 +234,10 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the path(s) to occurrences of a string.
      *
-     * @param oneOrAll "one" or "all"
-     * @param searchString the string to search for
+     * @param oneOrAll
+     *            "one" or "all"
+     * @param searchString
+     *            the string to search for
      * @return path expression
      */
     public JsonValueExpression search(String oneOrAll, String searchString) {
@@ -230,7 +247,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the keys from this JSON object.
      *
-     * <p>SQL: {@code JSON_KEYS(json_doc)}
+     * <p>
+     * SQL: {@code JSON_KEYS(json_doc)}
      *
      * @return JSON array of keys
      */
@@ -241,21 +259,23 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the keys from this JSON object at the specified path.
      *
-     * @param path JSON path
+     * @param path
+     *            JSON path
      * @return JSON array of keys
      */
     public JsonArrayExpression keys(String path) {
-        return JsonArrayExpression.wrap(
-            Expressions.stringTemplate("json_keys({0}, {1})", jsonDoc, Expressions.constant(path))
-        );
+        return JsonArrayExpression
+                .wrap(Expressions.stringTemplate("json_keys({0}, {1})", jsonDoc, Expressions.constant(path)));
     }
 
     /**
      * Tests whether this JSON document overlaps with another.
      *
-     * <p>SQL: {@code JSON_OVERLAPS(json_doc1, json_doc2)} (MySQL 8.0.17+)
+     * <p>
+     * SQL: {@code JSON_OVERLAPS(json_doc1, json_doc2)} (MySQL 8.0.17+)
      *
-     * @param other the other JSON document
+     * @param other
+     *            the other JSON document
      * @return boolean expression
      */
     public BooleanExpression overlaps(Expression<?> other) {
@@ -265,15 +285,12 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Tests whether this JSON document overlaps with a JSON string literal.
      *
-     * @param jsonLiteral the JSON literal
+     * @param jsonLiteral
+     *            the JSON literal
      * @return boolean expression
      */
     public BooleanExpression overlaps(String jsonLiteral) {
-        return Expressions.booleanTemplate(
-            "json_overlaps({0}, {1})",
-            jsonDoc,
-            Expressions.constant(jsonLiteral)
-        );
+        return Expressions.booleanTemplate("json_overlaps({0}, {1})", jsonDoc, Expressions.constant(jsonLiteral));
     }
 
     // ============================================================
@@ -283,10 +300,13 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a modified JSON document with the value set at the path.
      *
-     * <p>SQL: {@code JSON_SET(json_doc, path, val)}
+     * <p>
+     * SQL: {@code JSON_SET(json_doc, path, val)}
      *
-     * @param path the JSON path
-     * @param value the value to set
+     * @param path
+     *            the JSON path
+     * @param value
+     *            the value to set
      * @return modified JSON expression
      */
     public JsonValueExpression set(String path, Object value) {
@@ -296,10 +316,13 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a modified JSON document with the value inserted at the path.
      *
-     * <p>SQL: {@code JSON_INSERT(json_doc, path, val)}
+     * <p>
+     * SQL: {@code JSON_INSERT(json_doc, path, val)}
      *
-     * @param path the JSON path
-     * @param value the value to insert
+     * @param path
+     *            the JSON path
+     * @param value
+     *            the value to insert
      * @return modified JSON expression
      */
     public JsonValueExpression insert(String path, Object value) {
@@ -309,10 +332,13 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a modified JSON document with the value replaced at the path.
      *
-     * <p>SQL: {@code JSON_REPLACE(json_doc, path, val)}
+     * <p>
+     * SQL: {@code JSON_REPLACE(json_doc, path, val)}
      *
-     * @param path the JSON path
-     * @param value the new value
+     * @param path
+     *            the JSON path
+     * @param value
+     *            the new value
      * @return modified JSON expression
      */
     public JsonValueExpression replace(String path, Object value) {
@@ -322,9 +348,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Creates a modified JSON document with the path removed.
      *
-     * <p>SQL: {@code JSON_REMOVE(json_doc, path)}
+     * <p>
+     * SQL: {@code JSON_REMOVE(json_doc, path)}
      *
-     * @param paths the paths to remove
+     * @param paths
+     *            the paths to remove
      * @return modified JSON expression
      */
     public JsonValueExpression remove(String... paths) {
@@ -334,71 +362,63 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Appends a value to an array in this JSON document.
      *
-     * <p>SQL: {@code JSON_ARRAY_APPEND(json_doc, path, val)}
+     * <p>
+     * SQL: {@code JSON_ARRAY_APPEND(json_doc, path, val)}
      *
-     * @param path the path to the array
-     * @param value the value to append
+     * @param path
+     *            the path to the array
+     * @param value
+     *            the value to append
      * @return modified JSON expression
      */
     public JsonArrayExpression arrayAppend(String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression
-            ? (Expression<?>) value
-            : Expressions.constant(value);
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
-        return JsonArrayExpression.wrap(
-            Expressions.stringTemplate(
-                "json_array_append({0}, {1}, {2})",
-                jsonDoc,
-                Expressions.constant(path),
-                valueExpr
-            )
-        );
+        return JsonArrayExpression.wrap(Expressions
+                .stringTemplate("json_array_append({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
     }
 
     /**
      * Inserts a value into an array in this JSON document.
      *
-     * <p>SQL: {@code JSON_ARRAY_INSERT(json_doc, path, val)}
+     * <p>
+     * SQL: {@code JSON_ARRAY_INSERT(json_doc, path, val)}
      *
-     * @param path the path with array index
-     * @param value the value to insert
+     * @param path
+     *            the path with array index
+     * @param value
+     *            the value to insert
      * @return modified JSON expression
      */
     public JsonArrayExpression arrayInsert(String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression
-            ? (Expression<?>) value
-            : Expressions.constant(value);
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
-        return JsonArrayExpression.wrap(
-            Expressions.stringTemplate(
-                "json_array_insert({0}, {1}, {2})",
-                jsonDoc,
-                Expressions.constant(path),
-                valueExpr
-            )
-        );
+        return JsonArrayExpression.wrap(Expressions
+                .stringTemplate("json_array_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
     }
 
     /**
      * Merges this JSON document with another using RFC 7386 semantics.
      *
-     * <p>SQL: {@code JSON_MERGE_PATCH(json_doc1, json_doc2)}
+     * <p>
+     * SQL: {@code JSON_MERGE_PATCH(json_doc1, json_doc2)}
      *
-     * @param other the other JSON document
+     * @param other
+     *            the other JSON document
      * @return merged JSON expression
      */
     public JsonObjectExpression mergePatch(Expression<?> other) {
-        return JsonObjectExpression.wrap(
-            Expressions.stringTemplate("json_merge_patch({0}, {1})", jsonDoc, other)
-        );
+        return JsonObjectExpression.wrap(Expressions.stringTemplate("json_merge_patch({0}, {1})", jsonDoc, other));
     }
 
     /**
      * Merges this JSON document with another, preserving duplicates.
      *
-     * <p>SQL: {@code JSON_MERGE_PRESERVE(json_doc1, json_doc2)}
+     * <p>
+     * SQL: {@code JSON_MERGE_PRESERVE(json_doc1, json_doc2)}
      *
-     * @param other the other JSON document
+     * @param other
+     *            the other JSON document
      * @return merged JSON expression
      */
     public StringExpression mergePreserve(Expression<?> other) {
@@ -412,7 +432,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the maximum depth of this JSON document.
      *
-     * <p>SQL: {@code JSON_DEPTH(json_doc)}
+     * <p>
+     * SQL: {@code JSON_DEPTH(json_doc)}
      *
      * @return depth as integer expression
      */
@@ -423,7 +444,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the number of elements in this JSON document.
      *
-     * <p>SQL: {@code JSON_LENGTH(json_doc)}
+     * <p>
+     * SQL: {@code JSON_LENGTH(json_doc)}
      *
      * @return length as integer expression
      */
@@ -434,22 +456,19 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the number of elements at the specified path.
      *
-     * @param path the JSON path
+     * @param path
+     *            the JSON path
      * @return length as integer expression
      */
     public NumberExpression<Integer> length(String path) {
-        return Expressions.numberTemplate(
-            Integer.class,
-            "json_length({0}, {1})",
-            jsonDoc,
-            Expressions.constant(path)
-        );
+        return Expressions.numberTemplate(Integer.class, "json_length({0}, {1})", jsonDoc, Expressions.constant(path));
     }
 
     /**
      * Returns the type of this JSON value.
      *
-     * <p>SQL: {@code JSON_TYPE(json_val)}
+     * <p>
+     * SQL: {@code JSON_TYPE(json_val)}
      *
      * @return type as string expression
      */
@@ -460,7 +479,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Tests whether this value is valid JSON.
      *
-     * <p>SQL: {@code JSON_VALID(val)}
+     * <p>
+     * SQL: {@code JSON_VALID(val)}
      *
      * @return boolean expression
      */
@@ -520,7 +540,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Formats this JSON document in a human-readable format.
      *
-     * <p>SQL: {@code JSON_PRETTY(json_val)}
+     * <p>
+     * SQL: {@code JSON_PRETTY(json_val)}
      *
      * @return formatted JSON string
      */
@@ -531,7 +552,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the storage size of this JSON document in bytes.
      *
-     * <p>SQL: {@code JSON_STORAGE_SIZE(json_val)}
+     * <p>
+     * SQL: {@code JSON_STORAGE_SIZE(json_val)}
      *
      * @return storage size in bytes
      */
@@ -542,7 +564,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns the freed space after a partial update.
      *
-     * <p>SQL: {@code JSON_STORAGE_FREE(json_val)}
+     * <p>
+     * SQL: {@code JSON_STORAGE_FREE(json_val)}
      *
      * @return freed space in bytes
      */
@@ -553,7 +576,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Unquotes this JSON string value.
      *
-     * <p>SQL: {@code JSON_UNQUOTE(json_val)}
+     * <p>
+     * SQL: {@code JSON_UNQUOTE(json_val)}
      *
      * @return unquoted string expression
      */
@@ -568,9 +592,11 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Validates this JSON document against a schema.
      *
-     * <p>SQL: {@code JSON_SCHEMA_VALID(schema, json_doc)}
+     * <p>
+     * SQL: {@code JSON_SCHEMA_VALID(schema, json_doc)}
      *
-     * @param schema the JSON schema expression
+     * @param schema
+     *            the JSON schema expression
      * @return boolean expression
      */
     public BooleanExpression schemaValid(Expression<?> schema) {
@@ -580,23 +606,22 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Validates this JSON document against a schema string.
      *
-     * @param schemaJson the JSON schema as string
+     * @param schemaJson
+     *            the JSON schema as string
      * @return boolean expression
      */
     public BooleanExpression schemaValid(String schemaJson) {
-        return Expressions.booleanTemplate(
-            "json_schema_valid({0}, {1})",
-            Expressions.constant(schemaJson),
-            jsonDoc
-        );
+        return Expressions.booleanTemplate("json_schema_valid({0}, {1})", Expressions.constant(schemaJson), jsonDoc);
     }
 
     /**
      * Returns a validation report for this JSON document.
      *
-     * <p>SQL: {@code JSON_SCHEMA_VALIDATION_REPORT(schema, json_doc)}
+     * <p>
+     * SQL: {@code JSON_SCHEMA_VALIDATION_REPORT(schema, json_doc)}
      *
-     * @param schema the JSON schema expression
+     * @param schema
+     *            the JSON schema expression
      * @return validation report as string
      */
     public StringExpression schemaValidationReport(Expression<?> schema) {
@@ -606,14 +631,12 @@ public class SqlJsonExpression extends SimpleExpression<String> {
     /**
      * Returns a validation report for this JSON document.
      *
-     * @param schemaJson the JSON schema as string
+     * @param schemaJson
+     *            the JSON schema as string
      * @return validation report as string
      */
     public StringExpression schemaValidationReport(String schemaJson) {
-        return Expressions.stringTemplate(
-            "json_schema_validation_report({0}, {1})",
-            Expressions.constant(schemaJson),
-            jsonDoc
-        );
+        return Expressions
+                .stringTemplate("json_schema_validation_report({0}, {1})", Expressions.constant(schemaJson), jsonDoc);
     }
 }

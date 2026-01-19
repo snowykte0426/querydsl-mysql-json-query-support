@@ -7,17 +7,20 @@ import java.util.regex.Pattern;
 /**
  * Represents a JSON path expression following MySQL JSON path syntax.
  *
- * <p>MySQL JSON paths follow this syntax:
+ * <p>
+ * MySQL JSON paths follow this syntax:
  * <ul>
- *   <li>{@code $} - Root element</li>
- *   <li>{@code $.key} - Object member by key</li>
- *   <li>{@code $[n]} - Array element by index</li>
- *   <li>{@code $.key.subkey} - Nested object access</li>
- *   <li>{@code $[*]} - All array elements (wildcard)</li>
- *   <li>{@code $**.key} - Recursive descent</li>
+ * <li>{@code $} - Root element</li>
+ * <li>{@code $.key} - Object member by key</li>
+ * <li>{@code $[n]} - Array element by index</li>
+ * <li>{@code $.key.subkey} - Nested object access</li>
+ * <li>{@code $[*]} - All array elements (wildcard)</li>
+ * <li>{@code $**.key} - Recursive descent</li>
  * </ul>
  *
- * <p>Examples:
+ * <p>
+ * Examples:
+ *
  * <pre>{@code
  * JsonPath.of("$")                    // Root
  * JsonPath.of("$.user.name")          // Nested object
@@ -33,12 +36,11 @@ public final class JsonPath implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Pattern for validating MySQL JSON path syntax.
-     * Simplified validation - full validation happens at MySQL level.
+     * Pattern for validating MySQL JSON path syntax. Simplified validation - full
+     * validation happens at MySQL level.
      */
-    private static final Pattern PATH_PATTERN = Pattern.compile(
-        "^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*|\\[\\d+\\]|\\[\\*\\]|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*)*$"
-    );
+    private static final Pattern PATH_PATTERN = Pattern
+            .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*|\\[\\d+\\]|\\[\\*\\]|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
 
     /**
      * Root path constant.
@@ -50,7 +52,8 @@ public final class JsonPath implements Serializable {
     /**
      * Private constructor - use factory methods.
      *
-     * @param path the JSON path string
+     * @param path
+     *            the JSON path string
      */
     private JsonPath(String path) {
         this.path = Objects.requireNonNull(path, "path must not be null");
@@ -59,9 +62,11 @@ public final class JsonPath implements Serializable {
     /**
      * Creates a JsonPath from a path string.
      *
-     * @param path the JSON path (e.g., "$.user.name")
+     * @param path
+     *            the JSON path (e.g., "$.user.name")
      * @return JsonPath instance
-     * @throws IllegalArgumentException if path is invalid
+     * @throws IllegalArgumentException
+     *             if path is invalid
      */
     public static JsonPath of(String path) {
         Objects.requireNonNull(path, "path must not be null");
@@ -72,10 +77,11 @@ public final class JsonPath implements Serializable {
     }
 
     /**
-     * Creates a JsonPath without validation.
-     * Use only when path is already validated or comes from trusted source.
+     * Creates a JsonPath without validation. Use only when path is already
+     * validated or comes from trusted source.
      *
-     * @param path the JSON path
+     * @param path
+     *            the JSON path
      * @return JsonPath instance
      */
     public static JsonPath ofUnchecked(String path) {
@@ -85,7 +91,8 @@ public final class JsonPath implements Serializable {
     /**
      * Creates a path to an object member.
      *
-     * @param key the object key
+     * @param key
+     *            the object key
      * @return JsonPath to the member
      */
     public static JsonPath member(String key) {
@@ -95,7 +102,8 @@ public final class JsonPath implements Serializable {
     /**
      * Creates a path to an array element.
      *
-     * @param index the array index
+     * @param index
+     *            the array index
      * @return JsonPath to the element
      */
     public static JsonPath arrayElement(int index) {
@@ -114,7 +122,8 @@ public final class JsonPath implements Serializable {
     /**
      * Appends recursive descent to this path.
      *
-     * @param key the member key to search recursively
+     * @param key
+     *            the member key to search recursively
      * @return new JsonPath with recursive descent
      */
     public JsonPath recursiveDescent(String key) {
@@ -142,7 +151,8 @@ public final class JsonPath implements Serializable {
     /**
      * Validates a JSON path string (basic validation).
      *
-     * @param path the path to validate
+     * @param path
+     *            the path to validate
      * @return true if valid
      */
     public static boolean isValidPath(String path) {
@@ -155,8 +165,10 @@ public final class JsonPath implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         JsonPath jsonPath = (JsonPath) o;
         return path.equals(jsonPath.path);
     }

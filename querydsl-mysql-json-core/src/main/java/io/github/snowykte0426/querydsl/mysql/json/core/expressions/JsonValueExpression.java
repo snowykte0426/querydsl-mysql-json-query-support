@@ -11,10 +11,14 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Expression class for JSON scalar value operations.
  *
- * <p>This class represents JSON scalar values (strings, numbers, booleans, null)
- * and provides operations specific to scalar JSON values.</p>
+ * <p>
+ * This class represents JSON scalar values (strings, numbers, booleans, null)
+ * and provides operations specific to scalar JSON values.
+ * </p>
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
+ *
  * <pre>{@code
  * // Extract a scalar value
  * JsonValueExpression value = JsonValueExpression.extract(user.metadata, "$.age");
@@ -36,7 +40,8 @@ public class JsonValueExpression extends JsonExpression<String> {
     /**
      * Constructs a JsonValueExpression.
      *
-     * @param mixin the underlying expression
+     * @param mixin
+     *            the underlying expression
      */
     protected JsonValueExpression(Expression<String> mixin) {
         super(mixin);
@@ -45,58 +50,60 @@ public class JsonValueExpression extends JsonExpression<String> {
     /**
      * Extracts a scalar value from a JSON document.
      *
-     * <p>SQL: {@code JSON_VALUE(json_doc, path)}</p>
-     * <p>Available in MySQL 8.0.21+</p>
+     * <p>
+     * SQL: {@code JSON_VALUE(json_doc, path)}
+     * </p>
+     * <p>
+     * Available in MySQL 8.0.21+
+     * </p>
      *
-     * @param jsonDoc the JSON document expression
-     * @param path the JSON path
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param path
+     *            the JSON path
      * @return JsonValueExpression with the extracted value
      */
     public static JsonValueExpression extract(Expression<?> jsonDoc, String path) {
         return new JsonValueExpression(
-            Expressions.stringTemplate(
-                "json_value({0}, {1})",
-                jsonDoc,
-                Expressions.constant(path)
-            )
-        );
+                Expressions.stringTemplate("json_value({0}, {1})", jsonDoc, Expressions.constant(path)));
     }
 
     /**
      * Quotes a string as a JSON value.
      *
-     * <p>SQL: {@code JSON_QUOTE(string)}</p>
+     * <p>
+     * SQL: {@code JSON_QUOTE(string)}
+     * </p>
      *
-     * @param value the string to quote
+     * @param value
+     *            the string to quote
      * @return JsonValueExpression with quoted value
      */
     public static JsonValueExpression quote(String value) {
-        return new JsonValueExpression(
-            Expressions.stringTemplate(
-                "json_quote({0})",
-                Expressions.constant(value)
-            )
-        );
+        return new JsonValueExpression(Expressions.stringTemplate("json_quote({0})", Expressions.constant(value)));
     }
 
     /**
      * Quotes a string expression as a JSON value.
      *
-     * <p>SQL: {@code JSON_QUOTE(string)}</p>
+     * <p>
+     * SQL: {@code JSON_QUOTE(string)}
+     * </p>
      *
-     * @param expression the string expression to quote
+     * @param expression
+     *            the string expression to quote
      * @return JsonValueExpression with quoted value
      */
     public static JsonValueExpression quote(Expression<String> expression) {
-        return new JsonValueExpression(
-            Expressions.stringTemplate("json_quote({0})", expression)
-        );
+        return new JsonValueExpression(Expressions.stringTemplate("json_quote({0})", expression));
     }
 
     /**
      * Unquotes this JSON value.
      *
-     * <p>SQL: {@code JSON_UNQUOTE(json_val)}</p>
+     * <p>
+     * SQL: {@code JSON_UNQUOTE(json_val)}
+     * </p>
      *
      * @return unquoted string expression
      */
@@ -107,7 +114,9 @@ public class JsonValueExpression extends JsonExpression<String> {
     /**
      * Validates that this value is valid JSON.
      *
-     * <p>SQL: {@code JSON_VALID(val)}</p>
+     * <p>
+     * SQL: {@code JSON_VALID(val)}
+     * </p>
      *
      * @return boolean expression
      */
@@ -119,8 +128,12 @@ public class JsonValueExpression extends JsonExpression<String> {
     /**
      * Returns the type of this JSON value.
      *
-     * <p>SQL: {@code JSON_TYPE(json_val)}</p>
-     * <p>Possible return values: NULL, INTEGER, DOUBLE, STRING, BOOLEAN, ARRAY, OBJECT</p>
+     * <p>
+     * SQL: {@code JSON_TYPE(json_val)}
+     * </p>
+     * <p>
+     * Possible return values: NULL, INTEGER, DOUBLE, STRING, BOOLEAN, ARRAY, OBJECT
+     * </p>
      *
      * @return string expression with the JSON type
      */
@@ -132,47 +145,50 @@ public class JsonValueExpression extends JsonExpression<String> {
     /**
      * Searches for a value within a JSON document.
      *
-     * <p>SQL: {@code JSON_SEARCH(json_doc, one_or_all, search_str)}</p>
+     * <p>
+     * SQL: {@code JSON_SEARCH(json_doc, one_or_all, search_str)}
+     * </p>
      *
-     * @param jsonDoc the JSON document to search
-     * @param oneOrAll "one" to return first match, "all" to return all matches
-     * @param searchString the string to search for (supports % and _ wildcards)
+     * @param jsonDoc
+     *            the JSON document to search
+     * @param oneOrAll
+     *            "one" to return first match, "all" to return all matches
+     * @param searchString
+     *            the string to search for (supports % and _ wildcards)
      * @return JsonValueExpression with the path(s) where value was found
      */
-    public static JsonValueExpression search(
-        Expression<?> jsonDoc,
-        String oneOrAll,
-        String searchString
-    ) {
-        return new JsonValueExpression(
-            Expressions.stringTemplate(
-                "json_search({0}, {1}, {2})",
+    public static JsonValueExpression search(Expression<?> jsonDoc, String oneOrAll, String searchString) {
+        return new JsonValueExpression(Expressions.stringTemplate("json_search({0}, {1}, {2})",
                 jsonDoc,
                 Expressions.constant(oneOrAll),
-                Expressions.constant(searchString)
-            )
-        );
+                Expressions.constant(searchString)));
     }
 
     /**
      * Searches for a value within a JSON document with custom escape character.
      *
-     * <p>SQL: {@code JSON_SEARCH(json_doc, one_or_all, search_str, escape_char, path...)}</p>
+     * <p>
+     * SQL:
+     * {@code JSON_SEARCH(json_doc, one_or_all, search_str, escape_char, path...)}
+     * </p>
      *
-     * @param jsonDoc the JSON document to search
-     * @param oneOrAll "one" to return first match, "all" to return all matches
-     * @param searchString the string to search for
-     * @param escapeChar the escape character for wildcards
-     * @param paths optional paths to search within
+     * @param jsonDoc
+     *            the JSON document to search
+     * @param oneOrAll
+     *            "one" to return first match, "all" to return all matches
+     * @param searchString
+     *            the string to search for
+     * @param escapeChar
+     *            the escape character for wildcards
+     * @param paths
+     *            optional paths to search within
      * @return JsonValueExpression with the path(s) where value was found
      */
-    public static JsonValueExpression search(
-        Expression<?> jsonDoc,
-        String oneOrAll,
-        String searchString,
-        String escapeChar,
-        String... paths
-    ) {
+    public static JsonValueExpression search(Expression<?> jsonDoc,
+            String oneOrAll,
+            String searchString,
+            String escapeChar,
+            String... paths) {
         Expression<?>[] args = new Expression<?>[4 + paths.length];
         args[0] = jsonDoc;
         args[1] = Expressions.constant(oneOrAll);
@@ -183,93 +199,86 @@ public class JsonValueExpression extends JsonExpression<String> {
             args[4 + i] = Expressions.constant(paths[i]);
         }
 
-        return new JsonValueExpression(
-            Expressions.stringTemplate("json_search({0})", (Object[]) args)
-        );
+        return new JsonValueExpression(Expressions.stringTemplate("json_search({0})", (Object[]) args));
     }
 
     /**
      * Sets or updates a value in a JSON document.
      *
-     * <p>SQL: {@code JSON_SET(json_doc, path, val)}</p>
+     * <p>
+     * SQL: {@code JSON_SET(json_doc, path, val)}
+     * </p>
      *
-     * @param jsonDoc the JSON document
-     * @param path the path where to set the value
-     * @param value the value to set
+     * @param jsonDoc
+     *            the JSON document
+     * @param path
+     *            the path where to set the value
+     * @param value
+     *            the value to set
      * @return JsonValueExpression with updated document
      */
     public static JsonValueExpression set(Expression<?> jsonDoc, String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression
-            ? (Expression<?>) value
-            : Expressions.constant(value);
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(
-            Expressions.stringTemplate(
-                "json_set({0}, {1}, {2})",
-                jsonDoc,
-                Expressions.constant(path),
-                valueExpr
-            )
-        );
+                Expressions.stringTemplate("json_set({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
     }
 
     /**
      * Inserts a value into a JSON document.
      *
-     * <p>SQL: {@code JSON_INSERT(json_doc, path, val)}</p>
+     * <p>
+     * SQL: {@code JSON_INSERT(json_doc, path, val)}
+     * </p>
      *
-     * @param jsonDoc the JSON document
-     * @param path the path where to insert
-     * @param value the value to insert
+     * @param jsonDoc
+     *            the JSON document
+     * @param path
+     *            the path where to insert
+     * @param value
+     *            the value to insert
      * @return JsonValueExpression with updated document
      */
     public static JsonValueExpression insert(Expression<?> jsonDoc, String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression
-            ? (Expression<?>) value
-            : Expressions.constant(value);
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
-        return new JsonValueExpression(
-            Expressions.stringTemplate(
-                "json_insert({0}, {1}, {2})",
-                jsonDoc,
-                Expressions.constant(path),
-                valueExpr
-            )
-        );
+        return new JsonValueExpression(Expressions
+                .stringTemplate("json_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
     }
 
     /**
      * Replaces a value in a JSON document.
      *
-     * <p>SQL: {@code JSON_REPLACE(json_doc, path, val)}</p>
+     * <p>
+     * SQL: {@code JSON_REPLACE(json_doc, path, val)}
+     * </p>
      *
-     * @param jsonDoc the JSON document
-     * @param path the path where to replace
-     * @param value the new value
+     * @param jsonDoc
+     *            the JSON document
+     * @param path
+     *            the path where to replace
+     * @param value
+     *            the new value
      * @return JsonValueExpression with updated document
      */
     public static JsonValueExpression replace(Expression<?> jsonDoc, String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression
-            ? (Expression<?>) value
-            : Expressions.constant(value);
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
-        return new JsonValueExpression(
-            Expressions.stringTemplate(
-                "json_replace({0}, {1}, {2})",
-                jsonDoc,
-                Expressions.constant(path),
-                valueExpr
-            )
-        );
+        return new JsonValueExpression(Expressions
+                .stringTemplate("json_replace({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
     }
 
     /**
      * Removes data from a JSON document.
      *
-     * <p>SQL: {@code JSON_REMOVE(json_doc, path)}</p>
+     * <p>
+     * SQL: {@code JSON_REMOVE(json_doc, path)}
+     * </p>
      *
-     * @param jsonDoc the JSON document
-     * @param paths the paths to remove
+     * @param jsonDoc
+     *            the JSON document
+     * @param paths
+     *            the paths to remove
      * @return JsonValueExpression with updated document
      */
     public static JsonValueExpression remove(Expression<?> jsonDoc, String... paths) {
@@ -283,20 +292,20 @@ public class JsonValueExpression extends JsonExpression<String> {
         // Build template with proper number of placeholders
         StringBuilder template = new StringBuilder("json_remove(");
         for (int i = 0; i < args.length; i++) {
-            if (i > 0) template.append(", ");
+            if (i > 0)
+                template.append(", ");
             template.append("{").append(i).append("}");
         }
         template.append(")");
 
-        return new JsonValueExpression(
-            Expressions.stringTemplate(template.toString(), (Object[]) args)
-        );
+        return new JsonValueExpression(Expressions.stringTemplate(template.toString(), (Object[]) args));
     }
 
     /**
      * Wraps an existing expression as a JsonValueExpression.
      *
-     * @param expression the expression to wrap
+     * @param expression
+     *            the expression to wrap
      * @return JsonValueExpression
      */
     public static JsonValueExpression wrap(Expression<String> expression) {

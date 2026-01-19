@@ -13,10 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for MySQL JSON aggregate functions in JPA environment.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_ARRAYAGG - Aggregate values into JSON array</li>
- *   <li>JSON_OBJECTAGG - Aggregate key-value pairs into JSON object</li>
+ * <li>JSON_ARRAYAGG - Aggregate values into JSON array</li>
+ * <li>JSON_OBJECTAGG - Aggregate key-value pairs into JSON object</li>
  * </ul>
  */
 @DisplayName("JPA JSON Aggregate Functions")
@@ -171,8 +172,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate category counts")
         void aggregateCategoryCounts() {
-            String sql = "SELECT JSON_OBJECTAGG(category, cnt) FROM " +
-                         "(SELECT category, COUNT(*) as cnt FROM products GROUP BY category) t";
+            String sql = "SELECT JSON_OBJECTAGG(category, cnt) FROM "
+                    + "(SELECT category, COUNT(*) as cnt FROM products GROUP BY category) t";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("Electronics", "3");
@@ -199,8 +200,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create category summary")
         void createCategorySummary() {
-            String sql = "SELECT JSON_OBJECTAGG(category, products) FROM " +
-                         "(SELECT category, JSON_ARRAYAGG(name) as products FROM products GROUP BY category) t";
+            String sql = "SELECT JSON_OBJECTAGG(category, products) FROM "
+                    + "(SELECT category, JSON_ARRAYAGG(name) as products FROM products GROUP BY category) t";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("Electronics");
@@ -211,8 +212,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate product details")
         void aggregateProductDetails() {
-            String sql = "SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'price', price)) " +
-                         "FROM products WHERE category = 'Furniture'";
+            String sql = "SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'price', price)) "
+                    + "FROM products WHERE category = 'Furniture'";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"name\"", "\"price\"");

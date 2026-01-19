@@ -152,12 +152,7 @@ public class TestOrder {
 
     @Override
     public String toString() {
-        return "TestOrder{" +
-               "id=" + id +
-               ", orderNumber='" + orderNumber + '\'' +
-               ", userId=" + userId +
-               ", totalAmount=" + totalAmount +
-               ", status='" + status + '\'' +
-               '}';
+        return "TestOrder{" + "id=" + id + ", orderNumber='" + orderNumber + '\'' + ", userId=" + userId
+                + ", totalAmount=" + totalAmount + ", status='" + status + '\'' + '}';
     }
 }

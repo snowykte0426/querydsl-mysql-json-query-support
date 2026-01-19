@@ -72,8 +72,7 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
     void jsonSet_withOddArguments_shouldThrowException() {
         // When/Then
         assertThatThrownBy(() -> jsonSet(Expressions.constant("{}"), "$.key"))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("path-value pairs");
+                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("path-value pairs");
     }
 
     // ========================================
@@ -409,7 +408,8 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
     void jsonUnquote_withExpression_shouldUnquote() throws SQLException {
         // Given
         String doc = "{\"name\": \"John\"}";
-        StringExpression extracted = Expressions.stringTemplate("json_extract({0}, '$.name')", Expressions.constant(doc));
+        StringExpression extracted = Expressions.stringTemplate("json_extract({0}, '$.name')",
+                Expressions.constant(doc));
         StringExpression result = jsonUnquote(extracted);
 
         // When
@@ -426,8 +426,8 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSet_inDatabase_shouldUpdateJsonColumn() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('John', 'john@test.com', '{\"age\": 30}')");
+        executeUpdate(
+                "INSERT INTO users (name, email, metadata) VALUES " + "('John', 'john@test.com', '{\"age\": 30}')");
 
         // When
         executeUpdate("UPDATE users SET metadata = JSON_SET(metadata, '$.age', 31) WHERE name = 'John'");
@@ -440,8 +440,8 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArrayAppend_inDatabase_shouldAppendToArray() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO products (name, price, tags) VALUES " +
-            "('Product', 100.00, '[\"tag1\", \"tag2\"]')");
+        executeUpdate(
+                "INSERT INTO products (name, price, tags) VALUES " + "('Product', 100.00, '[\"tag1\", \"tag2\"]')");
 
         // When
         executeUpdate("UPDATE products SET tags = JSON_ARRAY_APPEND(tags, '$', 'tag3') WHERE name = 'Product'");
@@ -454,12 +454,13 @@ class JsonModifyFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonMergePatch_inDatabase_shouldMergeObjects() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO users (name, email, settings) VALUES " +
-            "('Alice', 'alice@test.com', '{\"theme\": \"light\", \"lang\": \"en\"}')");
+        executeUpdate("INSERT INTO users (name, email, settings) VALUES "
+                + "('Alice', 'alice@test.com', '{\"theme\": \"light\", \"lang\": \"en\"}')");
 
         // When
-        executeUpdate("UPDATE users SET settings = JSON_MERGE_PATCH(settings, '{\"theme\": \"dark\", \"notifications\": true}') " +
-            "WHERE name = 'Alice'");
+        executeUpdate(
+                "UPDATE users SET settings = JSON_MERGE_PATCH(settings, '{\"theme\": \"dark\", \"notifications\": true}') "
+                        + "WHERE name = 'Alice'");
         String settings = executeScalar("SELECT settings FROM users WHERE name = 'Alice'");
 
         // Then

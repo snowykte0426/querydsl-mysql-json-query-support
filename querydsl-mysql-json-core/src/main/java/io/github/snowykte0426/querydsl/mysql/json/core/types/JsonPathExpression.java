@@ -11,19 +11,21 @@ import java.util.Objects;
 /**
  * Expression wrapper for JSON path values.
  *
- * <p>This class wraps a {@link JsonPath} to be used as a QueryDSL expression
- * in JSON function calls. The path is rendered as a string constant in the
- * generated SQL.</p>
+ * <p>
+ * This class wraps a {@link JsonPath} to be used as a QueryDSL expression in
+ * JSON function calls. The path is rendered as a string constant in the
+ * generated SQL.
+ * </p>
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
+ *
  * <pre>{@code
  * JsonPath path = JsonPath.of("$.user.name");
  * JsonPathExpression expr = JsonPathExpression.of(path);
  *
  * // Used in JSON_EXTRACT
- * queryFactory.select(
- *     JsonFunctions.jsonExtract(user.metadata, expr)
- * );
+ * queryFactory.select(JsonFunctions.jsonExtract(user.metadata, expr));
  * }</pre>
  *
  * @author snowykte0426
@@ -38,7 +40,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
     /**
      * Constructs a JsonPathExpression from a JsonPath.
      *
-     * @param path the JSON path
+     * @param path
+     *            the JSON path
      */
     private JsonPathExpression(JsonPath path) {
         super(Expressions.constant(path.getPath()));
@@ -48,7 +51,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
     /**
      * Creates a JsonPathExpression from a JsonPath.
      *
-     * @param path the JSON path
+     * @param path
+     *            the JSON path
      * @return JsonPathExpression instance
      */
     public static JsonPathExpression of(JsonPath path) {
@@ -58,7 +62,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
     /**
      * Creates a JsonPathExpression from a path string.
      *
-     * @param path the JSON path string (e.g., "$.user.name")
+     * @param path
+     *            the JSON path string (e.g., "$.user.name")
      * @return JsonPathExpression instance
      */
     public static JsonPathExpression of(String path) {
@@ -86,7 +91,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
     /**
      * Appends an object member to this path.
      *
-     * @param key the member key
+     * @param key
+     *            the member key
      * @return new JsonPathExpression with appended member
      */
     public JsonPathExpression member(String key) {
@@ -96,7 +102,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
     /**
      * Appends an array element access to this path.
      *
-     * @param index the array index
+     * @param index
+     *            the array index
      * @return new JsonPathExpression with appended array access
      */
     public JsonPathExpression arrayElement(int index) {
@@ -115,7 +122,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
     /**
      * Appends recursive descent to this path.
      *
-     * @param key the member key to search recursively
+     * @param key
+     *            the member key to search recursively
      * @return new JsonPathExpression with recursive descent
      */
     public JsonPathExpression recursiveDescent(String key) {
@@ -131,12 +139,14 @@ public class JsonPathExpression extends SimpleExpression<String> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
         JsonPathExpression that = (JsonPathExpression) o;
         return path.equals(that.path);
     }
 
 }
-

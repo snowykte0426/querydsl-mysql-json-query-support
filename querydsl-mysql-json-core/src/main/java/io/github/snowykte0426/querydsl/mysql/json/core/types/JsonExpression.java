@@ -10,17 +10,22 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Base expression class for MySQL JSON operations.
  *
- * <p>This class serves as the foundation for all JSON-related expressions in QueryDSL,
- * providing common JSON operations and type-safe method chaining capabilities.</p>
+ * <p>
+ * This class serves as the foundation for all JSON-related expressions in
+ * QueryDSL, providing common JSON operations and type-safe method chaining
+ * capabilities.
+ * </p>
  *
- * <p>JSON expressions can represent:
+ * <p>
+ * JSON expressions can represent:
  * <ul>
- *   <li>JSON column references</li>
- *   <li>JSON function results</li>
- *   <li>JSON literals and constants</li>
+ * <li>JSON column references</li>
+ * <li>JSON function results</li>
+ * <li>JSON literals and constants</li>
  * </ul>
  *
- * @param <T> the Java type this expression represents
+ * @param <T>
+ *            the Java type this expression represents
  * @author snowykte0426
  * @since 0.1.0-Dev.1
  */
@@ -31,7 +36,8 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Constructs a JsonExpression with the specified type.
      *
-     * @param type the Java type
+     * @param type
+     *            the Java type
      */
     protected JsonExpression(Class<? extends T> type) {
         super(Expressions.constant(null));
@@ -40,7 +46,8 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Constructs a JsonExpression wrapping another expression.
      *
-     * @param mixin the underlying expression
+     * @param mixin
+     *            the underlying expression
      */
     protected JsonExpression(Expression<T> mixin) {
         super(mixin);
@@ -49,9 +56,12 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Extracts data from this JSON document at the specified path.
      *
-     * <p>SQL: {@code JSON_EXTRACT(json_doc, path)}</p>
+     * <p>
+     * SQL: {@code JSON_EXTRACT(json_doc, path)}
+     * </p>
      *
-     * @param path JSON path expression (e.g., "$.key.subkey")
+     * @param path
+     *            JSON path expression (e.g., "$.key.subkey")
      * @return expression representing the extracted JSON value
      */
     public JsonExpression<String> jsonExtract(String path) {
@@ -61,9 +71,12 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Extracts data from this JSON document at the specified paths.
      *
-     * <p>SQL: {@code JSON_EXTRACT(json_doc, path1, path2, ...)}</p>
+     * <p>
+     * SQL: {@code JSON_EXTRACT(json_doc, path1, path2, ...)}
+     * </p>
      *
-     * @param paths JSON path expressions
+     * @param paths
+     *            JSON path expressions
      * @return expression representing the extracted JSON value
      */
     public JsonExpression<String> jsonExtract(String... paths) {
@@ -73,9 +86,12 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Extracts and unquotes a value from this JSON document.
      *
-     * <p>SQL: {@code json_doc ->> path}</p>
+     * <p>
+     * SQL: {@code json_doc ->> path}
+     * </p>
      *
-     * @param path JSON path expression
+     * @param path
+     *            JSON path expression
      * @return string expression with unquoted value
      */
     public StringExpression jsonUnquoteExtract(String path) {
@@ -85,7 +101,9 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Returns the maximum depth of this JSON document.
      *
-     * <p>SQL: {@code JSON_DEPTH(json_doc)}</p>
+     * <p>
+     * SQL: {@code JSON_DEPTH(json_doc)}
+     * </p>
      *
      * @return integer expression representing depth
      */
@@ -96,7 +114,9 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Returns the number of elements in this JSON document.
      *
-     * <p>SQL: {@code JSON_LENGTH(json_doc)}</p>
+     * <p>
+     * SQL: {@code JSON_LENGTH(json_doc)}
+     * </p>
      *
      * @return integer expression representing length
      */
@@ -107,9 +127,12 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Returns the number of elements at the specified path in this JSON document.
      *
-     * <p>SQL: {@code JSON_LENGTH(json_doc, path)}</p>
+     * <p>
+     * SQL: {@code JSON_LENGTH(json_doc, path)}
+     * </p>
      *
-     * @param path JSON path expression
+     * @param path
+     *            JSON path expression
      * @return integer expression representing length
      */
     public SimpleExpression<Integer> jsonLength(String path) {
@@ -119,7 +142,9 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Returns the type of this JSON value.
      *
-     * <p>SQL: {@code JSON_TYPE(json_val)}</p>
+     * <p>
+     * SQL: {@code JSON_TYPE(json_val)}
+     * </p>
      *
      * @return string expression representing JSON type
      */
@@ -130,7 +155,9 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Checks if this value is valid JSON.
      *
-     * <p>SQL: {@code JSON_VALID(val)}</p>
+     * <p>
+     * SQL: {@code JSON_VALID(val)}
+     * </p>
      *
      * @return boolean expression
      */
@@ -141,7 +168,9 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Formats this JSON document in a readable format.
      *
-     * <p>SQL: {@code JSON_PRETTY(json_doc)}</p>
+     * <p>
+     * SQL: {@code JSON_PRETTY(json_doc)}
+     * </p>
      *
      * @return string expression with formatted JSON
      */
@@ -156,8 +185,10 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Creates a JSON expression from a constant value.
      *
-     * @param value the constant value
-     * @param <T> value type
+     * @param value
+     *            the constant value
+     * @param <T>
+     *            value type
      * @return JSON expression
      */
     public static <T> JsonExpression<T> constant(T value) {
@@ -167,24 +198,25 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Extracts data from a JSON document.
      *
-     * @param jsonDoc the JSON document expression
-     * @param path the JSON path
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param path
+     *            the JSON path
      * @return extracted JSON expression
      */
     public static JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String path) {
-        StringExpression expr = Expressions.stringTemplate(
-            "json_extract({0}, {1})",
-            jsonDoc,
-            Expressions.constant(path)
-        );
+        StringExpression expr = Expressions
+                .stringTemplate("json_extract({0}, {1})", jsonDoc, Expressions.constant(path));
         return new JsonExpressionImpl<>(expr);
     }
 
     /**
      * Extracts data from a JSON document at multiple paths.
      *
-     * @param jsonDoc the JSON document expression
-     * @param paths the JSON paths
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param paths
+     *            the JSON paths
      * @return extracted JSON expression
      */
     public static JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String... paths) {
@@ -205,22 +237,21 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Extracts and unquotes a value from a JSON document.
      *
-     * @param jsonDoc the JSON document expression
-     * @param path the JSON path
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param path
+     *            the JSON path
      * @return unquoted string expression
      */
     public static StringExpression jsonUnquoteExtract(Expression<?> jsonDoc, String path) {
-        return Expressions.stringTemplate(
-            "{0} ->> {1}",
-            jsonDoc,
-            Expressions.constant(path)
-        );
+        return Expressions.stringTemplate("{0} ->> {1}", jsonDoc, Expressions.constant(path));
     }
 
     /**
      * Returns the maximum depth of a JSON document.
      *
-     * @param jsonDoc the JSON document expression
+     * @param jsonDoc
+     *            the JSON document expression
      * @return depth expression
      */
     public static SimpleExpression<Integer> jsonDepth(Expression<?> jsonDoc) {
@@ -230,7 +261,8 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Returns the number of elements in a JSON document.
      *
-     * @param jsonDoc the JSON document expression
+     * @param jsonDoc
+     *            the JSON document expression
      * @return length expression
      */
     public static SimpleExpression<Integer> jsonLength(Expression<?> jsonDoc) {
@@ -240,23 +272,21 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Returns the number of elements at a path in a JSON document.
      *
-     * @param jsonDoc the JSON document expression
-     * @param path the JSON path
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param path
+     *            the JSON path
      * @return length expression
      */
     public static SimpleExpression<Integer> jsonLength(Expression<?> jsonDoc, String path) {
-        return Expressions.numberTemplate(
-            Integer.class,
-            "json_length({0}, {1})",
-            jsonDoc,
-            Expressions.constant(path)
-        );
+        return Expressions.numberTemplate(Integer.class, "json_length({0}, {1})", jsonDoc, Expressions.constant(path));
     }
 
     /**
      * Returns the type of a JSON value.
      *
-     * @param jsonValue the JSON value expression
+     * @param jsonValue
+     *            the JSON value expression
      * @return type expression
      */
     public static StringExpression jsonType(Expression<?> jsonValue) {
@@ -266,7 +296,8 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Checks if a value is valid JSON.
      *
-     * @param value the value expression
+     * @param value
+     *            the value expression
      * @return validation expression
      */
     public static SimpleExpression<Boolean> jsonValid(Expression<?> value) {
@@ -276,7 +307,8 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
     /**
      * Formats a JSON document in readable format.
      *
-     * @param jsonDoc the JSON document expression
+     * @param jsonDoc
+     *            the JSON document expression
      * @return formatted JSON expression
      */
     public static StringExpression jsonPretty(Expression<?> jsonDoc) {

@@ -9,12 +9,13 @@ import java.util.Map;
  * SQL template definitions for MySQL JSON operators.
  *
  * This class provides SQL template strings for all MySQL JSON functions,
- * mapping each {@link JsonOperators} enum to its corresponding MySQL function syntax.
+ * mapping each {@link JsonOperators} enum to its corresponding MySQL function
+ * syntax.
  *
  * Template placeholders:
  * <ul>
- *   <li>{0}, {1}, {2}, ... - positional parameters for function arguments</li>
- *   <li>{0s} - varargs splicing for variable-length arguments</li>
+ * <li>{0}, {1}, {2}, ... - positional parameters for function arguments</li>
+ * <li>{0s} - varargs splicing for variable-length arguments</li>
  * </ul>
  *
  * @author snowykte0426
@@ -28,7 +29,8 @@ public final class JsonOperatorTemplates {
 
     /**
      * Returns a map of operator templates suitable for use with QueryDSL Templates.
-     * These templates should be registered with MySQL-specific Templates implementation.
+     * These templates should be registered with MySQL-specific Templates
+     * implementation.
      *
      * @return Map of operators to template strings
      */
@@ -119,7 +121,8 @@ public final class JsonOperatorTemplates {
     /**
      * Convenience method to get template string for a specific operator.
      *
-     * @param operator the JSON operator
+     * @param operator
+     *            the JSON operator
      * @return the SQL template string
      */
     public static String getTemplate(Operator operator) {

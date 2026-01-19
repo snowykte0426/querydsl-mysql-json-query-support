@@ -1,7 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.validation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -9,17 +8,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * <p>
  * This class provides methods for:
  * <ul>
- *     <li>Validating JSON syntax</li>
- *     <li>Converting objects to JSON strings with validation</li>
- *     <li>Escaping special characters in JSON strings</li>
- *     <li>Validating and quoting string values</li>
+ * <li>Validating JSON syntax</li>
+ * <li>Converting objects to JSON strings with validation</li>
+ * <li>Escaping special characters in JSON strings</li>
+ * <li>Validating and quoting string values</li>
  * </ul>
  * <p>
- * All methods use a thread-safe, cached {@link ObjectMapper} instance for JSON processing.
+ * All methods use a thread-safe, cached {@link ObjectMapper} instance for JSON
+ * processing.
  * <p>
- * <strong>Security Note:</strong> While this class validates JSON syntax and escapes special characters,
- * SQL injection prevention is primarily handled by JDBC PreparedStatement parameter binding in the SDK.
- * This class provides an additional layer of client-side validation for fail-fast behavior.
+ * <strong>Security Note:</strong> While this class validates JSON syntax and
+ * escapes special characters, SQL injection prevention is primarily handled by
+ * JDBC PreparedStatement parameter binding in the SDK. This class provides an
+ * additional layer of client-side validation for fail-fast behavior.
  *
  * @since 0.1.0-Beta.1
  */
@@ -39,12 +40,13 @@ public final class JsonValidator {
      * <p>
      * This method:
      * <ul>
-     *     <li>Serializes the object to JSON using Jackson</li>
-     *     <li>Validates the resulting JSON syntax</li>
-     *     <li>Returns the validated JSON string</li>
+     * <li>Serializes the object to JSON using Jackson</li>
+     * <li>Validates the resulting JSON syntax</li>
+     * <li>Returns the validated JSON string</li>
      * </ul>
      * <p>
      * Example:
+     *
      * <pre>{@code
      * Map<String, Object> map = Map.of("key", "value");
      * String json = JsonValidator.toJsonString(map);
@@ -55,9 +57,11 @@ public final class JsonValidator {
      * // Returns: ["a","b","c"]
      * }</pre>
      *
-     * @param value the object to convert to JSON (can be null)
+     * @param value
+     *            the object to convert to JSON (can be null)
      * @return the JSON string representation of the object
-     * @throws JsonValidationException if serialization fails or produces invalid JSON
+     * @throws JsonValidationException
+     *             if serialization fails or produces invalid JSON
      */
     public static String toJsonString(Object value) {
         if (value == null) {
@@ -67,11 +71,9 @@ public final class JsonValidator {
         try {
             return MAPPER.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            throw new JsonValidationException(
-                "Failed to serialize object to JSON: " + e.getMessage(),
-                String.valueOf(value),
-                e
-            );
+            throw new JsonValidationException("Failed to serialize object to JSON: " + e.getMessage(),
+                    String.valueOf(value),
+                    e);
         }
     }
 
@@ -80,12 +82,13 @@ public final class JsonValidator {
      * <p>
      * This method:
      * <ul>
-     *     <li>Parses the JSON string to verify syntax</li>
-     *     <li>Returns the original input if valid (preserves formatting)</li>
-     *     <li>Throws an exception if invalid</li>
+     * <li>Parses the JSON string to verify syntax</li>
+     * <li>Returns the original input if valid (preserves formatting)</li>
+     * <li>Throws an exception if invalid</li>
      * </ul>
      * <p>
      * Example:
+     *
      * <pre>{@code
      * String valid = JsonValidator.validateJson("{\"key\":\"value\"}");
      * // Returns: {"key":"value"}
@@ -94,10 +97,13 @@ public final class JsonValidator {
      * // Throws: JsonValidationException
      * }</pre>
      *
-     * @param json the JSON string to validate
+     * @param json
+     *            the JSON string to validate
      * @return the original JSON string if valid
-     * @throws JsonValidationException if the JSON syntax is invalid
-     * @throws IllegalArgumentException if json is null
+     * @throws JsonValidationException
+     *             if the JSON syntax is invalid
+     * @throws IllegalArgumentException
+     *             if json is null
      */
     public static String validateJson(String json) {
         if (json == null) {
@@ -109,11 +115,7 @@ public final class JsonValidator {
             MAPPER.readTree(json);
             return json;
         } catch (JsonProcessingException e) {
-            throw new JsonValidationException(
-                "Invalid JSON syntax: " + e.getOriginalMessage(),
-                json,
-                e
-            );
+            throw new JsonValidationException("Invalid JSON syntax: " + e.getOriginalMessage(), json, e);
         }
     }
 
@@ -122,12 +124,13 @@ public final class JsonValidator {
      * <p>
      * This method:
      * <ul>
-     *     <li>Escapes special characters in the string</li>
-     *     <li>Wraps the result in double quotes</li>
-     *     <li>Validates the resulting JSON string</li>
+     * <li>Escapes special characters in the string</li>
+     * <li>Wraps the result in double quotes</li>
+     * <li>Validates the resulting JSON string</li>
      * </ul>
      * <p>
      * Example:
+     *
      * <pre>{@code
      * String quoted = JsonValidator.validateAndQuote("hello");
      * // Returns: "hello"
@@ -136,10 +139,13 @@ public final class JsonValidator {
      * // Returns: "line1\\nline2"
      * }</pre>
      *
-     * @param value the string value to quote (cannot be null)
+     * @param value
+     *            the string value to quote (cannot be null)
      * @return the JSON-quoted string
-     * @throws JsonValidationException if validation fails
-     * @throws IllegalArgumentException if value is null
+     * @throws JsonValidationException
+     *             if validation fails
+     * @throws IllegalArgumentException
+     *             if value is null
      */
     public static String validateAndQuote(String value) {
         if (value == null) {
@@ -150,21 +156,18 @@ public final class JsonValidator {
             // Use Jackson to properly escape and quote the string
             return MAPPER.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            throw new JsonValidationException(
-                "Failed to quote string value: " + e.getMessage(),
-                value,
-                e
-            );
+            throw new JsonValidationException("Failed to quote string value: " + e.getMessage(), value, e);
         }
     }
 
     /**
      * Checks if a string is valid JSON.
      * <p>
-     * This method attempts to parse the JSON string and returns {@code true} if successful,
-     * {@code false} otherwise.
+     * This method attempts to parse the JSON string and returns {@code true} if
+     * successful, {@code false} otherwise.
      * <p>
      * Example:
+     *
      * <pre>{@code
      * boolean valid = JsonValidator.isValidJson("{\"key\":\"value\"}");
      * // Returns: true
@@ -173,7 +176,8 @@ public final class JsonValidator {
      * // Returns: false
      * }</pre>
      *
-     * @param json the JSON string to check
+     * @param json
+     *            the JSON string to check
      * @return {@code true} if the string is valid JSON, {@code false} otherwise
      */
     public static boolean isValidJson(String json) {
@@ -194,15 +198,16 @@ public final class JsonValidator {
      * <p>
      * This method escapes:
      * <ul>
-     *     <li>Backslashes (\)</li>
-     *     <li>Double quotes (")</li>
-     *     <li>Control characters (newline, tab, carriage return, etc.)</li>
+     * <li>Backslashes (\)</li>
+     * <li>Double quotes (")</li>
+     * <li>Control characters (newline, tab, carriage return, etc.)</li>
      * </ul>
      * <p>
-     * <strong>Note:</strong> This method does NOT add surrounding quotes.
-     * Use {@link #validateAndQuote(String)} for a complete JSON string value.
+     * <strong>Note:</strong> This method does NOT add surrounding quotes. Use
+     * {@link #validateAndQuote(String)} for a complete JSON string value.
      * <p>
      * Example:
+     *
      * <pre>{@code
      * String escaped = JsonValidator.escapeJsonString("hello\nworld");
      * // Returns: hello\\nworld
@@ -211,9 +216,11 @@ public final class JsonValidator {
      * // Returns: say \\\"hello\\\"
      * }</pre>
      *
-     * @param value the string value to escape (cannot be null)
+     * @param value
+     *            the string value to escape (cannot be null)
      * @return the escaped string (without surrounding quotes)
-     * @throws IllegalArgumentException if value is null
+     * @throws IllegalArgumentException
+     *             if value is null
      */
     public static String escapeJsonString(String value) {
         if (value == null) {
@@ -225,28 +232,28 @@ public final class JsonValidator {
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);
             switch (c) {
-                case '\\':
+                case '\\' :
                     sb.append("\\\\");
                     break;
-                case '"':
+                case '"' :
                     sb.append("\\\"");
                     break;
-                case '\b':
+                case '\b' :
                     sb.append("\\b");
                     break;
-                case '\f':
+                case '\f' :
                     sb.append("\\f");
                     break;
-                case '\n':
+                case '\n' :
                     sb.append("\\n");
                     break;
-                case '\r':
+                case '\r' :
                     sb.append("\\r");
                     break;
-                case '\t':
+                case '\t' :
                     sb.append("\\t");
                     break;
-                default:
+                default :
                     // Escape control characters
                     if (c < 0x20) {
                         sb.append(String.format("\\u%04x", (int) c));

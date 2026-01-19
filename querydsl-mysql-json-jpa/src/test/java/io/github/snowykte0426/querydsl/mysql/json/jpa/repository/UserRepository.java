@@ -13,7 +13,8 @@ import java.util.Optional;
 /**
  * Spring Data JPA Repository for User entity.
  *
- * <p>Demonstrates integration of JSON functions with Spring Data JPA.
+ * <p>
+ * Demonstrates integration of JSON functions with Spring Data JPA.
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredicateExecutor<User> {
@@ -29,22 +30,22 @@ public interface UserRepository extends JpaRepository<User, Long>, QuerydslPredi
     List<User> findByNameContaining(String namePart);
 
     /**
-     * Find users where metadata contains a specific JSON path value.
-     * Uses native query with JSON_EXTRACT.
+     * Find users where metadata contains a specific JSON path value. Uses native
+     * query with JSON_EXTRACT.
      */
     @Query(value = "SELECT * FROM users WHERE JSON_EXTRACT(metadata, :path) = :value", nativeQuery = true)
     List<User> findByMetadataPath(@Param("path") String path, @Param("value") String value);
 
     /**
-     * Find users where metadata contains a specific value.
-     * Uses native query with JSON_CONTAINS.
+     * Find users where metadata contains a specific value. Uses native query with
+     * JSON_CONTAINS.
      */
     @Query(value = "SELECT * FROM users WHERE JSON_CONTAINS(metadata, :value)", nativeQuery = true)
     List<User> findByMetadataContaining(@Param("value") String value);
 
     /**
-     * Find users where a JSON key exists in metadata.
-     * Uses native query with JSON_CONTAINS_PATH.
+     * Find users where a JSON key exists in metadata. Uses native query with
+     * JSON_CONTAINS_PATH.
      */
     @Query(value = "SELECT * FROM users WHERE JSON_CONTAINS_PATH(metadata, 'one', :path)", nativeQuery = true)
     List<User> findByMetadataKeyExists(@Param("path") String path);

@@ -483,8 +483,8 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonDepth_inDatabase_shouldCalculateDepth() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('John', 'john@test.com', '{\"profile\": {\"address\": {\"city\": \"Seoul\"}}}')");
+        executeUpdate("INSERT INTO users (name, email, metadata) VALUES "
+                + "('John', 'john@test.com', '{\"profile\": {\"address\": {\"city\": \"Seoul\"}}}')");
 
         // When
         String depth = executeScalar("SELECT JSON_DEPTH(metadata) FROM users WHERE name = 'John'");
@@ -496,8 +496,8 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_inDatabase_shouldCountElements() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO products (name, price, tags) VALUES " +
-            "('Product', 100.00, '[\"tag1\", \"tag2\", \"tag3\", \"tag4\"]')");
+        executeUpdate("INSERT INTO products (name, price, tags) VALUES "
+                + "('Product', 100.00, '[\"tag1\", \"tag2\", \"tag3\", \"tag4\"]')");
 
         // When
         String length = executeScalar("SELECT JSON_LENGTH(tags) FROM products WHERE name = 'Product'");
@@ -509,12 +509,14 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_inDatabase_shouldIdentifyType() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO users (name, email, settings) VALUES " +
-            "('Alice', 'alice@test.com', '{\"theme\": \"dark\", \"count\": 5}')");
+        executeUpdate("INSERT INTO users (name, email, settings) VALUES "
+                + "('Alice', 'alice@test.com', '{\"theme\": \"dark\", \"count\": 5}')");
 
         // When
-        String themeType = executeScalar("SELECT JSON_TYPE(JSON_EXTRACT(settings, '$.theme')) FROM users WHERE name = 'Alice'");
-        String countType = executeScalar("SELECT JSON_TYPE(JSON_EXTRACT(settings, '$.count')) FROM users WHERE name = 'Alice'");
+        String themeType = executeScalar(
+                "SELECT JSON_TYPE(JSON_EXTRACT(settings, '$.theme')) FROM users WHERE name = 'Alice'");
+        String countType = executeScalar(
+                "SELECT JSON_TYPE(JSON_EXTRACT(settings, '$.count')) FROM users WHERE name = 'Alice'");
 
         // Then
         assertThat(themeType).isEqualTo("STRING");
@@ -524,10 +526,8 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void convenienceMethods_inWhereClause_shouldFilter() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO products (name, price, tags) VALUES " +
-            "('Product1', 100.00, '[]'), " +
-            "('Product2', 200.00, '[\"tag1\"]'), " +
-            "('Product3', 300.00, '[\"tag1\", \"tag2\"]')");
+        executeUpdate("INSERT INTO products (name, price, tags) VALUES " + "('Product1', 100.00, '[]'), "
+                + "('Product2', 200.00, '[\"tag1\"]'), " + "('Product3', 300.00, '[\"tag1\", \"tag2\"]')");
 
         // When - Find products with empty tags
         String emptyCount = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_LENGTH(tags) = 0");

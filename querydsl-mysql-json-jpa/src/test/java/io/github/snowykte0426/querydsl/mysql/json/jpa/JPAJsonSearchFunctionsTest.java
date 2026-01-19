@@ -15,16 +15,17 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 /**
  * Tests for MySQL JSON search functions in JPA environment.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_EXTRACT - Extract data from JSON</li>
- *   <li>JSON_VALUE - Extract scalar values</li>
- *   <li>JSON_CONTAINS - Test if JSON contains value</li>
- *   <li>JSON_CONTAINS_PATH - Test if path exists</li>
- *   <li>JSON_KEYS - Get object keys</li>
- *   <li>JSON_SEARCH - Find path to value</li>
- *   <li>JSON_OVERLAPS - Test document overlap</li>
- *   <li>MEMBER OF - Test array membership</li>
+ * <li>JSON_EXTRACT - Extract data from JSON</li>
+ * <li>JSON_VALUE - Extract scalar values</li>
+ * <li>JSON_CONTAINS - Test if JSON contains value</li>
+ * <li>JSON_CONTAINS_PATH - Test if path exists</li>
+ * <li>JSON_KEYS - Get object keys</li>
+ * <li>JSON_SEARCH - Find path to value</li>
+ * <li>JSON_OVERLAPS - Test document overlap</li>
+ * <li>MEMBER OF - Test array membership</li>
  * </ul>
  */
 @DisplayName("JPA JSON Search Functions")
@@ -33,20 +34,23 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
     @BeforeEach
     void setupData() {
         // Create test users with JSON metadata
-        createUser("John", "john@example.com",
-            "{\"role\": \"admin\", \"permissions\": [\"read\", \"write\", \"delete\"], \"profile\": {\"age\": 30}}",
-            "{\"theme\": \"dark\", \"notifications\": true}",
-            "[\"admin\", \"user\"]");
+        createUser("John",
+                "john@example.com",
+                "{\"role\": \"admin\", \"permissions\": [\"read\", \"write\", \"delete\"], \"profile\": {\"age\": 30}}",
+                "{\"theme\": \"dark\", \"notifications\": true}",
+                "[\"admin\", \"user\"]");
 
-        createUser("Jane", "jane@example.com",
-            "{\"role\": \"user\", \"permissions\": [\"read\"], \"profile\": {\"age\": 25}}",
-            "{\"theme\": \"light\", \"notifications\": false}",
-            "[\"user\"]");
+        createUser("Jane",
+                "jane@example.com",
+                "{\"role\": \"user\", \"permissions\": [\"read\"], \"profile\": {\"age\": 25}}",
+                "{\"theme\": \"light\", \"notifications\": false}",
+                "[\"user\"]");
 
-        createUser("Bob", "bob@example.com",
-            "{\"role\": \"moderator\", \"permissions\": [\"read\", \"write\"], \"profile\": {\"age\": 35}}",
-            null,
-            "[\"moderator\", \"user\"]");
+        createUser("Bob",
+                "bob@example.com",
+                "{\"role\": \"moderator\", \"permissions\": [\"read\", \"write\"], \"profile\": {\"age\": 35}}",
+                null,
+                "[\"moderator\", \"user\"]");
 
         entityManager.flush();
         entityManager.clear();
@@ -379,10 +383,8 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonContains_inQueryDSLWhereClause_shouldWork() {
             // When: Query using jsonContains in WHERE clause with QueryDSL
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .where(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\""))
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .where(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"")).fetch();
 
                 // Then: Should not throw "Non-boolean expression" error
                 assertThat(results).hasSize(1);
@@ -395,19 +397,13 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonContainsWithPath_inQueryDSLWhereClause_shouldWork() {
             // When: Query using jsonContains with path in WHERE clause
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .where(JPAJsonFunctions.jsonContains(
-                        QUser.user.metadata,
-                        "\"write\"",
-                        "$.permissions"
-                    ))
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .where(JPAJsonFunctions.jsonContains(QUser.user.metadata, "\"write\"", "$.permissions"))
+                        .fetch();
 
                 // Then: Should not throw error and find users with write permission
                 assertThat(results).hasSize(2);
-                assertThat(results).extracting(User::getName)
-                    .containsExactlyInAnyOrder("John", "Bob");
+                assertThat(results).extracting(User::getName).containsExactlyInAnyOrder("John", "Bob");
             }).doesNotThrowAnyException();
         }
 
@@ -416,14 +412,8 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonContainsPath_inQueryDSLWhereClause_shouldWork() {
             // When: Query using jsonContainsPath in WHERE clause
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .where(JPAJsonFunctions.jsonContainsPath(
-                        QUser.user.metadata,
-                        "one",
-                        "$.profile.age"
-                    ))
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .where(JPAJsonFunctions.jsonContainsPath(QUser.user.metadata, "one", "$.profile.age")).fetch();
 
                 // Then: Should not throw error and find all users with profile.age
                 assertThat(results).hasSize(3);
@@ -435,13 +425,8 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonOverlaps_inQueryDSLWhereClause_shouldWork() {
             // When: Query using jsonOverlaps in WHERE clause
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .where(JPAJsonFunctions.jsonOverlaps(
-                        QUser.user.roles,
-                        "[\"admin\", \"superuser\"]"
-                    ))
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .where(JPAJsonFunctions.jsonOverlaps(QUser.user.roles, "[\"admin\", \"superuser\"]")).fetch();
 
                 // Then: Should not throw error and find users with overlapping roles
                 assertThat(results).hasSize(1);
@@ -454,10 +439,8 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonValid_inQueryDSLWhereClause_shouldWork() {
             // When: Query using jsonValid in WHERE clause
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .where(JPAJsonFunctions.jsonValid(QUser.user.metadata))
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .where(JPAJsonFunctions.jsonValid(QUser.user.metadata)).fetch();
 
                 // Then: Should not throw error and find all users with valid JSON
                 assertThat(results).hasSize(3);
@@ -469,19 +452,11 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void complexQueryWithMultipleJsonFunctions_shouldWork() {
             // When: Complex query combining multiple JSON functions
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .where(
-                        JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"")
-                            .and(JPAJsonFunctions.jsonContainsPath(
-                                QUser.user.metadata,
-                                "one",
-                                "$.permissions"
-                            ))
-                            .and(JPAJsonFunctions.jsonExtract(QUser.user.metadata, "$.role")
-                                .eq("\"admin\""))
-                    )
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .where(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"")
+                                .and(JPAJsonFunctions.jsonContainsPath(QUser.user.metadata, "one", "$.permissions"))
+                                .and(JPAJsonFunctions.jsonExtract(QUser.user.metadata, "$.role").eq("\"admin\"")))
+                        .fetch();
 
                 // Then: Should not throw error and find matching users
                 assertThat(results).hasSize(1);
@@ -494,13 +469,10 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonContains_inOrderBy_shouldWork() {
             // When: Query using jsonContains in ORDER BY
             assertThatCode(() -> {
-                List<User> results = queryFactory
-                    .selectFrom(QUser.user)
-                    .orderBy(
-                        JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"").desc(),
-                        QUser.user.name.asc()
-                    )
-                    .fetch();
+                List<User> results = queryFactory.selectFrom(QUser.user)
+                        .orderBy(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"").desc(),
+                                QUser.user.name.asc())
+                        .fetch();
 
                 // Then: Should not throw error and order correctly
                 assertThat(results).hasSize(3);
@@ -513,15 +485,9 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonContains_withCount_shouldWork() {
             // When: COUNT query with jsonContains
             assertThatCode(() -> {
-                Long count = queryFactory
-                    .select(QUser.user.count())
-                    .from(QUser.user)
-                    .where(JPAJsonFunctions.jsonContains(
-                        QUser.user.metadata,
-                        "\"read\"",
-                        "$.permissions"
-                    ))
-                    .fetchOne();
+                Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
+                        .where(JPAJsonFunctions.jsonContains(QUser.user.metadata, "\"read\"", "$.permissions"))
+                        .fetchOne();
 
                 // Then: Should not throw error and return correct count
                 assertThat(count).isEqualTo(3L);
@@ -533,15 +499,10 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonExtractWithJsonContains_shouldWorkTogether() {
             // When: Query selecting json_extract result with jsonContains filter
             assertThatCode(() -> {
-                List<String> roles = queryFactory
-                    .select(JPAJsonFunctions.jsonExtract(QUser.user.metadata, "$.role"))
-                    .from(QUser.user)
-                    .where(JPAJsonFunctions.jsonContains(
-                        QUser.user.metadata,
-                        "\"write\"",
-                        "$.permissions"
-                    ))
-                    .fetch();
+                List<String> roles = queryFactory.select(JPAJsonFunctions.jsonExtract(QUser.user.metadata, "$.role"))
+                        .from(QUser.user)
+                        .where(JPAJsonFunctions.jsonContains(QUser.user.metadata, "\"write\"", "$.permissions"))
+                        .fetch();
 
                 // Then: Should not throw error and return correct roles
                 assertThat(roles).hasSize(2);

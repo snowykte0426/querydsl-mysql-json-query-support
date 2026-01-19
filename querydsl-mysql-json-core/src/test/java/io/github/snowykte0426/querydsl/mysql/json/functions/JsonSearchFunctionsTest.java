@@ -23,17 +23,11 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonExtract_withSimplePath_shouldExtractValue() throws SQLException {
         // Given
-        long userId = TestDataBuilder.users(connection)
-            .name("John Doe")
-            .email("john@example.com")
-            .metadata("role", "admin")
-            .metadata("department", "IT")
-            .insert();
+        long userId = TestDataBuilder.users(connection).name("John Doe").email("john@example.com")
+                .metadata("role", "admin").metadata("department", "IT").insert();
 
         // When
-        String role = executeScalar(
-            "SELECT JSON_EXTRACT(metadata, '$.role') FROM users WHERE id = " + userId
-        );
+        String role = executeScalar("SELECT JSON_EXTRACT(metadata, '$.role') FROM users WHERE id = " + userId);
 
         // Then
         assertThat(role).isEqualTo("\"admin\"");
@@ -42,19 +36,12 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonExtract_withNestedPath_shouldExtractValue() throws SQLException {
         // Given
-        long productId = TestDataBuilder.products(connection)
-            .name("Laptop")
-            .price(999.99)
-            .attribute("specs", TestDataBuilder.json(
-                "cpu", "Intel i7",
-                "ram", "16GB"
-            ))
-            .insert();
+        long productId = TestDataBuilder.products(connection).name("Laptop").price(999.99)
+                .attribute("specs", TestDataBuilder.json("cpu", "Intel i7", "ram", "16GB")).insert();
 
         // When
         String cpu = executeScalar(
-            "SELECT JSON_EXTRACT(attributes, '$.specs.cpu') FROM products WHERE id = " + productId
-        );
+                "SELECT JSON_EXTRACT(attributes, '$.specs.cpu') FROM products WHERE id = " + productId);
 
         // Then
         assertThat(cpu).isEqualTo("\"Intel i7\"");
@@ -63,16 +50,11 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonExtract_withArrayIndex_shouldExtractElement() throws SQLException {
         // Given
-        long productId = TestDataBuilder.products(connection)
-            .name("Product")
-            .price(100.0)
-            .tags("electronics", "sale", "featured")
-            .insert();
+        long productId = TestDataBuilder.products(connection).name("Product").price(100.0)
+                .tags("electronics", "sale", "featured").insert();
 
         // When
-        String firstTag = executeScalar(
-            "SELECT JSON_EXTRACT(tags, '$[0]') FROM products WHERE id = " + productId
-        );
+        String firstTag = executeScalar("SELECT JSON_EXTRACT(tags, '$[0]') FROM products WHERE id = " + productId);
 
         // Then
         assertThat(firstTag).isEqualTo("\"electronics\"");
@@ -81,16 +63,11 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonUnquoteExtract_shouldReturnUnquotedValue() throws SQLException {
         // Given
-        long userId = TestDataBuilder.users(connection)
-            .name("Jane")
-            .email("jane@example.com")
-            .metadata("city", "Seoul")
-            .insert();
+        long userId = TestDataBuilder.users(connection).name("Jane").email("jane@example.com").metadata("city", "Seoul")
+                .insert();
 
         // When
-        String city = executeScalar(
-            "SELECT metadata->>'$.city' FROM users WHERE id = " + userId
-        );
+        String city = executeScalar("SELECT metadata->>'$.city' FROM users WHERE id = " + userId);
 
         // Then
         assertThat(city).isEqualTo("Seoul");
@@ -103,16 +80,11 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValue_withScalarValue_shouldExtractValue() throws SQLException {
         // Given
-        long userId = TestDataBuilder.users(connection)
-            .name("Test")
-            .email("test@example.com")
-            .metadata("age", 25)
-            .insert();
+        long userId = TestDataBuilder.users(connection).name("Test").email("test@example.com").metadata("age", 25)
+                .insert();
 
         // When
-        String age = executeScalar(
-            "SELECT JSON_VALUE(metadata, '$.age') FROM users WHERE id = " + userId
-        );
+        String age = executeScalar("SELECT JSON_VALUE(metadata, '$.age') FROM users WHERE id = " + userId);
 
         // Then
         assertThat(age).isEqualTo("25");
@@ -125,16 +97,12 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonContains_withMatchingValue_shouldReturnTrue() throws SQLException {
         // Given
-        long userId = TestDataBuilder.users(connection)
-            .name("Admin")
-            .email("admin@example.com")
-            .settingsJson(TestDataBuilder.json("roles", TestDataBuilder.jsonArray("admin", "user")))
-            .insert();
+        long userId = TestDataBuilder.users(connection).name("Admin").email("admin@example.com")
+                .settingsJson(TestDataBuilder.json("roles", TestDataBuilder.jsonArray("admin", "user"))).insert();
 
         // When
         String result = executeScalar(
-            "SELECT JSON_CONTAINS(settings, '\"admin\"', '$.roles') FROM users WHERE id = " + userId
-        );
+                "SELECT JSON_CONTAINS(settings, '\"admin\"', '$.roles') FROM users WHERE id = " + userId);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -143,16 +111,12 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonContains_inWholeDocument_shouldWork() throws SQLException {
         // Given
-        long productId = TestDataBuilder.products(connection)
-            .name("Product")
-            .price(100.0)
-            .tags("electronics", "featured")
-            .insert();
+        long productId = TestDataBuilder.products(connection).name("Product").price(100.0)
+                .tags("electronics", "featured").insert();
 
         // When
         String result = executeScalar(
-            "SELECT JSON_CONTAINS(tags, '\"electronics\"') FROM products WHERE id = " + productId
-        );
+                "SELECT JSON_CONTAINS(tags, '\"electronics\"') FROM products WHERE id = " + productId);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -165,18 +129,11 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonKeys_shouldReturnObjectKeys() throws SQLException {
         // Given
-        long userId = TestDataBuilder.users(connection)
-            .name("Test")
-            .email("test@example.com")
-            .metadata("name", "John")
-            .metadata("age", 30)
-            .metadata("city", "Seoul")
-            .insert();
+        long userId = TestDataBuilder.users(connection).name("Test").email("test@example.com").metadata("name", "John")
+                .metadata("age", 30).metadata("city", "Seoul").insert();
 
         // When
-        String keys = executeScalar(
-            "SELECT JSON_KEYS(metadata) FROM users WHERE id = " + userId
-        );
+        String keys = executeScalar("SELECT JSON_KEYS(metadata) FROM users WHERE id = " + userId);
 
         // Then
         assertThat(keys).contains("name", "age", "city");
@@ -189,9 +146,7 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonOverlaps_withCommonElements_shouldReturnTrue() throws SQLException {
         // When
-        String result = executeScalar(
-            "SELECT JSON_OVERLAPS('[1,2,3]', '[3,4,5]')"
-        );
+        String result = executeScalar("SELECT JSON_OVERLAPS('[1,2,3]', '[3,4,5]')");
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -200,9 +155,7 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonOverlaps_withNoCommonElements_shouldReturnFalse() throws SQLException {
         // When
-        String result = executeScalar(
-            "SELECT JSON_OVERLAPS('[1,2]', '[3,4]')"
-        );
+        String result = executeScalar("SELECT JSON_OVERLAPS('[1,2]', '[3,4]')");
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -215,9 +168,7 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void memberOf_withMatchingValue_shouldReturnTrue() throws SQLException {
         // When
-        String result = executeScalar(
-            "SELECT 'admin' MEMBER OF('[\"admin\", \"user\", \"guest\"]')"
-        );
+        String result = executeScalar("SELECT 'admin' MEMBER OF('[\"admin\", \"user\", \"guest\"]')");
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -226,9 +177,7 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void memberOf_withNonMatchingValue_shouldReturnFalse() throws SQLException {
         // When
-        String result = executeScalar(
-            "SELECT 'superadmin' MEMBER OF('[\"admin\", \"user\"]')"
-        );
+        String result = executeScalar("SELECT 'superadmin' MEMBER OF('[\"admin\", \"user\"]')");
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -241,16 +190,11 @@ class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_shouldReturnElementCount() throws SQLException {
         // Given
-        long productId = TestDataBuilder.products(connection)
-            .name("Product")
-            .price(100.0)
-            .tags("tag1", "tag2", "tag3", "tag4")
-            .insert();
+        long productId = TestDataBuilder.products(connection).name("Product").price(100.0)
+                .tags("tag1", "tag2", "tag3", "tag4").insert();
 
         // When
-        String length = executeScalar(
-            "SELECT JSON_LENGTH(tags) FROM products WHERE id = " + productId
-        );
+        String length = executeScalar("SELECT JSON_LENGTH(tags) FROM products WHERE id = " + productId);
 
         // Then
         assertThat(length).isEqualTo("4");

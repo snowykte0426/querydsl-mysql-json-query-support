@@ -45,13 +45,8 @@ class JsonValidatorTest {
     @Test
     @DisplayName("toJsonString should convert nested objects to JSON")
     void toJsonString_withNestedObjects_shouldReturnJson() {
-        Map<String, Object> nested = Map.of(
-            "user", Map.of(
-                "name", "John",
-                "age", 30,
-                "roles", List.of("admin", "user")
-            )
-        );
+        Map<String, Object> nested = Map.of("user",
+                Map.of("name", "John", "age", 30, "roles", List.of("admin", "user")));
         String result = JsonValidator.toJsonString(nested);
         assertThat(result).contains("\"user\"");
         assertThat(result).contains("\"name\":\"John\"");
@@ -150,33 +145,29 @@ class JsonValidatorTest {
     @Test
     @DisplayName("validateJson should reject invalid JSON")
     void validateJson_withInvalidJson_shouldThrowException() {
-        assertThatThrownBy(() -> JsonValidator.validateJson("{invalid}"))
-            .isInstanceOf(JsonValidationException.class)
-            .hasMessageContaining("Invalid JSON syntax");
+        assertThatThrownBy(() -> JsonValidator.validateJson("{invalid}")).isInstanceOf(JsonValidationException.class)
+                .hasMessageContaining("Invalid JSON syntax");
     }
 
     @Test
     @DisplayName("validateJson should reject unclosed braces")
     void validateJson_withUnclosedBraces_shouldThrowException() {
         assertThatThrownBy(() -> JsonValidator.validateJson("{\"key\":\"value\""))
-            .isInstanceOf(JsonValidationException.class)
-            .hasMessageContaining("Invalid JSON syntax");
+                .isInstanceOf(JsonValidationException.class).hasMessageContaining("Invalid JSON syntax");
     }
 
     @Test
     @DisplayName("validateJson should reject trailing comma")
     void validateJson_withTrailingComma_shouldThrowException() {
         assertThatThrownBy(() -> JsonValidator.validateJson("{\"key\":\"value\",}"))
-            .isInstanceOf(JsonValidationException.class)
-            .hasMessageContaining("Invalid JSON syntax");
+                .isInstanceOf(JsonValidationException.class).hasMessageContaining("Invalid JSON syntax");
     }
 
     @Test
     @DisplayName("validateJson should reject null input")
     void validateJson_withNull_shouldThrowException() {
-        assertThatThrownBy(() -> JsonValidator.validateJson(null))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("JSON string cannot be null");
+        assertThatThrownBy(() -> JsonValidator.validateJson(null)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("JSON string cannot be null");
     }
 
     // ============ validateAndQuote() Tests ============
@@ -226,9 +217,8 @@ class JsonValidatorTest {
     @Test
     @DisplayName("validateAndQuote should reject null")
     void validateAndQuote_withNull_shouldThrowException() {
-        assertThatThrownBy(() -> JsonValidator.validateAndQuote(null))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("String value cannot be null");
+        assertThatThrownBy(() -> JsonValidator.validateAndQuote(null)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("String value cannot be null");
     }
 
     @Test
@@ -241,34 +231,16 @@ class JsonValidatorTest {
     // ============ isValidJson() Tests ============
 
     @ParameterizedTest
-    @ValueSource(strings = {
-        "{\"key\":\"value\"}",
-        "[1,2,3]",
-        "\"hello\"",
-        "42",
-        "true",
-        "false",
-        "null",
-        "[]",
-        "{}",
-        "{\"nested\":{\"key\":\"value\"}}"
-    })
+    @ValueSource(strings = {"{\"key\":\"value\"}", "[1,2,3]", "\"hello\"", "42", "true", "false", "null", "[]", "{}",
+            "{\"nested\":{\"key\":\"value\"}}"})
     @DisplayName("isValidJson should return true for valid JSON")
     void isValidJson_withValidJson_shouldReturnTrue(String json) {
         assertThat(JsonValidator.isValidJson(json)).isTrue();
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-        "{invalid}",
-        "{\"key\":\"value\",}",
-        "{\"key\":}",
-        "[1,2,]",
-        "undefined",
-        "{key:value}",
-        "{'key':'value'}",
-        "{\"key\":\"value\""
-    })
+    @ValueSource(strings = {"{invalid}", "{\"key\":\"value\",}", "{\"key\":}", "[1,2,]", "undefined", "{key:value}",
+            "{'key':'value'}", "{\"key\":\"value\""})
     @DisplayName("isValidJson should return false for invalid JSON")
     void isValidJson_withInvalidJson_shouldReturnFalse(String json) {
         assertThat(JsonValidator.isValidJson(json)).isFalse();
@@ -356,9 +328,8 @@ class JsonValidatorTest {
     @Test
     @DisplayName("escapeJsonString should reject null")
     void escapeJsonString_withNull_shouldThrowException() {
-        assertThatThrownBy(() -> JsonValidator.escapeJsonString(null))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("String value cannot be null");
+        assertThatThrownBy(() -> JsonValidator.escapeJsonString(null)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("String value cannot be null");
     }
 
     @Test
@@ -440,16 +411,11 @@ class JsonValidatorTest {
     @Test
     @DisplayName("toJsonString should handle complex nested structures")
     void toJsonString_withComplexNesting_shouldSucceed() {
-        Map<String, Object> complex = Map.of(
-            "users", List.of(
-                Map.of("id", 1, "name", "Alice", "active", true),
-                Map.of("id", 2, "name", "Bob", "active", false)
-            ),
-            "metadata", Map.of(
-                "version", "1.0",
-                "timestamp", 1234567890
-            )
-        );
+        Map<String, Object> complex = Map.of("users",
+                List.of(Map.of("id", 1, "name", "Alice", "active", true),
+                        Map.of("id", 2, "name", "Bob", "active", false)),
+                "metadata",
+                Map.of("version", "1.0", "timestamp", 1234567890));
 
         String result = JsonValidator.toJsonString(complex);
         assertThat(JsonValidator.isValidJson(result)).isTrue();

@@ -38,16 +38,12 @@ class SqlJsonUtilityFunctionsTest extends AbstractSqlJsonFunctionTest {
     @Test
     void jsonStorageFree_shouldReturnFreeSpace() throws SQLException {
         Long userId = createUser("Test", "test@example.com", "{\"a\":1,\"b\":2,\"c\":3}");
-        
+
         // Update to smaller JSON
-        connection.createStatement().execute(
-            "UPDATE users SET metadata = '{\"a\":1}' WHERE id = " + userId
-        );
-        
+        connection.createStatement().execute("UPDATE users SET metadata = '{\"a\":1}' WHERE id = " + userId);
+
         // Check storage free (may be 0 if MySQL optimizes)
-        Integer freed = executeScalarInt(
-            "SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE id = " + userId
-        );
+        Integer freed = executeScalarInt("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE id = " + userId);
         assertThat(freed).isNotNull();
     }
 }

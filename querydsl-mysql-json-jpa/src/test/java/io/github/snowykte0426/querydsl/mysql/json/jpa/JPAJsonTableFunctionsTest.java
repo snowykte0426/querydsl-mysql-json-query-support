@@ -13,8 +13,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for MySQL JSON_TABLE function in JPA environment.
  *
- * <p>JSON_TABLE converts JSON data to relational table format,
- * enabling complex queries on JSON data.
+ * <p>
+ * JSON_TABLE converts JSON data to relational table format, enabling complex
+ * queries on JSON data.
  */
 @DisplayName("JPA JSON Table Functions")
 class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
@@ -22,21 +23,24 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
     @BeforeEach
     void setupData() {
         // Create order with items in JSON
-        createOrder("ORD-001", 1L, new BigDecimal("150.00"),
-            "{\"items\": [{\"name\": \"Widget\", \"qty\": 2, \"price\": 50.00}, " +
-            "{\"name\": \"Gadget\", \"qty\": 1, \"price\": 50.00}], " +
-            "\"shipping\": \"express\"}",
-            "{\"address\": \"123 Main St\", \"city\": \"New York\"}");
+        createOrder("ORD-001",
+                1L,
+                new BigDecimal("150.00"),
+                "{\"items\": [{\"name\": \"Widget\", \"qty\": 2, \"price\": 50.00}, "
+                        + "{\"name\": \"Gadget\", \"qty\": 1, \"price\": 50.00}], " + "\"shipping\": \"express\"}",
+                "{\"address\": \"123 Main St\", \"city\": \"New York\"}");
 
-        createOrder("ORD-002", 2L, new BigDecimal("200.00"),
-            "{\"items\": [{\"name\": \"Device\", \"qty\": 1, \"price\": 200.00}], " +
-            "\"shipping\": \"standard\"}",
-            "{\"address\": \"456 Oak Ave\", \"city\": \"Los Angeles\"}");
+        createOrder("ORD-002",
+                2L,
+                new BigDecimal("200.00"),
+                "{\"items\": [{\"name\": \"Device\", \"qty\": 1, \"price\": 200.00}], " + "\"shipping\": \"standard\"}",
+                "{\"address\": \"456 Oak Ave\", \"city\": \"Los Angeles\"}");
 
-        createOrder("ORD-003", 1L, new BigDecimal("75.00"),
-            "{\"items\": [{\"name\": \"Part A\", \"qty\": 3, \"price\": 25.00}], " +
-            "\"shipping\": \"express\"}",
-            null);
+        createOrder("ORD-003",
+                1L,
+                new BigDecimal("75.00"),
+                "{\"items\": [{\"name\": \"Part A\", \"qty\": 3, \"price\": 25.00}], " + "\"shipping\": \"express\"}",
+                null);
 
         entityManager.flush();
         entityManager.clear();
@@ -50,17 +54,17 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should extract items from JSON array")
         void extractItemsFromJsonArray() {
             String sql = """
-                SELECT jt.*
-                FROM orders,
-                JSON_TABLE(order_data, '$.items[*]'
-                    COLUMNS (
-                        item_name VARCHAR(100) PATH '$.name',
-                        quantity INT PATH '$.qty',
-                        price DECIMAL(10,2) PATH '$.price'
-                    )
-                ) AS jt
-                WHERE order_number = 'ORD-001'
-                """;
+                    SELECT jt.*
+                    FROM orders,
+                    JSON_TABLE(order_data, '$.items[*]'
+                        COLUMNS (
+                            item_name VARCHAR(100) PATH '$.name',
+                            quantity INT PATH '$.qty',
+                            price DECIMAL(10,2) PATH '$.price'
+                        )
+                    ) AS jt
+                    WHERE order_number = 'ORD-001'
+                    """;
 
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
@@ -79,16 +83,16 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should use ordinality column")
         void useOrdinalityColumn() {
             String sql = """
-                SELECT jt.*
-                FROM orders,
-                JSON_TABLE(order_data, '$.items[*]'
-                    COLUMNS (
-                        row_num FOR ORDINALITY,
-                        item_name VARCHAR(100) PATH '$.name'
-                    )
-                ) AS jt
-                WHERE order_number = 'ORD-001'
-                """;
+                    SELECT jt.*
+                    FROM orders,
+                    JSON_TABLE(order_data, '$.items[*]'
+                        COLUMNS (
+                            row_num FOR ORDINALITY,
+                            item_name VARCHAR(100) PATH '$.name'
+                        )
+                    ) AS jt
+                    WHERE order_number = 'ORD-001'
+                    """;
 
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
@@ -105,15 +109,15 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should handle NULL on empty")
         void handleNullOnEmpty() {
             String sql = """
-                SELECT jt.shipping_notes
-                FROM orders,
-                JSON_TABLE(order_data, '$'
-                    COLUMNS (
-                        shipping_notes VARCHAR(100) PATH '$.notes' NULL ON EMPTY
-                    )
-                ) AS jt
-                WHERE order_number = 'ORD-001'
-                """;
+                    SELECT jt.shipping_notes
+                    FROM orders,
+                    JSON_TABLE(order_data, '$'
+                        COLUMNS (
+                            shipping_notes VARCHAR(100) PATH '$.notes' NULL ON EMPTY
+                        )
+                    ) AS jt
+                    WHERE order_number = 'ORD-001'
+                    """;
 
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
@@ -124,18 +128,20 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should use DEFAULT on empty")
         void useDefaultOnEmpty() {
             // Test DEFAULT value when path doesn't exist
-            // Note: DEFAULT value in JSON_TABLE must be a valid JSON literal if it's treated as JSON?
-            // Actually, for VARCHAR column, a simple string literal should work, but let's try quoting it as JSON string '"NONE"'
+            // Note: DEFAULT value in JSON_TABLE must be a valid JSON literal if it's
+            // treated as JSON?
+            // Actually, for VARCHAR column, a simple string literal should work, but let's
+            // try quoting it as JSON string '"NONE"'
             String sql = """
-                SELECT jt.shipping_notes
-                FROM orders,
-                JSON_TABLE(order_data, '$'
-                    COLUMNS (
-                        shipping_notes VARCHAR(100) PATH '$.notes' DEFAULT '"NONE"' ON EMPTY NULL ON ERROR
-                    )
-                ) AS jt
-                WHERE order_number = 'ORD-001'
-                """;
+                    SELECT jt.shipping_notes
+                    FROM orders,
+                    JSON_TABLE(order_data, '$'
+                        COLUMNS (
+                            shipping_notes VARCHAR(100) PATH '$.notes' DEFAULT '"NONE"' ON EMPTY NULL ON ERROR
+                        )
+                    ) AS jt
+                    WHERE order_number = 'ORD-001'
+                    """;
 
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
@@ -152,20 +158,20 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should join with order details")
         void joinWithOrderDetails() {
             String sql = """
-                SELECT o.order_number, jt.item_name, jt.quantity
-                FROM orders o,
-                JSON_TABLE(o.order_data, '$.items[*]'
-                    COLUMNS (
-                        item_name VARCHAR(100) PATH '$.name',
-                        quantity INT PATH '$.qty'
-                    )
-                ) AS jt
-                ORDER BY o.order_number, jt.item_name
-                """;
+                    SELECT o.order_number, jt.item_name, jt.quantity
+                    FROM orders o,
+                    JSON_TABLE(o.order_data, '$.items[*]'
+                        COLUMNS (
+                            item_name VARCHAR(100) PATH '$.name',
+                            quantity INT PATH '$.qty'
+                        )
+                    ) AS jt
+                    ORDER BY o.order_number, jt.item_name
+                    """;
 
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
-            assertThat(results).hasSize(4);  // 2 + 1 + 1 items
+            assertThat(results).hasSize(4); // 2 + 1 + 1 items
 
             Object[] first = (Object[]) results.get(0);
             assertThat(first[0]).isEqualTo("ORD-001");
@@ -175,38 +181,38 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should filter items by quantity")
         void filterItemsByQuantity() {
             String sql = """
-                SELECT o.order_number, jt.item_name, jt.quantity
-                FROM orders o,
-                JSON_TABLE(o.order_data, '$.items[*]'
-                    COLUMNS (
-                        item_name VARCHAR(100) PATH '$.name',
-                        quantity INT PATH '$.qty'
-                    )
-                ) AS jt
-                WHERE jt.quantity > 1
-                ORDER BY o.order_number
-                """;
+                    SELECT o.order_number, jt.item_name, jt.quantity
+                    FROM orders o,
+                    JSON_TABLE(o.order_data, '$.items[*]'
+                        COLUMNS (
+                            item_name VARCHAR(100) PATH '$.name',
+                            quantity INT PATH '$.qty'
+                        )
+                    ) AS jt
+                    WHERE jt.quantity > 1
+                    ORDER BY o.order_number
+                    """;
 
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
-            assertThat(results).hasSize(2);  // Widget (2) and Part A (3)
+            assertThat(results).hasSize(2); // Widget (2) and Part A (3)
         }
 
         @Test
         @DisplayName("should aggregate from JSON_TABLE")
         void aggregateFromJsonTable() {
             String sql = """
-                SELECT o.order_number, SUM(jt.quantity * jt.price) as total
-                FROM orders o,
-                JSON_TABLE(o.order_data, '$.items[*]'
-                    COLUMNS (
-                        quantity INT PATH '$.qty',
-                        price DECIMAL(10,2) PATH '$.price'
-                    )
-                ) AS jt
-                GROUP BY o.order_number
-                ORDER BY o.order_number
-                """;
+                    SELECT o.order_number, SUM(jt.quantity * jt.price) as total
+                    FROM orders o,
+                    JSON_TABLE(o.order_data, '$.items[*]'
+                        COLUMNS (
+                            quantity INT PATH '$.qty',
+                            price DECIMAL(10,2) PATH '$.price'
+                        )
+                    ) AS jt
+                    GROUP BY o.order_number
+                    ORDER BY o.order_number
+                    """;
 
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
@@ -226,16 +232,16 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should extract nested object properties")
         void extractNestedObjectProperties() {
             String sql = """
-                SELECT jt.*
-                FROM orders,
-                JSON_TABLE(shipping_info, '$'
-                    COLUMNS (
-                        address VARCHAR(200) PATH '$.address',
-                        city VARCHAR(100) PATH '$.city'
-                    )
-                ) AS jt
-                WHERE order_number = 'ORD-001'
-                """;
+                    SELECT jt.*
+                    FROM orders,
+                    JSON_TABLE(shipping_info, '$'
+                        COLUMNS (
+                            address VARCHAR(200) PATH '$.address',
+                            city VARCHAR(100) PATH '$.city'
+                        )
+                    ) AS jt
+                    WHERE order_number = 'ORD-001'
+                    """;
 
             Object[] result = (Object[]) entityManager.createNativeQuery(sql).getSingleResult();
 
@@ -249,10 +255,10 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
             // When shipping_info is null, JSON_TABLE returns no rows
             // Use COALESCE to handle this case
             String sql = """
-                SELECT o.shipping_info
-                FROM orders o
-                WHERE o.order_number = 'ORD-003'
-                """;
+                    SELECT o.shipping_info
+                    FROM orders o
+                    WHERE o.order_number = 'ORD-003'
+                    """;
 
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
@@ -269,15 +275,15 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should check path existence")
         void checkPathExistence() {
             String sql = """
-                SELECT o.order_number, jt.has_shipping
-                FROM orders o,
-                JSON_TABLE(o.order_data, '$'
-                    COLUMNS (
-                        has_shipping INT EXISTS PATH '$.shipping'
-                    )
-                ) AS jt
-                ORDER BY o.order_number
-                """;
+                    SELECT o.order_number, jt.has_shipping
+                    FROM orders o,
+                    JSON_TABLE(o.order_data, '$'
+                        COLUMNS (
+                            has_shipping INT EXISTS PATH '$.shipping'
+                        )
+                    ) AS jt
+                    ORDER BY o.order_number
+                    """;
 
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
@@ -292,15 +298,15 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should return 0 for non-existent path")
         void return0ForNonExistentPath() {
             String sql = """
-                SELECT jt.has_discount
-                FROM orders o,
-                JSON_TABLE(o.order_data, '$'
-                    COLUMNS (
-                        has_discount INT EXISTS PATH '$.discount'
-                    )
-                ) AS jt
-                WHERE o.order_number = 'ORD-001'
-                """;
+                    SELECT jt.has_discount
+                    FROM orders o,
+                    JSON_TABLE(o.order_data, '$'
+                        COLUMNS (
+                            has_discount INT EXISTS PATH '$.discount'
+                        )
+                    ) AS jt
+                    WHERE o.order_number = 'ORD-001'
+                    """;
 
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 

@@ -35,9 +35,7 @@ class SqlJsonAttributeFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonLength_withPath_shouldReturnLengthAtPath() throws SQLException {
-        Integer length = executeScalarInt(
-            "SELECT JSON_LENGTH('{\"a\":[1,2,3]}', '$.a')"
-        );
+        Integer length = executeScalarInt("SELECT JSON_LENGTH('{\"a\":[1,2,3]}', '$.a')");
         assertThat(length).isEqualTo(3);
     }
 

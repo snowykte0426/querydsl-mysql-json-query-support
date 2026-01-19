@@ -14,17 +14,17 @@ import java.util.Map;
 /**
  * Builder class for creating test data with JSON columns.
  *
- * <p>This class provides fluent API for inserting test data into database tables
- * with JSON columns. It handles JSON serialization automatically.</p>
+ * <p>
+ * This class provides fluent API for inserting test data into database tables
+ * with JSON columns. It handles JSON serialization automatically.
+ * </p>
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
+ *
  * <pre>{@code
- * TestDataBuilder.users(connection)
- *     .name("John Doe")
- *     .email("john@example.com")
- *     .metadata("role", "admin")
- *     .metadata("department", "IT")
- *     .insert();
+ * TestDataBuilder.users(connection).name("John Doe").email("john@example.com").metadata("role", "admin")
+ *         .metadata("department", "IT").insert();
  * }</pre>
  *
  * @author snowykte0426
@@ -37,7 +37,8 @@ public class TestDataBuilder {
     /**
      * Creates a builder for inserting user test data.
      *
-     * @param connection the database connection
+     * @param connection
+     *            the database connection
      * @return UserBuilder instance
      */
     public static UserBuilder users(Connection connection) {
@@ -47,7 +48,8 @@ public class TestDataBuilder {
     /**
      * Creates a builder for inserting product test data.
      *
-     * @param connection the database connection
+     * @param connection
+     *            the database connection
      * @return ProductBuilder instance
      */
     public static ProductBuilder products(Connection connection) {
@@ -57,7 +59,8 @@ public class TestDataBuilder {
     /**
      * Creates a builder for inserting order test data.
      *
-     * @param connection the database connection
+     * @param connection
+     *            the database connection
      * @return OrderBuilder instance
      */
     public static OrderBuilder orders(Connection connection) {
@@ -112,12 +115,12 @@ public class TestDataBuilder {
          * Inserts the user data into the database.
          *
          * @return the generated user ID
-         * @throws SQLException if insertion fails
+         * @throws SQLException
+         *             if insertion fails
          */
         public long insert() throws SQLException {
             String sql = "INSERT INTO users (name, email, metadata, settings) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(sql,
-                    PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, name);
                 stmt.setString(2, email);
                 stmt.setString(3, toJson(metadata));
@@ -181,12 +184,12 @@ public class TestDataBuilder {
          * Inserts the product data into the database.
          *
          * @return the generated product ID
-         * @throws SQLException if insertion fails
+         * @throws SQLException
+         *             if insertion fails
          */
         public long insert() throws SQLException {
             String sql = "INSERT INTO products (name, price, attributes, tags) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(sql,
-                    PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, name);
                 stmt.setDouble(2, price);
                 stmt.setString(3, toJson(attributes));
@@ -244,12 +247,12 @@ public class TestDataBuilder {
          * Inserts the order data into the database.
          *
          * @return the generated order ID
-         * @throws SQLException if insertion fails
+         * @throws SQLException
+         *             if insertion fails
          */
         public long insert() throws SQLException {
             String sql = "INSERT INTO orders (user_id, order_data, shipping_info) VALUES (?, ?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(sql,
-                    PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setLong(1, userId);
                 stmt.setString(2, toJson(orderData));
                 stmt.setString(3, toJson(shippingInfo));
@@ -267,7 +270,8 @@ public class TestDataBuilder {
     /**
      * Converts an object to JSON string.
      *
-     * @param obj the object to convert
+     * @param obj
+     *            the object to convert
      * @return JSON string
      */
     private static String toJson(Object obj) {
@@ -281,7 +285,8 @@ public class TestDataBuilder {
     /**
      * Creates a JSON object from key-value pairs.
      *
-     * @param keyValuePairs alternating keys and values
+     * @param keyValuePairs
+     *            alternating keys and values
      * @return Map representing JSON object
      */
     public static Map<String, Object> json(Object... keyValuePairs) {
@@ -298,7 +303,8 @@ public class TestDataBuilder {
     /**
      * Creates a JSON array from values.
      *
-     * @param values the array values
+     * @param values
+     *            the array values
      * @return List representing JSON array
      */
     public static List<Object> jsonArray(Object... values) {

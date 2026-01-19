@@ -16,11 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for MySQL JSON creation functions in JPA environment.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_ARRAY - Create JSON arrays</li>
- *   <li>JSON_OBJECT - Create JSON objects</li>
- *   <li>JSON_QUOTE - Quote strings as JSON</li>
+ * <li>JSON_ARRAY - Create JSON arrays</li>
+ * <li>JSON_OBJECT - Create JSON objects</li>
+ * <li>JSON_QUOTE - Quote strings as JSON</li>
  * </ul>
  */
 @DisplayName("JPA JSON Creation Functions")

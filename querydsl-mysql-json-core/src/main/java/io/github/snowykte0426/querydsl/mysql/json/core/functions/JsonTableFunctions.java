@@ -7,11 +7,13 @@ import com.querydsl.core.types.Expression;
 /**
  * Factory class for MySQL JSON_TABLE function.
  *
- * <p>JSON_TABLE converts JSON data into a relational table format,
- * enabling querying of JSON documents using standard SQL operations.
+ * <p>
+ * JSON_TABLE converts JSON data into a relational table format, enabling
+ * querying of JSON documents using standard SQL operations.
  *
- * <p>This is one of the most powerful JSON functions in MySQL,
- * allowing complex JSON documents to be decomposed into rows and columns.
+ * <p>
+ * This is one of the most powerful JSON functions in MySQL, allowing complex
+ * JSON documents to be decomposed into rows and columns.
  *
  * @author snowykte0426
  * @since 0.1.0-Dev.3
@@ -29,12 +31,16 @@ public final class JsonTableFunctions {
     /**
      * Creates a JSON_TABLE expression builder.
      *
-     * <p>JSON_TABLE extracts data from a JSON document and returns it as a
-     * relational table with rows and columns.
+     * <p>
+     * JSON_TABLE extracts data from a JSON document and returns it as a relational
+     * table with rows and columns.
      *
-     * <p>SQL: {@code JSON_TABLE(json_doc, path COLUMNS(...)) AS alias}
+     * <p>
+     * SQL: {@code JSON_TABLE(json_doc, path COLUMNS(...)) AS alias}
      *
-     * <p>Example:
+     * <p>
+     * Example:
+     *
      * <pre>
      * -- JSON document: [{"id": 1, "name": "John"}, {"id": 2, "name": "Jane"}]
      *
@@ -55,15 +61,12 @@ public final class JsonTableFunctions {
      * +----+------+
      * </pre>
      *
-     * <p>Usage in QueryDSL:
+     * <p>
+     * Usage in QueryDSL:
+     *
      * <pre>
-     * JsonTableExpression table = jsonTable()
-     *     .jsonDoc(expression)
-     *     .path("$[*]")
-     *     .column("id", "INT", "$.id")
-     *     .column("name", "VARCHAR(100)", "$.name")
-     *     .alias("jt")
-     *     .build();
+     * JsonTableExpression table = jsonTable().jsonDoc(expression).path("$[*]").column("id", "INT", "$.id")
+     *         .column("name", "VARCHAR(100)", "$.name").alias("jt").build();
      * </pre>
      *
      * @return JSON_TABLE expression builder
@@ -75,27 +78,27 @@ public final class JsonTableFunctions {
     /**
      * Creates a JSON_TABLE expression with JSON document and path.
      *
-     * @param jsonDoc the JSON document expression
-     * @param path the root JSON path (e.g., "$", "$[*]")
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param path
+     *            the root JSON path (e.g., "$", "$[*]")
      * @return builder for adding columns
      */
     public static JsonTableExpression.Builder jsonTable(Expression<?> jsonDoc, String path) {
-        return JsonTableExpression.builder()
-            .jsonDoc(jsonDoc)
-            .path(path);
+        return JsonTableExpression.builder().jsonDoc(jsonDoc).path(path);
     }
 
     /**
      * Creates a JSON_TABLE expression with JSON string and path.
      *
-     * @param jsonString the JSON string literal
-     * @param path the root JSON path
+     * @param jsonString
+     *            the JSON string literal
+     * @param path
+     *            the root JSON path
      * @return builder for adding columns
      */
     public static JsonTableExpression.Builder jsonTable(String jsonString, String path) {
-        return JsonTableExpression.builder()
-            .jsonDoc(jsonString)
-            .path(path);
+        return JsonTableExpression.builder().jsonDoc(jsonString).path(path);
     }
 
     // ========================================
@@ -105,11 +108,15 @@ public final class JsonTableFunctions {
     /**
      * Creates a standard column definition.
      *
-     * <p>Maps a JSON value to a typed SQL column.
+     * <p>
+     * Maps a JSON value to a typed SQL column.
      *
-     * @param columnName the column name in result
-     * @param sqlType the SQL data type (e.g., "INT", "VARCHAR(100)", "JSON")
-     * @param jsonPath the JSON path to extract value
+     * @param columnName
+     *            the column name in result
+     * @param sqlType
+     *            the SQL data type (e.g., "INT", "VARCHAR(100)", "JSON")
+     * @param jsonPath
+     *            the JSON path to extract value
      * @return column definition
      */
     public static JsonTableColumn column(String columnName, String sqlType, String jsonPath) {
@@ -119,16 +126,21 @@ public final class JsonTableFunctions {
     /**
      * Creates an EXISTS column.
      *
-     * <p>Returns 1 if the path exists in the JSON document, 0 otherwise.
+     * <p>
+     * Returns 1 if the path exists in the JSON document, 0 otherwise.
      *
-     * <p>Example:
+     * <p>
+     * Example:
+     *
      * <pre>
      * existsColumn("has_email", "$.email")
      * -- Returns 1 if $.email exists, 0 if not
      * </pre>
      *
-     * @param columnName the column name
-     * @param jsonPath the JSON path to check
+     * @param columnName
+     *            the column name
+     * @param jsonPath
+     *            the JSON path to check
      * @return EXISTS column definition
      */
     public static JsonTableColumn existsColumn(String columnName, String jsonPath) {
@@ -138,16 +150,20 @@ public final class JsonTableFunctions {
     /**
      * Creates an ORDINALITY column.
      *
-     * <p>Provides sequential numbering for rows (1, 2, 3, ...).
-     * This is useful for assigning unique identifiers to rows extracted from arrays.
+     * <p>
+     * Provides sequential numbering for rows (1, 2, 3, ...). This is useful for
+     * assigning unique identifiers to rows extracted from arrays.
      *
-     * <p>Example:
+     * <p>
+     * Example:
+     *
      * <pre>
      * ordinalityColumn("row_num")
      * -- Generates: row_num FOR ORDINALITY
      * </pre>
      *
-     * @param columnName the column name
+     * @param columnName
+     *            the column name
      * @return ORDINALITY column definition
      */
     public static JsonTableColumn ordinalityColumn(String columnName) {
@@ -157,17 +173,14 @@ public final class JsonTableFunctions {
     /**
      * Creates a column with custom builder for advanced options.
      *
-     * <p>Allows setting ON EMPTY and ON ERROR clauses.
+     * <p>
+     * Allows setting ON EMPTY and ON ERROR clauses.
      *
-     * <p>Example:
+     * <p>
+     * Example:
+     *
      * <pre>
-     * columnBuilder()
-     *     .columnName("age")
-     *     .sqlType("INT")
-     *     .jsonPath("$.age")
-     *     .onEmpty("DEFAULT 0")
-     *     .onError("NULL")
-     *     .build()
+     * columnBuilder().columnName("age").sqlType("INT").jsonPath("$.age").onEmpty("DEFAULT 0").onError("NULL").build()
      * </pre>
      *
      * @return column builder
@@ -183,8 +196,10 @@ public final class JsonTableFunctions {
     /**
      * Creates an INT column.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return INT column definition
      */
     public static JsonTableColumn intColumn(String columnName, String jsonPath) {
@@ -194,8 +209,10 @@ public final class JsonTableFunctions {
     /**
      * Creates a BIGINT column.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return BIGINT column definition
      */
     public static JsonTableColumn bigIntColumn(String columnName, String jsonPath) {
@@ -205,9 +222,12 @@ public final class JsonTableFunctions {
     /**
      * Creates a VARCHAR column.
      *
-     * @param columnName column name
-     * @param length maximum length
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param length
+     *            maximum length
+     * @param jsonPath
+     *            JSON path
      * @return VARCHAR column definition
      */
     public static JsonTableColumn varcharColumn(String columnName, int length, String jsonPath) {
@@ -217,8 +237,10 @@ public final class JsonTableFunctions {
     /**
      * Creates a TEXT column.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return TEXT column definition
      */
     public static JsonTableColumn textColumn(String columnName, String jsonPath) {
@@ -228,10 +250,13 @@ public final class JsonTableFunctions {
     /**
      * Creates a JSON column.
      *
-     * <p>Useful for extracting nested JSON objects or arrays.
+     * <p>
+     * Useful for extracting nested JSON objects or arrays.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return JSON column definition
      */
     public static JsonTableColumn jsonColumn(String columnName, String jsonPath) {
@@ -241,26 +266,27 @@ public final class JsonTableFunctions {
     /**
      * Creates a DECIMAL column.
      *
-     * @param columnName column name
-     * @param precision total digits
-     * @param scale decimal places
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param precision
+     *            total digits
+     * @param scale
+     *            decimal places
+     * @param jsonPath
+     *            JSON path
      * @return DECIMAL column definition
      */
-    public static JsonTableColumn decimalColumn(
-        String columnName,
-        int precision,
-        int scale,
-        String jsonPath
-    ) {
+    public static JsonTableColumn decimalColumn(String columnName, int precision, int scale, String jsonPath) {
         return column(columnName, "DECIMAL(" + precision + "," + scale + ")", jsonPath);
     }
 
     /**
      * Creates a DATE column.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return DATE column definition
      */
     public static JsonTableColumn dateColumn(String columnName, String jsonPath) {
@@ -270,8 +296,10 @@ public final class JsonTableFunctions {
     /**
      * Creates a DATETIME column.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return DATETIME column definition
      */
     public static JsonTableColumn datetimeColumn(String columnName, String jsonPath) {
@@ -281,8 +309,10 @@ public final class JsonTableFunctions {
     /**
      * Creates a BOOLEAN/TINYINT(1) column.
      *
-     * @param columnName column name
-     * @param jsonPath JSON path
+     * @param columnName
+     *            column name
+     * @param jsonPath
+     *            JSON path
      * @return BOOLEAN column definition
      */
     public static JsonTableColumn booleanColumn(String columnName, String jsonPath) {

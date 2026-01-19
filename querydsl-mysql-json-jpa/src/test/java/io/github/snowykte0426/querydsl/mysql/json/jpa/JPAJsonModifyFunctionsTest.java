@@ -9,17 +9,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for MySQL JSON modification functions in JPA environment.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_SET - Insert or update values</li>
- *   <li>JSON_INSERT - Insert values without replacing</li>
- *   <li>JSON_REPLACE - Replace existing values</li>
- *   <li>JSON_REMOVE - Remove values at paths</li>
- *   <li>JSON_ARRAY_APPEND - Append to arrays</li>
- *   <li>JSON_ARRAY_INSERT - Insert into arrays</li>
- *   <li>JSON_MERGE_PATCH - Merge with RFC 7386</li>
- *   <li>JSON_MERGE_PRESERVE - Merge preserving duplicates</li>
- *   <li>JSON_UNQUOTE - Unquote JSON strings</li>
+ * <li>JSON_SET - Insert or update values</li>
+ * <li>JSON_INSERT - Insert values without replacing</li>
+ * <li>JSON_REPLACE - Replace existing values</li>
+ * <li>JSON_REMOVE - Remove values at paths</li>
+ * <li>JSON_ARRAY_APPEND - Append to arrays</li>
+ * <li>JSON_ARRAY_INSERT - Insert into arrays</li>
+ * <li>JSON_MERGE_PATCH - Merge with RFC 7386</li>
+ * <li>JSON_MERGE_PRESERVE - Merge preserving duplicates</li>
+ * <li>JSON_UNQUOTE - Unquote JSON strings</li>
  * </ul>
  */
 @DisplayName("JPA JSON Modify Functions")

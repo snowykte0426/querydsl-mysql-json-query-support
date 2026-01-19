@@ -126,9 +126,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_withExpression_shouldReturnSize() throws SQLException {
         // Given
-        StringExpression jsonExpr = Expressions.stringTemplate(
-            "json_object('name', 'John', 'age', 30, 'city', 'Seoul')"
-        );
+        StringExpression jsonExpr = Expressions
+                .stringTemplate("json_object('name', 'John', 'age', 30, 'city', 'Seoul')");
         NumberExpression<Integer> size = jsonStorageSize(jsonExpr);
 
         // When
@@ -165,8 +164,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageFree_withNewDocument_shouldReturnZero() throws SQLException {
         // Given - Insert new document
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('John', 'john@test.com', '{\"a\": 1, \"b\": 2, \"c\": 3}')");
+        executeUpdate("INSERT INTO users (name, email, metadata) VALUES "
+                + "('John', 'john@test.com', '{\"a\": 1, \"b\": 2, \"c\": 3}')");
 
         // When
         String freed = executeScalar("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE name = 'John'");
@@ -178,14 +177,15 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageFree_afterPartialUpdate_shouldShowFreedSpace() throws SQLException {
         // Given - Insert document
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('Alice', 'alice@test.com', '{\"field1\": \"value1\", \"field2\": \"value2\", \"field3\": \"value3\"}')");
+        executeUpdate("INSERT INTO users (name, email, metadata) VALUES "
+                + "('Alice', 'alice@test.com', '{\"field1\": \"value1\", \"field2\": \"value2\", \"field3\": \"value3\"}')");
 
         // When - Perform partial update (remove a field)
         executeUpdate("UPDATE users SET metadata = JSON_REMOVE(metadata, '$.field2', '$.field3') WHERE name = 'Alice'");
         String freed = executeScalar("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE name = 'Alice'");
 
-        // Then - Should have some freed space (might be 0 if MySQL optimizes, but not negative)
+        // Then - Should have some freed space (might be 0 if MySQL optimizes, but not
+        // negative)
         int freedValue = Integer.parseInt(freed);
         assertThat(freedValue).isGreaterThanOrEqualTo(0);
     }
@@ -193,13 +193,13 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageFree_afterMultipleUpdates_shouldAccumulate() throws SQLException {
         // Given - Insert large document
-        executeUpdate("INSERT INTO products (name, price, attributes) VALUES " +
-            "('Product', 100.00, '{" +
-            "\"attr1\": \"value1\", \"attr2\": \"value2\", \"attr3\": \"value3\", " +
-            "\"attr4\": \"value4\", \"attr5\": \"value5\", \"attr6\": \"value6\"}')");
+        executeUpdate("INSERT INTO products (name, price, attributes) VALUES " + "('Product', 100.00, '{"
+                + "\"attr1\": \"value1\", \"attr2\": \"value2\", \"attr3\": \"value3\", "
+                + "\"attr4\": \"value4\", \"attr5\": \"value5\", \"attr6\": \"value6\"}')");
 
         // When - Multiple partial updates
-        executeUpdate("UPDATE products SET attributes = JSON_REMOVE(attributes, '$.attr4', '$.attr5') WHERE name = 'Product'");
+        executeUpdate(
+                "UPDATE products SET attributes = JSON_REMOVE(attributes, '$.attr4', '$.attr5') WHERE name = 'Product'");
         executeUpdate("UPDATE products SET attributes = JSON_REMOVE(attributes, '$.attr6') WHERE name = 'Product'");
 
         String freed = executeScalar("SELECT JSON_STORAGE_FREE(attributes) FROM products WHERE name = 'Product'");
@@ -216,12 +216,13 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void storageEfficiency_afterUpdate_shouldCalculateRatio() throws SQLException {
         // Given - Insert and update
-        executeUpdate("INSERT INTO users (name, email, settings) VALUES " +
-            "('Bob', 'bob@test.com', '{\"theme\": \"dark\", \"lang\": \"en\", \"notifications\": true}')");
+        executeUpdate("INSERT INTO users (name, email, settings) VALUES "
+                + "('Bob', 'bob@test.com', '{\"theme\": \"dark\", \"lang\": \"en\", \"notifications\": true}')");
         executeUpdate("UPDATE users SET settings = JSON_REMOVE(settings, '$.notifications') WHERE name = 'Bob'");
 
         // When
-        String efficiency = executeScalar("SELECT JSON_STORAGE_FREE(settings) / JSON_STORAGE_SIZE(settings) FROM users WHERE name = 'Bob'");
+        String efficiency = executeScalar(
+                "SELECT JSON_STORAGE_FREE(settings) / JSON_STORAGE_SIZE(settings) FROM users WHERE name = 'Bob'");
 
         // Then - Should be a ratio between 0 and 1
         double effValue = Double.parseDouble(efficiency);
@@ -232,8 +233,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void hasSignificantFreedSpace_withThreshold_shouldCheck() throws SQLException {
         // Given - Insert fresh document
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('Charlie', 'charlie@test.com', '{\"key\": \"value\"}')");
+        executeUpdate("INSERT INTO users (name, email, metadata) VALUES "
+                + "('Charlie', 'charlie@test.com', '{\"key\": \"value\"}')");
 
         // When
         String hasSpace = executeScalar("SELECT JSON_STORAGE_FREE(metadata) > 10 FROM users WHERE name = 'Charlie'");
@@ -249,8 +250,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_inDatabase_shouldFormatColumn() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO users (name, email, settings) VALUES " +
-            "('Debug', 'debug@test.com', '{\"theme\":\"dark\",\"lang\":\"en\"}')");
+        executeUpdate("INSERT INTO users (name, email, settings) VALUES "
+                + "('Debug', 'debug@test.com', '{\"theme\":\"dark\",\"lang\":\"en\"}')");
 
         // When
         String pretty = executeScalar("SELECT JSON_PRETTY(settings) FROM users WHERE name = 'Debug'");
@@ -263,8 +264,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_inDatabase_shouldReturnColumnSize() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO products (name, price, attributes) VALUES " +
-            "('Widget', 50.00, '{\"color\": \"red\", \"size\": \"medium\"}')");
+        executeUpdate("INSERT INTO products (name, price, attributes) VALUES "
+                + "('Widget', 50.00, '{\"color\": \"red\", \"size\": \"medium\"}')");
 
         // When
         String size = executeScalar("SELECT JSON_STORAGE_SIZE(attributes) FROM products WHERE name = 'Widget'");
@@ -277,9 +278,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_comparison_shouldWorkInWhere() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO products (name, price, attributes) VALUES " +
-            "('Small', 10.00, '{\"a\": 1}'), " +
-            "('Large', 20.00, '{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5, \"f\": 6}')");
+        executeUpdate("INSERT INTO products (name, price, attributes) VALUES " + "('Small', 10.00, '{\"a\": 1}'), "
+                + "('Large', 20.00, '{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5, \"f\": 6}')");
 
         // When - Find products with large JSON attributes
         String count = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_STORAGE_SIZE(attributes) > 30");
@@ -292,16 +292,12 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void multipleUtilityFunctions_inSingleQuery_shouldWork() throws SQLException {
         // Given
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('MultiTest', 'multi@test.com', '{\"data\": [1, 2, 3]}')");
+        executeUpdate("INSERT INTO users (name, email, metadata) VALUES "
+                + "('MultiTest', 'multi@test.com', '{\"data\": [1, 2, 3]}')");
 
         // When - Use multiple utility functions
-        String result = executeScalar(
-            "SELECT CONCAT(" +
-            "  'Size: ', JSON_STORAGE_SIZE(metadata), " +
-            "  ', Free: ', JSON_STORAGE_FREE(metadata)" +
-            ") FROM users WHERE name = 'MultiTest'"
-        );
+        String result = executeScalar("SELECT CONCAT(" + "  'Size: ', JSON_STORAGE_SIZE(metadata), "
+                + "  ', Free: ', JSON_STORAGE_FREE(metadata)" + ") FROM users WHERE name = 'MultiTest'");
 
         // Then
         assertThat(result).contains("Size: ", "Free: ");
@@ -310,17 +306,11 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_withComplexNesting_shouldFormatCorrectly() throws SQLException {
         // Given
-        String complexDoc = "{" +
-            "\"user\": {" +
-            "  \"profile\": {" +
-            "    \"name\": \"John\"," +
-            "    \"contacts\": [\"email\", \"phone\"]" +
-            "  }," +
-            "  \"settings\": {\"theme\": \"dark\"}" +
-            "}" +
-            "}";
-        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " +
-            "('Complex', 'complex@test.com', '" + complexDoc.replace("\"", "\\\"") + "')");
+        String complexDoc = "{" + "\"user\": {" + "  \"profile\": {" + "    \"name\": \"John\","
+                + "    \"contacts\": [\"email\", \"phone\"]" + "  }," + "  \"settings\": {\"theme\": \"dark\"}" + "}"
+                + "}";
+        executeUpdate("INSERT INTO users (name, email, metadata) VALUES " + "('Complex', 'complex@test.com', '"
+                + complexDoc.replace("\"", "\\\"") + "')");
 
         // When
         String pretty = executeScalar("SELECT JSON_PRETTY(metadata) FROM users WHERE name = 'Complex'");

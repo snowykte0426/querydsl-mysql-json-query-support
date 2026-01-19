@@ -7,36 +7,37 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests for MySQL JSON schema validation functions in JPA environment.
- * These functions are available in MySQL 8.0.17+.
+ * Tests for MySQL JSON schema validation functions in JPA environment. These
+ * functions are available in MySQL 8.0.17+.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_SCHEMA_VALID - Validate JSON against schema</li>
- *   <li>JSON_SCHEMA_VALIDATION_REPORT - Get validation report</li>
+ * <li>JSON_SCHEMA_VALID - Validate JSON against schema</li>
+ * <li>JSON_SCHEMA_VALIDATION_REPORT - Get validation report</li>
  * </ul>
  */
 @DisplayName("JPA JSON Schema Functions (MySQL 8.0.17+)")
 class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
 
     private static final String SIMPLE_SCHEMA = """
-        {
-            "type": "object",
-            "properties": {
-                "name": {"type": "string"},
-                "age": {"type": "integer", "minimum": 0}
-            },
-            "required": ["name"]
-        }
-        """;
+            {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "age": {"type": "integer", "minimum": 0}
+                },
+                "required": ["name"]
+            }
+            """;
 
     private static final String ARRAY_SCHEMA = """
-        {
-            "type": "array",
-            "items": {"type": "integer"},
-            "minItems": 1
-        }
-        """;
+            {
+                "type": "array",
+                "items": {"type": "integer"},
+                "minItems": 1
+            }
+            """;
 
     @Nested
     @DisplayName("JSON_SCHEMA_VALID")
@@ -45,9 +46,9 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for valid document")
         void return1ForValidDocument() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"object\", \"properties\": {\"name\": {\"type\": \"string\"}}}', " +
-                         "'{\"name\": \"John\"}')";
+            String sql = "SELECT JSON_SCHEMA_VALID("
+                    + "'{\"type\": \"object\", \"properties\": {\"name\": {\"type\": \"string\"}}}', "
+                    + "'{\"name\": \"John\"}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -56,9 +57,9 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 0 for invalid document")
         void return0ForInvalidDocument() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"object\", \"properties\": {\"name\": {\"type\": \"string\"}}, \"required\": [\"name\"]}', " +
-                         "'{\"age\": 30}')";
+            String sql = "SELECT JSON_SCHEMA_VALID("
+                    + "'{\"type\": \"object\", \"properties\": {\"name\": {\"type\": \"string\"}}, \"required\": [\"name\"]}', "
+                    + "'{\"age\": 30}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -67,9 +68,7 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should validate type constraints")
         void validateTypeConstraints() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"integer\"}', " +
-                         "'123')";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + "'{\"type\": \"integer\"}', " + "'123')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -78,9 +77,7 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should fail type constraints")
         void failTypeConstraints() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"integer\"}', " +
-                         "'\"not a number\"')";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + "'{\"type\": \"integer\"}', " + "'\"not a number\"')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -89,9 +86,8 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should validate array items")
         void validateArrayItems() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"array\", \"items\": {\"type\": \"integer\"}}', " +
-                         "'[1, 2, 3]')";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + "'{\"type\": \"array\", \"items\": {\"type\": \"integer\"}}', "
+                    + "'[1, 2, 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -100,9 +96,8 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should fail invalid array items")
         void failInvalidArrayItems() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"array\", \"items\": {\"type\": \"integer\"}}', " +
-                         "'[1, \"two\", 3]')";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + "'{\"type\": \"array\", \"items\": {\"type\": \"integer\"}}', "
+                    + "'[1, \"two\", 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -111,9 +106,7 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should validate minimum constraint")
         void validateMinimumConstraint() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"integer\", \"minimum\": 0}', " +
-                         "'10')";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + "'{\"type\": \"integer\", \"minimum\": 0}', " + "'10')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -122,9 +115,7 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should fail minimum constraint")
         void failMinimumConstraint() {
-            String sql = "SELECT JSON_SCHEMA_VALID(" +
-                         "'{\"type\": \"integer\", \"minimum\": 0}', " +
-                         "'-5')";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + "'{\"type\": \"integer\", \"minimum\": 0}', " + "'-5')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -138,9 +129,7 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return valid:true for valid document")
         void returnValidTrueForValidDocument() {
-            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT(" +
-                         "'{\"type\": \"object\"}', " +
-                         "'{}')";
+            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT(" + "'{\"type\": \"object\"}', " + "'{}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"valid\"");
@@ -150,9 +139,8 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return valid:false for invalid document")
         void returnValidFalseForInvalidDocument() {
-            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT(" +
-                         "'{\"type\": \"object\", \"required\": [\"name\"]}', " +
-                         "'{}')";
+            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT("
+                    + "'{\"type\": \"object\", \"required\": [\"name\"]}', " + "'{}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"valid\"");
@@ -162,9 +150,7 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should include reason for invalid document")
         void includeReasonForInvalidDocument() {
-            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT(" +
-                         "'{\"type\": \"integer\"}', " +
-                         "'\"string\"')";
+            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT(" + "'{\"type\": \"integer\"}', " + "'\"string\"')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"reason\"");
@@ -173,9 +159,9 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should include schema-location for failure")
         void includeSchemaLocationForFailure() {
-            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT(" +
-                         "'{\"type\": \"object\", \"properties\": {\"age\": {\"type\": \"integer\"}}}', " +
-                         "'{\"age\": \"not a number\"}')";
+            String sql = "SELECT JSON_SCHEMA_VALIDATION_REPORT("
+                    + "'{\"type\": \"object\", \"properties\": {\"age\": {\"type\": \"integer\"}}}', "
+                    + "'{\"age\": \"not a number\"}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("valid");
@@ -206,7 +192,8 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
             createUser("John", "john@example.com", "{\"role\": \"admin\", \"level\": 5}");
 
             String schema = "'{\"type\": \"object\", \"properties\": {\"role\": {\"type\": \"string\"}, \"level\": {\"type\": \"integer\"}}}'";
-            String sql = "SELECT JSON_SCHEMA_VALID(" + schema + ", metadata) FROM users WHERE email = 'john@example.com'";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + schema
+                    + ", metadata) FROM users WHERE email = 'john@example.com'";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -219,7 +206,8 @@ class JPAJsonSchemaFunctionsTest extends AbstractJPAJsonFunctionTest {
             createUser("Jane", "jane@example.com", "{\"role\": 123}");
 
             String schema = "'{\"type\": \"object\", \"properties\": {\"role\": {\"type\": \"string\"}}}'";
-            String sql = "SELECT JSON_SCHEMA_VALID(" + schema + ", metadata) FROM users WHERE email = 'jane@example.com'";
+            String sql = "SELECT JSON_SCHEMA_VALID(" + schema
+                    + ", metadata) FROM users WHERE email = 'jane@example.com'";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);

@@ -5,8 +5,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents a column definition in a JSON_TABLE expression.
  *
- * <p>This class defines how JSON data should be mapped to relational columns
- * in a JSON_TABLE query. Each column has a name, SQL type, and JSON path.
+ * <p>
+ * This class defines how JSON data should be mapped to relational columns in a
+ * JSON_TABLE query. Each column has a name, SQL type, and JSON path.
  *
  * @author snowykte0426
  * @since 0.1.0-Dev.2
@@ -34,45 +35,40 @@ public class JsonTableColumn {
     /**
      * Creates a standard column definition.
      *
-     * @param columnName the column name
-     * @param sqlType the SQL data type (e.g., "INT", "VARCHAR(100)")
-     * @param jsonPath the JSON path expression
+     * @param columnName
+     *            the column name
+     * @param sqlType
+     *            the SQL data type (e.g., "INT", "VARCHAR(100)")
+     * @param jsonPath
+     *            the JSON path expression
      * @return column definition
      */
     public static JsonTableColumn column(String columnName, String sqlType, String jsonPath) {
-        return builder()
-            .columnName(columnName)
-            .sqlType(sqlType)
-            .jsonPath(jsonPath)
-            .build();
+        return builder().columnName(columnName).sqlType(sqlType).jsonPath(jsonPath).build();
     }
 
     /**
      * Creates an EXISTS column that returns 1 if path exists, 0 otherwise.
      *
-     * @param columnName the column name
-     * @param jsonPath the JSON path to check
+     * @param columnName
+     *            the column name
+     * @param jsonPath
+     *            the JSON path to check
      * @return EXISTS column definition
      */
     public static JsonTableColumn exists(String columnName, String jsonPath) {
-        return builder()
-            .columnName(columnName)
-            .exists(true)
-            .jsonPath(jsonPath)
-            .build();
+        return builder().columnName(columnName).exists(true).jsonPath(jsonPath).build();
     }
 
     /**
      * Creates an ORDINALITY column that provides row numbering.
      *
-     * @param columnName the column name
+     * @param columnName
+     *            the column name
      * @return ORDINALITY column definition
      */
     public static JsonTableColumn ordinality(String columnName) {
-        return builder()
-            .columnName(columnName)
-            .ordinality(true)
-            .build();
+        return builder().columnName(columnName).ordinality(true).build();
     }
 
     /**
@@ -95,8 +91,7 @@ public class JsonTableColumn {
         }
 
         if (exists) {
-            return columnName + " " + (sqlType != null ? sqlType : "INT") +
-                   " EXISTS PATH " + quoteIfNeeded(jsonPath);
+            return columnName + " " + (sqlType != null ? sqlType : "INT") + " EXISTS PATH " + quoteIfNeeded(jsonPath);
         }
 
         StringBuilder sql = new StringBuilder();
@@ -164,7 +159,8 @@ public class JsonTableColumn {
         /**
          * Sets the column name.
          *
-         * @param columnName the column name
+         * @param columnName
+         *            the column name
          * @return this builder
          */
         public Builder columnName(String columnName) {
@@ -175,7 +171,8 @@ public class JsonTableColumn {
         /**
          * Sets the SQL data type.
          *
-         * @param sqlType the SQL type (e.g., "INT", "VARCHAR(100)", "JSON")
+         * @param sqlType
+         *            the SQL type (e.g., "INT", "VARCHAR(100)", "JSON")
          * @return this builder
          */
         public Builder sqlType(String sqlType) {
@@ -186,7 +183,8 @@ public class JsonTableColumn {
         /**
          * Sets the JSON path expression.
          *
-         * @param jsonPath the JSON path
+         * @param jsonPath
+         *            the JSON path
          * @return this builder
          */
         public Builder jsonPath(String jsonPath) {
@@ -197,7 +195,8 @@ public class JsonTableColumn {
         /**
          * Makes this an EXISTS column.
          *
-         * @param exists true for EXISTS column
+         * @param exists
+         *            true for EXISTS column
          * @return this builder
          */
         public Builder exists(boolean exists) {
@@ -208,7 +207,8 @@ public class JsonTableColumn {
         /**
          * Makes this an ORDINALITY column.
          *
-         * @param ordinality true for ORDINALITY column
+         * @param ordinality
+         *            true for ORDINALITY column
          * @return this builder
          */
         public Builder ordinality(boolean ordinality) {
@@ -219,7 +219,8 @@ public class JsonTableColumn {
         /**
          * Sets the default value or action on empty result.
          *
-         * @param onEmpty default value (e.g., "DEFAULT 0", "NULL", "ERROR")
+         * @param onEmpty
+         *            default value (e.g., "DEFAULT 0", "NULL", "ERROR")
          * @return this builder
          */
         public Builder onEmpty(@Nullable String onEmpty) {
@@ -230,7 +231,8 @@ public class JsonTableColumn {
         /**
          * Sets the default value or action on error.
          *
-         * @param onError default value (e.g., "DEFAULT 0", "NULL", "ERROR")
+         * @param onError
+         *            default value (e.g., "DEFAULT 0", "NULL", "ERROR")
          * @return this builder
          */
         public Builder onError(@Nullable String onError) {

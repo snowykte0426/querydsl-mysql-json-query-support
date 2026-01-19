@@ -9,11 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for MySQL JSON utility functions in JPA environment.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_PRETTY - Format JSON for readability</li>
- *   <li>JSON_STORAGE_SIZE - Storage space used</li>
- *   <li>JSON_STORAGE_FREE - Freed space after update</li>
+ * <li>JSON_PRETTY - Format JSON for readability</li>
+ * <li>JSON_STORAGE_SIZE - Storage space used</li>
+ * <li>JSON_STORAGE_FREE - Freed space after update</li>
  * </ul>
  */
 @DisplayName("JPA JSON Utility Functions")
@@ -166,10 +167,7 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
             String small = "'{}'";
             String large = "'{\"a\":1,\"b\":2,\"c\":3,\"d\":4,\"e\":5}'";
 
-            String sql = String.format(
-                "SELECT JSON_STORAGE_SIZE(%s) < JSON_STORAGE_SIZE(%s)",
-                small, large
-            );
+            String sql = String.format("SELECT JSON_STORAGE_SIZE(%s) < JSON_STORAGE_SIZE(%s)", small, large);
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);

@@ -20,15 +20,18 @@ import java.util.List;
 /**
  * Base test class for JSON function tests using Testcontainers.
  *
- * <p>This class provides:
+ * <p>
+ * This class provides:
  * <ul>
- *   <li>MySQL 8.0.33 container with JSON support</li>
- *   <li>Database connection management</li>
- *   <li>Test schema initialization</li>
- *   <li>Common test utilities</li>
+ * <li>MySQL 8.0.33 container with JSON support</li>
+ * <li>Database connection management</li>
+ * <li>Test schema initialization</li>
+ * <li>Common test utilities</li>
  * </ul>
  *
- * <p>Subclasses should implement test methods using the provided {@link #getConnection()} method.
+ * <p>
+ * Subclasses should implement test methods using the provided
+ * {@link #getConnection()} method.
  *
  * @author snowykte0426
  * @since 0.1.0-Dev.3
@@ -37,18 +40,14 @@ import java.util.List;
 public abstract class AbstractJsonFunctionTest {
 
     /**
-     * MySQL container with version configured via system property (default: 8.0.33).
+     * MySQL container with version configured via system property (default:
+     * 8.0.33).
      */
     @Container
     protected static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>(
-        DockerImageName.parse(System.getProperty("test.mysql.image", "mysql:8.0.33"))
-    )
-        .withDatabaseName("testdb")
-        .withUsername("test")
-        .withPassword("test")
-        .withReuse(true)
-        .waitingFor(Wait.forLogMessage(".*ready for connections.*", 2))
-        .withStartupTimeout(Duration.ofSeconds(120));
+            DockerImageName.parse(System.getProperty("test.mysql.image", "mysql:8.0.33"))).withDatabaseName("testdb")
+            .withUsername("test").withPassword("test").withReuse(true)
+            .waitingFor(Wait.forLogMessage(".*ready for connections.*", 2)).withStartupTimeout(Duration.ofSeconds(120));
 
     protected static Connection connection;
 
@@ -69,18 +68,13 @@ public abstract class AbstractJsonFunctionTest {
     static void setUp() throws SQLException {
         MYSQL_CONTAINER.start();
         connection = DriverManager.getConnection(
-            MYSQL_CONTAINER.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000",
-            MYSQL_CONTAINER.getUsername(),
-            MYSQL_CONTAINER.getPassword()
-        );
+                MYSQL_CONTAINER.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000",
+                MYSQL_CONTAINER.getUsername(),
+                MYSQL_CONTAINER.getPassword());
 
         // Initialize QueryDSL configuration for SQL serialization
         // Create templates with literal rendering enabled
-        var templates = MySQLTemplates.builder()
-            .printSchema()
-            .quote()
-            .newLineToSingleSpace()
-            .build();
+        var templates = MySQLTemplates.builder().printSchema().quote().newLineToSingleSpace().build();
 
         querydslConfig = new Configuration(templates);
         querydslConfig.setUseLiterals(true);
@@ -100,45 +94,45 @@ public abstract class AbstractJsonFunctionTest {
     }
 
     /**
-     * Initializes test database schema.
-     * Creates test tables with JSON columns for testing.
+     * Initializes test database schema. Creates test tables with JSON columns for
+     * testing.
      */
     private static void initializeTestSchema() throws SQLException {
         try (Statement stmt = connection.createStatement()) {
             // Users table with JSON metadata
             stmt.execute("""
-                CREATE TABLE IF NOT EXISTS users (
-                    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                    name VARCHAR(100) NOT NULL,
-                    email VARCHAR(255) NOT NULL,
-                    metadata JSON,
-                    settings JSON,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-                """);
+                    CREATE TABLE IF NOT EXISTS users (
+                        id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                        name VARCHAR(100) NOT NULL,
+                        email VARCHAR(255) NOT NULL,
+                        metadata JSON,
+                        settings JSON,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                    """);
 
             // Products table with JSON attributes
             stmt.execute("""
-                CREATE TABLE IF NOT EXISTS products (
-                    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                    name VARCHAR(200) NOT NULL,
-                    price DECIMAL(10, 2) NOT NULL,
-                    attributes JSON,
-                    tags JSON,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-                """);
+                    CREATE TABLE IF NOT EXISTS products (
+                        id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                        name VARCHAR(200) NOT NULL,
+                        price DECIMAL(10, 2) NOT NULL,
+                        attributes JSON,
+                        tags JSON,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                    """);
 
             // Orders table with JSON details
             stmt.execute("""
-                CREATE TABLE IF NOT EXISTS orders (
-                    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                    user_id BIGINT NOT NULL,
-                    order_data JSON,
-                    shipping_info JSON,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-                """);
+                    CREATE TABLE IF NOT EXISTS orders (
+                        id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                        user_id BIGINT NOT NULL,
+                        order_data JSON,
+                        shipping_info JSON,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                    """);
         }
     }
 
@@ -166,9 +160,11 @@ public abstract class AbstractJsonFunctionTest {
     /**
      * Executes a SQL query and returns result count.
      *
-     * @param sql the SQL query to execute
+     * @param sql
+     *            the SQL query to execute
      * @return number of affected rows
-     * @throws SQLException if query execution fails
+     * @throws SQLException
+     *             if query execution fails
      */
     protected int executeUpdate(String sql) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
@@ -179,13 +175,14 @@ public abstract class AbstractJsonFunctionTest {
     /**
      * Executes a SQL query and returns a single string result.
      *
-     * @param sql the SQL query to execute
+     * @param sql
+     *            the SQL query to execute
      * @return the result string, or null if no result
-     * @throws SQLException if query execution fails
+     * @throws SQLException
+     *             if query execution fails
      */
     protected String executeScalar(String sql) throws SQLException {
-        try (Statement stmt = connection.createStatement();
-             var rs = stmt.executeQuery(sql)) {
+        try (Statement stmt = connection.createStatement(); var rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
                 return rs.getString(1);
             }
@@ -194,13 +191,15 @@ public abstract class AbstractJsonFunctionTest {
     }
 
     /**
-     * Executes a QueryDSL expression and returns a single string result.
-     * This method converts the expression to SQL using the MySQL serializer
-     * and handles parameter binding with PreparedStatement.
+     * Executes a QueryDSL expression and returns a single string result. This
+     * method converts the expression to SQL using the MySQL serializer and handles
+     * parameter binding with PreparedStatement.
      *
-     * @param expression the QueryDSL expression to execute
+     * @param expression
+     *            the QueryDSL expression to execute
      * @return the result string, or null if no result
-     * @throws SQLException if query execution fails
+     * @throws SQLException
+     *             if query execution fails
      */
     protected String executeScalar(Expression<?> expression) throws SQLException {
         SQLSerializer localSerializer = new SQLSerializer(querydslConfig);
@@ -233,7 +232,8 @@ public abstract class AbstractJsonFunctionTest {
     /**
      * Converts a QueryDSL expression to SQL string.
      *
-     * @param expression the expression to convert
+     * @param expression
+     *            the expression to convert
      * @return SQL string representation
      */
     protected String toSql(Expression<?> expression) {

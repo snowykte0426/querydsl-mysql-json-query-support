@@ -9,12 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for MySQL JSON attribute functions in JPA environment.
  *
- * <p>Tests cover:
+ * <p>
+ * Tests cover:
  * <ul>
- *   <li>JSON_DEPTH - Maximum depth of JSON document</li>
- *   <li>JSON_LENGTH - Number of elements</li>
- *   <li>JSON_TYPE - Type of JSON value</li>
- *   <li>JSON_VALID - Validate JSON</li>
+ * <li>JSON_DEPTH - Maximum depth of JSON document</li>
+ * <li>JSON_LENGTH - Number of elements</li>
+ * <li>JSON_TYPE - Type of JSON value</li>
+ * <li>JSON_VALID - Validate JSON</li>
  * </ul>
  */
 @DisplayName("JPA JSON Attribute Functions")
