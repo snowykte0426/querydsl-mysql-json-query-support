@@ -47,10 +47,10 @@ The SQL module provides type-safe access to all 35 MySQL JSON functions through 
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Dev.4'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Beta.34'
 
     // SQL module
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Dev.4'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Beta.34'
 
     // QueryDSL SQL (if not already included)
     implementation 'io.github.openfeign.querydsl:querydsl-sql:7.1'
@@ -71,14 +71,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.1.0-Dev.4</version>
+        <version>0.1.0-Beta.34</version>
     </dependency>
 
     <!-- SQL module -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.1.0-Dev.4</version>
+        <version>0.1.0-Beta.34</version>
     </dependency>
 
     <!-- QueryDSL SQL -->

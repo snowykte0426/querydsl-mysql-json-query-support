@@ -1,7 +1,7 @@
 # QueryDSL MySQL JSON Query Support
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0--Beta.2-blue.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0--Beta.3-blue.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
 [![MySQL: 8.0.17+](https://img.shields.io/badge/MySQL-8.0.17%2B-blue.svg)](https://dev.mysql.com/doc/refman/8.0/en/json.html)
@@ -85,15 +85,15 @@ Choose only the modules you need:
 
 Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) fork (version 7.1).
 
-### What's New in Beta.2
+### What's New in Beta.3
 
-- **Code Quality Improvements**: Added serialization annotations, refactored code for better clarity
-- **Performance Optimizations**: Improved array initialization and method efficiency
-- **Spotless Formatter**: Consistent code formatting across all modules
+- **Critical Bug Fix**: Fixed Hibernate 6.4+ function registration for variadic MySQL JSON functions
+- **CI Stability**: Resolved all CI build failures across all Java/Gradle/MySQL version combinations
+- **Multi-Arity Support**: Proper registration using `registerBinaryTernaryPattern()` and similar methods
 
-**Previous Release (Beta.1):**
-- **Hibernate 6.4+ Support**: Automatic function registration via `FunctionContributor` SPI
-- **JSON Validation Utilities**: Optional client-side validation and serialization helpers
+**Previous Releases:**
+- **Beta.2**: Code quality improvements, performance optimizations, Spotless formatter
+- **Beta.1**: Hibernate 6.4+ support, automatic function registration via `FunctionContributor` SPI
 
 See [RELEASE_NOTES.md](RELEASE_NOTES.md) for complete details.
 
@@ -105,12 +105,12 @@ See [RELEASE_NOTES.md](RELEASE_NOTES.md) for complete details.
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Beta.2'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.1.0-Beta.3'
 
     // Choose your module
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Beta.2'   // For SQL
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.1.0-Beta.3'   // For SQL
     // OR
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Beta.2'   // For JPA
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Beta.3'   // For JPA
 }
 ```
 
@@ -123,7 +123,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.1.0-Beta.2</version>
+        <version>0.1.0-Beta.3</version>
     </dependency>
 
     <!-- Choose your module -->
@@ -131,14 +131,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.1.0-Beta.2</version>
+        <version>0.1.0-Beta.3</version>
     </dependency>
 
     <!-- OR for JPA -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.1.0-Beta.2</version>
+        <version>0.1.0-Beta.3</version>
     </dependency>
 </dependencies>
 ```
