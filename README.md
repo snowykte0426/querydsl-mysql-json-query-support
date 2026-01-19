@@ -123,7 +123,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.1.0-Beta.3</version>
+        <version>0.1.0-Beta.4</version>
     </dependency>
 
     <!-- Choose your module -->
@@ -131,14 +131,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.1.0-Beta.3</version>
+        <version>0.1.0-Beta.4</version>
     </dependency>
 
     <!-- OR for JPA -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.1.0-Beta.3</version>
+        <version>0.1.0-Beta.4</version>
     </dependency>
 </dependencies>
 ```
