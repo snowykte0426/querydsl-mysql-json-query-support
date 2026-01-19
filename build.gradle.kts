@@ -18,7 +18,7 @@ subprojects {
     apply(plugin = "com.diffplug.spotless")
 
     dependencies {
-        testImplementation("ch.qos.logback:logback-classic:1.5.23")
+        "testImplementation"("ch.qos.logback:logback-classic:1.4.14")
     }
 
     configure<JavaPluginExtension> {
