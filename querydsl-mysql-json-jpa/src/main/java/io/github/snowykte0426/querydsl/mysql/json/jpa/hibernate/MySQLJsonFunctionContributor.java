@@ -2,6 +2,8 @@ package io.github.snowykte0426.querydsl.mysql.json.jpa.hibernate;
 
 import org.hibernate.boot.model.FunctionContributions;
 import org.hibernate.boot.model.FunctionContributor;
+import org.hibernate.query.sqm.SqmExpressible;
+import org.hibernate.type.BasicType;
 import org.hibernate.query.sqm.function.NamedSqmFunctionDescriptor;
 import org.hibernate.query.sqm.produce.function.StandardArgumentsValidators;
 import org.hibernate.query.sqm.produce.function.StandardFunctionReturnTypeResolvers;
@@ -48,7 +50,7 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
     /**
      * Helper to register functions that support variable arguments (varargs).
      */
-    private void registerVarargsFunction(FunctionContributions fc, String name, BasicType<?> returnType) {
+    private void registerVarargsFunction(FunctionContributions fc, String name, SqmExpressible<?> returnType) {
         fc.getFunctionRegistry().register(name, new NamedSqmFunctionDescriptor(
                 name,
                 false,
