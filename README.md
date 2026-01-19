@@ -171,13 +171,22 @@ List<User> premiumUsers = queryFactory
     .where(metadata.extract("$.plan").eq("\"premium\""))
     .fetch();
 
-// JSON_CONTAINS: Check if JSON contains value
+// JSON_CONTAINS: Check if JSON contains value (manual escaping)
 List<User> users = queryFactory
     .selectFrom(user)
     .where(JPAJsonFunctions.jsonContains(
         user.preferences,
         "\"notifications\"",
         "$.settings"
+    ))
+    .fetch();
+
+// JSON_CONTAINS: Auto-escaping convenience method (recommended, 0.1.0-Beta.4+)
+List<User> activeUsers = queryFactory
+    .selectFrom(user)
+    .where(JPAJsonFunctions.jsonContainsString(
+        user.roles,
+        "admin"  // Automatically escaped, no manual quotes needed!
     ))
     .fetch();
 

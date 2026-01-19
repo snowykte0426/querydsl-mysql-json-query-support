@@ -399,6 +399,100 @@ public Map<String, String> aggregateByDepartment() {
 }
 ```
 
+### Working with JSON_CONTAINS
+
+The `jsonContains` function tests whether a JSON document contains a specific value. MySQL's `JSON_CONTAINS()` requires values to be valid JSON, which can be inconvenient for simple string or numeric searches.
+
+#### Option 1: Manual JSON Escaping (Traditional)
+
+```java
+// For string values, you need to escape manually
+public List<User> findUsersByRole(String role) {
+    return queryFactory
+        .selectFrom(user)
+        .where(SqlJsonFunctions.jsonContains(
+            user.roles,
+            "\"" + role + "\""  // Note the escaped quotes
+        ))
+        .fetch();
+}
+
+// For numeric values
+BooleanExpression hasId = SqlJsonFunctions.jsonContains(
+    product.features,
+    "42"  // Numbers don't need quotes
+);
+```
+
+#### Option 2: Auto-Escaping (Recommended, 0.1.0-Beta.4+)
+
+Use convenience methods for automatic escaping:
+
+```java
+// String values - no manual escaping needed!
+public List<User> findUsersByRole(String role) {
+    return queryFactory
+        .selectFrom(user)
+        .where(SqlJsonFunctions.jsonContainsString(
+            user.roles,
+            role  // Automatically escaped to "\"role\""
+        ))
+        .fetch();
+}
+
+// With path parameter
+BooleanExpression hasScope = SqlJsonFunctions.jsonContainsString(
+    apiKey.metadata,
+    "student:read",
+    "$.scope"
+);
+
+// Numeric values
+BooleanExpression hasId = SqlJsonFunctions.jsonContainsNumber(
+    product.features,
+    42
+);
+
+BooleanExpression hasPrice = SqlJsonFunctions.jsonContainsNumber(
+    product.metadata,
+    99.99,
+    "$.price"
+);
+
+// Boolean values
+BooleanExpression isActive = SqlJsonFunctions.jsonContainsBoolean(
+    user.settings,
+    true,
+    "$.active"
+);
+```
+
+#### Real-World Example: API Scopes
+
+```java
+// Before (manual escaping, error-prone):
+public List<ApiKey> findByScope(String scope) {
+    return queryFactory
+        .selectFrom(apiKey)
+        .where(SqlJsonFunctions.jsonContains(
+            apiKey.scopes,
+            "\"" + scope + "\""  // Easy to forget quotes!
+        ))
+        .fetch();
+}
+
+// After (automatic escaping, cleaner):
+public List<ApiKey> findByScope(String scope) {
+    return queryFactory
+        .selectFrom(apiKey)
+        .where(SqlJsonFunctions.jsonContainsString(
+            apiKey.scopes,
+            scope  // No manual escaping needed
+        ))
+        .fetch();
+}
+```
+
 ---
 
 ## Integration

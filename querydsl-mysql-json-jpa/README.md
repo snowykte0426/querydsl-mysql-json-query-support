@@ -427,7 +427,87 @@ String trimmedRoles = JPAJsonFunctions
     .toString();
 ```
 
-### 6. Schema Validation
+### 6. Working with JSON_CONTAINS
+
+The `jsonContains` function tests whether a JSON document contains a specific value. MySQL's `JSON_CONTAINS()` requires values to be valid JSON, which can be inconvenient for simple string or numeric searches.
+
+#### Option 1: Manual JSON Escaping (Traditional)
+
+```java
+// For string values, you need to escape manually
+BooleanExpression hasAdmin = JPAJsonFunctions.jsonContains(
+    user.roles,
+    "\"admin\""  // Note the escaped quotes
+);
+
+// For numeric values
+BooleanExpression hasId = JPAJsonFunctions.jsonContains(
+    product.features,
+    "42"  // Numbers don't need quotes
+);
+```
+
+#### Option 2: Auto-Escaping (Recommended, 0.1.0-Beta.4+)
+
+Use convenience methods for automatic escaping:
+
+```java
+// String values - no manual escaping needed!
+BooleanExpression hasAdmin = JPAJsonFunctions.jsonContainsString(
+    user.roles,
+    "admin"  // Automatically escaped to "\"admin\""
+);
+
+// With path parameter
+BooleanExpression hasScope = JPAJsonFunctions.jsonContainsString(
+    apiKey.metadata,
+    "student:read",
+    "$.scope"
+);
+
+// Numeric values
+BooleanExpression hasId = JPAJsonFunctions.jsonContainsNumber(
+    product.features,
+    42
+);
+
+BooleanExpression hasPrice = JPAJsonFunctions.jsonContainsNumber(
+    product.metadata,
+    99.99,
+    "$.price"
+);
+
+// Boolean values
+BooleanExpression isActive = JPAJsonFunctions.jsonContainsBoolean(
+    user.settings,
+    true,
+    "$.active"
+);
+```
+
+#### Real-World Example: API Scopes
+
+```java
+// Before (manual escaping, error-prone):
+List<ApiKey> keys = queryFactory
+    .selectFrom(apiKey)
+    .where(JPAJsonFunctions.jsonContains(
+        apiKey.scopes,
+        "\"student:read\""  // Easy to forget quotes!
+    ))
+    .fetch();
+
+// After (automatic escaping, cleaner):
+List<ApiKey> keys = queryFactory
+    .selectFrom(apiKey)
+    .where(JPAJsonFunctions.jsonContainsString(
+        apiKey.scopes,
+        "student:read"  // No manual escaping needed
+    ))
+    .fetch();
+```
+
+### 7. Schema Validation
 
 ```java
 String userSchema = """
