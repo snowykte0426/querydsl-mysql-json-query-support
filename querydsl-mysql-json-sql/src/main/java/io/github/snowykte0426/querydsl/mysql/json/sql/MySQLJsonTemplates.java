@@ -96,9 +96,7 @@ public class MySQLJsonTemplates extends MySQLTemplates {
 
         // Register each operator with QueryDSL SQL template system
         // Precedence -1 means no special precedence handling (most JSON functions)
-        jsonTemplates.forEach((operator, template) -> {
-            add(operator, template, -1);
-        });
+        jsonTemplates.forEach((operator, template) -> add(operator, template, -1));
     }
 
     /**
