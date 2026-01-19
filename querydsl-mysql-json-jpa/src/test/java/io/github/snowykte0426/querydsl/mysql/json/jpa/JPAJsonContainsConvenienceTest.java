@@ -39,8 +39,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query using jsonContainsString (no manual escaping needed)
         List<User> admins = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.roles, "admin"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.roles, "admin")).fetch();
 
         // Then: Only admin user should be returned
         assertEquals(1, admins.size());
@@ -63,8 +62,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for "student:read" using jsonContainsString with path
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "student:read", "$.scope"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "student:read", "$.scope")).fetch();
 
         // Then: Only user1 should be returned
         assertEquals(1, results.size());
@@ -83,8 +81,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for value with quotes (auto-escaped)
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "He said \"Hi\"", "$.message"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "He said \"Hi\"", "$.message")).fetch();
 
         // Then: User should be found
         assertEquals(1, results.size());
@@ -103,8 +100,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for "admin"
         List<User> admins = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.roles, "admin"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.roles, "admin")).fetch();
 
         // Then: No results
         assertTrue(admins.isEmpty());
@@ -130,8 +126,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for age 25
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 25, "$.age"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 25, "$.age")).fetch();
 
         // Then: Only user1 should be returned
         assertEquals(1, results.size());
@@ -150,8 +145,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for price 99.99
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 99.99, "$.price"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 99.99, "$.price")).fetch();
 
         // Then: User should be found
         assertEquals(1, results.size());
@@ -170,8 +164,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for number in array
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 90, "$.scores"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 90, "$.scores")).fetch();
 
         // Then: User should be found
         assertEquals(1, results.size());
@@ -198,8 +191,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for active=true
         List<User> activeUsers = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsBoolean(user.settings, true, "$.active"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsBoolean(user.settings, true, "$.active")).fetch();
 
         // Then: Only active user should be returned
         assertEquals(1, activeUsers.size());
@@ -222,8 +214,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for verified=false
         List<User> unverifiedUsers = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsBoolean(user.settings, false, "$.verified"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsBoolean(user.settings, false, "$.verified")).fetch();
 
         // Then: Only unverified user should be returned
         assertEquals(1, unverifiedUsers.size());
@@ -251,11 +242,10 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for "student:read" scope (user's actual use case)
         // BEFORE FIX: Would need to write:
-        //   JPAJsonFunctions.jsonContains(user.roles, "\"student:read\"")
+        // JPAJsonFunctions.jsonContains(user.roles, "\"student:read\"")
         // AFTER FIX: Can write:
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.roles, "student:read"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.roles, "student:read")).fetch();
 
         // Then: Only apiKey1 should be returned
         assertEquals(1, results.size());
@@ -278,8 +268,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for empty string
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "", "$.value"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "", "$.value")).fetch();
 
         // Then: User should be found
         assertEquals(1, results.size());
@@ -297,8 +286,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for zero
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 0, "$.count"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsNumber(user.metadata, 0, "$.count")).fetch();
 
         // Then: User should be found
         assertEquals(1, results.size());
@@ -316,8 +304,7 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
 
         // When: Query for path with backslashes
         List<User> results = queryFactory.selectFrom(user)
-                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "C:\\Users\\test", "$.path"))
-                .fetch();
+                .where(JPAJsonFunctions.jsonContainsString(user.metadata, "C:\\Users\\test", "$.path")).fetch();
 
         // Then: User should be found
         assertEquals(1, results.size());
