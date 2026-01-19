@@ -141,7 +141,8 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
                 "json_type(?1)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_search(json_doc, one_or_all, search_str, escape, path...) - Searches for string in JSON
+        // json_search(json_doc, one_or_all, search_str, escape, path...) - Searches for
+        // string in JSON
         // document. Support 3-7 parameters (3 required + optional escape + 0-3 paths)
         fc.getFunctionRegistry().registerPattern("json_search",
                 "json_search(?1, ?2, ?3)",
