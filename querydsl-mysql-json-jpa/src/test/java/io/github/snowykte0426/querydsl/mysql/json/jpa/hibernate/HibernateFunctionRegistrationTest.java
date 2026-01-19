@@ -66,7 +66,7 @@ class HibernateFunctionRegistrationTest extends AbstractJPAJsonFunctionTest {
     @DisplayName("json_contains should filter results correctly")
     void jsonContains_shouldFilterCorrectly() {
         // Given: Multiple users with different roles
-        User admin = createUser("Admin", "admin@example.com", "{}", "{}", "[\"admin\", \"superuser\"]");
+        User admin = createUser("Admin", "admin@example.com", "{}", "{}", "[\"admin\", \"superuser\", \"user\"]");
         User regularUser = createUser("User", "user@example.com", "{}", "{}", "[\"user\"]");
         User guest = createUser("Guest", "guest@example.com", "{}", "{}", "[\"guest\"]");
 
