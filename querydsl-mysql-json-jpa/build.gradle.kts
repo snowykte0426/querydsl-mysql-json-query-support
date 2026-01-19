@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.snowykte0426"
-version = "0.1.0-Dev.4"
+version = "0.1.0-Beta.1"
 
 java {
     toolchain {
@@ -31,6 +31,9 @@ dependencies {
 
     // MySQL Connector (compileOnly, users will provide their own)
     compileOnly("com.mysql:mysql-connector-j:8.2.0")
+
+    // Hibernate (for FunctionContributor SPI)
+    compileOnly("org.hibernate.orm:hibernate-core:6.4.1.Final")
 
     // Code Generation (for annotation processing)
     annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:7.1:jakarta")
