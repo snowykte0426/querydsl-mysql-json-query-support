@@ -2,11 +2,10 @@ package io.github.snowykte0426.querydsl.mysql.json.jpa.hibernate;
 
 import org.hibernate.boot.model.FunctionContributions;
 import org.hibernate.boot.model.FunctionContributor;
-import org.hibernate.query.sqm.SqmExpressible;
-import org.hibernate.type.BasicType;
 import org.hibernate.query.sqm.function.NamedSqmFunctionDescriptor;
 import org.hibernate.query.sqm.produce.function.StandardArgumentsValidators;
 import org.hibernate.query.sqm.produce.function.StandardFunctionReturnTypeResolvers;
+import org.hibernate.type.BasicType;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.spi.TypeConfiguration;
 
@@ -50,12 +49,12 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
     /**
      * Helper to register functions that support variable arguments (varargs).
      */
-    private void registerVarargsFunction(FunctionContributions fc, String name, SqmExpressible<?> returnType) {
-        fc.getFunctionRegistry().register(name, new NamedSqmFunctionDescriptor(
-                name,
-                false,
-                StandardArgumentsValidators.VARARGS,
-                StandardFunctionReturnTypeResolvers.invariant(returnType)));
+    private void registerVarargsFunction(FunctionContributions fc, String name, BasicType<?> returnType) {
+        fc.getFunctionRegistry().register(name,
+                new NamedSqmFunctionDescriptor(name,
+                        false,
+                        StandardArgumentsValidators.min(1),
+                        StandardFunctionReturnTypeResolvers.invariant(returnType)));
     }
 
     /**
@@ -87,7 +86,8 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
                 .setArgumentListSignature("(target, candidate[, path])");
 
         // json_contains_path: 2+ arguments (target, one_or_all, path1, path2, ...)
-        registerVarargsFunction(fc, "json_contains_path",
+        registerVarargsFunction(fc,
+                "json_contains_path",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
 
         // json_overlaps(json1, json2) - Returns 1 if json1 and json2 have any
@@ -124,7 +124,8 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      */
     private void registerStringFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
         // json_extract: 2+ arguments (json_doc, path1, path2, ...)
-        registerVarargsFunction(fc, "json_extract",
+        registerVarargsFunction(fc,
+                "json_extract",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
         // json_unquote(json_val) - Unquotes JSON value and returns result as string
@@ -139,7 +140,8 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
 
         // json_search: 3+ arguments (json_doc, one_or_all, search_str[, escape, path1,
         // ...])
-        registerVarargsFunction(fc, "json_search",
+        registerVarargsFunction(fc,
+                "json_search",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
         // json_keys: 1-2 arguments
