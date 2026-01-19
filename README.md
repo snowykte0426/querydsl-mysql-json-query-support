@@ -1,7 +1,7 @@
 # QueryDSL MySQL JSON Query Support
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0--Beta.3-blue.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0--Beta.4-blue.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
 [![MySQL: 8.0.17+](https://img.shields.io/badge/MySQL-8.0.17%2B-blue.svg)](https://dev.mysql.com/doc/refman/8.0/en/json.html)
@@ -85,13 +85,17 @@ Choose only the modules you need:
 
 Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) fork (version 7.1).
 
-### What's New in Beta.3
+### What's New in Beta.4
 
-- **Critical Bug Fix**: Fixed Hibernate 6.4+ function registration for variadic MySQL JSON functions
-- **CI Stability**: Resolved all CI build failures across all Java/Gradle/MySQL version combinations
-- **Multi-Arity Support**: Proper registration using `registerBinaryTernaryPattern()` and similar methods
+- **Auto-Escaping for JSON_CONTAINS**: New convenience methods that automatically escape plain values as JSON literals
+  - `jsonContainsString()` - No more manual quote escaping for strings!
+  - `jsonContainsNumber()` - Easy numeric value searches
+  - `jsonContainsBoolean()` - Simple boolean checks
+  - Fixes production issue: `Data truncation: Invalid JSON text` errors
+- **Available in all modules**: JPA, SQL, and Core
 
 **Previous Releases:**
+- **Beta.3**: Fixed Hibernate 6.4+ variadic function registration, CI stability improvements
 - **Beta.2**: Code quality improvements, performance optimizations, Spotless formatter
 - **Beta.1**: Hibernate 6.4+ support, automatic function registration via `FunctionContributor` SPI
 

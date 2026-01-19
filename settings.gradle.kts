@@ -3,7 +3,7 @@ rootProject.name = "querydsl-mysql-json-query-support"
 include(
     "querydsl-mysql-json-core",
     "querydsl-mysql-json-sql",
-    "querydsl-mysql-json-jpa"
+    "querydsl-mysql-json-jpa",
 )
 
 pluginManagement {
