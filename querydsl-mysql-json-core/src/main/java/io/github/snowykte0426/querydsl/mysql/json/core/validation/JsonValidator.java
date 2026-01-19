@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * SQL injection prevention is primarily handled by JDBC PreparedStatement parameter binding in the SDK.
  * This class provides an additional layer of client-side validation for fail-fast behavior.
  *
- * @since 0.2.0
+ * @since 0.1.0-Beta.1
  */
 public final class JsonValidator {
 

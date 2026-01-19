@@ -9,7 +9,7 @@ import com.querydsl.core.types.Operator;
  * These operators map to MySQL 8.0.17+ JSON functions and are used with QueryDSL templates.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.1
  */
 public enum JsonOperators implements Operator {
 

@@ -19,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
  * Tests for JSON_TABLE function.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
 

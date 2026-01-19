@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests for JSON search functions.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 class JsonSearchFunctionsTest extends AbstractJsonFunctionTest {
 

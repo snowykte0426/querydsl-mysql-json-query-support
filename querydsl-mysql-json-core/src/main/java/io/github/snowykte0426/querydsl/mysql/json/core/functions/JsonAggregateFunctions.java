@@ -18,7 +18,7 @@ import com.querydsl.core.types.dsl.Expressions;
  * into a single JSON value.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.1
  */
 public final class JsonAggregateFunctions {
 

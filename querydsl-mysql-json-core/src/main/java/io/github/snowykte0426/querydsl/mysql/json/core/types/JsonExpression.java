@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @param <T> the Java type this expression represents
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.1
  */
 public abstract class JsonExpression<T> extends SimpleExpression<T> {
 

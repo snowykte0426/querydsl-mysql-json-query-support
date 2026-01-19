@@ -18,7 +18,7 @@ import com.querydsl.core.types.dsl.StringExpression;
  * These functions are available in MySQL 8.0.17 and later.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.1
  * @see <a href="https://json-schema.org/">JSON Schema Specification</a>
  */
 public final class JsonSchemaFunctions {

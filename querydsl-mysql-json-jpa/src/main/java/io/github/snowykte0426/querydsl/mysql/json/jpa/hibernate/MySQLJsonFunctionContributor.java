@@ -24,7 +24,7 @@ import org.hibernate.type.spi.TypeConfiguration;
  *     <li>Numeric functions: json_length, json_depth, json_storage_size, etc.</li>
  * </ul>
  *
- * @since 0.2.0
+ * @since 0.1.0-Beta.1
  * @see FunctionContributor
  */
 public class MySQLJsonFunctionContributor implements FunctionContributor {

@@ -14,7 +14,7 @@ import com.querydsl.core.types.Expression;
  * allowing complex JSON documents to be decomposed into rows and columns.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 public final class JsonTableFunctions {
 

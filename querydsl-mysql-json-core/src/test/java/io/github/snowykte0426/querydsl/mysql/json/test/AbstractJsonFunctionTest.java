@@ -31,7 +31,7 @@ import java.util.List;
  * <p>Subclasses should implement test methods using the provided {@link #getConnection()} method.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 @Testcontainers
 public abstract class AbstractJsonFunctionTest {

@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * <p>Tests JSON_ARRAY, JSON_OBJECT, and JSON_QUOTE functions.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 class SqlJsonCreationFunctionsTest extends AbstractSqlJsonFunctionTest {
 

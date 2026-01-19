@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Test to verify that test infrastructure is working correctly.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 class TestInfrastructureTest extends AbstractJsonFunctionTest {
 

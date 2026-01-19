@@ -37,7 +37,7 @@ import java.sql.Statement;
  * worrying about infrastructure setup.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.3
  */
 @Testcontainers
 public abstract class AbstractSqlJsonFunctionTest {

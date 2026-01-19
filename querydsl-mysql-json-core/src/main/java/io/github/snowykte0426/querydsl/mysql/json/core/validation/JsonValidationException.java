@@ -10,7 +10,7 @@ package io.github.snowykte0426.querydsl.mysql.json.core.validation;
  *     <li>JSON parsing encounters an error</li>
  * </ul>
  *
- * @since 0.2.0
+ * @since 0.1.0-Beta.1
  */
 public class JsonValidationException extends RuntimeException {
 

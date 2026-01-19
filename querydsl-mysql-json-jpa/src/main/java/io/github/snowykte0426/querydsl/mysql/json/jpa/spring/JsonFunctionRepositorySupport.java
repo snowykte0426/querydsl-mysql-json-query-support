@@ -57,7 +57,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
  * </ul>
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.2
  * @see QuerydslRepositorySupport
  * @see JPAJsonFunctions
  * @see JPAJsonExpression

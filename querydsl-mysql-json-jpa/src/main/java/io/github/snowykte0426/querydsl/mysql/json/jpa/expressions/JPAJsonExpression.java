@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
  * }</pre>
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.2
  */
 public class JPAJsonExpression extends SimpleExpression<String> {
 

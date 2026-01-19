@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * in a JSON_TABLE query. Each column has a name, SQL type, and JSON path.
  *
  * @author snowykte0426
- * @since 1.0.0
+ * @since 0.1.0-Dev.2
  */
 public class JsonTableColumn {
 
