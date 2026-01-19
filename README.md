@@ -85,22 +85,6 @@ Choose only the modules you need:
 
 Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFeign/querydsl) fork (version 7.1).
 
-### What's New in Beta.4
-
-- **Auto-Escaping for JSON_CONTAINS**: New convenience methods that automatically escape plain values as JSON literals
-  - `jsonContainsString()` - No more manual quote escaping for strings!
-  - `jsonContainsNumber()` - Easy numeric value searches
-  - `jsonContainsBoolean()` - Simple boolean checks
-  - Fixes production issue: `Data truncation: Invalid JSON text` errors
-- **Available in all modules**: JPA, SQL, and Core
-
-**Previous Releases:**
-- **Beta.3**: Fixed Hibernate 6.4+ variadic function registration, CI stability improvements
-- **Beta.2**: Code quality improvements, performance optimizations, Spotless formatter
-- **Beta.1**: Hibernate 6.4+ support, automatic function registration via `FunctionContributor` SPI
-
-See [RELEASE_NOTES.md](RELEASE_NOTES.md) for complete details.
-
 ---
 
 ## Installation
