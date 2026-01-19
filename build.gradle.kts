@@ -17,6 +17,10 @@ subprojects {
     apply(plugin = "com.vanniktech.maven.publish")
     apply(plugin = "com.diffplug.spotless")
 
+    dependencies {
+        testImplementation("ch.qos.logback:logback-classic:1.5.23")
+    }
+
     configure<JavaPluginExtension> {
         toolchain {
             languageVersion = JavaLanguageVersion.of(System.getProperty("java.toolchain.version", "25"))
