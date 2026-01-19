@@ -10,6 +10,7 @@ import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonArrayExpr
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonObjectExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.types.JsonExpression;
 import jakarta.persistence.EntityManager;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 /**
@@ -82,7 +83,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
     }
 
     @Override
-    public void setEntityManager(EntityManager entityManager) {
+    public void setEntityManager(@NotNull EntityManager entityManager) {
         super.setEntityManager(entityManager);
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
