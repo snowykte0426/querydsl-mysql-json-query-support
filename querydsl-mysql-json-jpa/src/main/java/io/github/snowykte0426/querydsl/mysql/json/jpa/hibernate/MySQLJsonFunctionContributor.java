@@ -54,25 +54,26 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
     private void registerBooleanFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
         // json_contains(target, candidate) - Returns 1 if candidate is contained in
         // target
-        fc.getFunctionRegistry().registerPattern("json_contains",
-                "json_contains(?1, ?2)",
-                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
-
         // json_contains(target, candidate, path) - Returns 1 if candidate is contained
         // in target at path
-        fc.getFunctionRegistry().registerPattern("json_contains_with_path",
+        // Register with maximum arity to support both 2 and 3 parameter versions
+        fc.getFunctionRegistry().registerPattern("json_contains",
                 "json_contains(?1, ?2, ?3)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
 
         // json_contains_path(target, one_or_all, path...) - Returns 1 if paths exist in
         // target
+        // Support 3-5 parameters (1 doc + 1 mode + 1-3 paths)
         fc.getFunctionRegistry().registerPattern("json_contains_path",
                 "json_contains_path(?1, ?2, ?3)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
 
-        // json_contains_path with multiple paths
-        fc.getFunctionRegistry().registerPattern("json_contains_path_multi",
+        fc.getFunctionRegistry().registerPattern("json_contains_path",
                 "json_contains_path(?1, ?2, ?3, ?4)",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
+
+        fc.getFunctionRegistry().registerPattern("json_contains_path",
+                "json_contains_path(?1, ?2, ?3, ?4, ?5)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN));
 
         // json_overlaps(json1, json2) - Returns 1 if json1 and json2 have any
@@ -109,13 +110,25 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      */
     private void registerStringFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
         // json_extract(json_doc, path...) - Extracts data from JSON document
+        // Support 2-6 parameters (1 doc + 1-5 paths)
         fc.getFunctionRegistry().registerPattern("json_extract",
                 "json_extract(?1, ?2)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_extract with multiple paths
-        fc.getFunctionRegistry().registerPattern("json_extract_multi",
+        fc.getFunctionRegistry().registerPattern("json_extract",
                 "json_extract(?1, ?2, ?3)",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
+
+        fc.getFunctionRegistry().registerPattern("json_extract",
+                "json_extract(?1, ?2, ?3, ?4)",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
+
+        fc.getFunctionRegistry().registerPattern("json_extract",
+                "json_extract(?1, ?2, ?3, ?4, ?5)",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
+
+        fc.getFunctionRegistry().registerPattern("json_extract",
+                "json_extract(?1, ?2, ?3, ?4, ?5, ?6)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
         // json_unquote(json_val) - Unquotes JSON value and returns result as string
@@ -128,29 +141,35 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
                 "json_type(?1)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_search(json_doc, one_or_all, search_str) - Searches for string in JSON
-        // document
+        // json_search(json_doc, one_or_all, search_str, escape, path...) - Searches for string in JSON
+        // document. Support 3-7 parameters (3 required + optional escape + 0-3 paths)
         fc.getFunctionRegistry().registerPattern("json_search",
                 "json_search(?1, ?2, ?3)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_search with escape character
-        fc.getFunctionRegistry().registerPattern("json_search_escape",
+        fc.getFunctionRegistry().registerPattern("json_search",
                 "json_search(?1, ?2, ?3, ?4)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_search with escape and path
-        fc.getFunctionRegistry().registerPattern("json_search_path",
+        fc.getFunctionRegistry().registerPattern("json_search",
                 "json_search(?1, ?2, ?3, ?4, ?5)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
+        fc.getFunctionRegistry().registerPattern("json_search",
+                "json_search(?1, ?2, ?3, ?4, ?5, ?6)",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
+
+        fc.getFunctionRegistry().registerPattern("json_search",
+                "json_search(?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+                typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
+
         // json_keys(json_doc) - Returns keys from JSON object as JSON array
+        // json_keys(json_doc, path) - Returns keys at path
         fc.getFunctionRegistry().registerPattern("json_keys",
                 "json_keys(?1)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_keys with path
-        fc.getFunctionRegistry().registerPattern("json_keys_path",
+        fc.getFunctionRegistry().registerPattern("json_keys",
                 "json_keys(?1, ?2)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
@@ -170,12 +189,12 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
         // json_value(json_doc, path) - Extracts scalar value from JSON
+        // json_value(json_doc, path RETURNING type) - with type casting
         fc.getFunctionRegistry().registerPattern("json_value",
                 "json_value(?1, ?2)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
 
-        // json_value with RETURNING clause
-        fc.getFunctionRegistry().registerPattern("json_value_returning",
+        fc.getFunctionRegistry().registerPattern("json_value",
                 "json_value(?1, ?2 returning ?3)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING));
     }
@@ -190,12 +209,12 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      */
     private void registerNumericFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
         // json_length(json_doc) - Returns length of JSON document
+        // json_length(json_doc, path) - Returns length at path
         fc.getFunctionRegistry().registerPattern("json_length",
                 "json_length(?1)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.INTEGER));
 
-        // json_length with path
-        fc.getFunctionRegistry().registerPattern("json_length_path",
+        fc.getFunctionRegistry().registerPattern("json_length",
                 "json_length(?1, ?2)",
                 typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.INTEGER));
 
