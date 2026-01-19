@@ -1,8 +1,10 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     id("com.vanniktech.maven.publish") version "0.28.0" apply false
+    id("com.diffplug.spotless") version "8.1.0" apply false
 }
 
 allprojects {
@@ -13,6 +15,7 @@ allprojects {
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "com.vanniktech.maven.publish")
+    apply(plugin = "com.diffplug.spotless")
 
     configure<JavaPluginExtension> {
         toolchain {
@@ -62,6 +65,16 @@ subprojects {
                 developerConnection.set("scm:git:ssh://github.com:snowykte0426/querydsl-mysql-json-query-support.git")
                 url.set("https://github.com/snowykte0426/querydsl-mysql-json-query-support")
             }
+        }
+    }
+
+    configure<SpotlessExtension> {
+        java {
+            target("src/**/*.java")
+            eclipse().configFile(rootProject.file("config/formatter/eclipse-formatter.xml"))
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
         }
     }
 }
