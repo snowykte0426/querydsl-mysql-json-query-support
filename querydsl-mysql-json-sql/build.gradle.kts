@@ -32,19 +32,16 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // Testcontainers for integration tests
-    testImplementation("org.testcontainers:testcontainers:1.19.3")
-    testImplementation("org.testcontainers:mysql:1.19.3")
-    testImplementation("org.testcontainers:junit-jupiter:1.19.3")
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.4"))
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:mysql")
+    testImplementation("org.testcontainers:junit-jupiter")
 
     // MySQL for Tests
     testImplementation("com.mysql:mysql-connector-j:8.2.0")
 
     // OpenFeign QueryDSL SQL Codegen
     testImplementation("io.github.openfeign.querydsl:querydsl-sql-codegen:7.1")
-
-    // Logging for Tests
-    testImplementation("ch.qos.logback:logback-classic:1.4.14")
-    testImplementation("org.slf4j:slf4j-api:2.0.9")
 
     // Assertions
     testImplementation("org.assertj:assertj-core:3.25.1")
