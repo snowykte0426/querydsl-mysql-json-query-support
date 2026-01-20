@@ -1,6 +1,6 @@
 # QueryDSL MySQL JSON - JPA Module
 
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0--Beta.5-blue.svg)]()
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.1.0-red.svg)]()
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
 
@@ -38,7 +38,7 @@ The JPA module provides seamless integration of MySQL JSON functions with QueryD
 
 ```kotlin
 dependencies {
-    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0-Beta.5")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.1.0")
 
     // Required dependencies (if not already included)
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
@@ -57,7 +57,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.1.0-Beta.5</version>
+        <version>0.1.0</version>
     </dependency>
 
     <!-- Required dependencies -->
