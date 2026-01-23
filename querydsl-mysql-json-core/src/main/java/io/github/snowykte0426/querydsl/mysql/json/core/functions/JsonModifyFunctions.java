@@ -34,6 +34,51 @@ public final class JsonModifyFunctions {
         // Utility class - prevent instantiation
     }
 
+    /**
+     * Builds a JSON function call with alternating path-value pairs.
+     *
+     * <p>
+     * This is a helper method to reduce code duplication for JSON_SET, JSON_INSERT,
+     * JSON_REPLACE, and JSON_ARRAY_APPEND functions that all follow the same
+     * pattern: {@code FUNCTION(json_doc, path1, val1, path2, val2, ...)}
+     *
+     * @param functionName
+     *            the MySQL function name (e.g., "json_set", "json_insert")
+     * @param jsonDoc
+     *            the JSON document expression
+     * @param pathsAndValues
+     *            alternating paths and values
+     * @return string expression with the function call
+     * @throws IllegalArgumentException
+     *             if odd number of arguments
+     */
+    private static @NotNull StringExpression buildPathValueFunction(@NotNull String functionName,
+            Expression<?> jsonDoc,
+            Object @NotNull... pathsAndValues) {
+        if (pathsAndValues.length % 2 != 0) {
+            throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
+        }
+
+        Object @NotNull [] args = new Object[pathsAndValues.length + 1];
+        args[0] = jsonDoc;
+
+        for (int i = 0; i < pathsAndValues.length; i += 2) {
+            args[i + 1] = Expressions.constant(pathsAndValues[i]);
+            args[i + 2] = pathsAndValues[i + 1] instanceof Expression
+                    ? pathsAndValues[i + 1]
+                    : Expressions.constant(pathsAndValues[i + 1]);
+        }
+
+        @NotNull
+        StringBuilder template = new StringBuilder(functionName).append("({0}");
+        for (int i = 0; i < pathsAndValues.length; i++) {
+            template.append(", {").append(i + 1).append("}");
+        }
+        template.append(")");
+
+        return Expressions.stringTemplate(template.toString(), args);
+    }
+
     // ========================================
     // JSON_SET - Insert or update values
     // ========================================
@@ -77,28 +122,7 @@ public final class JsonModifyFunctions {
      *             if odd number of path-value pairs
      */
     public static @NotNull StringExpression jsonSet(Expression<?> jsonDoc, Object @NotNull... pathsAndValues) {
-        if (pathsAndValues.length % 2 != 0) {
-            throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
-        }
-
-        Object @NotNull [] args = new Object[pathsAndValues.length + 1];
-        args[0] = jsonDoc;
-
-        for (int i = 0; i < pathsAndValues.length; i += 2) {
-            args[i + 1] = Expressions.constant(pathsAndValues[i]);
-            args[i + 2] = pathsAndValues[i + 1] instanceof Expression
-                    ? pathsAndValues[i + 1]
-                    : Expressions.constant(pathsAndValues[i + 1]);
-        }
-
-        @NotNull
-        StringBuilder template = new StringBuilder("json_set({0}");
-        for (int i = 0; i < pathsAndValues.length; i++) {
-            template.append(", {").append(i + 1).append("}");
-        }
-        template.append(")");
-
-        return Expressions.stringTemplate(template.toString(), args);
+        return buildPathValueFunction("json_set", jsonDoc, pathsAndValues);
     }
 
     // ========================================
@@ -142,28 +166,7 @@ public final class JsonModifyFunctions {
      * @return modified JSON expression
      */
     public static @NotNull StringExpression jsonInsert(Expression<?> jsonDoc, Object @NotNull... pathsAndValues) {
-        if (pathsAndValues.length % 2 != 0) {
-            throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
-        }
-
-        Object @NotNull [] args = new Object[pathsAndValues.length + 1];
-        args[0] = jsonDoc;
-
-        for (int i = 0; i < pathsAndValues.length; i += 2) {
-            args[i + 1] = Expressions.constant(pathsAndValues[i]);
-            args[i + 2] = pathsAndValues[i + 1] instanceof Expression
-                    ? pathsAndValues[i + 1]
-                    : Expressions.constant(pathsAndValues[i + 1]);
-        }
-
-        @NotNull
-        StringBuilder template = new StringBuilder("json_insert({0}");
-        for (int i = 0; i < pathsAndValues.length; i++) {
-            template.append(", {").append(i + 1).append("}");
-        }
-        template.append(")");
-
-        return Expressions.stringTemplate(template.toString(), args);
+        return buildPathValueFunction("json_insert", jsonDoc, pathsAndValues);
     }
 
     // ========================================
@@ -207,28 +210,7 @@ public final class JsonModifyFunctions {
      * @return modified JSON expression
      */
     public static @NotNull StringExpression jsonReplace(Expression<?> jsonDoc, Object @NotNull... pathsAndValues) {
-        if (pathsAndValues.length % 2 != 0) {
-            throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
-        }
-
-        Object @NotNull [] args = new Object[pathsAndValues.length + 1];
-        args[0] = jsonDoc;
-
-        for (int i = 0; i < pathsAndValues.length; i += 2) {
-            args[i + 1] = Expressions.constant(pathsAndValues[i]);
-            args[i + 2] = pathsAndValues[i + 1] instanceof Expression
-                    ? pathsAndValues[i + 1]
-                    : Expressions.constant(pathsAndValues[i + 1]);
-        }
-
-        @NotNull
-        StringBuilder template = new StringBuilder("json_replace({0}");
-        for (int i = 0; i < pathsAndValues.length; i++) {
-            template.append(", {").append(i + 1).append("}");
-        }
-        template.append(")");
-
-        return Expressions.stringTemplate(template.toString(), args);
+        return buildPathValueFunction("json_replace", jsonDoc, pathsAndValues);
     }
 
     // ========================================
@@ -313,28 +295,7 @@ public final class JsonModifyFunctions {
      */
     public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc,
             Object @NotNull... pathsAndValues) {
-        if (pathsAndValues.length % 2 != 0) {
-            throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
-        }
-
-        Object @NotNull [] args = new Object[pathsAndValues.length + 1];
-        args[0] = jsonDoc;
-
-        for (int i = 0; i < pathsAndValues.length; i += 2) {
-            args[i + 1] = Expressions.constant(pathsAndValues[i]);
-            args[i + 2] = pathsAndValues[i + 1] instanceof Expression
-                    ? pathsAndValues[i + 1]
-                    : Expressions.constant(pathsAndValues[i + 1]);
-        }
-
-        @NotNull
-        StringBuilder template = new StringBuilder("json_array_append({0}");
-        for (int i = 0; i < pathsAndValues.length; i++) {
-            template.append(", {").append(i + 1).append("}");
-        }
-        template.append(")");
-
-        return JsonArrayExpression.wrap(Expressions.stringTemplate(template.toString(), args));
+        return JsonArrayExpression.wrap(buildPathValueFunction("json_array_append", jsonDoc, pathsAndValues));
     }
 
     // ========================================
