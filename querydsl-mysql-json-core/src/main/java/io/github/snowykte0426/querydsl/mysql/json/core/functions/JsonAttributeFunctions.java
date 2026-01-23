@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory class for MySQL JSON attribute functions.
@@ -60,7 +61,8 @@ public final class JsonAttributeFunctions {
      *            the JSON document expression
      * @return depth as integer expression
      */
-    public static NumberExpression<Integer> jsonDepth(Expression<?> jsonDoc) {
+    @NotNull
+    public static NumberExpression<Integer> jsonDepth(@NotNull Expression<?> jsonDoc) {
         return Expressions.numberTemplate(Integer.class, "json_depth({0})", jsonDoc);
     }
 
@@ -96,7 +98,8 @@ public final class JsonAttributeFunctions {
      *            the JSON document expression
      * @return length as integer expression
      */
-    public static NumberExpression<Integer> jsonLength(Expression<?> jsonDoc) {
+    @NotNull
+    public static NumberExpression<Integer> jsonLength(@NotNull Expression<?> jsonDoc) {
         return Expressions.numberTemplate(Integer.class, "json_length({0})", jsonDoc);
     }
 
@@ -113,7 +116,8 @@ public final class JsonAttributeFunctions {
      *            the JSON path
      * @return length as integer expression
      */
-    public static NumberExpression<Integer> jsonLength(Expression<?> jsonDoc, String path) {
+    @NotNull
+    public static NumberExpression<Integer> jsonLength(@NotNull Expression<?> jsonDoc, @NotNull String path) {
         return Expressions.numberTemplate(Integer.class, "json_length({0}, {1})", jsonDoc, Expressions.constant(path));
     }
 
@@ -159,7 +163,8 @@ public final class JsonAttributeFunctions {
      *            the JSON value expression
      * @return type as string expression
      */
-    public static StringExpression jsonType(Expression<?> jsonValue) {
+    @NotNull
+    public static StringExpression jsonType(@NotNull Expression<?> jsonValue) {
         return Expressions.stringTemplate("json_type({0})", jsonValue);
     }
 
@@ -197,7 +202,8 @@ public final class JsonAttributeFunctions {
      *            the value to validate
      * @return boolean expression indicating validity
      */
-    public static BooleanExpression jsonValid(Expression<?> value) {
+    @NotNull
+    public static BooleanExpression jsonValid(@NotNull Expression<?> value) {
         return Expressions.booleanTemplate("json_valid({0})", value);
     }
 
@@ -208,7 +214,8 @@ public final class JsonAttributeFunctions {
      *            the string to validate
      * @return boolean expression
      */
-    public static BooleanExpression jsonValid(String jsonString) {
+    @NotNull
+    public static BooleanExpression jsonValid(@NotNull String jsonString) {
         return Expressions.booleanTemplate("json_valid({0})", Expressions.constant(jsonString));
     }
 
@@ -234,7 +241,8 @@ public final class JsonAttributeFunctions {
      *            the JSON document expression
      * @return boolean expression
      */
-    public static BooleanExpression isEmpty(Expression<?> jsonDoc) {
+    @NotNull
+    public static BooleanExpression isEmpty(@NotNull Expression<?> jsonDoc) {
         return Expressions.booleanTemplate("json_length({0}) = 0", jsonDoc);
     }
 
@@ -245,7 +253,8 @@ public final class JsonAttributeFunctions {
      *            the JSON document expression
      * @return boolean expression
      */
-    public static BooleanExpression isNotEmpty(Expression<?> jsonDoc) {
+    @NotNull
+    public static BooleanExpression isNotEmpty(@NotNull Expression<?> jsonDoc) {
         return Expressions.booleanTemplate("json_length({0}) > 0", jsonDoc);
     }
 
@@ -256,7 +265,8 @@ public final class JsonAttributeFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isArray(Expression<?> jsonValue) {
+    @NotNull
+    public static BooleanExpression isArray(@NotNull Expression<?> jsonValue) {
         return Expressions.booleanTemplate("json_type({0}) = 'ARRAY'", jsonValue);
     }
 
@@ -267,7 +277,8 @@ public final class JsonAttributeFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isObject(Expression<?> jsonValue) {
+    @NotNull
+    public static BooleanExpression isObject(@NotNull Expression<?> jsonValue) {
         return Expressions.booleanTemplate("json_type({0}) = 'OBJECT'", jsonValue);
     }
 
@@ -278,7 +289,8 @@ public final class JsonAttributeFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isScalar(Expression<?> jsonValue) {
+    @NotNull
+    public static BooleanExpression isScalar(@NotNull Expression<?> jsonValue) {
         return Expressions.booleanTemplate("json_type({0}) NOT IN ('ARRAY', 'OBJECT')", jsonValue);
     }
 
@@ -289,7 +301,8 @@ public final class JsonAttributeFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isNull(Expression<?> jsonValue) {
+    @NotNull
+    public static BooleanExpression isNull(@NotNull Expression<?> jsonValue) {
         return Expressions.booleanTemplate("json_type({0}) = 'NULL'", jsonValue);
     }
 }
