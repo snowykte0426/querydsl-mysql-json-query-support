@@ -21,7 +21,7 @@ dependencies {
     compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     // JetBrains annotations (for @Nullable)
-    compileOnly("org.jetbrains:annotations:24.0.0")
+    compileOnly("org.jetbrains:annotations:24.1.0")
 
     // Spring Data JPA (for QuerydslRepositorySupport)
     compileOnly("org.springframework.data:spring-data-jpa:3.2.1")
