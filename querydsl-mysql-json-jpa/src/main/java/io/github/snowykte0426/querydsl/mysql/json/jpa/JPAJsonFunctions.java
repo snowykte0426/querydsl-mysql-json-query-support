@@ -550,7 +550,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      */
     public static BooleanExpression jsonIsEmpty(Expression<?> jsonDoc) {
-        return JsonSearchFunctions.jsonIsEmpty(jsonDoc);
+        return JsonAttributeFunctions.isEmpty(jsonDoc);
     }
 
     // ============================================================
