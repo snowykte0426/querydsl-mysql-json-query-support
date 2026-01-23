@@ -582,7 +582,8 @@ public final class JsonSearchFunctions {
      *            the JSON document expression
      * @return boolean expression
      * @deprecated Use {@link JsonAttributeFunctions#isEmpty(Expression)} instead.
-     *             This method is duplicated and will be removed in a future version.
+     *             This method is duplicated and will be removed in a future
+     *             version.
      * @since 0.1.0-Dev.1
      */
     @Deprecated(since = "0.1.0", forRemoval = true)
