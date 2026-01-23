@@ -7,17 +7,6 @@ plugins {
     id("com.diffplug.spotless") version "8.1.0" apply false
 }
 
-apply(plugin = "com.diffplug.spotless")
-
-configure<SpotlessExtension> {
-    kotlinGradle {
-        target("*.kts", "gradle/**/*.kts")
-        ktlint("1.2.1")
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-}
-
 allprojects {
     group = "io.github.snowykte0426"
     version = "0.1.0"
