@@ -31,6 +31,18 @@ public final class JsonValidator {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
+     * Additional capacity buffer for StringBuilder when escaping JSON strings.
+     * Accounts for potential escape sequences (e.g., "\" becomes "\\").
+     */
+    private static final int STRING_BUILDER_INITIAL_CAPACITY_BUFFER = 20;
+
+    /**
+     * Threshold for control characters that require escaping in JSON strings.
+     * Characters below 0x20 (space) are control characters.
+     */
+    private static final int CONTROL_CHARACTER_THRESHOLD = 0x20;
+
+    /**
      * Private constructor to prevent instantiation.
      */
     private JsonValidator() {
@@ -230,7 +242,7 @@ public final class JsonValidator {
         }
 
         @NotNull
-        StringBuilder sb = new StringBuilder(value.length() + 20);
+        StringBuilder sb = new StringBuilder(value.length() + STRING_BUILDER_INITIAL_CAPACITY_BUFFER);
 
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);
@@ -258,7 +270,7 @@ public final class JsonValidator {
                     break;
                 default :
                     // Escape control characters
-                    if (c < 0x20) {
+                    if (c < CONTROL_CHARACTER_THRESHOLD) {
                         sb.append(String.format("\\u%04x", (int) c));
                     } else {
                         sb.append(c);
