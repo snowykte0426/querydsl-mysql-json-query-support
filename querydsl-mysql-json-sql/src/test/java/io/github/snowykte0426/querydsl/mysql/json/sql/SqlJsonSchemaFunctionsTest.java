@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.sql;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +44,7 @@ class SqlJsonSchemaFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonSchemaValid_withTypeValidation_shouldWork() throws SQLException {
-        String schema = "{\"type\":\"array\"}";
+        @NotNull String schema = "{\"type\":\"array\"}";
 
         String validResult = executeNativeQuery("SELECT JSON_SCHEMA_VALID('" + schema + "', '[1,2,3]')");
         assertThat(validResult).isEqualTo("1");

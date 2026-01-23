@@ -1,5 +1,8 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.utils;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Utility class for escaping plain Java values to JSON literals.
  *
@@ -31,12 +34,12 @@ public final class JsonEscapeUtils {
      *            the plain string (e.g., "student:read")
      * @return JSON escaped string (e.g., "\"student:read\"")
      */
-    public static String escapeString(String plainString) {
+    public static @NotNull String escapeString(@Nullable String plainString) {
         if (plainString == null) {
             return "null";
         }
 
-        String escaped = plainString.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
+        @NotNull String escaped = plainString.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
                 .replace("\r", "\\r").replace("\t", "\\t");
 
         return "\"" + escaped + "\"";
@@ -58,7 +61,7 @@ public final class JsonEscapeUtils {
      *            the number
      * @return JSON number literal
      */
-    public static String escapeNumber(Number number) {
+    public static String escapeNumber(@Nullable Number number) {
         return number == null ? "null" : number.toString();
     }
 
@@ -77,7 +80,7 @@ public final class JsonEscapeUtils {
      *            the boolean value
      * @return JSON boolean literal ("true" or "false")
      */
-    public static String escapeBoolean(boolean bool) {
+    public static @NotNull String escapeBoolean(boolean bool) {
         return String.valueOf(bool);
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.boot.model.FunctionContributor;
 import org.hibernate.type.BasicType;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.spi.TypeConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import static org.hibernate.query.sqm.produce.function.FunctionParameterType.STRING;
 
@@ -35,7 +36,7 @@ import static org.hibernate.query.sqm.produce.function.FunctionParameterType.STR
 public class MySQLJsonFunctionContributor implements FunctionContributor {
 
     @Override
-    public void contributeFunctions(FunctionContributions functionContributions) {
+    public void contributeFunctions(@NotNull FunctionContributions functionContributions) {
         final TypeConfiguration typeConfiguration = functionContributions.getTypeConfiguration();
 
         registerBooleanFunctions(functionContributions, typeConfiguration);
@@ -54,7 +55,7 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      * @param typeConfig
      *            the type configuration for resolving return types
      */
-    private void registerBooleanFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
+    private void registerBooleanFunctions(@NotNull FunctionContributions fc, @NotNull TypeConfiguration typeConfig) {
         final BasicType<Boolean> booleanType = typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.BOOLEAN);
 
         // json_contains: 2-3 arguments
@@ -107,7 +108,7 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      * @param typeConfig
      *            the type configuration for resolving return types
      */
-    private void registerStringFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
+    private void registerStringFunctions(@NotNull FunctionContributions fc, @NotNull TypeConfiguration typeConfig) {
         final BasicType<String> stringType = typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.STRING);
 
         // json_extract: Register with CAST to CHAR to ensure consistent string
@@ -196,7 +197,7 @@ public class MySQLJsonFunctionContributor implements FunctionContributor {
      * @param typeConfig
      *            the type configuration for resolving return types
      */
-    private void registerNumericFunctions(FunctionContributions fc, TypeConfiguration typeConfig) {
+    private void registerNumericFunctions(@NotNull FunctionContributions fc, @NotNull TypeConfiguration typeConfig) {
         final BasicType<Integer> intType = typeConfig.getBasicTypeRegistry().resolve(StandardBasicTypes.INTEGER);
 
         // json_length: 1-2 arguments

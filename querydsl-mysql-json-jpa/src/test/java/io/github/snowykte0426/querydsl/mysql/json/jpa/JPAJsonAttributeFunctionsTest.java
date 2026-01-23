@@ -1,5 +1,7 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for empty object")
         void depth1ForEmptyObject() {
-            String sql = "SELECT JSON_DEPTH('{}')";
+            @NotNull String sql = "SELECT JSON_DEPTH('{}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -37,7 +39,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for empty array")
         void depth1ForEmptyArray() {
-            String sql = "SELECT JSON_DEPTH('[]')";
+            @NotNull String sql = "SELECT JSON_DEPTH('[]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -46,7 +48,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for scalar")
         void depth1ForScalar() {
-            String sql = "SELECT JSON_DEPTH('\"hello\"')";
+            @NotNull String sql = "SELECT JSON_DEPTH('\"hello\"')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -55,7 +57,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 2 for simple array")
         void depth2ForSimpleArray() {
-            String sql = "SELECT JSON_DEPTH('[1, 2, 3]')";
+            @NotNull String sql = "SELECT JSON_DEPTH('[1, 2, 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(2);
@@ -64,7 +66,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 2 for simple object")
         void depth2ForSimpleObject() {
-            String sql = "SELECT JSON_DEPTH('{\"a\": 1}')";
+            @NotNull String sql = "SELECT JSON_DEPTH('{\"a\": 1}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(2);
@@ -73,7 +75,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 3 for nested structure")
         void depth3ForNestedStructure() {
-            String sql = "SELECT JSON_DEPTH('{\"a\": [1, 2]}')";
+            @NotNull String sql = "SELECT JSON_DEPTH('{\"a\": [1, 2]}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(3);
@@ -82,7 +84,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 4 for deeply nested structure")
         void depth4ForDeeplyNested() {
-            String sql = "SELECT JSON_DEPTH('{\"a\": {\"b\": [1]}}')";
+            @NotNull String sql = "SELECT JSON_DEPTH('{\"a\": {\"b\": [1]}}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(4);
@@ -96,7 +98,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 0 for empty array")
         void length0ForEmptyArray() {
-            String sql = "SELECT JSON_LENGTH('[]')";
+            @NotNull String sql = "SELECT JSON_LENGTH('[]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -105,7 +107,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 0 for empty object")
         void length0ForEmptyObject() {
-            String sql = "SELECT JSON_LENGTH('{}')";
+            @NotNull String sql = "SELECT JSON_LENGTH('{}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -114,7 +116,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for scalar")
         void length1ForScalar() {
-            String sql = "SELECT JSON_LENGTH('\"hello\"')";
+            @NotNull String sql = "SELECT JSON_LENGTH('\"hello\"')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -123,7 +125,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return array length")
         void returnArrayLength() {
-            String sql = "SELECT JSON_LENGTH('[1, 2, 3, 4, 5]')";
+            @NotNull String sql = "SELECT JSON_LENGTH('[1, 2, 3, 4, 5]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(5);
@@ -132,7 +134,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return object key count")
         void returnObjectKeyCount() {
-            String sql = "SELECT JSON_LENGTH('{\"a\": 1, \"b\": 2, \"c\": 3}')";
+            @NotNull String sql = "SELECT JSON_LENGTH('{\"a\": 1, \"b\": 2, \"c\": 3}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(3);
@@ -141,7 +143,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return length at path")
         void returnLengthAtPath() {
-            String sql = "SELECT JSON_LENGTH('{\"items\": [1, 2, 3]}', '$.items')";
+            @NotNull String sql = "SELECT JSON_LENGTH('{\"items\": [1, 2, 3]}', '$.items')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(3);
@@ -155,8 +157,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return OBJECT for objects")
         void returnObjectForObjects() {
-            String sql = "SELECT JSON_TYPE('{\"a\": 1}')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('{\"a\": 1}')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("OBJECT");
         }
@@ -164,8 +166,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return ARRAY for arrays")
         void returnArrayForArrays() {
-            String sql = "SELECT JSON_TYPE('[1, 2, 3]')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('[1, 2, 3]')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("ARRAY");
         }
@@ -173,8 +175,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return STRING for strings")
         void returnStringForStrings() {
-            String sql = "SELECT JSON_TYPE('\"hello\"')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('\"hello\"')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("STRING");
         }
@@ -182,8 +184,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return INTEGER for integers")
         void returnIntegerForIntegers() {
-            String sql = "SELECT JSON_TYPE('123')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('123')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("INTEGER");
         }
@@ -191,8 +193,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return DOUBLE for decimals")
         void returnDoubleForDecimals() {
-            String sql = "SELECT JSON_TYPE('3.14')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('3.14')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("DOUBLE");
         }
@@ -200,8 +202,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return BOOLEAN for true")
         void returnBooleanForTrue() {
-            String sql = "SELECT JSON_TYPE('true')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('true')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("BOOLEAN");
         }
@@ -209,8 +211,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return BOOLEAN for false")
         void returnBooleanForFalse() {
-            String sql = "SELECT JSON_TYPE('false')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('false')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("BOOLEAN");
         }
@@ -218,8 +220,8 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return NULL for null")
         void returnNullForNull() {
-            String sql = "SELECT JSON_TYPE('null')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_TYPE('null')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("NULL");
         }
@@ -232,7 +234,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for valid JSON object")
         void return1ForValidObject() {
-            String sql = "SELECT JSON_VALID('{\"a\": 1}')";
+            @NotNull String sql = "SELECT JSON_VALID('{\"a\": 1}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -241,7 +243,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for valid JSON array")
         void return1ForValidArray() {
-            String sql = "SELECT JSON_VALID('[1, 2, 3]')";
+            @NotNull String sql = "SELECT JSON_VALID('[1, 2, 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -250,7 +252,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 1 for valid JSON string")
         void return1ForValidString() {
-            String sql = "SELECT JSON_VALID('\"hello\"')";
+            @NotNull String sql = "SELECT JSON_VALID('\"hello\"')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -259,7 +261,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 0 for invalid JSON")
         void return0ForInvalidJson() {
-            String sql = "SELECT JSON_VALID('invalid')";
+            @NotNull String sql = "SELECT JSON_VALID('invalid')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -270,7 +272,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         void return0ForIncompleteJson() {
             // Use a clearly invalid JSON string (missing closing bracket)
             // Using array to avoid colon which Hibernate might interpret as parameter
-            String sql = "SELECT JSON_VALID('[1, 2')";
+            @NotNull String sql = "SELECT JSON_VALID('[1, 2')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -279,7 +281,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null for null input")
         void returnNullForNullInput() {
-            String sql = "SELECT JSON_VALID(NULL)";
+            @NotNull String sql = "SELECT JSON_VALID(NULL)";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -293,7 +295,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("isEmpty should return true for empty array")
         void isEmptyForEmptyArray() {
-            String sql = "SELECT JSON_LENGTH('[]') = 0";
+            @NotNull String sql = "SELECT JSON_LENGTH('[]') = 0";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -302,7 +304,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("isEmpty should return true for empty object")
         void isEmptyForEmptyObject() {
-            String sql = "SELECT JSON_LENGTH('{}') = 0";
+            @NotNull String sql = "SELECT JSON_LENGTH('{}') = 0";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -311,7 +313,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("isNotEmpty should return true for non-empty")
         void isNotEmptyForNonEmpty() {
-            String sql = "SELECT JSON_LENGTH('[1, 2, 3]') > 0";
+            @NotNull String sql = "SELECT JSON_LENGTH('[1, 2, 3]') > 0";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -320,7 +322,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("isArray should return true for arrays")
         void isArrayForArrays() {
-            String sql = "SELECT JSON_TYPE('[1, 2, 3]') = 'ARRAY'";
+            @NotNull String sql = "SELECT JSON_TYPE('[1, 2, 3]') = 'ARRAY'";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -329,7 +331,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("isObject should return true for objects")
         void isObjectForObjects() {
-            String sql = "SELECT JSON_TYPE('{\"a\": 1}') = 'OBJECT'";
+            @NotNull String sql = "SELECT JSON_TYPE('{\"a\": 1}') = 'OBJECT'";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -338,7 +340,7 @@ class JPAJsonAttributeFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("isScalar should return true for scalars")
         void isScalarForScalars() {
-            String sql = "SELECT JSON_TYPE('123') NOT IN ('ARRAY', 'OBJECT')";
+            @NotNull String sql = "SELECT JSON_TYPE('123') NOT IN ('ARRAY', 'OBJECT')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);

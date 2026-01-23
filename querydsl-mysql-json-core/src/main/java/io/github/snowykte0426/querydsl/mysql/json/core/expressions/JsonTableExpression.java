@@ -4,6 +4,8 @@ import io.github.snowykte0426.querydsl.mysql.json.core.types.JsonTableColumn;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,10 +38,10 @@ public class JsonTableExpression {
 
     private final Expression<?> jsonDoc;
     private final String path;
-    private final List<JsonTableColumn> columns;
+    private final @NotNull List<JsonTableColumn> columns;
     private final String tableAlias;
 
-    private JsonTableExpression(Builder builder) {
+    private JsonTableExpression(@NotNull Builder builder) {
         this.jsonDoc = builder.jsonDoc;
         this.path = builder.path;
         this.columns = new ArrayList<>(builder.columns);
@@ -51,7 +53,7 @@ public class JsonTableExpression {
      *
      * @return new builder instance
      */
-    public static Builder builder() {
+    public static @NotNull Builder builder() {
         return new Builder();
     }
 
@@ -67,8 +69,8 @@ public class JsonTableExpression {
      *
      * @return SQL template string for QueryDSL
      */
-    public String toSql() {
-        StringBuilder sql = new StringBuilder();
+    public @NotNull String toSql() {
+        @NotNull StringBuilder sql = new StringBuilder();
         sql.append("JSON_TABLE(");
 
         // JSON document (will be parameterized by QueryDSL)
@@ -103,8 +105,8 @@ public class JsonTableExpression {
      *
      * @return complete SQL string
      */
-    public String toCompleteSql() {
-        StringBuilder sql = new StringBuilder();
+    public @NotNull String toCompleteSql() {
+        @NotNull StringBuilder sql = new StringBuilder();
         sql.append("JSON_TABLE(");
 
         // JSON document - convert expression to SQL literal
@@ -145,11 +147,11 @@ public class JsonTableExpression {
      *
      * @return expression that can be used in queries
      */
-    public SimpleExpression<Object> asExpression() {
+    public @NotNull SimpleExpression<Object> asExpression() {
         return Expressions.template(Object.class, toSql(), jsonDoc);
     }
 
-    private String quoteIfNeeded(String value) {
+    private @NotNull String quoteIfNeeded(@Nullable String value) {
         if (value == null) {
             return "NULL";
         }
@@ -167,7 +169,7 @@ public class JsonTableExpression {
         return path;
     }
 
-    public List<JsonTableColumn> getColumns() {
+    public @NotNull List<JsonTableColumn> getColumns() {
         return new ArrayList<>(columns);
     }
 
@@ -191,7 +193,7 @@ public class JsonTableExpression {
          *            JSON document expression
          * @return this builder
          */
-        public Builder jsonDoc(Expression<?> jsonDoc) {
+        public @NotNull Builder jsonDoc(Expression<?> jsonDoc) {
             this.jsonDoc = jsonDoc;
             return this;
         }
@@ -203,7 +205,7 @@ public class JsonTableExpression {
          *            JSON string
          * @return this builder
          */
-        public Builder jsonDoc(String jsonString) {
+        public @NotNull Builder jsonDoc(@NotNull String jsonString) {
             this.jsonDoc = Expressions.constant(jsonString);
             return this;
         }
@@ -215,7 +217,7 @@ public class JsonTableExpression {
          *            JSON path (e.g., "$", "$[*]", "$.data")
          * @return this builder
          */
-        public Builder path(String path) {
+        public @NotNull Builder path(String path) {
             this.path = path;
             return this;
         }
@@ -231,7 +233,7 @@ public class JsonTableExpression {
          *            the JSON path for this column
          * @return this builder
          */
-        public Builder column(String columnName, String sqlType, String jsonPath) {
+        public @NotNull Builder column(String columnName, String sqlType, String jsonPath) {
             this.columns.add(JsonTableColumn.column(columnName, sqlType, jsonPath));
             return this;
         }
@@ -243,7 +245,7 @@ public class JsonTableExpression {
          *            the column definition
          * @return this builder
          */
-        public Builder column(JsonTableColumn column) {
+        public @NotNull Builder column(JsonTableColumn column) {
             this.columns.add(column);
             return this;
         }
@@ -255,7 +257,7 @@ public class JsonTableExpression {
          *            column definitions
          * @return this builder
          */
-        public Builder columns(JsonTableColumn... columns) {
+        public @NotNull Builder columns(JsonTableColumn... columns) {
             this.columns.addAll(Arrays.asList(columns));
             return this;
         }
@@ -269,7 +271,7 @@ public class JsonTableExpression {
          *            the JSON path to check
          * @return this builder
          */
-        public Builder existsColumn(String columnName, String jsonPath) {
+        public @NotNull Builder existsColumn(String columnName, String jsonPath) {
             this.columns.add(JsonTableColumn.exists(columnName, jsonPath));
             return this;
         }
@@ -281,7 +283,7 @@ public class JsonTableExpression {
          *            the column name
          * @return this builder
          */
-        public Builder ordinalityColumn(String columnName) {
+        public @NotNull Builder ordinalityColumn(String columnName) {
             this.columns.add(JsonTableColumn.ordinality(columnName));
             return this;
         }
@@ -293,7 +295,7 @@ public class JsonTableExpression {
          *            the table alias (e.g., "jt", "data_table")
          * @return this builder
          */
-        public Builder alias(String alias) {
+        public @NotNull Builder alias(String alias) {
             this.tableAlias = alias;
             return this;
         }
@@ -303,7 +305,7 @@ public class JsonTableExpression {
          *
          * @return JsonTableExpression instance
          */
-        public JsonTableExpression build() {
+        public @NotNull JsonTableExpression build() {
             if (jsonDoc == null) {
                 throw new IllegalStateException("jsonDoc is required");
             }

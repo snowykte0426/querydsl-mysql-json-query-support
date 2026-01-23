@@ -2,6 +2,8 @@ package io.github.snowykte0426.querydsl.mysql.json.core.validation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Utility class for JSON validation and serialization.
@@ -63,7 +65,7 @@ public final class JsonValidator {
      * @throws JsonValidationException
      *             if serialization fails or produces invalid JSON
      */
-    public static String toJsonString(Object value) {
+    public static String toJsonString(@Nullable Object value) {
         if (value == null) {
             return "null";
         }
@@ -105,7 +107,7 @@ public final class JsonValidator {
      * @throws IllegalArgumentException
      *             if json is null
      */
-    public static String validateJson(String json) {
+    public static @NotNull String validateJson(@NotNull String json) {
         if (json == null) {
             throw new IllegalArgumentException("JSON string cannot be null");
         }
@@ -147,7 +149,7 @@ public final class JsonValidator {
      * @throws IllegalArgumentException
      *             if value is null
      */
-    public static String validateAndQuote(String value) {
+    public static String validateAndQuote(@NotNull String value) {
         if (value == null) {
             throw new IllegalArgumentException("String value cannot be null");
         }
@@ -180,7 +182,7 @@ public final class JsonValidator {
      *            the JSON string to check
      * @return {@code true} if the string is valid JSON, {@code false} otherwise
      */
-    public static boolean isValidJson(String json) {
+    public static boolean isValidJson(@Nullable String json) {
         if (json == null || json.isEmpty()) {
             return false;
         }
@@ -222,12 +224,12 @@ public final class JsonValidator {
      * @throws IllegalArgumentException
      *             if value is null
      */
-    public static String escapeJsonString(String value) {
+    public static @NotNull String escapeJsonString(@NotNull String value) {
         if (value == null) {
             throw new IllegalArgumentException("String value cannot be null");
         }
 
-        StringBuilder sb = new StringBuilder(value.length() + 20);
+        @NotNull StringBuilder sb = new StringBuilder(value.length() + 20);
 
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);

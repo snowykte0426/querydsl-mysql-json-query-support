@@ -3,6 +3,7 @@ package io.github.snowykte0426.querydsl.mysql.json.sql;
 import io.github.snowykte0426.querydsl.mysql.json.core.operators.JsonOperatorTemplates;
 import com.querydsl.core.types.Operator;
 import com.querydsl.sql.MySQLTemplates;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -92,7 +93,7 @@ public class MySQLJsonTemplates extends MySQLTemplates {
      */
     private void registerJsonOperators() {
         // Get all JSON operator templates from core module
-        Map<Operator, String> jsonTemplates = JsonOperatorTemplates.getTemplates();
+        @NotNull Map<Operator, String> jsonTemplates = JsonOperatorTemplates.getTemplates();
 
         // Register each operator with QueryDSL SQL template system
         // Precedence -1 means no special precedence handling (most JSON functions)
@@ -111,7 +112,7 @@ public class MySQLJsonTemplates extends MySQLTemplates {
      *
      * @return new MySQLJsonTemplates with quoted identifiers
      */
-    public static MySQLJsonTemplates quoted() {
+    public static @NotNull MySQLJsonTemplates quoted() {
         return new MySQLJsonTemplates(true);
     }
 }

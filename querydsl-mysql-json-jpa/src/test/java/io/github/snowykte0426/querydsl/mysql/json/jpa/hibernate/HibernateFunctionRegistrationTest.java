@@ -5,6 +5,8 @@ import io.github.snowykte0426.querydsl.mysql.json.jpa.JPAJsonFunctions;
 import io.github.snowykte0426.querydsl.mysql.json.jpa.entity.QUser;
 import io.github.snowykte0426.querydsl.mysql.json.jpa.entity.User;
 import org.hibernate.boot.model.FunctionContributor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +33,7 @@ class HibernateFunctionRegistrationTest extends AbstractJPAJsonFunctionTest {
     @Test
     @DisplayName("MySQLJsonFunctionContributor should be discoverable via ServiceLoader")
     void functionContributor_shouldBeDiscoverable() {
-        ServiceLoader<FunctionContributor> loader = ServiceLoader.load(FunctionContributor.class);
+        @NotNull ServiceLoader<FunctionContributor> loader = ServiceLoader.load(FunctionContributor.class);
 
         boolean found = false;
         for (FunctionContributor contributor : loader) {
@@ -269,7 +271,7 @@ class HibernateFunctionRegistrationTest extends AbstractJPAJsonFunctionTest {
 
         // When: Count query with json_contains
         assertThatCode(() -> {
-            Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
+            @Nullable Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
                     .where(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"")).fetchOne();
 
             // Then: Should not throw error and should return correct count

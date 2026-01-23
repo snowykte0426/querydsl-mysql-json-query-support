@@ -1,6 +1,7 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa.entity;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Test entity representing a user with JSON metadata and settings.
@@ -91,7 +92,7 @@ public class User {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "User{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + ", metadata='" + metadata
                 + '\'' + '}';
     }

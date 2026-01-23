@@ -242,7 +242,7 @@ public final class JsonCreationFunctions {
             return jsonArray(((java.util.Collection<?>) collection).toArray());
         }
 
-        java.util.List<Object> list = new java.util.ArrayList<>();
+        java.util.@NotNull List<Object> list = new java.util.ArrayList<>();
         for (Object item : collection) {
             list.add(item);
         }
@@ -258,9 +258,9 @@ public final class JsonCreationFunctions {
      */
     @NotNull
     public static JsonObjectExpression jsonObjectFrom(@NotNull java.util.Map<String, ?> map) {
-        Object[] keyValuePairs = new Object[map.size() * 2];
+        Object @NotNull [] keyValuePairs = new Object[map.size() * 2];
         int i = 0;
-        for (java.util.Map.Entry<String, ?> entry : map.entrySet()) {
+        for (java.util.Map.@NotNull Entry<String, ?> entry : map.entrySet()) {
             keyValuePairs[i++] = entry.getKey();
             keyValuePairs[i++] = entry.getValue();
         }

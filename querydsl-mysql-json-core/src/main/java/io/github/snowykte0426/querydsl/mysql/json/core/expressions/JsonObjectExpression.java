@@ -5,6 +5,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serial;
@@ -47,7 +48,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      * @param mixin
      *            the underlying expression
      */
-    protected JsonObjectExpression(Expression<String> mixin) {
+    protected JsonObjectExpression(@NotNull Expression<String> mixin) {
         super(mixin);
     }
 
@@ -64,7 +65,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      * @throws IllegalArgumentException
      *             if odd number of arguments
      */
-    public static JsonObjectExpression create(Object... keyValuePairs) {
+    public static @NotNull JsonObjectExpression create(Object @NotNull ... keyValuePairs) {
         if (keyValuePairs.length % 2 != 0) {
             throw new IllegalArgumentException("JSON_OBJECT requires an even number of arguments (key-value pairs)");
         }
@@ -73,7 +74,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
             return empty();
         }
 
-        Expression<?>[] args = new Expression<?>[keyValuePairs.length];
+        Expression<?> @NotNull [] args = new Expression<?>[keyValuePairs.length];
         for (int i = 0; i < keyValuePairs.length; i++) {
             args[i] = keyValuePairs[i] instanceof Expression
                     ? (Expression<?>) keyValuePairs[i]
@@ -81,7 +82,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
         }
 
         // Build template with proper number of placeholders
-        StringBuilder template = new StringBuilder("json_object(");
+        @NotNull StringBuilder template = new StringBuilder("json_object(");
         for (int i = 0; i < args.length; i++) {
             if (i > 0)
                 template.append(", ");
@@ -101,7 +102,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *
      * @return empty JsonObjectExpression
      */
-    public static JsonObjectExpression empty() {
+    public static @NotNull JsonObjectExpression empty() {
         return new JsonObjectExpression(Expressions.stringTemplate("json_object()"));
     }
 
@@ -114,7 +115,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *
      * @return JsonArrayExpression containing the keys
      */
-    public JsonArrayExpression keys() {
+    public @NotNull JsonArrayExpression keys() {
         return JsonArrayExpression.wrap(Expressions.stringTemplate("json_keys({0})", this));
     }
 
@@ -129,7 +130,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the JSON path
      * @return JsonArrayExpression containing the keys
      */
-    public JsonArrayExpression keys(String path) {
+    public @NotNull JsonArrayExpression keys(@NotNull String path) {
         return JsonArrayExpression
                 .wrap(Expressions.stringTemplate("json_keys({0}, {1})", this, Expressions.constant(path)));
     }
@@ -145,8 +146,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the value to search for
      * @return boolean expression
      */
-    public SimpleExpression<Boolean> contains(Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull SimpleExpression<Boolean> contains(Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return Expressions.booleanTemplate("json_contains({0}, {1})", this, valueExpr);
     }
@@ -164,8 +165,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the JSON path
      * @return boolean expression
      */
-    public SimpleExpression<Boolean> contains(Object value, String path) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull SimpleExpression<Boolean> contains(Object value, @NotNull String path) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return Expressions.booleanTemplate("json_contains({0}, {1}, {2})", this, valueExpr, Expressions.constant(path));
     }
@@ -181,8 +182,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the JSON documents to merge
      * @return merged JsonObjectExpression
      */
-    public JsonObjectExpression mergePatch(Expression<?>... others) {
-        Expression<?>[] args = new Expression<?>[others.length + 1];
+    public @NotNull JsonObjectExpression mergePatch(Expression<?> @NotNull ... others) {
+        Expression<?> @NotNull [] args = new Expression<?>[others.length + 1];
         args[0] = this;
         System.arraycopy(others, 0, args, 1, others.length);
 
@@ -200,8 +201,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the JSON documents to merge
      * @return merged JsonObjectExpression
      */
-    public JsonObjectExpression mergePreserve(Expression<?>... others) {
-        Expression<?>[] args = new Expression<?>[others.length + 1];
+    public @NotNull JsonObjectExpression mergePreserve(Expression<?> @NotNull ... others) {
+        Expression<?> @NotNull [] args = new Expression<?>[others.length + 1];
         args[0] = this;
         System.arraycopy(others, 0, args, 1, others.length);
 
@@ -221,7 +222,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the value expression
      * @return JsonObjectExpression
      */
-    public static JsonObjectExpression aggregate(Expression<?> key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression aggregate(Expression<?> key, Expression<?> value) {
         return new JsonObjectExpression(Expressions.stringTemplate("json_objectagg({0}, {1})", key, value));
     }
 
@@ -232,7 +233,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the expression to wrap
      * @return JsonObjectExpression
      */
-    public static JsonObjectExpression wrap(Expression<String> expression) {
+    public static @NotNull JsonObjectExpression wrap(@NotNull Expression<String> expression) {
         return new JsonObjectExpression(expression);
     }
 
@@ -241,7 +242,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *
      * @return new JsonObjectBuilder
      */
-    public static JsonObjectBuilder builder() {
+    public static @NotNull JsonObjectBuilder builder() {
         return new JsonObjectBuilder();
     }
 
@@ -260,7 +261,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
          *            the value
          * @return this builder
          */
-        public JsonObjectBuilder put(String key, Object value) {
+        public @NotNull JsonObjectBuilder put(String key, Object value) {
             keyValuePairs.add(key);
             keyValuePairs.add(value);
             return this;
@@ -271,7 +272,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
          *
          * @return JsonObjectExpression
          */
-        public JsonObjectExpression build() {
+        public @NotNull JsonObjectExpression build() {
             return JsonObjectExpression.create(keyValuePairs.toArray());
         }
     }

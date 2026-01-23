@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.sql;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +14,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonTable_shouldConvertJsonToTable() throws SQLException {
-        String sql = "SELECT * FROM JSON_TABLE(" + "'[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]', "
+        @NotNull String sql = "SELECT * FROM JSON_TABLE(" + "'[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]', "
                 + "'$[*]' COLUMNS(" + "id INT PATH '$.id', " + "name VARCHAR(50) PATH '$.name'" + ")) AS jt";
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -30,7 +31,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonTable_withNestedPath_shouldExtractNestedData() throws SQLException {
-        String sql = "SELECT * FROM JSON_TABLE("
+        @NotNull String sql = "SELECT * FROM JSON_TABLE("
                 + "'{\"users\":[{\"id\":1,\"name\":\"Alice\"},{\"id\":2,\"name\":\"Bob\"}]}', "
                 + "'$.users[*]' COLUMNS(" + "id INT PATH '$.id', " + "name VARCHAR(50) PATH '$.name'" + ")) AS jt";
 
@@ -42,7 +43,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonTable_withExistsColumn_shouldCheckPathExistence() throws SQLException {
-        String sql = "SELECT * FROM JSON_TABLE(" + "'[{\"id\":1,\"email\":\"a@test.com\"},{\"id\":2}]', "
+        @NotNull String sql = "SELECT * FROM JSON_TABLE(" + "'[{\"id\":1,\"email\":\"a@test.com\"},{\"id\":2}]', "
                 + "'$[*]' COLUMNS(" + "id INT PATH '$.id', " + "has_email INT EXISTS PATH '$.email'" + ")) AS jt";
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -63,7 +64,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonTable_withOrdinalityColumn_shouldGenerateRowNumbers() throws SQLException {
-        String sql = "SELECT * FROM JSON_TABLE("
+        @NotNull String sql = "SELECT * FROM JSON_TABLE("
                 + "'[{\"name\":\"Alice\"},{\"name\":\"Bob\"},{\"name\":\"Charlie\"}]', " + "'$[*]' COLUMNS("
                 + "rn FOR ORDINALITY, " + "name VARCHAR(50) PATH '$.name'" + ")) AS jt";
 
@@ -80,7 +81,7 @@ class SqlJsonTableFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonTable_withMultipleTypes_shouldHandleDifferentTypes() throws SQLException {
-        String sql = "SELECT * FROM JSON_TABLE(" + "'[{\"id\":1,\"active\":true,\"score\":95.5}]', " + "'$[*]' COLUMNS("
+        @NotNull String sql = "SELECT * FROM JSON_TABLE(" + "'[{\"id\":1,\"active\":true,\"score\":95.5}]', " + "'$[*]' COLUMNS("
                 + "id INT PATH '$.id', " + "active BOOLEAN PATH '$.active', " + "score DECIMAL(5,2) PATH '$.score'"
                 + ")) AS jt";
 

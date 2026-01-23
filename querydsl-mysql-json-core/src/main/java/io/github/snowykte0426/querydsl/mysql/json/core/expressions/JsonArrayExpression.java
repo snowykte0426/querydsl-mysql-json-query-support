@@ -5,6 +5,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serial;
@@ -45,7 +46,7 @@ public class JsonArrayExpression extends JsonExpression<String> {
      * @param mixin
      *            the underlying expression
      */
-    protected JsonArrayExpression(Expression<String> mixin) {
+    protected JsonArrayExpression(@NotNull Expression<String> mixin) {
         super(mixin);
     }
 
@@ -60,18 +61,18 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the array values
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression create(Object... values) {
+    public static @NotNull JsonArrayExpression create(Object @NotNull ... values) {
         if (values.length == 0) {
             return empty();
         }
 
-        Expression<?>[] args = new Expression<?>[values.length];
+        Expression<?> @NotNull [] args = new Expression<?>[values.length];
         for (int i = 0; i < values.length; i++) {
             args[i] = values[i] instanceof Expression ? (Expression<?>) values[i] : Expressions.constant(values[i]);
         }
 
         // Build template with proper number of placeholders
-        StringBuilder template = new StringBuilder("json_array(");
+        @NotNull StringBuilder template = new StringBuilder("json_array(");
         for (int i = 0; i < args.length; i++) {
             if (i > 0)
                 template.append(", ");
@@ -91,7 +92,7 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *
      * @return empty JsonArrayExpression
      */
-    public static JsonArrayExpression empty() {
+    public static @NotNull JsonArrayExpression empty() {
         return new JsonArrayExpression(Expressions.stringTemplate("json_array()"));
     }
 
@@ -108,8 +109,8 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the value to append
      * @return updated JsonArrayExpression
      */
-    public JsonArrayExpression append(String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull JsonArrayExpression append(@NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonArrayExpression(Expressions
                 .stringTemplate("json_array_append({0}, {1}, {2})", this, Expressions.constant(path), valueExpr));
@@ -128,8 +129,8 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the value to insert
      * @return updated JsonArrayExpression
      */
-    public JsonArrayExpression insert(String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull JsonArrayExpression insert(@NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonArrayExpression(Expressions
                 .stringTemplate("json_array_insert({0}, {1}, {2})", this, Expressions.constant(path), valueExpr));
@@ -146,8 +147,8 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the value to test
      * @return boolean expression
      */
-    public SimpleExpression<Boolean> memberOf(Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull SimpleExpression<Boolean> memberOf(Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return Expressions.booleanTemplate("{0} member of({1})", valueExpr, this);
     }
@@ -163,7 +164,7 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the other JSON document
      * @return boolean expression
      */
-    public SimpleExpression<Boolean> overlaps(Expression<?> other) {
+    public @NotNull SimpleExpression<Boolean> overlaps(Expression<?> other) {
         return Expressions.booleanTemplate("json_overlaps({0}, {1})", this, other);
     }
 
@@ -174,7 +175,7 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the JSON value as string
      * @return boolean expression
      */
-    public SimpleExpression<Boolean> overlaps(String jsonValue) {
+    public SimpleExpression<Boolean> overlaps(@NotNull String jsonValue) {
         return overlaps(Expressions.constant(jsonValue));
     }
 
@@ -189,7 +190,7 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the expression to aggregate
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression aggregate(Expression<?> expression) {
+    public static @NotNull JsonArrayExpression aggregate(Expression<?> expression) {
         return new JsonArrayExpression(Expressions.stringTemplate("json_arrayagg({0})", expression));
     }
 
@@ -200,7 +201,7 @@ public class JsonArrayExpression extends JsonExpression<String> {
      *            the expression to wrap
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression wrap(Expression<String> expression) {
+    public static @NotNull JsonArrayExpression wrap(@NotNull Expression<String> expression) {
         return new JsonArrayExpression(expression);
     }
 

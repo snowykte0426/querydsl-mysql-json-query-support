@@ -4,6 +4,8 @@ import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,7 +64,7 @@ public abstract class AbstractSqlJsonFunctionTest {
         configuration = new Configuration(MySQLJsonTemplates.DEFAULT);
 
         // Setup HikariCP DataSource
-        HikariConfig hikariConfig = new HikariConfig();
+        @NotNull HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(mysql.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000");
         hikariConfig.setUsername(mysql.getUsername());
         hikariConfig.setPassword(mysql.getPassword());
@@ -172,9 +174,9 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Long createUser(String name, String email, String metadata) throws SQLException {
+    protected @NotNull Long createUser(@NotNull String name, @NotNull String email, @NotNull String metadata) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            String sql = String.format("INSERT INTO users (name, email, metadata) VALUES ('%s', '%s', '%s')",
+            @NotNull String sql = String.format("INSERT INTO users (name, email, metadata) VALUES ('%s', '%s', '%s')",
                     name.replace("'", "''"),
                     email.replace("'", "''"),
                     metadata.replace("'", "''"));
@@ -204,10 +206,10 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Long createUser(String name, String email, String metadata, String settings, String roles)
+    protected @NotNull Long createUser(@NotNull String name, @NotNull String email, @NotNull String metadata, @NotNull String settings, @NotNull String roles)
             throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            String sql = String.format(
+            @NotNull String sql = String.format(
                     "INSERT INTO users (name, email, metadata, settings, roles) VALUES ('%s', '%s', '%s', '%s', '%s')",
                     name.replace("'", "''"),
                     email.replace("'", "''"),
@@ -238,10 +240,10 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Long createProduct(String name, BigDecimal price, String category, String attributes)
+    protected @NotNull Long createProduct(@NotNull String name, @NotNull BigDecimal price, @NotNull String category, @NotNull String attributes)
             throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            String sql = String.format(
+            @NotNull String sql = String.format(
                     "INSERT INTO products (name, price, category, attributes) VALUES ('%s', %s, '%s', '%s')",
                     name.replace("'", "''"),
                     price.toString(),
@@ -273,10 +275,10 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Long createProduct(String name, BigDecimal price, String category, String attributes, String tags)
+    protected @NotNull Long createProduct(@NotNull String name, @NotNull BigDecimal price, @NotNull String category, @NotNull String attributes, @NotNull String tags)
             throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            String sql = String.format(
+            @NotNull String sql = String.format(
                     "INSERT INTO products (name, price, category, attributes, tags) VALUES ('%s', %s, '%s', '%s', '%s')",
                     name.replace("'", "''"),
                     price.toString(),
@@ -307,10 +309,10 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Long createOrder(String orderNumber, Long userId, BigDecimal totalAmount, String orderData)
+    protected @NotNull Long createOrder(@NotNull String orderNumber, Long userId, @NotNull BigDecimal totalAmount, @NotNull String orderData)
             throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            String sql = String.format(
+            @NotNull String sql = String.format(
                     "INSERT INTO orders (order_number, user_id, total_amount, order_data) VALUES ('%s', %d, %s, '%s')",
                     orderNumber.replace("'", "''"),
                     userId,
@@ -342,13 +344,13 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Long createOrder(String orderNumber,
-            Long userId,
-            BigDecimal totalAmount,
-            String orderData,
-            String shippingInfo) throws SQLException {
+    protected @NotNull Long createOrder(@NotNull String orderNumber,
+                                        Long userId,
+                                        @NotNull BigDecimal totalAmount,
+                                        @NotNull String orderData,
+                                        @NotNull String shippingInfo) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            String sql = String.format(
+            @NotNull String sql = String.format(
                     "INSERT INTO orders (order_number, user_id, total_amount, order_data, shipping_info) VALUES ('%s', %d, %s, '%s', '%s')",
                     orderNumber.replace("'", "''"),
                     userId,
@@ -374,7 +376,7 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected String executeNativeQuery(String sql) throws SQLException {
+    protected @Nullable String executeNativeQuery(String sql) throws SQLException {
         try (Statement stmt = connection.createStatement(); var rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
                 return rs.getString(1);
@@ -392,7 +394,7 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Integer executeScalarInt(String sql) throws SQLException {
+    protected @Nullable Integer executeScalarInt(String sql) throws SQLException {
         try (Statement stmt = connection.createStatement(); var rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
                 return rs.getInt(1);
@@ -410,7 +412,7 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected Boolean executeScalarBoolean(String sql) throws SQLException {
+    protected @Nullable Boolean executeScalarBoolean(String sql) throws SQLException {
         try (Statement stmt = connection.createStatement(); var rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
                 return rs.getBoolean(1);

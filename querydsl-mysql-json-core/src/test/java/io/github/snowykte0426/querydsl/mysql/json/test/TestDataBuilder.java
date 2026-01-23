@@ -2,6 +2,7 @@ package io.github.snowykte0426.querydsl.mysql.json.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +42,7 @@ public class TestDataBuilder {
      *            the database connection
      * @return UserBuilder instance
      */
-    public static UserBuilder users(Connection connection) {
+    public static @NotNull UserBuilder users(Connection connection) {
         return new UserBuilder(connection);
     }
 
@@ -52,7 +53,7 @@ public class TestDataBuilder {
      *            the database connection
      * @return ProductBuilder instance
      */
-    public static ProductBuilder products(Connection connection) {
+    public static @NotNull ProductBuilder products(Connection connection) {
         return new ProductBuilder(connection);
     }
 
@@ -63,7 +64,7 @@ public class TestDataBuilder {
      *            the database connection
      * @return OrderBuilder instance
      */
-    public static OrderBuilder orders(Connection connection) {
+    public static @NotNull OrderBuilder orders(Connection connection) {
         return new OrderBuilder(connection);
     }
 
@@ -81,32 +82,32 @@ public class TestDataBuilder {
             this.connection = connection;
         }
 
-        public UserBuilder name(String name) {
+        public @NotNull UserBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public UserBuilder email(String email) {
+        public @NotNull UserBuilder email(String email) {
             this.email = email;
             return this;
         }
 
-        public UserBuilder metadata(String key, Object value) {
+        public @NotNull UserBuilder metadata(String key, Object value) {
             this.metadata.put(key, value);
             return this;
         }
 
-        public UserBuilder metadataJson(Map<String, Object> json) {
+        public @NotNull UserBuilder metadataJson(@NotNull Map<String, Object> json) {
             this.metadata.putAll(json);
             return this;
         }
 
-        public UserBuilder settings(String key, Object value) {
+        public @NotNull UserBuilder settings(String key, Object value) {
             this.settings.put(key, value);
             return this;
         }
 
-        public UserBuilder settingsJson(Map<String, Object> json) {
+        public @NotNull UserBuilder settingsJson(@NotNull Map<String, Object> json) {
             this.settings.putAll(json);
             return this;
         }
@@ -119,7 +120,7 @@ public class TestDataBuilder {
          *             if insertion fails
          */
         public long insert() throws SQLException {
-            String sql = "INSERT INTO users (name, email, metadata, settings) VALUES (?, ?, ?, ?)";
+            @NotNull String sql = "INSERT INTO users (name, email, metadata, settings) VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, name);
                 stmt.setString(2, email);
@@ -150,32 +151,32 @@ public class TestDataBuilder {
             this.connection = connection;
         }
 
-        public ProductBuilder name(String name) {
+        public @NotNull ProductBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public ProductBuilder price(double price) {
+        public @NotNull ProductBuilder price(double price) {
             this.price = price;
             return this;
         }
 
-        public ProductBuilder attribute(String key, Object value) {
+        public @NotNull ProductBuilder attribute(String key, Object value) {
             this.attributes.put(key, value);
             return this;
         }
 
-        public ProductBuilder attributesJson(Map<String, Object> json) {
+        public @NotNull ProductBuilder attributesJson(@NotNull Map<String, Object> json) {
             this.attributes.putAll(json);
             return this;
         }
 
-        public ProductBuilder tag(String tag) {
+        public @NotNull ProductBuilder tag(String tag) {
             this.tags.add(tag);
             return this;
         }
 
-        public ProductBuilder tags(String... tags) {
+        public @NotNull ProductBuilder tags(String... tags) {
             this.tags.addAll(List.of(tags));
             return this;
         }
@@ -188,7 +189,7 @@ public class TestDataBuilder {
          *             if insertion fails
          */
         public long insert() throws SQLException {
-            String sql = "INSERT INTO products (name, price, attributes, tags) VALUES (?, ?, ?, ?)";
+            @NotNull String sql = "INSERT INTO products (name, price, attributes, tags) VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, name);
                 stmt.setDouble(2, price);
@@ -218,27 +219,27 @@ public class TestDataBuilder {
             this.connection = connection;
         }
 
-        public OrderBuilder userId(long userId) {
+        public @NotNull OrderBuilder userId(long userId) {
             this.userId = userId;
             return this;
         }
 
-        public OrderBuilder orderData(String key, Object value) {
+        public @NotNull OrderBuilder orderData(String key, Object value) {
             this.orderData.put(key, value);
             return this;
         }
 
-        public OrderBuilder orderDataJson(Map<String, Object> json) {
+        public @NotNull OrderBuilder orderDataJson(@NotNull Map<String, Object> json) {
             this.orderData.putAll(json);
             return this;
         }
 
-        public OrderBuilder shippingInfo(String key, Object value) {
+        public @NotNull OrderBuilder shippingInfo(String key, Object value) {
             this.shippingInfo.put(key, value);
             return this;
         }
 
-        public OrderBuilder shippingInfoJson(Map<String, Object> json) {
+        public @NotNull OrderBuilder shippingInfoJson(@NotNull Map<String, Object> json) {
             this.shippingInfo.putAll(json);
             return this;
         }
@@ -251,7 +252,7 @@ public class TestDataBuilder {
          *             if insertion fails
          */
         public long insert() throws SQLException {
-            String sql = "INSERT INTO orders (user_id, order_data, shipping_info) VALUES (?, ?, ?)";
+            @NotNull String sql = "INSERT INTO orders (user_id, order_data, shipping_info) VALUES (?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setLong(1, userId);
                 stmt.setString(2, toJson(orderData));
@@ -289,11 +290,11 @@ public class TestDataBuilder {
      *            alternating keys and values
      * @return Map representing JSON object
      */
-    public static Map<String, Object> json(Object... keyValuePairs) {
+    public static @NotNull Map<String, Object> json(Object @NotNull ... keyValuePairs) {
         if (keyValuePairs.length % 2 != 0) {
             throw new IllegalArgumentException("Key-value pairs must be even");
         }
-        Map<String, Object> map = new HashMap<>();
+        @NotNull Map<String, Object> map = new HashMap<>();
         for (int i = 0; i < keyValuePairs.length; i += 2) {
             map.put(keyValuePairs[i].toString(), keyValuePairs[i + 1]);
         }
@@ -307,7 +308,7 @@ public class TestDataBuilder {
      *            the array values
      * @return List representing JSON array
      */
-    public static List<Object> jsonArray(Object... values) {
+    public static @NotNull List<Object> jsonArray(Object... values) {
         return List.of(values);
     }
 }

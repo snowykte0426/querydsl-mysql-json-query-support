@@ -4,6 +4,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory class for MySQL JSON schema validation functions (MySQL 8.0.17+).
@@ -75,7 +76,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document to validate
      * @return boolean expression indicating validity
      */
-    public static BooleanExpression jsonSchemaValid(Expression<?> schema, Expression<?> document) {
+    public static @NotNull BooleanExpression jsonSchemaValid(Expression<?> schema, Expression<?> document) {
         return Expressions.booleanTemplate("json_schema_valid({0}, {1})", schema, document);
     }
 
@@ -88,7 +89,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document as string
      * @return boolean expression indicating validity
      */
-    public static BooleanExpression jsonSchemaValid(String schemaJson, String documentJson) {
+    public static @NotNull BooleanExpression jsonSchemaValid(@NotNull String schemaJson, @NotNull String documentJson) {
         return Expressions.booleanTemplate("json_schema_valid({0}, {1})",
                 Expressions.constant(schemaJson),
                 Expressions.constant(documentJson));
@@ -103,7 +104,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document expression
      * @return boolean expression indicating validity
      */
-    public static BooleanExpression jsonSchemaValid(String schemaJson, Expression<?> document) {
+    public static @NotNull BooleanExpression jsonSchemaValid(@NotNull String schemaJson, Expression<?> document) {
         return Expressions.booleanTemplate("json_schema_valid({0}, {1})", Expressions.constant(schemaJson), document);
     }
 
@@ -163,7 +164,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document to validate
      * @return validation report as string expression (JSON object)
      */
-    public static StringExpression jsonSchemaValidationReport(Expression<?> schema, Expression<?> document) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(Expression<?> schema, Expression<?> document) {
         return Expressions.stringTemplate("json_schema_validation_report({0}, {1})", schema, document);
     }
 
@@ -176,7 +177,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document as string
      * @return validation report as string expression
      */
-    public static StringExpression jsonSchemaValidationReport(String schemaJson, String documentJson) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(@NotNull String schemaJson, @NotNull String documentJson) {
         return Expressions.stringTemplate("json_schema_validation_report({0}, {1})",
                 Expressions.constant(schemaJson),
                 Expressions.constant(documentJson));
@@ -191,7 +192,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document expression
      * @return validation report as string expression
      */
-    public static StringExpression jsonSchemaValidationReport(String schemaJson, Expression<?> document) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(@NotNull String schemaJson, Expression<?> document) {
         return Expressions
                 .stringTemplate("json_schema_validation_report({0}, {1})", Expressions.constant(schemaJson), document);
     }
@@ -210,7 +211,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document
      * @return boolean expression
      */
-    public static BooleanExpression validate(Expression<?> schema, Expression<?> document) {
+    public static @NotNull BooleanExpression validate(Expression<?> schema, Expression<?> document) {
         return jsonSchemaValid(schema, document);
     }
 
@@ -226,7 +227,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document
      * @return boolean expression extracted from report
      */
-    public static BooleanExpression isValidFromReport(Expression<?> schema, Expression<?> document) {
+    public static @NotNull BooleanExpression isValidFromReport(Expression<?> schema, Expression<?> document) {
         return Expressions.booleanTemplate("json_extract(json_schema_validation_report({0}, {1}), '$.valid') = true",
                 schema,
                 document);
@@ -244,7 +245,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document
      * @return string expression with error reason (or NULL if valid)
      */
-    public static StringExpression getValidationReason(Expression<?> schema, Expression<?> document) {
+    public static @NotNull StringExpression getValidationReason(Expression<?> schema, Expression<?> document) {
         return Expressions.stringTemplate(
                 "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$.reason'))",
                 schema,
@@ -260,7 +261,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document
      * @return string expression with schema location (or NULL if valid)
      */
-    public static StringExpression getFailedSchemaLocation(Expression<?> schema, Expression<?> document) {
+    public static @NotNull StringExpression getFailedSchemaLocation(Expression<?> schema, Expression<?> document) {
         return Expressions.stringTemplate(
                 "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$.\"schema-location\"'))",
                 schema,
@@ -276,7 +277,7 @@ public final class JsonSchemaFunctions {
      *            the JSON document
      * @return string expression with document location (or NULL if valid)
      */
-    public static StringExpression getFailedDocumentLocation(Expression<?> schema, Expression<?> document) {
+    public static @NotNull StringExpression getFailedDocumentLocation(Expression<?> schema, Expression<?> document) {
         return Expressions.stringTemplate(
                 "json_unquote(json_extract(json_schema_validation_report({0}, {1}), '$.\"document-location\"'))",
                 schema,

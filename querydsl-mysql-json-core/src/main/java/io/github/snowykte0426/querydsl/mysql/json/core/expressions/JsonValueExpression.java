@@ -6,6 +6,7 @@ import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serial;
@@ -46,7 +47,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @param mixin
      *            the underlying expression
      */
-    protected JsonValueExpression(Expression<String> mixin) {
+    protected JsonValueExpression(@NotNull Expression<String> mixin) {
         super(mixin);
     }
 
@@ -66,7 +67,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the JSON path
      * @return JsonValueExpression with the extracted value
      */
-    public static JsonValueExpression extract(Expression<?> jsonDoc, String path) {
+    public static @NotNull JsonValueExpression extract(Expression<?> jsonDoc, @NotNull String path) {
         return new JsonValueExpression(
                 Expressions.stringTemplate("json_value({0}, {1})", jsonDoc, Expressions.constant(path)));
     }
@@ -82,7 +83,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the string to quote
      * @return JsonValueExpression with quoted value
      */
-    public static JsonValueExpression quote(String value) {
+    public static @NotNull JsonValueExpression quote(@NotNull String value) {
         return new JsonValueExpression(Expressions.stringTemplate("json_quote({0})", Expressions.constant(value)));
     }
 
@@ -97,7 +98,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the string expression to quote
      * @return JsonValueExpression with quoted value
      */
-    public static JsonValueExpression quote(Expression<String> expression) {
+    public static @NotNull JsonValueExpression quote(Expression<String> expression) {
         return new JsonValueExpression(Expressions.stringTemplate("json_quote({0})", expression));
     }
 
@@ -110,7 +111,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *
      * @return unquoted string expression
      */
-    public StringExpression unquote() {
+    public @NotNull StringExpression unquote() {
         return Expressions.stringTemplate("json_unquote({0})", this);
     }
 
@@ -124,7 +125,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @return boolean expression
      */
     @Override
-    public SimpleExpression<Boolean> jsonValid() {
+    public @NotNull SimpleExpression<Boolean> jsonValid() {
         return Expressions.booleanTemplate("json_valid({0})", this);
     }
 
@@ -141,7 +142,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @return string expression with the JSON type
      */
     @Override
-    public StringExpression jsonType() {
+    public @NotNull StringExpression jsonType() {
         return Expressions.stringTemplate("json_type({0})", this);
     }
 
@@ -160,7 +161,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the string to search for (supports % and _ wildcards)
      * @return JsonValueExpression with the path(s) where value was found
      */
-    public static JsonValueExpression search(Expression<?> jsonDoc, String oneOrAll, String searchString) {
+    public static @NotNull JsonValueExpression search(Expression<?> jsonDoc, @NotNull String oneOrAll, @NotNull String searchString) {
         return new JsonValueExpression(Expressions.stringTemplate("json_search({0}, {1}, {2})",
                 jsonDoc,
                 Expressions.constant(oneOrAll),
@@ -187,12 +188,12 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            optional paths to search within
      * @return JsonValueExpression with the path(s) where value was found
      */
-    public static JsonValueExpression search(Expression<?> jsonDoc,
-            String oneOrAll,
-            String searchString,
-            String escapeChar,
-            String... paths) {
-        Expression<?>[] args = new Expression<?>[4 + paths.length];
+    public static @NotNull JsonValueExpression search(Expression<?> jsonDoc,
+                                                      @NotNull String oneOrAll,
+                                                      @NotNull String searchString,
+                                                      @NotNull String escapeChar,
+                                                      String @NotNull ... paths) {
+        Expression<?> @NotNull [] args = new Expression<?>[4 + paths.length];
         args[0] = jsonDoc;
         args[1] = Expressions.constant(oneOrAll);
         args[2] = Expressions.constant(searchString);
@@ -220,8 +221,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the value to set
      * @return JsonValueExpression with updated document
      */
-    public static JsonValueExpression set(Expression<?> jsonDoc, String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public static @NotNull JsonValueExpression set(Expression<?> jsonDoc, @NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(
                 Expressions.stringTemplate("json_set({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -242,8 +243,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the value to insert
      * @return JsonValueExpression with updated document
      */
-    public static JsonValueExpression insert(Expression<?> jsonDoc, String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public static @NotNull JsonValueExpression insert(Expression<?> jsonDoc, @NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(Expressions
                 .stringTemplate("json_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -264,8 +265,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the new value
      * @return JsonValueExpression with updated document
      */
-    public static JsonValueExpression replace(Expression<?> jsonDoc, String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public static @NotNull JsonValueExpression replace(Expression<?> jsonDoc, @NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(Expressions
                 .stringTemplate("json_replace({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -284,8 +285,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the paths to remove
      * @return JsonValueExpression with updated document
      */
-    public static JsonValueExpression remove(Expression<?> jsonDoc, String... paths) {
-        Expression<?>[] args = new Expression<?>[paths.length + 1];
+    public static @NotNull JsonValueExpression remove(Expression<?> jsonDoc, String @NotNull ... paths) {
+        Expression<?> @NotNull [] args = new Expression<?>[paths.length + 1];
         args[0] = jsonDoc;
 
         for (int i = 0; i < paths.length; i++) {
@@ -293,7 +294,7 @@ public class JsonValueExpression extends JsonExpression<String> {
         }
 
         // Build template with proper number of placeholders
-        StringBuilder template = new StringBuilder("json_remove(");
+        @NotNull StringBuilder template = new StringBuilder("json_remove(");
         for (int i = 0; i < args.length; i++) {
             if (i > 0)
                 template.append(", ");
@@ -311,7 +312,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the expression to wrap
      * @return JsonValueExpression
      */
-    public static JsonValueExpression wrap(Expression<String> expression) {
+    public static @NotNull JsonValueExpression wrap(@NotNull Expression<String> expression) {
         return new JsonValueExpression(expression);
     }
 

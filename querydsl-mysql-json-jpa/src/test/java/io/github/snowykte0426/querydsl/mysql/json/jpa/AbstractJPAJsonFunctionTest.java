@@ -7,6 +7,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,7 +56,7 @@ public abstract class AbstractJPAJsonFunctionTest {
 
     @BeforeAll
     static void setupEntityManagerFactory() {
-        Map<String, Object> properties = new HashMap<>();
+        @NotNull Map<String, Object> properties = new HashMap<>();
         properties.put("jakarta.persistence.jdbc.url",
                 mysql.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000");
         properties.put("jakarta.persistence.jdbc.user", mysql.getUsername());
@@ -103,8 +105,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON metadata
      * @return the persisted user
      */
-    protected User createUser(String name, String email, String metadata) {
-        User user = new User(name, email, metadata);
+    protected @NotNull User createUser(String name, String email, String metadata) {
+        @NotNull User user = new User(name, email, metadata);
         entityManager.persist(user);
         entityManager.flush();
         return user;
@@ -125,8 +127,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON roles array
      * @return the persisted user
      */
-    protected User createUser(String name, String email, String metadata, String settings, String roles) {
-        User user = new User(name, email, metadata);
+    protected @NotNull User createUser(String name, String email, String metadata, String settings, String roles) {
+        @NotNull User user = new User(name, email, metadata);
         user.setSettings(settings);
         user.setRoles(roles);
         entityManager.persist(user);
@@ -147,8 +149,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON attributes
      * @return the persisted product
      */
-    protected Product createProduct(String name, BigDecimal price, String category, String attributes) {
-        Product product = new Product(name, price, category);
+    protected @NotNull Product createProduct(String name, BigDecimal price, String category, String attributes) {
+        @NotNull Product product = new Product(name, price, category);
         product.setAttributes(attributes);
         entityManager.persist(product);
         entityManager.flush();
@@ -170,8 +172,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON tags array
      * @return the persisted product
      */
-    protected Product createProduct(String name, BigDecimal price, String category, String attributes, String tags) {
-        Product product = new Product(name, price, category);
+    protected @NotNull Product createProduct(String name, BigDecimal price, String category, String attributes, String tags) {
+        @NotNull Product product = new Product(name, price, category);
         product.setAttributes(attributes);
         product.setTags(tags);
         entityManager.persist(product);
@@ -192,8 +194,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON order data
      * @return the persisted order
      */
-    protected TestOrder createOrder(String orderNumber, Long userId, BigDecimal totalAmount, String orderData) {
-        TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
+    protected @NotNull TestOrder createOrder(String orderNumber, Long userId, BigDecimal totalAmount, String orderData) {
+        @NotNull TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
         order.setOrderData(orderData);
         entityManager.persist(order);
         entityManager.flush();
@@ -215,12 +217,12 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON shipping info
      * @return the persisted order
      */
-    protected TestOrder createOrder(String orderNumber,
-            Long userId,
-            BigDecimal totalAmount,
-            String orderData,
-            String shippingInfo) {
-        TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
+    protected @NotNull TestOrder createOrder(String orderNumber,
+                                             Long userId,
+                                             BigDecimal totalAmount,
+                                             String orderData,
+                                             String shippingInfo) {
+        @NotNull TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
         order.setOrderData(orderData);
         order.setShippingInfo(shippingInfo);
         entityManager.persist(order);
@@ -254,7 +256,7 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the native SQL query
      * @return the query result as string
      */
-    protected String executeNativeQuery(String sql) {
+    protected @Nullable String executeNativeQuery(String sql) {
         Object result = entityManager.createNativeQuery(sql).getSingleResult();
         return result != null ? result.toString() : null;
     }

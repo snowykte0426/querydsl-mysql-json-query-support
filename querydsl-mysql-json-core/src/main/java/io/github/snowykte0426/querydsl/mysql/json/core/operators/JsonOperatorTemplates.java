@@ -1,6 +1,7 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.operators;
 
 import com.querydsl.core.types.Operator;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public final class JsonOperatorTemplates {
      *
      * @return Map of operators to template strings
      */
-    public static Map<Operator, String> getTemplates() {
+    public static @NotNull Map<Operator, String> getTemplates() {
         return getOperatorTemplateMap();
     }
 
@@ -43,8 +44,8 @@ public final class JsonOperatorTemplates {
      *
      * @return Map of Operator to template String
      */
-    private static Map<Operator, String> getOperatorTemplateMap() {
-        Map<Operator, String> templates = new HashMap<>();
+    private static @NotNull Map<Operator, String> getOperatorTemplateMap() {
+        @NotNull Map<Operator, String> templates = new HashMap<>();
 
         // ========================================
         // Creation Functions (3)

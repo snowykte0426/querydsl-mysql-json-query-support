@@ -78,7 +78,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      * @param domainClass
      *            the domain class (entity type)
      */
-    public JsonFunctionRepositorySupport(Class<?> domainClass) {
+    public JsonFunctionRepositorySupport(@NotNull Class<?> domainClass) {
         super(domainClass);
     }
 
@@ -117,7 +117,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON column expression
      * @return JPAJsonExpression wrapper for fluent API
      */
-    protected JPAJsonExpression jsonExpression(Expression<?> expression) {
+    protected @NotNull JPAJsonExpression jsonExpression(Expression<?> expression) {
         return JPAJsonExpression.of(expression);
     }
 
@@ -128,7 +128,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the string path (Q-class property)
      * @return JPAJsonExpression wrapper
      */
-    protected JPAJsonExpression jsonExpression(StringPath path) {
+    protected @NotNull JPAJsonExpression jsonExpression(StringPath path) {
         return JPAJsonExpression.of(path);
     }
 
@@ -151,7 +151,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the variable name
      * @return PathBuilder for the entity
      */
-    protected <T> PathBuilder<T> jsonPath(Class<T> entityClass, String variable) {
+    protected <T> @NotNull PathBuilder<T> jsonPath(Class<T> entityClass, @NotNull String variable) {
         return new PathBuilder<>(entityClass, variable);
     }
 
@@ -172,7 +172,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *
      * @return JPAJsonFunctions class for static access
      */
-    protected Class<JPAJsonFunctions> jsonFunctions() {
+    protected @NotNull Class<JPAJsonFunctions> jsonFunctions() {
         return JPAJsonFunctions.class;
     }
 
@@ -187,7 +187,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the array values
      * @return JSON array expression
      */
-    protected JsonArrayExpression jsonArray(Object... values) {
+    protected @NotNull JsonArrayExpression jsonArray(Object... values) {
         return JPAJsonFunctions.jsonArray(values);
     }
 
@@ -202,7 +202,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            alternating keys and values
      * @return JSON object expression
      */
-    protected JsonObjectExpression jsonObject(Object... keyValuePairs) {
+    protected @NotNull JsonObjectExpression jsonObject(Object... keyValuePairs) {
         return JPAJsonFunctions.jsonObject(keyValuePairs);
     }
 
@@ -219,7 +219,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON path
      * @return extracted JSON expression
      */
-    protected JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String path) {
+    protected @NotNull JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String path) {
         return JPAJsonFunctions.jsonExtract(jsonDoc, path);
     }
 
@@ -236,7 +236,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the value to search for
      * @return boolean expression
      */
-    protected com.querydsl.core.types.dsl.BooleanExpression jsonContains(Expression<?> jsonDoc, String value) {
+    protected com.querydsl.core.types.dsl.@NotNull BooleanExpression jsonContains(Expression<?> jsonDoc, String value) {
         return JPAJsonFunctions.jsonContains(jsonDoc, value);
     }
 
@@ -255,9 +255,9 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON path
      * @return boolean expression
      */
-    protected com.querydsl.core.types.dsl.BooleanExpression jsonContains(Expression<?> jsonDoc,
-            String value,
-            String path) {
+    protected com.querydsl.core.types.dsl.@NotNull BooleanExpression jsonContains(Expression<?> jsonDoc,
+                                                                                  String value,
+                                                                                  String path) {
         return JPAJsonFunctions.jsonContains(jsonDoc, value, path);
     }
 
@@ -274,7 +274,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON array
      * @return boolean expression
      */
-    protected com.querydsl.core.types.dsl.BooleanExpression memberOf(Object value, Expression<?> jsonArray) {
+    protected com.querydsl.core.types.dsl.@NotNull BooleanExpression memberOf(Object value, Expression<?> jsonArray) {
         return JPAJsonFunctions.memberOf(value, jsonArray);
     }
 
@@ -289,7 +289,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the expression to aggregate
      * @return JSON array expression
      */
-    protected JsonArrayExpression jsonArrayAgg(Expression<?> value) {
+    protected @NotNull JsonArrayExpression jsonArrayAgg(Expression<?> value) {
         return JPAJsonFunctions.jsonArrayAgg(value);
     }
 
@@ -306,7 +306,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the value expression
      * @return JSON object expression
      */
-    protected JsonObjectExpression jsonObjectAgg(Expression<?> key, Expression<?> value) {
+    protected @NotNull JsonObjectExpression jsonObjectAgg(Expression<?> key, Expression<?> value) {
         return JPAJsonFunctions.jsonObjectAgg(key, value);
     }
 
@@ -321,7 +321,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON value
      * @return type as string expression
      */
-    protected com.querydsl.core.types.dsl.StringExpression jsonType(Expression<?> jsonValue) {
+    protected com.querydsl.core.types.dsl.@NotNull StringExpression jsonType(Expression<?> jsonValue) {
         return JPAJsonFunctions.jsonType(jsonValue);
     }
 
@@ -336,7 +336,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the value to validate
      * @return boolean expression
      */
-    protected com.querydsl.core.types.dsl.BooleanExpression jsonValid(Expression<?> value) {
+    protected com.querydsl.core.types.dsl.@NotNull BooleanExpression jsonValid(Expression<?> value) {
         return JPAJsonFunctions.jsonValid(value);
     }
 
@@ -351,7 +351,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON document
      * @return length as number expression
      */
-    protected com.querydsl.core.types.dsl.NumberExpression<Integer> jsonLength(Expression<?> jsonDoc) {
+    protected com.querydsl.core.types.dsl.@NotNull NumberExpression<Integer> jsonLength(Expression<?> jsonDoc) {
         return JPAJsonFunctions.jsonLength(jsonDoc);
     }
 
@@ -366,7 +366,7 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      *            the JSON document
      * @return depth as number expression
      */
-    protected com.querydsl.core.types.dsl.NumberExpression<Integer> jsonDepth(Expression<?> jsonDoc) {
+    protected com.querydsl.core.types.dsl.@NotNull NumberExpression<Integer> jsonDepth(Expression<?> jsonDoc) {
         return JPAJsonFunctions.jsonDepth(jsonDoc);
     }
 }

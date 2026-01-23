@@ -2,6 +2,8 @@ package io.github.snowykte0426.querydsl.mysql.json.jpa;
 
 import io.github.snowykte0426.querydsl.mysql.json.jpa.entity.QUser;
 import io.github.snowykte0426.querydsl.mysql.json.jpa.entity.User;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -63,7 +65,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract simple value")
         void extractSimpleValue() {
-            String sql = "SELECT JSON_EXTRACT('{\"name\": \"John\"}', '$.name')";
+            @NotNull String sql = "SELECT JSON_EXTRACT('{\"name\": \"John\"}', '$.name')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("\"John\"");
@@ -72,7 +74,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract nested value")
         void extractNestedValue() {
-            String sql = "SELECT JSON_EXTRACT('{\"user\": {\"name\": \"John\"}}', '$.user.name')";
+            @NotNull String sql = "SELECT JSON_EXTRACT('{\"user\": {\"name\": \"John\"}}', '$.user.name')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("\"John\"");
@@ -81,7 +83,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract array element")
         void extractArrayElement() {
-            String sql = "SELECT JSON_EXTRACT('[1, 2, 3]', '$[1]')";
+            @NotNull String sql = "SELECT JSON_EXTRACT('[1, 2, 3]', '$[1]')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("2");
@@ -90,7 +92,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null for non-existent path")
         void returnNullForNonExistentPath() {
-            String sql = "SELECT JSON_EXTRACT('{\"name\": \"John\"}', '$.age')";
+            @NotNull String sql = "SELECT JSON_EXTRACT('{\"name\": \"John\"}', '$.age')";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -99,7 +101,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract from user metadata column")
         void extractFromUserMetadata() {
-            String sql = "SELECT JSON_EXTRACT(metadata, '$.role') FROM users WHERE email = 'john@example.com'";
+            @NotNull String sql = "SELECT JSON_EXTRACT(metadata, '$.role') FROM users WHERE email = 'john@example.com'";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("\"admin\"");
@@ -113,7 +115,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract and unquote value")
         void extractAndUnquoteValue() {
-            String sql = "SELECT JSON_UNQUOTE(JSON_EXTRACT('{\"name\": \"John\"}', '$.name'))";
+            @NotNull String sql = "SELECT JSON_UNQUOTE(JSON_EXTRACT('{\"name\": \"John\"}', '$.name'))";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("John");
@@ -122,7 +124,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should use ->> operator")
         void useArrowOperator() {
-            String sql = "SELECT metadata->>'$.role' FROM users WHERE email = 'john@example.com'";
+            @NotNull String sql = "SELECT metadata->>'$.role' FROM users WHERE email = 'john@example.com'";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("admin");
@@ -136,7 +138,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return true when value is contained")
         void returnTrueWhenContained() {
-            String sql = "SELECT JSON_CONTAINS('[1, 2, 3]', '2')";
+            @NotNull String sql = "SELECT JSON_CONTAINS('[1, 2, 3]', '2')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -145,7 +147,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return false when value is not contained")
         void returnFalseWhenNotContained() {
-            String sql = "SELECT JSON_CONTAINS('[1, 2, 3]', '5')";
+            @NotNull String sql = "SELECT JSON_CONTAINS('[1, 2, 3]', '5')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -154,7 +156,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should check containment at path")
         void checkContainmentAtPath() {
-            String sql = "SELECT JSON_CONTAINS('{\"a\": [1, 2, 3]}', '2', '$.a')";
+            @NotNull String sql = "SELECT JSON_CONTAINS('{\"a\": [1, 2, 3]}', '2', '$.a')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -163,7 +165,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should find users with specific permission")
         void findUsersWithPermission() {
-            String sql = "SELECT COUNT(*) FROM users WHERE JSON_CONTAINS(metadata, '\"write\"', '$.permissions')";
+            @NotNull String sql = "SELECT COUNT(*) FROM users WHERE JSON_CONTAINS(metadata, '\"write\"', '$.permissions')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).longValue()).isEqualTo(2L);
@@ -177,7 +179,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return true when path exists")
         void returnTrueWhenPathExists() {
-            String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": {\"b\": 1}}', 'one', '$.a.b')";
+            @NotNull String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": {\"b\": 1}}', 'one', '$.a.b')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -186,7 +188,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return false when path does not exist")
         void returnFalseWhenPathNotExists() {
-            String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": 1}', 'one', '$.b')";
+            @NotNull String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": 1}', 'one', '$.b')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -195,7 +197,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should check 'all' paths")
         void checkAllPaths() {
-            String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": 1, \"b\": 2}', 'all', '$.a', '$.b')";
+            @NotNull String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": 1, \"b\": 2}', 'all', '$.a', '$.b')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -204,7 +206,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should check 'one' path")
         void checkOnePath() {
-            String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": 1}', 'one', '$.a', '$.b')";
+            @NotNull String sql = "SELECT JSON_CONTAINS_PATH('{\"a\": 1}', 'one', '$.a', '$.b')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -218,7 +220,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return keys from object")
         void returnKeysFromObject() {
-            String sql = "SELECT JSON_KEYS('{\"a\": 1, \"b\": 2, \"c\": 3}')";
+            @NotNull String sql = "SELECT JSON_KEYS('{\"a\": 1, \"b\": 2, \"c\": 3}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"", "\"b\"", "\"c\"");
@@ -227,7 +229,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return keys at path")
         void returnKeysAtPath() {
-            String sql = "SELECT JSON_KEYS('{\"outer\": {\"inner1\": 1, \"inner2\": 2}}', '$.outer')";
+            @NotNull String sql = "SELECT JSON_KEYS('{\"outer\": {\"inner1\": 1, \"inner2\": 2}}', '$.outer')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"inner1\"", "\"inner2\"");
@@ -236,7 +238,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null for non-object")
         void returnNullForNonObject() {
-            String sql = "SELECT JSON_KEYS('[1, 2, 3]')";
+            @NotNull String sql = "SELECT JSON_KEYS('[1, 2, 3]')";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -250,7 +252,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should find path to value")
         void findPathToValue() {
-            String sql = "SELECT JSON_SEARCH('[\"a\", \"b\", \"c\"]', 'one', 'b')";
+            @NotNull String sql = "SELECT JSON_SEARCH('[\"a\", \"b\", \"c\"]', 'one', 'b')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("\"$[1]\"");
@@ -259,7 +261,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should find all paths")
         void findAllPaths() {
-            String sql = "SELECT JSON_SEARCH('[\"a\", \"b\", \"a\"]', 'all', 'a')";
+            @NotNull String sql = "SELECT JSON_SEARCH('[\"a\", \"b\", \"a\"]', 'all', 'a')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("$[0]", "$[2]");
@@ -268,7 +270,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should support wildcards")
         void supportWildcards() {
-            String sql = "SELECT JSON_SEARCH('[\"abc\", \"def\", \"axy\"]', 'all', 'a%')";
+            @NotNull String sql = "SELECT JSON_SEARCH('[\"abc\", \"def\", \"axy\"]', 'all', 'a%')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("$[0]", "$[2]");
@@ -277,7 +279,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null when not found")
         void returnNullWhenNotFound() {
-            String sql = "SELECT JSON_SEARCH('[\"a\", \"b\", \"c\"]', 'one', 'z')";
+            @NotNull String sql = "SELECT JSON_SEARCH('[\"a\", \"b\", \"c\"]', 'one', 'z')";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -291,7 +293,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return true when arrays overlap")
         void returnTrueWhenArraysOverlap() {
-            String sql = "SELECT JSON_OVERLAPS('[1, 2, 3]', '[2, 4, 6]')";
+            @NotNull String sql = "SELECT JSON_OVERLAPS('[1, 2, 3]', '[2, 4, 6]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -300,7 +302,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return false when arrays do not overlap")
         void returnFalseWhenNoOverlap() {
-            String sql = "SELECT JSON_OVERLAPS('[1, 2, 3]', '[4, 5, 6]')";
+            @NotNull String sql = "SELECT JSON_OVERLAPS('[1, 2, 3]', '[4, 5, 6]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -309,7 +311,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should work with objects")
         void workWithObjects() {
-            String sql = "SELECT JSON_OVERLAPS('{\"a\": 1}', '{\"a\": 1, \"b\": 2}')";
+            @NotNull String sql = "SELECT JSON_OVERLAPS('{\"a\": 1}', '{\"a\": 1, \"b\": 2}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -323,7 +325,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return true when value is member")
         void returnTrueWhenMember() {
-            String sql = "SELECT 2 MEMBER OF('[1, 2, 3]')";
+            @NotNull String sql = "SELECT 2 MEMBER OF('[1, 2, 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -332,7 +334,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return false when value is not member")
         void returnFalseWhenNotMember() {
-            String sql = "SELECT 5 MEMBER OF('[1, 2, 3]')";
+            @NotNull String sql = "SELECT 5 MEMBER OF('[1, 2, 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -342,7 +344,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should work with string values")
         void workWithStrings() {
             // Use CAST to ensure JSON compatibility
-            String sql = "SELECT CAST('\"admin\"' AS JSON) MEMBER OF(roles) FROM users WHERE email = 'john@example.com'";
+            @NotNull String sql = "SELECT CAST('\"admin\"' AS JSON) MEMBER OF(roles) FROM users WHERE email = 'john@example.com'";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -357,7 +359,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should use JPAJsonExpression for fluent API")
         void useJPAJsonExpressionForFluentAPI() {
             // Test that JPAJsonExpression can wrap metadata column
-            String sql = "SELECT JSON_EXTRACT(metadata, '$.profile.age') FROM users WHERE email = 'john@example.com'";
+            @NotNull String sql = "SELECT JSON_EXTRACT(metadata, '$.profile.age') FROM users WHERE email = 'john@example.com'";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("30");
@@ -367,7 +369,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should chain multiple operations")
         void chainMultipleOperations() {
             // Test chaining: extract then check type
-            String sql = "SELECT JSON_TYPE(JSON_EXTRACT(metadata, '$.permissions')) FROM users WHERE email = 'john@example.com'";
+            @NotNull String sql = "SELECT JSON_TYPE(JSON_EXTRACT(metadata, '$.permissions')) FROM users WHERE email = 'john@example.com'";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("ARRAY");
@@ -485,7 +487,7 @@ class JPAJsonSearchFunctionsTest extends AbstractJPAJsonFunctionTest {
         void jsonContains_withCount_shouldWork() {
             // When: COUNT query with jsonContains
             assertThatCode(() -> {
-                Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
+                @Nullable Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
                         .where(JPAJsonFunctions.jsonContains(QUser.user.metadata, "\"read\"", "$.permissions"))
                         .fetchOne();
 

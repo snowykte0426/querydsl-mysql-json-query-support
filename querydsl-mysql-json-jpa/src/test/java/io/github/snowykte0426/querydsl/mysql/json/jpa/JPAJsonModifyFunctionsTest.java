@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should set value at existing path")
         void setValueAtExistingPath() {
-            String sql = "SELECT JSON_SET('{\"name\": \"John\"}', '$.name', 'Jane')";
+            @NotNull String sql = "SELECT JSON_SET('{\"name\": \"John\"}', '$.name', 'Jane')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"Jane\"");
@@ -42,7 +43,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should set value at new path")
         void setValueAtNewPath() {
-            String sql = "SELECT JSON_SET('{\"name\": \"John\"}', '$.age', 30)";
+            @NotNull String sql = "SELECT JSON_SET('{\"name\": \"John\"}', '$.age', 30)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"name\"", "\"age\"", "30");
@@ -51,7 +52,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should set multiple values")
         void setMultipleValues() {
-            String sql = "SELECT JSON_SET('{}', '$.a', 1, '$.b', 2)";
+            @NotNull String sql = "SELECT JSON_SET('{}', '$.a', 1, '$.b', 2)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"", "\"b\"", "1", "2");
@@ -60,7 +61,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should set nested value")
         void setNestedValue() {
-            String sql = "SELECT JSON_SET('{\"user\": {\"name\": \"John\"}}', '$.user.age', 30)";
+            @NotNull String sql = "SELECT JSON_SET('{\"user\": {\"name\": \"John\"}}', '$.user.age', 30)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"age\"", "30");
@@ -74,7 +75,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should insert at new path")
         void insertAtNewPath() {
-            String sql = "SELECT JSON_INSERT('{\"name\": \"John\"}', '$.age', 30)";
+            @NotNull String sql = "SELECT JSON_INSERT('{\"name\": \"John\"}', '$.age', 30)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"age\"", "30");
@@ -83,7 +84,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should not replace existing value")
         void notReplaceExistingValue() {
-            String sql = "SELECT JSON_INSERT('{\"name\": \"John\"}', '$.name', 'Jane')";
+            @NotNull String sql = "SELECT JSON_INSERT('{\"name\": \"John\"}', '$.name', 'Jane')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"John\"");
@@ -93,7 +94,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should insert multiple values")
         void insertMultipleValues() {
-            String sql = "SELECT JSON_INSERT('{}', '$.a', 1, '$.b', 2)";
+            @NotNull String sql = "SELECT JSON_INSERT('{}', '$.a', 1, '$.b', 2)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"", "\"b\"");
@@ -107,7 +108,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should replace existing value")
         void replaceExistingValue() {
-            String sql = "SELECT JSON_REPLACE('{\"name\": \"John\"}', '$.name', 'Jane')";
+            @NotNull String sql = "SELECT JSON_REPLACE('{\"name\": \"John\"}', '$.name', 'Jane')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"Jane\"");
@@ -116,7 +117,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should not insert at new path")
         void notInsertAtNewPath() {
-            String sql = "SELECT JSON_REPLACE('{\"name\": \"John\"}', '$.age', 30)";
+            @NotNull String sql = "SELECT JSON_REPLACE('{\"name\": \"John\"}', '$.age', 30)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).doesNotContain("\"age\"");
@@ -125,7 +126,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should replace multiple values")
         void replaceMultipleValues() {
-            String sql = "SELECT JSON_REPLACE('{\"a\": 1, \"b\": 2}', '$.a', 10, '$.b', 20)";
+            @NotNull String sql = "SELECT JSON_REPLACE('{\"a\": 1, \"b\": 2}', '$.a', 10, '$.b', 20)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("10", "20");
@@ -139,7 +140,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should remove value at path")
         void removeValueAtPath() {
-            String sql = "SELECT JSON_REMOVE('{\"name\": \"John\", \"age\": 30}', '$.age')";
+            @NotNull String sql = "SELECT JSON_REMOVE('{\"name\": \"John\", \"age\": 30}', '$.age')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"name\"");
@@ -149,7 +150,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should remove multiple paths")
         void removeMultiplePaths() {
-            String sql = "SELECT JSON_REMOVE('{\"a\": 1, \"b\": 2, \"c\": 3}', '$.a', '$.c')";
+            @NotNull String sql = "SELECT JSON_REMOVE('{\"a\": 1, \"b\": 2, \"c\": 3}', '$.a', '$.c')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"b\"");
@@ -159,7 +160,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should remove array element")
         void removeArrayElement() {
-            String sql = "SELECT JSON_REMOVE('[1, 2, 3]', '$[1]')";
+            @NotNull String sql = "SELECT JSON_REMOVE('[1, 2, 3]', '$[1]')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 3]");
@@ -173,7 +174,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should append to array")
         void appendToArray() {
-            String sql = "SELECT JSON_ARRAY_APPEND('[1, 2]', '$', 3)";
+            @NotNull String sql = "SELECT JSON_ARRAY_APPEND('[1, 2]', '$', 3)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
@@ -182,7 +183,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should append to nested array")
         void appendToNestedArray() {
-            String sql = "SELECT JSON_ARRAY_APPEND('{\"items\": [1, 2]}', '$.items', 3)";
+            @NotNull String sql = "SELECT JSON_ARRAY_APPEND('{\"items\": [1, 2]}', '$.items', 3)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("[1, 2, 3]");
@@ -191,7 +192,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should append multiple values")
         void appendMultipleValues() {
-            String sql = "SELECT JSON_ARRAY_APPEND('[1]', '$', 2, '$', 3)";
+            @NotNull String sql = "SELECT JSON_ARRAY_APPEND('[1]', '$', 2, '$', 3)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
@@ -205,7 +206,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should insert at beginning")
         void insertAtBeginning() {
-            String sql = "SELECT JSON_ARRAY_INSERT('[2, 3]', '$[0]', 1)";
+            @NotNull String sql = "SELECT JSON_ARRAY_INSERT('[2, 3]', '$[0]', 1)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
@@ -214,7 +215,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should insert at middle")
         void insertAtMiddle() {
-            String sql = "SELECT JSON_ARRAY_INSERT('[1, 3]', '$[1]', 2)";
+            @NotNull String sql = "SELECT JSON_ARRAY_INSERT('[1, 3]', '$[1]', 2)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
@@ -223,7 +224,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should insert at end")
         void insertAtEnd() {
-            String sql = "SELECT JSON_ARRAY_INSERT('[1, 2]', '$[2]', 3)";
+            @NotNull String sql = "SELECT JSON_ARRAY_INSERT('[1, 2]', '$[2]', 3)";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
@@ -237,7 +238,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should merge objects replacing duplicates")
         void mergeObjectsReplacingDuplicates() {
-            String sql = "SELECT JSON_MERGE_PATCH('{\"a\": 1, \"b\": 2}', '{\"b\": 3, \"c\": 4}')";
+            @NotNull String sql = "SELECT JSON_MERGE_PATCH('{\"a\": 1, \"b\": 2}', '{\"b\": 3, \"c\": 4}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"", "\"b\"", "\"c\"");
@@ -248,7 +249,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should remove null values")
         void removeNullValues() {
-            String sql = "SELECT JSON_MERGE_PATCH('{\"a\": 1, \"b\": 2}', '{\"b\": null}')";
+            @NotNull String sql = "SELECT JSON_MERGE_PATCH('{\"a\": 1, \"b\": 2}', '{\"b\": null}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"");
@@ -258,7 +259,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should merge multiple objects")
         void mergeMultipleObjects() {
-            String sql = "SELECT JSON_MERGE_PATCH('{\"a\": 1}', '{\"b\": 2}', '{\"c\": 3}')";
+            @NotNull String sql = "SELECT JSON_MERGE_PATCH('{\"a\": 1}', '{\"b\": 2}', '{\"c\": 3}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"", "\"b\"", "\"c\"");
@@ -272,7 +273,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should merge objects preserving duplicates as arrays")
         void mergeObjectsPreservingDuplicates() {
-            String sql = "SELECT JSON_MERGE_PRESERVE('{\"a\": 1}', '{\"a\": 2}')";
+            @NotNull String sql = "SELECT JSON_MERGE_PRESERVE('{\"a\": 1}', '{\"a\": 2}')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("[1, 2]");
@@ -281,7 +282,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should merge arrays")
         void mergeArrays() {
-            String sql = "SELECT JSON_MERGE_PRESERVE('[1, 2]', '[3, 4]')";
+            @NotNull String sql = "SELECT JSON_MERGE_PRESERVE('[1, 2]', '[3, 4]')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3, 4]");
@@ -290,7 +291,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should merge multiple documents")
         void mergeMultipleDocuments() {
-            String sql = "SELECT JSON_MERGE_PRESERVE('[1]', '[2]', '[3]')";
+            @NotNull String sql = "SELECT JSON_MERGE_PRESERVE('[1]', '[2]', '[3]')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
@@ -304,7 +305,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should unquote string")
         void unquoteString() {
-            String sql = "SELECT JSON_UNQUOTE('\"hello\"')";
+            @NotNull String sql = "SELECT JSON_UNQUOTE('\"hello\"')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("hello");
@@ -313,7 +314,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should unescape special characters")
         void unescapeSpecialCharacters() {
-            String sql = "SELECT JSON_UNQUOTE('\"hello\\\\nworld\"')";
+            @NotNull String sql = "SELECT JSON_UNQUOTE('\"hello\\\\nworld\"')";
             String result = executeNativeQuery(sql);
 
             assertThat(result).contains("hello");
@@ -322,7 +323,7 @@ class JPAJsonModifyFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null for null")
         void returnNullForNull() {
-            String sql = "SELECT JSON_UNQUOTE(NULL)";
+            @NotNull String sql = "SELECT JSON_UNQUOTE(NULL)";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();

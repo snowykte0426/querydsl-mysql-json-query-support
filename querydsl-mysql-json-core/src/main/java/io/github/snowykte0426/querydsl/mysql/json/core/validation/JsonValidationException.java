@@ -1,5 +1,8 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.validation;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Runtime exception thrown when JSON validation fails.
  * <p>
@@ -14,7 +17,7 @@ package io.github.snowykte0426.querydsl.mysql.json.core.validation;
  */
 public class JsonValidationException extends RuntimeException {
 
-    private final String invalidInput;
+    private final @Nullable String invalidInput;
 
     /**
      * Constructs a new JSON validation exception with the specified message.
@@ -87,7 +90,7 @@ public class JsonValidationException extends RuntimeException {
      *            the input to truncate
      * @return the truncated string
      */
-    private static String truncate(String input) {
+    private static @NotNull String truncate(@Nullable String input) {
         if (input == null) {
             return "null";
         }

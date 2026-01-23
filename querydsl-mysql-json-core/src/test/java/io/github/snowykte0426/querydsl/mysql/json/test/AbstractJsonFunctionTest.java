@@ -4,6 +4,8 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.MySQLTemplates;
 import com.querydsl.sql.SQLSerializer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -181,7 +183,7 @@ public abstract class AbstractJsonFunctionTest {
      * @throws SQLException
      *             if query execution fails
      */
-    protected String executeScalar(String sql) throws SQLException {
+    protected @Nullable String executeScalar(String sql) throws SQLException {
         try (Statement stmt = connection.createStatement(); var rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
                 return rs.getString(1);
@@ -201,11 +203,11 @@ public abstract class AbstractJsonFunctionTest {
      * @throws SQLException
      *             if query execution fails
      */
-    protected String executeScalar(Expression<?> expression) throws SQLException {
-        SQLSerializer localSerializer = new SQLSerializer(querydslConfig);
+    protected @Nullable String executeScalar(@NotNull Expression<?> expression) throws SQLException {
+        @NotNull SQLSerializer localSerializer = new SQLSerializer(querydslConfig);
         localSerializer.handle(expression);
 
-        String sql = "SELECT " + localSerializer.toString();
+        @NotNull String sql = "SELECT " + localSerializer.toString();
         List<Object> constants = localSerializer.getConstants();
 
         // If no parameters, use simple statement
@@ -236,9 +238,9 @@ public abstract class AbstractJsonFunctionTest {
      *            the expression to convert
      * @return SQL string representation
      */
-    protected String toSql(Expression<?> expression) {
+    protected String toSql(@NotNull Expression<?> expression) {
         // Create a new serializer instance for each conversion to avoid state issues
-        SQLSerializer newSerializer = new SQLSerializer(querydslConfig);
+        @NotNull SQLSerializer newSerializer = new SQLSerializer(querydslConfig);
         newSerializer.handle(expression);
         return newSerializer.toString();
     }

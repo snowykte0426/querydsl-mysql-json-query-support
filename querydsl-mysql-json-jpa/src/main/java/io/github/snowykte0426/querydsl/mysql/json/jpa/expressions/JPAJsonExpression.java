@@ -8,6 +8,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.*;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serial;
@@ -73,7 +74,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the expression (typically a JPA path)
      * @return JPAJsonExpression wrapper
      */
-    public static JPAJsonExpression of(Expression<?> expression) {
+    public static @NotNull JPAJsonExpression of(Expression<?> expression) {
         return new JPAJsonExpression(expression);
     }
 
@@ -84,7 +85,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the string path
      * @return JPAJsonExpression wrapper
      */
-    public static JPAJsonExpression of(StringPath path) {
+    public static @NotNull JPAJsonExpression of(StringPath path) {
         return new JPAJsonExpression(path);
     }
 
@@ -117,7 +118,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            JSON path expression (e.g., "$.key")
      * @return extracted JSON expression
      */
-    public JsonExpression<String> extract(String path) {
+    public @NotNull JsonExpression<String> extract(String path) {
         return JsonExpression.jsonExtract(jsonDoc, path);
     }
 
@@ -128,7 +129,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            JSON path expressions
      * @return extracted JSON expression
      */
-    public JsonExpression<String> extract(String... paths) {
+    public @NotNull JsonExpression<String> extract(String... paths) {
         return JsonExpression.jsonExtract(jsonDoc, paths);
     }
 
@@ -142,7 +143,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            JSON path expression
      * @return unquoted string expression
      */
-    public StringExpression extractUnquoted(String path) {
+    public @NotNull StringExpression extractUnquoted(String path) {
         return JsonExpression.jsonUnquoteExtract(jsonDoc, path);
     }
 
@@ -156,7 +157,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            JSON path expression
      * @return scalar value expression
      */
-    public JsonValueExpression value(String path) {
+    public @NotNull JsonValueExpression value(String path) {
         return JsonValueExpression.extract(jsonDoc, path);
     }
 
@@ -174,7 +175,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the value to search for
      * @return boolean expression
      */
-    public BooleanExpression contains(String value) {
+    public @NotNull BooleanExpression contains(@NotNull String value) {
         return Expressions.booleanTemplate("json_contains({0}, {1})", jsonDoc, Expressions.constant(value));
     }
 
@@ -190,7 +191,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON path
      * @return boolean expression
      */
-    public BooleanExpression contains(String value, String path) {
+    public @NotNull BooleanExpression contains(@NotNull String value, @NotNull String path) {
         return Expressions.booleanTemplate("json_contains({0}, {1}, {2})",
                 jsonDoc,
                 Expressions.constant(value),
@@ -209,15 +210,15 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the paths to check
      * @return boolean expression
      */
-    public BooleanExpression containsPath(String oneOrAll, String... paths) {
-        Object[] args = new Object[paths.length + 2];
+    public @NotNull BooleanExpression containsPath(@NotNull String oneOrAll, String @NotNull ... paths) {
+        Object @NotNull [] args = new Object[paths.length + 2];
         args[0] = jsonDoc;
         args[1] = Expressions.constant(oneOrAll);
         for (int i = 0; i < paths.length; i++) {
             args[i + 2] = Expressions.constant(paths[i]);
         }
 
-        StringBuilder template = new StringBuilder("json_contains_path({0}, {1}");
+        @NotNull StringBuilder template = new StringBuilder("json_contains_path({0}, {1}");
         for (int i = 0; i < paths.length; i++) {
             template.append(", {").append(i + 2).append("}");
         }
@@ -236,7 +237,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the string to search for
      * @return path expression
      */
-    public JsonValueExpression search(String searchString) {
+    public @NotNull JsonValueExpression search(String searchString) {
         return JsonValueExpression.search(jsonDoc, "one", searchString);
     }
 
@@ -249,7 +250,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the string to search for
      * @return path expression
      */
-    public JsonValueExpression search(String oneOrAll, String searchString) {
+    public @NotNull JsonValueExpression search(String oneOrAll, String searchString) {
         return JsonValueExpression.search(jsonDoc, oneOrAll, searchString);
     }
 
@@ -261,7 +262,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return JSON array of keys
      */
-    public JsonArrayExpression keys() {
+    public @NotNull JsonArrayExpression keys() {
         return JsonArrayExpression.wrap(Expressions.stringTemplate("json_keys({0})", jsonDoc));
     }
 
@@ -272,7 +273,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            JSON path
      * @return JSON array of keys
      */
-    public JsonArrayExpression keys(String path) {
+    public @NotNull JsonArrayExpression keys(@NotNull String path) {
         return JsonArrayExpression
                 .wrap(Expressions.stringTemplate("json_keys({0}, {1})", jsonDoc, Expressions.constant(path)));
     }
@@ -287,7 +288,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the other JSON document
      * @return boolean expression
      */
-    public BooleanExpression overlaps(Expression<?> other) {
+    public @NotNull BooleanExpression overlaps(Expression<?> other) {
         return Expressions.booleanTemplate("json_overlaps({0}, {1})", jsonDoc, other);
     }
 
@@ -298,7 +299,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON literal
      * @return boolean expression
      */
-    public BooleanExpression overlaps(String jsonLiteral) {
+    public @NotNull BooleanExpression overlaps(@NotNull String jsonLiteral) {
         return Expressions.booleanTemplate("json_overlaps({0}, {1})", jsonDoc, Expressions.constant(jsonLiteral));
     }
 
@@ -318,7 +319,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the value to set
      * @return modified JSON expression
      */
-    public JsonValueExpression set(String path, Object value) {
+    public @NotNull JsonValueExpression set(String path, Object value) {
         return JsonValueExpression.set(jsonDoc, path, value);
     }
 
@@ -334,7 +335,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the value to insert
      * @return modified JSON expression
      */
-    public JsonValueExpression insert(String path, Object value) {
+    public @NotNull JsonValueExpression insert(String path, Object value) {
         return JsonValueExpression.insert(jsonDoc, path, value);
     }
 
@@ -350,7 +351,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the new value
      * @return modified JSON expression
      */
-    public JsonValueExpression replace(String path, Object value) {
+    public @NotNull JsonValueExpression replace(String path, Object value) {
         return JsonValueExpression.replace(jsonDoc, path, value);
     }
 
@@ -364,7 +365,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the paths to remove
      * @return modified JSON expression
      */
-    public JsonValueExpression remove(String... paths) {
+    public @NotNull JsonValueExpression remove(String... paths) {
         return JsonValueExpression.remove(jsonDoc, paths);
     }
 
@@ -380,8 +381,8 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the value to append
      * @return modified JSON expression
      */
-    public JsonArrayExpression arrayAppend(String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull JsonArrayExpression arrayAppend(@NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return JsonArrayExpression.wrap(Expressions
                 .stringTemplate("json_array_append({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -399,8 +400,8 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the value to insert
      * @return modified JSON expression
      */
-    public JsonArrayExpression arrayInsert(String path, Object value) {
-        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public @NotNull JsonArrayExpression arrayInsert(@NotNull String path, Object value) {
+        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return JsonArrayExpression.wrap(Expressions
                 .stringTemplate("json_array_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -416,7 +417,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the other JSON document
      * @return merged JSON expression
      */
-    public JsonObjectExpression mergePatch(Expression<?> other) {
+    public @NotNull JsonObjectExpression mergePatch(Expression<?> other) {
         return JsonObjectExpression.wrap(Expressions.stringTemplate("json_merge_patch({0}, {1})", jsonDoc, other));
     }
 
@@ -430,7 +431,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the other JSON document
      * @return merged JSON expression
      */
-    public StringExpression mergePreserve(Expression<?> other) {
+    public @NotNull StringExpression mergePreserve(Expression<?> other) {
         return Expressions.stringTemplate("json_merge_preserve({0}, {1})", jsonDoc, other);
     }
 
@@ -446,7 +447,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return depth as integer expression
      */
-    public NumberExpression<Integer> depth() {
+    public @NotNull NumberExpression<Integer> depth() {
         return Expressions.numberTemplate(Integer.class, "json_depth({0})", jsonDoc);
     }
 
@@ -458,7 +459,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return length as integer expression
      */
-    public NumberExpression<Integer> length() {
+    public @NotNull NumberExpression<Integer> length() {
         return Expressions.numberTemplate(Integer.class, "json_length({0})", jsonDoc);
     }
 
@@ -469,7 +470,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON path
      * @return length as integer expression
      */
-    public NumberExpression<Integer> length(String path) {
+    public @NotNull NumberExpression<Integer> length(@NotNull String path) {
         return Expressions.numberTemplate(Integer.class, "json_length({0}, {1})", jsonDoc, Expressions.constant(path));
     }
 
@@ -481,7 +482,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return type as string expression
      */
-    public StringExpression type() {
+    public @NotNull StringExpression type() {
         return Expressions.stringTemplate("json_type({0})", jsonDoc);
     }
 
@@ -493,7 +494,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return boolean expression
      */
-    public BooleanExpression isValid() {
+    public @NotNull BooleanExpression isValid() {
         return Expressions.booleanTemplate("json_valid({0})", jsonDoc);
     }
 
@@ -502,7 +503,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return boolean expression
      */
-    public BooleanExpression isEmpty() {
+    public @NotNull BooleanExpression isEmpty() {
         return Expressions.booleanTemplate("json_length({0}) = 0", jsonDoc);
     }
 
@@ -511,7 +512,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return boolean expression
      */
-    public BooleanExpression isNotEmpty() {
+    public @NotNull BooleanExpression isNotEmpty() {
         return Expressions.booleanTemplate("json_length({0}) > 0", jsonDoc);
     }
 
@@ -520,7 +521,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return boolean expression
      */
-    public BooleanExpression isArray() {
+    public @NotNull BooleanExpression isArray() {
         return Expressions.booleanTemplate("json_type({0}) = 'ARRAY'", jsonDoc);
     }
 
@@ -529,7 +530,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return boolean expression
      */
-    public BooleanExpression isObject() {
+    public @NotNull BooleanExpression isObject() {
         return Expressions.booleanTemplate("json_type({0}) = 'OBJECT'", jsonDoc);
     }
 
@@ -538,7 +539,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return boolean expression
      */
-    public BooleanExpression isScalar() {
+    public @NotNull BooleanExpression isScalar() {
         return Expressions.booleanTemplate("json_type({0}) NOT IN ('ARRAY', 'OBJECT')", jsonDoc);
     }
 
@@ -554,7 +555,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return formatted JSON string
      */
-    public StringExpression pretty() {
+    public @NotNull StringExpression pretty() {
         return Expressions.stringTemplate("json_pretty({0})", jsonDoc);
     }
 
@@ -566,7 +567,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return storage size in bytes
      */
-    public NumberExpression<Integer> storageSize() {
+    public @NotNull NumberExpression<Integer> storageSize() {
         return Expressions.numberTemplate(Integer.class, "json_storage_size({0})", jsonDoc);
     }
 
@@ -578,7 +579,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return freed space in bytes
      */
-    public NumberExpression<Integer> storageFree() {
+    public @NotNull NumberExpression<Integer> storageFree() {
         return Expressions.numberTemplate(Integer.class, "json_storage_free({0})", jsonDoc);
     }
 
@@ -590,7 +591,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *
      * @return unquoted string expression
      */
-    public StringExpression unquote() {
+    public @NotNull StringExpression unquote() {
         return Expressions.stringTemplate("json_unquote({0})", jsonDoc);
     }
 
@@ -608,7 +609,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON schema expression
      * @return boolean expression
      */
-    public BooleanExpression schemaValid(Expression<?> schema) {
+    public @NotNull BooleanExpression schemaValid(Expression<?> schema) {
         return Expressions.booleanTemplate("json_schema_valid({0}, {1})", schema, jsonDoc);
     }
 
@@ -619,7 +620,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON schema as string
      * @return boolean expression
      */
-    public BooleanExpression schemaValid(String schemaJson) {
+    public @NotNull BooleanExpression schemaValid(@NotNull String schemaJson) {
         return Expressions.booleanTemplate("json_schema_valid({0}, {1})", Expressions.constant(schemaJson), jsonDoc);
     }
 
@@ -633,7 +634,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON schema expression
      * @return validation report as string
      */
-    public StringExpression schemaValidationReport(Expression<?> schema) {
+    public @NotNull StringExpression schemaValidationReport(Expression<?> schema) {
         return Expressions.stringTemplate("json_schema_validation_report({0}, {1})", schema, jsonDoc);
     }
 
@@ -644,7 +645,7 @@ public class JPAJsonExpression extends SimpleExpression<String> {
      *            the JSON schema as string
      * @return validation report as string
      */
-    public StringExpression schemaValidationReport(String schemaJson) {
+    public @NotNull StringExpression schemaValidationReport(@NotNull String schemaJson) {
         return Expressions
                 .stringTemplate("json_schema_validation_report({0}, {1})", Expressions.constant(schemaJson), jsonDoc);
     }

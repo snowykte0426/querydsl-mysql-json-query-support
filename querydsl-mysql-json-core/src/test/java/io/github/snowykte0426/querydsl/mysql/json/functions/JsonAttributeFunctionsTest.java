@@ -5,6 +5,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -27,10 +29,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonDepth_withEmptyObject_shouldReturnOne() throws SQLException {
         // Given
-        NumberExpression<Integer> depth = jsonDepth(Expressions.constant("{}"));
+        @NotNull NumberExpression<Integer> depth = jsonDepth(Expressions.constant("{}"));
 
         // When
-        String result = executeScalar(depth);
+        @Nullable String result = executeScalar(depth);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -39,10 +41,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonDepth_withEmptyArray_shouldReturnOne() throws SQLException {
         // Given
-        NumberExpression<Integer> depth = jsonDepth(Expressions.constant("[]"));
+        @NotNull NumberExpression<Integer> depth = jsonDepth(Expressions.constant("[]"));
 
         // When
-        String result = executeScalar(depth);
+        @Nullable String result = executeScalar(depth);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -51,10 +53,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonDepth_withScalar_shouldReturnOne() throws SQLException {
         // Given
-        NumberExpression<Integer> depth = jsonDepth(Expressions.constant("123"));
+        @NotNull NumberExpression<Integer> depth = jsonDepth(Expressions.constant("123"));
 
         // When
-        String result = executeScalar(depth);
+        @Nullable String result = executeScalar(depth);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -63,10 +65,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonDepth_withSimpleArray_shouldReturnTwo() throws SQLException {
         // Given
-        NumberExpression<Integer> depth = jsonDepth(Expressions.constant("[1, 2, 3]"));
+        @NotNull NumberExpression<Integer> depth = jsonDepth(Expressions.constant("[1, 2, 3]"));
 
         // When
-        String result = executeScalar(depth);
+        @Nullable String result = executeScalar(depth);
 
         // Then
         assertThat(result).isEqualTo("2");
@@ -75,11 +77,11 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonDepth_withNestedStructure_shouldReturnCorrectDepth() throws SQLException {
         // Given
-        String doc = "{\"a\": {\"b\": [1, 2]}}";
-        NumberExpression<Integer> depth = jsonDepth(Expressions.constant(doc));
+        @NotNull String doc = "{\"a\": {\"b\": [1, 2]}}";
+        @NotNull NumberExpression<Integer> depth = jsonDepth(Expressions.constant(doc));
 
         // When
-        String result = executeScalar(depth);
+        @Nullable String result = executeScalar(depth);
 
         // Then
         assertThat(result).isEqualTo("4");
@@ -92,10 +94,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_withArray_shouldReturnElementCount() throws SQLException {
         // Given
-        NumberExpression<Integer> length = jsonLength(Expressions.constant("[1, 2, 3, 4, 5]"));
+        @NotNull NumberExpression<Integer> length = jsonLength(Expressions.constant("[1, 2, 3, 4, 5]"));
 
         // When
-        String result = executeScalar(length);
+        @Nullable String result = executeScalar(length);
 
         // Then
         assertThat(result).isEqualTo("5");
@@ -104,11 +106,11 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_withObject_shouldReturnKeyCount() throws SQLException {
         // Given
-        String doc = "{\"a\": 1, \"b\": 2, \"c\": 3}";
-        NumberExpression<Integer> length = jsonLength(Expressions.constant(doc));
+        @NotNull String doc = "{\"a\": 1, \"b\": 2, \"c\": 3}";
+        @NotNull NumberExpression<Integer> length = jsonLength(Expressions.constant(doc));
 
         // When
-        String result = executeScalar(length);
+        @Nullable String result = executeScalar(length);
 
         // Then
         assertThat(result).isEqualTo("3");
@@ -117,10 +119,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_withScalar_shouldReturnOne() throws SQLException {
         // Given
-        NumberExpression<Integer> length = jsonLength(Expressions.constant("42"));
+        @NotNull NumberExpression<Integer> length = jsonLength(Expressions.constant("42"));
 
         // When
-        String result = executeScalar(length);
+        @Nullable String result = executeScalar(length);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -129,11 +131,11 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_withPath_shouldReturnLengthAtPath() throws SQLException {
         // Given
-        String doc = "{\"tags\": [\"java\", \"kotlin\", \"scala\"]}";
-        NumberExpression<Integer> length = jsonLength(Expressions.constant(doc), "$.tags");
+        @NotNull String doc = "{\"tags\": [\"java\", \"kotlin\", \"scala\"]}";
+        @NotNull NumberExpression<Integer> length = jsonLength(Expressions.constant(doc), "$.tags");
 
         // When
-        String result = executeScalar(length);
+        @Nullable String result = executeScalar(length);
 
         // Then
         assertThat(result).isEqualTo("3");
@@ -142,10 +144,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonLength_withEmptyArray_shouldReturnZero() throws SQLException {
         // Given
-        NumberExpression<Integer> length = jsonLength(Expressions.constant("[]"));
+        @NotNull NumberExpression<Integer> length = jsonLength(Expressions.constant("[]"));
 
         // When
-        String result = executeScalar(length);
+        @Nullable String result = executeScalar(length);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -158,10 +160,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withArray_shouldReturnArray() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("[1, 2, 3]"));
+        @NotNull StringExpression type = jsonType(Expressions.constant("[1, 2, 3]"));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         assertThat(result).isEqualTo("ARRAY");
@@ -170,10 +172,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withObject_shouldReturnObject() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("{\"a\": 1}"));
+        @NotNull StringExpression type = jsonType(Expressions.constant("{\"a\": 1}"));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         assertThat(result).isEqualTo("OBJECT");
@@ -182,10 +184,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withString_shouldReturnString() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("\"hello\""));
+        @NotNull StringExpression type = jsonType(Expressions.constant("\"hello\""));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         assertThat(result).isEqualTo("STRING");
@@ -194,10 +196,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withInteger_shouldReturnInteger() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("123"));
+        @NotNull StringExpression type = jsonType(Expressions.constant("123"));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         assertThat(result).isEqualTo("INTEGER");
@@ -206,10 +208,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withDouble_shouldReturnDouble() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("3.14"));
+        @NotNull StringExpression type = jsonType(Expressions.constant("3.14"));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         assertThat(result).isEqualTo("DOUBLE");
@@ -218,10 +220,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withNull_shouldReturnNull() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("null"));
+        @NotNull StringExpression type = jsonType(Expressions.constant("null"));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         assertThat(result).isEqualTo("NULL");
@@ -230,10 +232,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonType_withBoolean_shouldReturnBoolean() throws SQLException {
         // Given
-        StringExpression type = jsonType(Expressions.constant("true"));
+        @NotNull StringExpression type = jsonType(Expressions.constant("true"));
 
         // When
-        String result = executeScalar(type);
+        @Nullable String result = executeScalar(type);
 
         // Then
         // MySQL 8.0.33 should support BOOLEAN type
@@ -247,10 +249,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValid_withValidObject_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression valid = jsonValid("{\"a\": 1, \"b\": 2}");
+        @NotNull BooleanExpression valid = jsonValid("{\"a\": 1, \"b\": 2}");
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -259,10 +261,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValid_withValidArray_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression valid = jsonValid("[1, 2, 3]");
+        @NotNull BooleanExpression valid = jsonValid("[1, 2, 3]");
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -271,10 +273,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValid_withValidString_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression valid = jsonValid("\"hello\"");
+        @NotNull BooleanExpression valid = jsonValid("\"hello\"");
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -283,10 +285,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValid_withInvalidJson_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression valid = jsonValid("{invalid}");
+        @NotNull BooleanExpression valid = jsonValid("{invalid}");
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -295,10 +297,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValid_withIncompleteJson_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression valid = jsonValid("{\"a\": ");
+        @NotNull BooleanExpression valid = jsonValid("{\"a\": ");
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -307,10 +309,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonValid_withPlainText_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression valid = jsonValid("plain text");
+        @NotNull BooleanExpression valid = jsonValid("plain text");
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -323,10 +325,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isEmpty_withEmptyArray_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression empty = isEmpty(Expressions.constant("[]"));
+        @NotNull BooleanExpression empty = isEmpty(Expressions.constant("[]"));
 
         // When
-        String result = executeScalar(empty);
+        @Nullable String result = executeScalar(empty);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -335,10 +337,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isEmpty_withEmptyObject_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression empty = isEmpty(Expressions.constant("{}"));
+        @NotNull BooleanExpression empty = isEmpty(Expressions.constant("{}"));
 
         // When
-        String result = executeScalar(empty);
+        @Nullable String result = executeScalar(empty);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -347,10 +349,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isEmpty_withNonEmptyArray_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression empty = isEmpty(Expressions.constant("[1, 2]"));
+        @NotNull BooleanExpression empty = isEmpty(Expressions.constant("[1, 2]"));
 
         // When
-        String result = executeScalar(empty);
+        @Nullable String result = executeScalar(empty);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -359,10 +361,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isNotEmpty_withNonEmptyObject_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression notEmpty = isNotEmpty(Expressions.constant("{\"a\": 1}"));
+        @NotNull BooleanExpression notEmpty = isNotEmpty(Expressions.constant("{\"a\": 1}"));
 
         // When
-        String result = executeScalar(notEmpty);
+        @Nullable String result = executeScalar(notEmpty);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -371,10 +373,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isArray_withArray_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression arrayCheck = isArray(Expressions.constant("[1, 2, 3]"));
+        @NotNull BooleanExpression arrayCheck = isArray(Expressions.constant("[1, 2, 3]"));
 
         // When
-        String result = executeScalar(arrayCheck);
+        @Nullable String result = executeScalar(arrayCheck);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -383,10 +385,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isArray_withObject_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression arrayCheck = isArray(Expressions.constant("{\"a\": 1}"));
+        @NotNull BooleanExpression arrayCheck = isArray(Expressions.constant("{\"a\": 1}"));
 
         // When
-        String result = executeScalar(arrayCheck);
+        @Nullable String result = executeScalar(arrayCheck);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -395,10 +397,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isObject_withObject_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression objectCheck = isObject(Expressions.constant("{\"a\": 1}"));
+        @NotNull BooleanExpression objectCheck = isObject(Expressions.constant("{\"a\": 1}"));
 
         // When
-        String result = executeScalar(objectCheck);
+        @Nullable String result = executeScalar(objectCheck);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -407,10 +409,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isObject_withArray_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression objectCheck = isObject(Expressions.constant("[1, 2]"));
+        @NotNull BooleanExpression objectCheck = isObject(Expressions.constant("[1, 2]"));
 
         // When
-        String result = executeScalar(objectCheck);
+        @Nullable String result = executeScalar(objectCheck);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -419,10 +421,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isScalar_withString_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression scalarCheck = isScalar(Expressions.constant("\"hello\""));
+        @NotNull BooleanExpression scalarCheck = isScalar(Expressions.constant("\"hello\""));
 
         // When
-        String result = executeScalar(scalarCheck);
+        @Nullable String result = executeScalar(scalarCheck);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -431,10 +433,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isScalar_withNumber_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression scalarCheck = isScalar(Expressions.constant("42"));
+        @NotNull BooleanExpression scalarCheck = isScalar(Expressions.constant("42"));
 
         // When
-        String result = executeScalar(scalarCheck);
+        @Nullable String result = executeScalar(scalarCheck);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -443,10 +445,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isScalar_withArray_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression scalarCheck = isScalar(Expressions.constant("[1, 2]"));
+        @NotNull BooleanExpression scalarCheck = isScalar(Expressions.constant("[1, 2]"));
 
         // When
-        String result = executeScalar(scalarCheck);
+        @Nullable String result = executeScalar(scalarCheck);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -455,10 +457,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isNull_withJsonNull_shouldReturnTrue() throws SQLException {
         // Given
-        BooleanExpression nullCheck = isNull(Expressions.constant("null"));
+        @NotNull BooleanExpression nullCheck = isNull(Expressions.constant("null"));
 
         // When
-        String result = executeScalar(nullCheck);
+        @Nullable String result = executeScalar(nullCheck);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -467,10 +469,10 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isNull_withNonNull_shouldReturnFalse() throws SQLException {
         // Given
-        BooleanExpression nullCheck = isNull(Expressions.constant("42"));
+        @NotNull BooleanExpression nullCheck = isNull(Expressions.constant("42"));
 
         // When
-        String result = executeScalar(nullCheck);
+        @Nullable String result = executeScalar(nullCheck);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -487,7 +489,7 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
                 + "('John', 'john@test.com', '{\"profile\": {\"address\": {\"city\": \"Seoul\"}}}')");
 
         // When
-        String depth = executeScalar("SELECT JSON_DEPTH(metadata) FROM users WHERE name = 'John'");
+        @Nullable String depth = executeScalar("SELECT JSON_DEPTH(metadata) FROM users WHERE name = 'John'");
 
         // Then
         assertThat(depth).isEqualTo("4");
@@ -500,7 +502,7 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Product', 100.00, '[\"tag1\", \"tag2\", \"tag3\", \"tag4\"]')");
 
         // When
-        String length = executeScalar("SELECT JSON_LENGTH(tags) FROM products WHERE name = 'Product'");
+        @Nullable String length = executeScalar("SELECT JSON_LENGTH(tags) FROM products WHERE name = 'Product'");
 
         // Then
         assertThat(length).isEqualTo("4");
@@ -513,9 +515,9 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Alice', 'alice@test.com', '{\"theme\": \"dark\", \"count\": 5}')");
 
         // When
-        String themeType = executeScalar(
+        @Nullable String themeType = executeScalar(
                 "SELECT JSON_TYPE(JSON_EXTRACT(settings, '$.theme')) FROM users WHERE name = 'Alice'");
-        String countType = executeScalar(
+        @Nullable String countType = executeScalar(
                 "SELECT JSON_TYPE(JSON_EXTRACT(settings, '$.count')) FROM users WHERE name = 'Alice'");
 
         // Then
@@ -530,8 +532,8 @@ class JsonAttributeFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Product2', 200.00, '[\"tag1\"]'), " + "('Product3', 300.00, '[\"tag1\", \"tag2\"]')");
 
         // When - Find products with empty tags
-        String emptyCount = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_LENGTH(tags) = 0");
-        String nonEmptyCount = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_LENGTH(tags) > 0");
+        @Nullable String emptyCount = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_LENGTH(tags) = 0");
+        @Nullable String nonEmptyCount = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_LENGTH(tags) > 0");
 
         // Then
         assertThat(emptyCount).isEqualTo("1");

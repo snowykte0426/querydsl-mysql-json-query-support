@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -42,7 +43,7 @@ class SpringDataJPAIntegrationTest {
 
     @BeforeAll
     static void setupEntityManagerFactory() {
-        Map<String, Object> properties = new HashMap<>();
+        @NotNull Map<String, Object> properties = new HashMap<>();
         properties.put("jakarta.persistence.jdbc.url", mysql.getJdbcUrl());
         properties.put("jakarta.persistence.jdbc.user", mysql.getUsername());
         properties.put("jakarta.persistence.jdbc.password", mysql.getPassword());
@@ -87,7 +88,7 @@ class SpringDataJPAIntegrationTest {
         entityManager.createNativeQuery("DELETE FROM users").executeUpdate();
 
         // Admin user with full metadata
-        User admin = new User();
+        @NotNull User admin = new User();
         admin.setName("Admin User");
         admin.setEmail("admin@example.com");
         admin.setMetadata("{\"role\": \"admin\", \"level\": 10, \"permissions\": [\"read\", \"write\", \"delete\"]}");
@@ -96,7 +97,7 @@ class SpringDataJPAIntegrationTest {
         entityManager.persist(admin);
 
         // Regular user
-        User regular = new User();
+        @NotNull User regular = new User();
         regular.setName("Regular User");
         regular.setEmail("user@example.com");
         regular.setMetadata("{\"role\": \"user\", \"level\": 1, \"permissions\": [\"read\"]}");
@@ -105,7 +106,7 @@ class SpringDataJPAIntegrationTest {
         entityManager.persist(regular);
 
         // Guest user with minimal metadata
-        User guest = new User();
+        @NotNull User guest = new User();
         guest.setName("Guest User");
         guest.setEmail("guest@example.com");
         guest.setMetadata("{\"role\": \"guest\"}");
@@ -469,7 +470,7 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should validate JSON against schema")
         void validateJsonAgainstSchema() {
-            String schema = "'{\"type\": \"object\", \"properties\": {\"role\": {\"type\": \"string\"}}}'";
+            @NotNull String schema = "'{\"type\": \"object\", \"properties\": {\"role\": {\"type\": \"string\"}}}'";
             Object result = entityManager.createNativeQuery(
                     "SELECT JSON_SCHEMA_VALID(" + schema + ", metadata) FROM users WHERE email = 'admin@example.com'")
                     .getSingleResult();
@@ -480,7 +481,7 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should get validation report")
         void getValidationReport() {
-            String schema = "'{\"type\": \"object\"}'";
+            @NotNull String schema = "'{\"type\": \"object\"}'";
             String result = (String) entityManager.createNativeQuery("SELECT JSON_SCHEMA_VALIDATION_REPORT(" + schema
                     + ", metadata) FROM users WHERE email = 'admin@example.com'").getSingleResult();
 
@@ -496,92 +497,92 @@ class SpringDataJPAIntegrationTest {
         @Test
         @DisplayName("should create JSON array expression")
         void createJsonArrayExpression() {
-            var expr = JPAJsonFunctions.jsonArray(1, 2, 3);
+            @NotNull var expr = JPAJsonFunctions.jsonArray(1, 2, 3);
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON object expression")
         void createJsonObjectExpression() {
-            var expr = JPAJsonFunctions.jsonObject("key", "value");
+            @NotNull var expr = JPAJsonFunctions.jsonObject("key", "value");
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON quote expression")
         void createJsonQuoteExpression() {
-            var expr = JPAJsonFunctions.jsonQuote("test string");
+            @NotNull var expr = JPAJsonFunctions.jsonQuote("test string");
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON extract expression")
         void createJsonExtractExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonExtract(path, "$.role");
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonExtract(path, "$.role");
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON contains expression")
         void createJsonContainsExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonContains(path, "\"admin\"");
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonContains(path, "\"admin\"");
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON depth expression")
         void createJsonDepthExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonDepth(path);
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonDepth(path);
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON length expression")
         void createJsonLengthExpression() {
-            StringPath path = Expressions.stringPath("roles");
-            var expr = JPAJsonFunctions.jsonLength(path);
+            @NotNull StringPath path = Expressions.stringPath("roles");
+            @NotNull var expr = JPAJsonFunctions.jsonLength(path);
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON type expression")
         void createJsonTypeExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonType(path);
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonType(path);
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON valid expression")
         void createJsonValidExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonValid(path);
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonValid(path);
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON set expression")
         void createJsonSetExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonSet(path, "$.newKey", "newValue");
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonSet(path, "$.newKey", "newValue");
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON remove expression")
         void createJsonRemoveExpression() {
-            StringPath path = Expressions.stringPath("metadata");
-            var expr = JPAJsonFunctions.jsonRemove(path, "$.key");
+            @NotNull StringPath path = Expressions.stringPath("metadata");
+            @NotNull var expr = JPAJsonFunctions.jsonRemove(path, "$.key");
             assertThat(expr).isNotNull();
         }
 
         @Test
         @DisplayName("should create JSON table builder")
         void createJsonTableBuilder() {
-            var builder = JPAJsonFunctions.jsonTable();
+            @NotNull var builder = JPAJsonFunctions.jsonTable();
             assertThat(builder).isNotNull();
         }
     }

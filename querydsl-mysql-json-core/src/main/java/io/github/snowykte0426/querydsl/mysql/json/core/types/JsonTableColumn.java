@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.types;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -22,7 +23,7 @@ public class JsonTableColumn {
     private final String onEmpty;
     private final String onError;
 
-    private JsonTableColumn(Builder builder) {
+    private JsonTableColumn(@NotNull Builder builder) {
         this.columnName = builder.columnName;
         this.sqlType = builder.sqlType;
         this.jsonPath = builder.jsonPath;
@@ -76,7 +77,7 @@ public class JsonTableColumn {
      *
      * @return new builder instance
      */
-    public static Builder builder() {
+    public static @NotNull Builder builder() {
         return new Builder();
     }
 
@@ -85,7 +86,7 @@ public class JsonTableColumn {
      *
      * @return SQL fragment for this column
      */
-    public String toSql() {
+    public @NotNull String toSql() {
         if (ordinality) {
             return columnName + " FOR ORDINALITY";
         }
@@ -94,7 +95,7 @@ public class JsonTableColumn {
             return columnName + " " + (sqlType != null ? sqlType : "INT") + " EXISTS PATH " + quoteIfNeeded(jsonPath);
         }
 
-        StringBuilder sql = new StringBuilder();
+        @NotNull StringBuilder sql = new StringBuilder();
         sql.append(columnName);
 
         if (sqlType != null) {
@@ -114,7 +115,7 @@ public class JsonTableColumn {
         return sql.toString();
     }
 
-    private String quoteIfNeeded(String path) {
+    private @NotNull String quoteIfNeeded(@Nullable String path) {
         if (path == null) {
             return "NULL";
         }
@@ -153,8 +154,8 @@ public class JsonTableColumn {
         private String jsonPath;
         private boolean exists = false;
         private boolean ordinality = false;
-        private String onEmpty;
-        private String onError;
+        private @Nullable String onEmpty;
+        private @Nullable String onError;
 
         /**
          * Sets the column name.
@@ -163,7 +164,7 @@ public class JsonTableColumn {
          *            the column name
          * @return this builder
          */
-        public Builder columnName(String columnName) {
+        public @NotNull Builder columnName(String columnName) {
             this.columnName = columnName;
             return this;
         }
@@ -175,7 +176,7 @@ public class JsonTableColumn {
          *            the SQL type (e.g., "INT", "VARCHAR(100)", "JSON")
          * @return this builder
          */
-        public Builder sqlType(String sqlType) {
+        public @NotNull Builder sqlType(String sqlType) {
             this.sqlType = sqlType;
             return this;
         }
@@ -187,7 +188,7 @@ public class JsonTableColumn {
          *            the JSON path
          * @return this builder
          */
-        public Builder jsonPath(String jsonPath) {
+        public @NotNull Builder jsonPath(String jsonPath) {
             this.jsonPath = jsonPath;
             return this;
         }
@@ -199,7 +200,7 @@ public class JsonTableColumn {
          *            true for EXISTS column
          * @return this builder
          */
-        public Builder exists(boolean exists) {
+        public @NotNull Builder exists(boolean exists) {
             this.exists = exists;
             return this;
         }
@@ -211,7 +212,7 @@ public class JsonTableColumn {
          *            true for ORDINALITY column
          * @return this builder
          */
-        public Builder ordinality(boolean ordinality) {
+        public @NotNull Builder ordinality(boolean ordinality) {
             this.ordinality = ordinality;
             return this;
         }
@@ -223,7 +224,7 @@ public class JsonTableColumn {
          *            default value (e.g., "DEFAULT 0", "NULL", "ERROR")
          * @return this builder
          */
-        public Builder onEmpty(@Nullable String onEmpty) {
+        public @NotNull Builder onEmpty(@Nullable String onEmpty) {
             this.onEmpty = onEmpty;
             return this;
         }
@@ -235,7 +236,7 @@ public class JsonTableColumn {
          *            default value (e.g., "DEFAULT 0", "NULL", "ERROR")
          * @return this builder
          */
-        public Builder onError(@Nullable String onError) {
+        public @NotNull Builder onError(@Nullable String onError) {
             this.onError = onError;
             return this;
         }
@@ -245,7 +246,7 @@ public class JsonTableColumn {
          *
          * @return JsonTableColumn instance
          */
-        public JsonTableColumn build() {
+        public @NotNull JsonTableColumn build() {
             if (columnName == null) {
                 throw new IllegalStateException("columnName is required");
             }

@@ -1,6 +1,8 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa.entity;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 
 /**
@@ -114,7 +116,7 @@ public class Product {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "Product{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + ", category='" + category
                 + '\'' + '}';
     }

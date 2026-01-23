@@ -5,6 +5,7 @@ import com.querydsl.core.types.Visitor;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleExpression;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serial;
@@ -38,7 +39,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final JsonPath path;
+    private final @NotNull JsonPath path;
 
     /**
      * Constructs a JsonPathExpression from a JsonPath.
@@ -46,7 +47,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      * @param path
      *            the JSON path
      */
-    private JsonPathExpression(JsonPath path) {
+    private JsonPathExpression(@NotNull JsonPath path) {
         super(Expressions.constant(path.getPath()));
         this.path = Objects.requireNonNull(path, "path must not be null");
     }
@@ -58,7 +59,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *            the JSON path
      * @return JsonPathExpression instance
      */
-    public static JsonPathExpression of(JsonPath path) {
+    public static @NotNull JsonPathExpression of(@NotNull JsonPath path) {
         return new JsonPathExpression(path);
     }
 
@@ -69,7 +70,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *            the JSON path string (e.g., "$.user.name")
      * @return JsonPathExpression instance
      */
-    public static JsonPathExpression of(String path) {
+    public static @NotNull JsonPathExpression of(String path) {
         return new JsonPathExpression(JsonPath.of(path));
     }
 
@@ -98,7 +99,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *            the member key
      * @return new JsonPathExpression with appended member
      */
-    public JsonPathExpression member(String key) {
+    public @NotNull JsonPathExpression member(String key) {
         return new JsonPathExpression(JsonPath.member(key));
     }
 
@@ -109,7 +110,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *            the array index
      * @return new JsonPathExpression with appended array access
      */
-    public JsonPathExpression arrayElement(int index) {
+    public @NotNull JsonPathExpression arrayElement(int index) {
         return new JsonPathExpression(JsonPath.arrayElement(index));
     }
 
@@ -118,7 +119,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *
      * @return new JsonPathExpression with wildcard
      */
-    public JsonPathExpression wildcard() {
+    public @NotNull JsonPathExpression wildcard() {
         return new JsonPathExpression(path.wildcard());
     }
 
@@ -129,26 +130,26 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *            the member key to search recursively
      * @return new JsonPathExpression with recursive descent
      */
-    public JsonPathExpression recursiveDescent(String key) {
+    public @NotNull JsonPathExpression recursiveDescent(String key) {
         return new JsonPathExpression(path.recursiveDescent(key));
     }
 
     @Override
     @Nullable
-    public <R, C> R accept(Visitor<R, C> v, @Nullable C context) {
+    public <R, C> R accept(@NotNull Visitor<R, C> v, @Nullable C context) {
         // Render as string constant
         return v.visit(ConstantImpl.create(path.getPath()), context);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
         if (!super.equals(o))
             return false;
-        JsonPathExpression that = (JsonPathExpression) o;
+        @NotNull JsonPathExpression that = (JsonPathExpression) o;
         return path.equals(that.path);
     }
 

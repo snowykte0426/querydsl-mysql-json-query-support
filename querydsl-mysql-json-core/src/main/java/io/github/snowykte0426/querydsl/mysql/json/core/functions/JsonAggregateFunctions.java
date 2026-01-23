@@ -4,6 +4,7 @@ import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonArrayExpr
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonObjectExpression;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory class for MySQL JSON aggregate functions.
@@ -78,7 +79,7 @@ public final class JsonAggregateFunctions {
      *            the expression to aggregate
      * @return JSON array expression containing aggregated values
      */
-    public static JsonArrayExpression jsonArrayAgg(Expression<?> value) {
+    public static @NotNull JsonArrayExpression jsonArrayAgg(Expression<?> value) {
         return JsonArrayExpression.wrap(Expressions.stringTemplate("json_arrayagg({0})", value));
     }
 
@@ -98,7 +99,7 @@ public final class JsonAggregateFunctions {
      *            the expression to aggregate
      * @return JSON array expression
      */
-    public static JsonArrayExpression jsonArrayAggDistinct(Expression<?> value) {
+    public static @NotNull JsonArrayExpression jsonArrayAggDistinct(Expression<?> value) {
         // MySQL doesn't support DISTINCT in JSON_ARRAYAGG directly
         // This is a placeholder - users should use DISTINCT in the subquery
         return jsonArrayAgg(value);
@@ -153,7 +154,7 @@ public final class JsonAggregateFunctions {
      *            the expression for object values
      * @return JSON object expression containing aggregated key-value pairs
      */
-    public static JsonObjectExpression jsonObjectAgg(Expression<?> key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression jsonObjectAgg(Expression<?> key, Expression<?> value) {
         return JsonObjectExpression.wrap(Expressions.stringTemplate("json_objectagg({0}, {1})", key, value));
     }
 
@@ -166,7 +167,7 @@ public final class JsonAggregateFunctions {
      *            the value expression
      * @return JSON object expression
      */
-    public static JsonObjectExpression jsonObjectAgg(String key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression jsonObjectAgg(@NotNull String key, Expression<?> value) {
         return JsonObjectExpression
                 .wrap(Expressions.stringTemplate("json_objectagg({0}, {1})", Expressions.constant(key), value));
     }
@@ -183,7 +184,7 @@ public final class JsonAggregateFunctions {
      *            the expression to aggregate
      * @return JSON array expression
      */
-    public static JsonArrayExpression arrayAgg(Expression<?> value) {
+    public static @NotNull JsonArrayExpression arrayAgg(Expression<?> value) {
         return jsonArrayAgg(value);
     }
 
@@ -197,7 +198,7 @@ public final class JsonAggregateFunctions {
      *            the value expression
      * @return JSON object expression
      */
-    public static JsonObjectExpression objectAgg(Expression<?> key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression objectAgg(Expression<?> key, Expression<?> value) {
         return jsonObjectAgg(key, value);
     }
 
@@ -226,7 +227,7 @@ public final class JsonAggregateFunctions {
      *            the JSON object expression to aggregate
      * @return JSON array of objects
      */
-    public static JsonArrayExpression aggregateObjects(Expression<?> objectExpression) {
+    public static @NotNull JsonArrayExpression aggregateObjects(Expression<?> objectExpression) {
         return jsonArrayAgg(objectExpression);
     }
 
@@ -251,7 +252,7 @@ public final class JsonAggregateFunctions {
      *            the value to aggregate into array
      * @return JSON array expression for use in outer JSON_OBJECTAGG
      */
-    public static JsonArrayExpression groupIntoArray(Expression<?> value) {
+    public static @NotNull JsonArrayExpression groupIntoArray(Expression<?> value) {
         return jsonArrayAgg(value);
     }
 }

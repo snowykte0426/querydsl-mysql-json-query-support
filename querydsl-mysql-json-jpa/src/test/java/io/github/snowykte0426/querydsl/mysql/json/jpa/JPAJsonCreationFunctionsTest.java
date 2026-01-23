@@ -3,6 +3,8 @@ package io.github.snowykte0426.querydsl.mysql.json.jpa;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonArrayExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonObjectExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonValueExpression;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,11 +37,11 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should create JSON array from values")
         void createArrayFromValues() {
             // Given
-            JsonArrayExpression arr = JPAJsonFunctions.jsonArray("a", "b", "c");
+            @NotNull JsonArrayExpression arr = JPAJsonFunctions.jsonArray("a", "b", "c");
 
             // When - execute as native query to verify SQL generation
-            String sql = "SELECT JSON_ARRAY('a', 'b', 'c')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_ARRAY('a', 'b', 'c')";
+            @Nullable String result = executeNativeQuery(sql);
 
             // Then
             assertThat(result).isEqualTo("[\"a\", \"b\", \"c\"]");
@@ -48,8 +50,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON array from numbers")
         void createArrayFromNumbers() {
-            String sql = "SELECT JSON_ARRAY(1, 2, 3)";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_ARRAY(1, 2, 3)";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, 2, 3]");
         }
@@ -57,8 +59,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON array from mixed types")
         void createArrayFromMixedTypes() {
-            String sql = "SELECT JSON_ARRAY('hello', 123, true, null)";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_ARRAY('hello', 123, true, null)";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[\"hello\", 123, true, null]");
         }
@@ -66,10 +68,10 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create empty JSON array")
         void createEmptyArray() {
-            JsonArrayExpression arr = JPAJsonFunctions.emptyJsonArray();
+            @NotNull JsonArrayExpression arr = JPAJsonFunctions.emptyJsonArray();
 
-            String sql = "SELECT JSON_ARRAY()";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_ARRAY()";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[]");
         }
@@ -77,8 +79,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create nested JSON array")
         void createNestedArray() {
-            String sql = "SELECT JSON_ARRAY(1, JSON_ARRAY(2, 3), 4)";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_ARRAY(1, JSON_ARRAY(2, 3), 4)";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[1, [2, 3], 4]");
         }
@@ -86,7 +88,7 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON array from collection")
         void createArrayFromCollection() {
-            JsonArrayExpression arr = JPAJsonFunctions.jsonArrayFrom(Arrays.asList("x", "y", "z"));
+            @NotNull JsonArrayExpression arr = JPAJsonFunctions.jsonArrayFrom(Arrays.asList("x", "y", "z"));
             assertThat(arr).isNotNull();
         }
     }
@@ -98,8 +100,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON object from key-value pairs")
         void createObjectFromKeyValues() {
-            String sql = "SELECT JSON_OBJECT('name', 'John', 'age', 30)";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_OBJECT('name', 'John', 'age', 30)";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"name\"");
             assertThat(result).contains("\"John\"");
@@ -110,10 +112,10 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create empty JSON object")
         void createEmptyObject() {
-            JsonObjectExpression obj = JPAJsonFunctions.emptyJsonObject();
+            @NotNull JsonObjectExpression obj = JPAJsonFunctions.emptyJsonObject();
 
-            String sql = "SELECT JSON_OBJECT()";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_OBJECT()";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("{}");
         }
@@ -121,8 +123,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON object with nested array")
         void createObjectWithNestedArray() {
-            String sql = "SELECT JSON_OBJECT('items', JSON_ARRAY(1, 2, 3))";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_OBJECT('items', JSON_ARRAY(1, 2, 3))";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"items\"");
             assertThat(result).contains("[1, 2, 3]");
@@ -131,8 +133,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON object with nested object")
         void createObjectWithNestedObject() {
-            String sql = "SELECT JSON_OBJECT('user', JSON_OBJECT('id', 1, 'name', 'John'))";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_OBJECT('user', JSON_OBJECT('id', 1, 'name', 'John'))";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"user\"");
             assertThat(result).contains("\"id\"");
@@ -142,18 +144,18 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON object from Map")
         void createObjectFromMap() {
-            Map<String, Object> map = new HashMap<>();
+            @NotNull Map<String, Object> map = new HashMap<>();
             map.put("key1", "value1");
             map.put("key2", 42);
 
-            JsonObjectExpression obj = JPAJsonFunctions.jsonObjectFrom(map);
+            @NotNull JsonObjectExpression obj = JPAJsonFunctions.jsonObjectFrom(map);
             assertThat(obj).isNotNull();
         }
 
         @Test
         @DisplayName("should use JsonObjectBuilder")
         void useJsonObjectBuilder() {
-            JsonObjectExpression.JsonObjectBuilder builder = JPAJsonFunctions.jsonObjectBuilder();
+            JsonObjectExpression.@NotNull JsonObjectBuilder builder = JPAJsonFunctions.jsonObjectBuilder();
             assertThat(builder).isNotNull();
         }
     }
@@ -165,8 +167,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should quote simple string")
         void quoteSimpleString() {
-            String sql = "SELECT JSON_QUOTE('hello')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_QUOTE('hello')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("\"hello\"");
         }
@@ -174,8 +176,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should quote string with special characters")
         void quoteStringWithSpecialChars() {
-            String sql = "SELECT JSON_QUOTE('hello\\nworld')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_QUOTE('hello\\nworld')";
+            @Nullable String result = executeNativeQuery(sql);
 
             // Result should be properly escaped
             assertThat(result).startsWith("\"");
@@ -185,8 +187,8 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should quote string with quotes inside")
         void quoteStringWithQuotes() {
-            String sql = "SELECT JSON_QUOTE('say \"hello\"')";
-            String result = executeNativeQuery(sql);
+            @NotNull String sql = "SELECT JSON_QUOTE('say \"hello\"')";
+            @Nullable String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\\\"hello\\\"");
         }
@@ -194,7 +196,7 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should handle null properly")
         void quoteNull() {
-            String sql = "SELECT JSON_QUOTE(NULL)";
+            @NotNull String sql = "SELECT JSON_QUOTE(NULL)";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -203,7 +205,7 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("JPAJsonFunctions.jsonQuote should create expression")
         void createJsonQuoteExpression() {
-            JsonValueExpression quoted = JPAJsonFunctions.jsonQuote("test");
+            @NotNull JsonValueExpression quoted = JPAJsonFunctions.jsonQuote("test");
             assertThat(quoted).isNotNull();
         }
     }
@@ -215,7 +217,7 @@ class JPAJsonCreationFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create JSON null expression")
         void createJsonNull() {
-            String sql = "SELECT CAST(NULL AS JSON)";
+            @NotNull String sql = "SELECT CAST(NULL AS JSON)";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();

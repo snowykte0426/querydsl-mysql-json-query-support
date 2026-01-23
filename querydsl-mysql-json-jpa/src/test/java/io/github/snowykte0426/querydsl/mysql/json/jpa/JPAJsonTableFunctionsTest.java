@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -53,7 +54,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract items from JSON array")
         void extractItemsFromJsonArray() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT jt.*
                     FROM orders,
                     JSON_TABLE(order_data, '$.items[*]'
@@ -82,7 +83,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should use ordinality column")
         void useOrdinalityColumn() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT jt.*
                     FROM orders,
                     JSON_TABLE(order_data, '$.items[*]'
@@ -108,7 +109,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should handle NULL on empty")
         void handleNullOnEmpty() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT jt.shipping_notes
                     FROM orders,
                     JSON_TABLE(order_data, '$'
@@ -132,7 +133,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
             // treated as JSON?
             // Actually, for VARCHAR column, a simple string literal should work, but let's
             // try quoting it as JSON string '"NONE"'
-            String sql = """
+            @NotNull String sql = """
                     SELECT jt.shipping_notes
                     FROM orders,
                     JSON_TABLE(order_data, '$'
@@ -157,7 +158,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should join with order details")
         void joinWithOrderDetails() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT o.order_number, jt.item_name, jt.quantity
                     FROM orders o,
                     JSON_TABLE(o.order_data, '$.items[*]'
@@ -180,7 +181,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should filter items by quantity")
         void filterItemsByQuantity() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT o.order_number, jt.item_name, jt.quantity
                     FROM orders o,
                     JSON_TABLE(o.order_data, '$.items[*]'
@@ -201,7 +202,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate from JSON_TABLE")
         void aggregateFromJsonTable() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT o.order_number, SUM(jt.quantity * jt.price) as total
                     FROM orders o,
                     JSON_TABLE(o.order_data, '$.items[*]'
@@ -231,7 +232,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should extract nested object properties")
         void extractNestedObjectProperties() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT jt.*
                     FROM orders,
                     JSON_TABLE(shipping_info, '$'
@@ -254,7 +255,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         void handleNullShippingInfo() {
             // When shipping_info is null, JSON_TABLE returns no rows
             // Use COALESCE to handle this case
-            String sql = """
+            @NotNull String sql = """
                     SELECT o.shipping_info
                     FROM orders o
                     WHERE o.order_number = 'ORD-003'
@@ -274,7 +275,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should check path existence")
         void checkPathExistence() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT o.order_number, jt.has_shipping
                     FROM orders o,
                     JSON_TABLE(o.order_data, '$'
@@ -297,7 +298,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return 0 for non-existent path")
         void return0ForNonExistentPath() {
-            String sql = """
+            @NotNull String sql = """
                     SELECT jt.has_discount
                     FROM orders o,
                     JSON_TABLE(o.order_data, '$'
@@ -322,7 +323,7 @@ class JPAJsonTableFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should build JSON_TABLE with JPAJsonFunctions")
         void buildJsonTableWithJPAJsonFunctions() {
             // Test that JPAJsonFunctions provides JSON_TABLE builder
-            var builder = JPAJsonFunctions.jsonTable();
+            @NotNull var builder = JPAJsonFunctions.jsonTable();
             assertThat(builder).isNotNull();
         }
 

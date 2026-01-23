@@ -3,6 +3,7 @@ package io.github.snowykte0426.querydsl.mysql.json.core.functions;
 import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonTableExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.types.JsonTableColumn;
 import com.querydsl.core.types.Expression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory class for MySQL JSON_TABLE function.
@@ -71,7 +72,7 @@ public final class JsonTableFunctions {
      *
      * @return JSON_TABLE expression builder
      */
-    public static JsonTableExpression.Builder jsonTable() {
+    public static JsonTableExpression.@NotNull Builder jsonTable() {
         return JsonTableExpression.builder();
     }
 
@@ -185,7 +186,7 @@ public final class JsonTableFunctions {
      *
      * @return column builder
      */
-    public static JsonTableColumn.Builder columnBuilder() {
+    public static JsonTableColumn.@NotNull Builder columnBuilder() {
         return JsonTableColumn.builder();
     }
 

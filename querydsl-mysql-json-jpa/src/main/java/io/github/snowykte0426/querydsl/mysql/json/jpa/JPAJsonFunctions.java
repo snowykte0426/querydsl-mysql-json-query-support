@@ -11,6 +11,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import io.github.snowykte0426.querydsl.mysql.json.core.types.JsonTableColumn;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -80,7 +81,7 @@ public final class JPAJsonFunctions {
      *            the array values
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression jsonArray(Object... values) {
+    public static @NotNull JsonArrayExpression jsonArray(Object... values) {
         return JsonCreationFunctions.jsonArray(values);
     }
 
@@ -91,7 +92,7 @@ public final class JPAJsonFunctions {
      *            the value expressions
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression jsonArray(Expression<?>... expressions) {
+    public static @NotNull JsonArrayExpression jsonArray(Expression<?>... expressions) {
         return JsonCreationFunctions.jsonArray(expressions);
     }
 
@@ -100,7 +101,7 @@ public final class JPAJsonFunctions {
      *
      * @return empty JsonArrayExpression
      */
-    public static JsonArrayExpression emptyJsonArray() {
+    public static @NotNull JsonArrayExpression emptyJsonArray() {
         return JsonCreationFunctions.emptyJsonArray();
     }
 
@@ -114,7 +115,7 @@ public final class JPAJsonFunctions {
      *            alternating keys and values
      * @return JsonObjectExpression
      */
-    public static JsonObjectExpression jsonObject(Object... keyValuePairs) {
+    public static @NotNull JsonObjectExpression jsonObject(Object... keyValuePairs) {
         return JsonCreationFunctions.jsonObject(keyValuePairs);
     }
 
@@ -123,7 +124,7 @@ public final class JPAJsonFunctions {
      *
      * @return empty JsonObjectExpression
      */
-    public static JsonObjectExpression emptyJsonObject() {
+    public static @NotNull JsonObjectExpression emptyJsonObject() {
         return JsonCreationFunctions.emptyJsonObject();
     }
 
@@ -132,7 +133,7 @@ public final class JPAJsonFunctions {
      *
      * @return JsonObjectBuilder
      */
-    public static JsonObjectExpression.JsonObjectBuilder jsonObjectBuilder() {
+    public static JsonObjectExpression.@NotNull JsonObjectBuilder jsonObjectBuilder() {
         return JsonCreationFunctions.jsonObjectBuilder();
     }
 
@@ -146,7 +147,7 @@ public final class JPAJsonFunctions {
      *            the string to quote
      * @return JsonValueExpression
      */
-    public static JsonValueExpression jsonQuote(String value) {
+    public static @NotNull JsonValueExpression jsonQuote(@NotNull String value) {
         return JsonCreationFunctions.jsonQuote(value);
     }
 
@@ -157,7 +158,7 @@ public final class JPAJsonFunctions {
      *            the expression to quote
      * @return JsonValueExpression
      */
-    public static JsonValueExpression jsonQuote(Expression<String> expression) {
+    public static @NotNull JsonValueExpression jsonQuote(@NotNull Expression<String> expression) {
         return JsonCreationFunctions.jsonQuote(expression);
     }
 
@@ -168,7 +169,7 @@ public final class JPAJsonFunctions {
      *            the collection to convert
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression jsonArrayFrom(Iterable<?> collection) {
+    public static @NotNull JsonArrayExpression jsonArrayFrom(@NotNull Iterable<?> collection) {
         return JsonCreationFunctions.jsonArrayFrom(collection);
     }
 
@@ -179,7 +180,7 @@ public final class JPAJsonFunctions {
      *            the map to convert
      * @return JsonObjectExpression
      */
-    public static JsonObjectExpression jsonObjectFrom(Map<String, ?> map) {
+    public static @NotNull JsonObjectExpression jsonObjectFrom(@NotNull Map<String, ?> map) {
         return JsonCreationFunctions.jsonObjectFrom(map);
     }
 
@@ -188,7 +189,7 @@ public final class JPAJsonFunctions {
      *
      * @return Expression representing JSON null
      */
-    public static StringExpression jsonNull() {
+    public static @NotNull StringExpression jsonNull() {
         return JsonCreationFunctions.jsonNull();
     }
 
@@ -208,7 +209,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return extracted JSON expression
      */
-    public static JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String path) {
+    public static @NotNull JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String path) {
         return JsonSearchFunctions.jsonExtract(jsonDoc, path);
     }
 
@@ -221,7 +222,7 @@ public final class JPAJsonFunctions {
      *            the JSON paths
      * @return extracted JSON expression
      */
-    public static JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String... paths) {
+    public static @NotNull JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String... paths) {
         return JsonSearchFunctions.jsonExtract(jsonDoc, paths);
     }
 
@@ -237,7 +238,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return unquoted string expression
      */
-    public static StringExpression jsonUnquoteExtract(Expression<?> jsonDoc, String path) {
+    public static @NotNull StringExpression jsonUnquoteExtract(Expression<?> jsonDoc, String path) {
         return JsonSearchFunctions.jsonUnquoteExtract(jsonDoc, path);
     }
 
@@ -253,7 +254,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return scalar value expression
      */
-    public static JsonValueExpression jsonValue(Expression<?> jsonDoc, String path) {
+    public static @NotNull JsonValueExpression jsonValue(Expression<?> jsonDoc, String path) {
         return JsonSearchFunctions.jsonValue(jsonDoc, path);
     }
 
@@ -269,7 +270,7 @@ public final class JPAJsonFunctions {
      *            the value to search for
      * @return boolean expression
      */
-    public static BooleanExpression jsonContains(Expression<?> jsonDoc, String value) {
+    public static @NotNull BooleanExpression jsonContains(Expression<?> jsonDoc, String value) {
         return JsonSearchFunctions.jsonContains(jsonDoc, value);
     }
 
@@ -284,7 +285,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return boolean expression
      */
-    public static BooleanExpression jsonContains(Expression<?> jsonDoc, String value, String path) {
+    public static @NotNull BooleanExpression jsonContains(Expression<?> jsonDoc, String value, String path) {
         return JsonSearchFunctions.jsonContains(jsonDoc, value, path);
     }
 
@@ -297,7 +298,7 @@ public final class JPAJsonFunctions {
      *            the value expression
      * @return boolean expression
      */
-    public static BooleanExpression jsonContains(Expression<?> jsonDoc, Expression<?> value) {
+    public static @NotNull BooleanExpression jsonContains(Expression<?> jsonDoc, Expression<?> value) {
         return JsonSearchFunctions.jsonContains(jsonDoc, value);
     }
 
@@ -327,7 +328,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString) {
+    public static @NotNull BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString) {
         return JsonSearchFunctions.jsonContainsString(jsonDoc, plainString);
     }
 
@@ -344,7 +345,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString, String path) {
+    public static @NotNull BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString, String path) {
         return JsonSearchFunctions.jsonContainsString(jsonDoc, plainString, path);
     }
 
@@ -358,7 +359,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number) {
+    public static @NotNull BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number) {
         return JsonSearchFunctions.jsonContainsNumber(jsonDoc, number);
     }
 
@@ -374,7 +375,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number, String path) {
+    public static @NotNull BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number, String path) {
         return JsonSearchFunctions.jsonContainsNumber(jsonDoc, number, path);
     }
 
@@ -388,7 +389,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool) {
+    public static @NotNull BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool) {
         return JsonSearchFunctions.jsonContainsBoolean(jsonDoc, bool);
     }
 
@@ -404,7 +405,7 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool, String path) {
+    public static @NotNull BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool, String path) {
         return JsonSearchFunctions.jsonContainsBoolean(jsonDoc, bool, path);
     }
 
@@ -422,7 +423,7 @@ public final class JPAJsonFunctions {
      *            the paths to check
      * @return boolean expression
      */
-    public static BooleanExpression jsonContainsPath(Expression<?> jsonDoc, String oneOrAll, String... paths) {
+    public static @NotNull BooleanExpression jsonContainsPath(Expression<?> jsonDoc, String oneOrAll, String... paths) {
         return JsonSearchFunctions.jsonContainsPath(jsonDoc, oneOrAll, paths);
     }
 
@@ -436,7 +437,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return JSON array of keys
      */
-    public static JsonArrayExpression jsonKeys(Expression<?> jsonDoc) {
+    public static @NotNull JsonArrayExpression jsonKeys(Expression<?> jsonDoc) {
         return JsonSearchFunctions.jsonKeys(jsonDoc);
     }
 
@@ -449,7 +450,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return JSON array of keys
      */
-    public static JsonArrayExpression jsonKeys(Expression<?> jsonDoc, String path) {
+    public static @NotNull JsonArrayExpression jsonKeys(Expression<?> jsonDoc, String path) {
         return JsonSearchFunctions.jsonKeys(jsonDoc, path);
     }
 
@@ -465,7 +466,7 @@ public final class JPAJsonFunctions {
      *            the string to search for
      * @return path expression
      */
-    public static JsonValueExpression jsonSearch(Expression<?> jsonDoc, String searchString) {
+    public static @NotNull JsonValueExpression jsonSearch(Expression<?> jsonDoc, String searchString) {
         return JsonSearchFunctions.jsonSearch(jsonDoc, searchString);
     }
 
@@ -480,7 +481,7 @@ public final class JPAJsonFunctions {
      *            the string to search for
      * @return path expression
      */
-    public static JsonValueExpression jsonSearch(Expression<?> jsonDoc, String oneOrAll, String searchString) {
+    public static @NotNull JsonValueExpression jsonSearch(Expression<?> jsonDoc, String oneOrAll, String searchString) {
         return JsonSearchFunctions.jsonSearch(jsonDoc, oneOrAll, searchString);
     }
 
@@ -496,7 +497,7 @@ public final class JPAJsonFunctions {
      *            the second JSON document
      * @return boolean expression
      */
-    public static BooleanExpression jsonOverlaps(Expression<?> jsonDoc1, Expression<?> jsonDoc2) {
+    public static @NotNull BooleanExpression jsonOverlaps(Expression<?> jsonDoc1, Expression<?> jsonDoc2) {
         return JsonSearchFunctions.jsonOverlaps(jsonDoc1, jsonDoc2);
     }
 
@@ -509,7 +510,7 @@ public final class JPAJsonFunctions {
      *            the JSON literal string
      * @return boolean expression
      */
-    public static BooleanExpression jsonOverlaps(Expression<?> jsonDoc, String jsonLiteral) {
+    public static @NotNull BooleanExpression jsonOverlaps(Expression<?> jsonDoc, String jsonLiteral) {
         return JsonSearchFunctions.jsonOverlaps(jsonDoc, jsonLiteral);
     }
 
@@ -525,7 +526,7 @@ public final class JPAJsonFunctions {
      *            the JSON array expression
      * @return boolean expression
      */
-    public static BooleanExpression memberOf(Object value, Expression<?> jsonArray) {
+    public static @NotNull BooleanExpression memberOf(Object value, Expression<?> jsonArray) {
         return JsonSearchFunctions.memberOf(value, jsonArray);
     }
 
@@ -538,7 +539,7 @@ public final class JPAJsonFunctions {
      *            the JSON array expression
      * @return boolean expression
      */
-    public static BooleanExpression memberOf(Expression<?> valueExpr, Expression<?> jsonArray) {
+    public static @NotNull BooleanExpression memberOf(Expression<?> valueExpr, Expression<?> jsonArray) {
         return JsonSearchFunctions.memberOf(valueExpr, jsonArray);
     }
 
@@ -549,7 +550,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return boolean expression
      */
-    public static BooleanExpression jsonIsEmpty(Expression<?> jsonDoc) {
+    public static @NotNull BooleanExpression jsonIsEmpty(@NotNull Expression<?> jsonDoc) {
         return JsonAttributeFunctions.isEmpty(jsonDoc);
     }
 
@@ -571,7 +572,7 @@ public final class JPAJsonFunctions {
      *            the value to set
      * @return modified JSON expression
      */
-    public static JsonValueExpression jsonSet(Expression<?> jsonDoc, String path, Object value) {
+    public static @NotNull JsonValueExpression jsonSet(Expression<?> jsonDoc, String path, Object value) {
         return JsonModifyFunctions.jsonSet(jsonDoc, path, value);
     }
 
@@ -584,7 +585,7 @@ public final class JPAJsonFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static StringExpression jsonSet(Expression<?> jsonDoc, Object... pathsAndValues) {
+    public static @NotNull StringExpression jsonSet(Expression<?> jsonDoc, Object... pathsAndValues) {
         return JsonModifyFunctions.jsonSet(jsonDoc, pathsAndValues);
     }
 
@@ -602,7 +603,7 @@ public final class JPAJsonFunctions {
      *            the value to insert
      * @return modified JSON expression
      */
-    public static JsonValueExpression jsonInsert(Expression<?> jsonDoc, String path, Object value) {
+    public static @NotNull JsonValueExpression jsonInsert(Expression<?> jsonDoc, String path, Object value) {
         return JsonModifyFunctions.jsonInsert(jsonDoc, path, value);
     }
 
@@ -615,7 +616,7 @@ public final class JPAJsonFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static StringExpression jsonInsert(Expression<?> jsonDoc, Object... pathsAndValues) {
+    public static @NotNull StringExpression jsonInsert(Expression<?> jsonDoc, Object... pathsAndValues) {
         return JsonModifyFunctions.jsonInsert(jsonDoc, pathsAndValues);
     }
 
@@ -633,7 +634,7 @@ public final class JPAJsonFunctions {
      *            the new value
      * @return modified JSON expression
      */
-    public static JsonValueExpression jsonReplace(Expression<?> jsonDoc, String path, Object value) {
+    public static @NotNull JsonValueExpression jsonReplace(Expression<?> jsonDoc, String path, Object value) {
         return JsonModifyFunctions.jsonReplace(jsonDoc, path, value);
     }
 
@@ -646,7 +647,7 @@ public final class JPAJsonFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static StringExpression jsonReplace(Expression<?> jsonDoc, Object... pathsAndValues) {
+    public static @NotNull StringExpression jsonReplace(Expression<?> jsonDoc, Object... pathsAndValues) {
         return JsonModifyFunctions.jsonReplace(jsonDoc, pathsAndValues);
     }
 
@@ -662,7 +663,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return modified JSON expression
      */
-    public static StringExpression jsonRemove(Expression<?> jsonDoc, String path) {
+    public static @NotNull StringExpression jsonRemove(Expression<?> jsonDoc, String path) {
         return JsonModifyFunctions.jsonRemove(jsonDoc, path);
     }
 
@@ -675,7 +676,7 @@ public final class JPAJsonFunctions {
      *            the paths to remove
      * @return modified JSON expression
      */
-    public static JsonValueExpression jsonRemove(Expression<?> jsonDoc, String... paths) {
+    public static @NotNull JsonValueExpression jsonRemove(Expression<?> jsonDoc, String... paths) {
         return JsonModifyFunctions.jsonRemove(jsonDoc, paths);
     }
 
@@ -693,7 +694,7 @@ public final class JPAJsonFunctions {
      *            the value to append
      * @return modified JSON expression
      */
-    public static JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc, String path, Object value) {
+    public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc, String path, Object value) {
         return JsonModifyFunctions.jsonArrayAppend(jsonDoc, path, value);
     }
 
@@ -706,7 +707,7 @@ public final class JPAJsonFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc, Object... pathsAndValues) {
+    public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc, Object... pathsAndValues) {
         return JsonModifyFunctions.jsonArrayAppend(jsonDoc, pathsAndValues);
     }
 
@@ -724,7 +725,7 @@ public final class JPAJsonFunctions {
      *            the value to insert
      * @return modified JSON expression
      */
-    public static JsonArrayExpression jsonArrayInsert(Expression<?> jsonDoc, String path, Object value) {
+    public static @NotNull JsonArrayExpression jsonArrayInsert(Expression<?> jsonDoc, String path, Object value) {
         return JsonModifyFunctions.jsonArrayInsert(jsonDoc, path, value);
     }
 
@@ -738,7 +739,7 @@ public final class JPAJsonFunctions {
      *            the JSON documents to merge
      * @return merged JSON expression
      */
-    public static JsonObjectExpression jsonMergePatch(Expression<?>... jsonDocs) {
+    public static @NotNull JsonObjectExpression jsonMergePatch(Expression<?>... jsonDocs) {
         return JsonModifyFunctions.jsonMergePatch(jsonDocs);
     }
 
@@ -751,7 +752,7 @@ public final class JPAJsonFunctions {
      *            additional documents
      * @return merged JSON expression
      */
-    public static StringExpression jsonMergePatch(Expression<?> first, Object... others) {
+    public static @NotNull StringExpression jsonMergePatch(Expression<?> first, Object... others) {
         return JsonModifyFunctions.jsonMergePatch(first, others);
     }
 
@@ -765,7 +766,7 @@ public final class JPAJsonFunctions {
      *            the JSON documents to merge
      * @return merged JSON expression
      */
-    public static StringExpression jsonMergePreserve(Expression<?>... jsonDocs) {
+    public static @NotNull StringExpression jsonMergePreserve(Expression<?>... jsonDocs) {
         return JsonModifyFunctions.jsonMergePreserve(jsonDocs);
     }
 
@@ -779,7 +780,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return unquoted string expression
      */
-    public static StringExpression jsonUnquote(Expression<?> jsonValue) {
+    public static @NotNull StringExpression jsonUnquote(Expression<?> jsonValue) {
         return JsonModifyFunctions.jsonUnquote(jsonValue);
     }
 
@@ -790,7 +791,7 @@ public final class JPAJsonFunctions {
      *            the JSON string literal
      * @return unquoted string expression
      */
-    public static StringExpression jsonUnquote(String jsonString) {
+    public static @NotNull StringExpression jsonUnquote(String jsonString) {
         return JsonModifyFunctions.jsonUnquote(jsonString);
     }
 
@@ -808,7 +809,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return depth as integer expression
      */
-    public static NumberExpression<Integer> jsonDepth(Expression<?> jsonDoc) {
+    public static @NotNull NumberExpression<Integer> jsonDepth(@NotNull Expression<?> jsonDoc) {
         return JsonAttributeFunctions.jsonDepth(jsonDoc);
     }
 
@@ -822,7 +823,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return length as integer expression
      */
-    public static NumberExpression<Integer> jsonLength(Expression<?> jsonDoc) {
+    public static @NotNull NumberExpression<Integer> jsonLength(@NotNull Expression<?> jsonDoc) {
         return JsonAttributeFunctions.jsonLength(jsonDoc);
     }
 
@@ -835,7 +836,7 @@ public final class JPAJsonFunctions {
      *            the JSON path
      * @return length as integer expression
      */
-    public static NumberExpression<Integer> jsonLength(Expression<?> jsonDoc, String path) {
+    public static @NotNull NumberExpression<Integer> jsonLength(@NotNull Expression<?> jsonDoc, @NotNull String path) {
         return JsonAttributeFunctions.jsonLength(jsonDoc, path);
     }
 
@@ -849,7 +850,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return type as string expression
      */
-    public static StringExpression jsonType(Expression<?> jsonValue) {
+    public static @NotNull StringExpression jsonType(@NotNull Expression<?> jsonValue) {
         return JsonAttributeFunctions.jsonType(jsonValue);
     }
 
@@ -863,7 +864,7 @@ public final class JPAJsonFunctions {
      *            the value to validate
      * @return boolean expression
      */
-    public static BooleanExpression jsonValid(Expression<?> value) {
+    public static @NotNull BooleanExpression jsonValid(@NotNull Expression<?> value) {
         return JsonAttributeFunctions.jsonValid(value);
     }
 
@@ -874,7 +875,7 @@ public final class JPAJsonFunctions {
      *            the string to validate
      * @return boolean expression
      */
-    public static BooleanExpression jsonValid(String jsonString) {
+    public static @NotNull BooleanExpression jsonValid(@NotNull String jsonString) {
         return JsonAttributeFunctions.jsonValid(jsonString);
     }
 
@@ -885,7 +886,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return boolean expression
      */
-    public static BooleanExpression isEmpty(Expression<?> jsonDoc) {
+    public static @NotNull BooleanExpression isEmpty(@NotNull Expression<?> jsonDoc) {
         return JsonAttributeFunctions.isEmpty(jsonDoc);
     }
 
@@ -896,7 +897,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return boolean expression
      */
-    public static BooleanExpression isNotEmpty(Expression<?> jsonDoc) {
+    public static @NotNull BooleanExpression isNotEmpty(@NotNull Expression<?> jsonDoc) {
         return JsonAttributeFunctions.isNotEmpty(jsonDoc);
     }
 
@@ -907,7 +908,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isArray(Expression<?> jsonValue) {
+    public static @NotNull BooleanExpression isArray(@NotNull Expression<?> jsonValue) {
         return JsonAttributeFunctions.isArray(jsonValue);
     }
 
@@ -918,7 +919,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isObject(Expression<?> jsonValue) {
+    public static @NotNull BooleanExpression isObject(@NotNull Expression<?> jsonValue) {
         return JsonAttributeFunctions.isObject(jsonValue);
     }
 
@@ -929,7 +930,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isScalar(Expression<?> jsonValue) {
+    public static @NotNull BooleanExpression isScalar(@NotNull Expression<?> jsonValue) {
         return JsonAttributeFunctions.isScalar(jsonValue);
     }
 
@@ -940,7 +941,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return boolean expression
      */
-    public static BooleanExpression isJsonNull(Expression<?> jsonValue) {
+    public static @NotNull BooleanExpression isJsonNull(@NotNull Expression<?> jsonValue) {
         return JsonAttributeFunctions.isNull(jsonValue);
     }
 
@@ -958,7 +959,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return formatted JSON as string expression
      */
-    public static StringExpression jsonPretty(Expression<?> jsonValue) {
+    public static @NotNull StringExpression jsonPretty(Expression<?> jsonValue) {
         return JsonUtilityFunctions.jsonPretty(jsonValue);
     }
 
@@ -969,7 +970,7 @@ public final class JPAJsonFunctions {
      *            the JSON string
      * @return formatted JSON as string expression
      */
-    public static StringExpression jsonPretty(String jsonString) {
+    public static @NotNull StringExpression jsonPretty(String jsonString) {
         return JsonUtilityFunctions.jsonPretty(jsonString);
     }
 
@@ -983,7 +984,7 @@ public final class JPAJsonFunctions {
      *            the JSON value expression
      * @return storage size in bytes
      */
-    public static NumberExpression<Integer> jsonStorageSize(Expression<?> jsonValue) {
+    public static @NotNull NumberExpression<Integer> jsonStorageSize(Expression<?> jsonValue) {
         return JsonUtilityFunctions.jsonStorageSize(jsonValue);
     }
 
@@ -994,7 +995,7 @@ public final class JPAJsonFunctions {
      *            the JSON string
      * @return storage size in bytes
      */
-    public static NumberExpression<Integer> jsonStorageSize(String jsonString) {
+    public static @NotNull NumberExpression<Integer> jsonStorageSize(String jsonString) {
         return JsonUtilityFunctions.jsonStorageSize(jsonString);
     }
 
@@ -1008,7 +1009,7 @@ public final class JPAJsonFunctions {
      *            the JSON column expression
      * @return freed space in bytes
      */
-    public static NumberExpression<Integer> jsonStorageFree(Expression<?> jsonColumn) {
+    public static @NotNull NumberExpression<Integer> jsonStorageFree(Expression<?> jsonColumn) {
         return JsonUtilityFunctions.jsonStorageFree(jsonColumn);
     }
 
@@ -1028,7 +1029,7 @@ public final class JPAJsonFunctions {
      *            the JSON document to validate
      * @return boolean expression
      */
-    public static BooleanExpression jsonSchemaValid(Expression<?> schema, Expression<?> document) {
+    public static @NotNull BooleanExpression jsonSchemaValid(Expression<?> schema, Expression<?> document) {
         return JsonSchemaFunctions.jsonSchemaValid(schema, document);
     }
 
@@ -1041,7 +1042,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return boolean expression
      */
-    public static BooleanExpression jsonSchemaValid(String schemaJson, Expression<?> document) {
+    public static @NotNull BooleanExpression jsonSchemaValid(String schemaJson, Expression<?> document) {
         return JsonSchemaFunctions.jsonSchemaValid(schemaJson, document);
     }
 
@@ -1057,7 +1058,7 @@ public final class JPAJsonFunctions {
      *            the JSON document to validate
      * @return validation report as string expression
      */
-    public static StringExpression jsonSchemaValidationReport(Expression<?> schema, Expression<?> document) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(Expression<?> schema, Expression<?> document) {
         return JsonSchemaFunctions.jsonSchemaValidationReport(schema, document);
     }
 
@@ -1070,7 +1071,7 @@ public final class JPAJsonFunctions {
      *            the JSON document expression
      * @return validation report as string expression
      */
-    public static StringExpression jsonSchemaValidationReport(String schemaJson, Expression<?> document) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(String schemaJson, Expression<?> document) {
         return JsonSchemaFunctions.jsonSchemaValidationReport(schemaJson, document);
     }
 
@@ -1088,7 +1089,7 @@ public final class JPAJsonFunctions {
      *            the expression to aggregate
      * @return JSON array expression
      */
-    public static JsonArrayExpression jsonArrayAgg(Expression<?> value) {
+    public static @NotNull JsonArrayExpression jsonArrayAgg(Expression<?> value) {
         return JsonAggregateFunctions.jsonArrayAgg(value);
     }
 
@@ -1104,7 +1105,7 @@ public final class JPAJsonFunctions {
      *            the value expression
      * @return JSON object expression
      */
-    public static JsonObjectExpression jsonObjectAgg(Expression<?> key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression jsonObjectAgg(Expression<?> key, Expression<?> value) {
         return JsonAggregateFunctions.jsonObjectAgg(key, value);
     }
 
@@ -1117,7 +1118,7 @@ public final class JPAJsonFunctions {
      *            the value expression
      * @return JSON object expression
      */
-    public static JsonObjectExpression jsonObjectAgg(String key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression jsonObjectAgg(String key, Expression<?> value) {
         return JsonAggregateFunctions.jsonObjectAgg(key, value);
     }
 
@@ -1128,7 +1129,7 @@ public final class JPAJsonFunctions {
      *            the expression to aggregate
      * @return JSON array expression
      */
-    public static JsonArrayExpression arrayAgg(Expression<?> value) {
+    public static @NotNull JsonArrayExpression arrayAgg(Expression<?> value) {
         return JsonAggregateFunctions.arrayAgg(value);
     }
 
@@ -1141,7 +1142,7 @@ public final class JPAJsonFunctions {
      *            the value expression
      * @return JSON object expression
      */
-    public static JsonObjectExpression objectAgg(Expression<?> key, Expression<?> value) {
+    public static @NotNull JsonObjectExpression objectAgg(Expression<?> key, Expression<?> value) {
         return JsonAggregateFunctions.objectAgg(key, value);
     }
 
@@ -1157,7 +1158,7 @@ public final class JPAJsonFunctions {
      *
      * @return JsonTableExpression builder
      */
-    public static JsonTableExpression.Builder jsonTable() {
+    public static JsonTableExpression.@NotNull Builder jsonTable() {
         return JsonTableFunctions.jsonTable();
     }
 

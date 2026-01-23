@@ -1,5 +1,8 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.types;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
@@ -49,7 +52,7 @@ public final class JsonPath implements Serializable {
      */
     public static final JsonPath ROOT = new JsonPath("$");
 
-    private final String path;
+    private final @NotNull String path;
 
     /**
      * Private constructor - use factory methods.
@@ -70,7 +73,7 @@ public final class JsonPath implements Serializable {
      * @throws IllegalArgumentException
      *             if path is invalid
      */
-    public static JsonPath of(String path) {
+    public static @NotNull JsonPath of(String path) {
         Objects.requireNonNull(path, "path must not be null");
         if (!isValidPath(path)) {
             throw new IllegalArgumentException("Invalid JSON path: " + path);
@@ -86,7 +89,7 @@ public final class JsonPath implements Serializable {
      *            the JSON path
      * @return JsonPath instance
      */
-    public static JsonPath ofUnchecked(String path) {
+    public static @NotNull JsonPath ofUnchecked(String path) {
         return new JsonPath(path);
     }
 
@@ -97,7 +100,7 @@ public final class JsonPath implements Serializable {
      *            the object key
      * @return JsonPath to the member
      */
-    public static JsonPath member(String key) {
+    public static @NotNull JsonPath member(String key) {
         return new JsonPath("$." + key);
     }
 
@@ -108,7 +111,7 @@ public final class JsonPath implements Serializable {
      *            the array index
      * @return JsonPath to the element
      */
-    public static JsonPath arrayElement(int index) {
+    public static @NotNull JsonPath arrayElement(int index) {
         return new JsonPath("$[" + index + "]");
     }
 
@@ -117,7 +120,7 @@ public final class JsonPath implements Serializable {
      *
      * @return new JsonPath with wildcard
      */
-    public JsonPath wildcard() {
+    public @NotNull JsonPath wildcard() {
         return new JsonPath(this.path + "[*]");
     }
 
@@ -128,7 +131,7 @@ public final class JsonPath implements Serializable {
      *            the member key to search recursively
      * @return new JsonPath with recursive descent
      */
-    public JsonPath recursiveDescent(String key) {
+    public @NotNull JsonPath recursiveDescent(String key) {
         return new JsonPath(this.path + "**." + key);
     }
 
@@ -137,7 +140,7 @@ public final class JsonPath implements Serializable {
      *
      * @return the JSON path as string
      */
-    public String getPath() {
+    public @NotNull String getPath() {
         return path;
     }
 
@@ -157,7 +160,7 @@ public final class JsonPath implements Serializable {
      *            the path to validate
      * @return true if valid
      */
-    public static boolean isValidPath(String path) {
+    public static boolean isValidPath(@Nullable String path) {
         if (path == null || path.isEmpty()) {
             return false;
         }
@@ -166,12 +169,12 @@ public final class JsonPath implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        JsonPath jsonPath = (JsonPath) o;
+        @NotNull JsonPath jsonPath = (JsonPath) o;
         return path.equals(jsonPath.path);
     }
 
@@ -181,7 +184,7 @@ public final class JsonPath implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return path;
     }
 }

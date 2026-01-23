@@ -4,6 +4,8 @@ import io.github.snowykte0426.querydsl.mysql.json.test.AbstractJsonFunctionTest;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -34,11 +36,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withValidDocument_shouldReturnTrue() throws SQLException {
         // Given
-        String validDoc = "{\"name\": \"John\", \"age\": 30}";
-        BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, validDoc);
+        @NotNull String validDoc = "{\"name\": \"John\", \"age\": 30}";
+        @NotNull BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, validDoc);
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -47,11 +49,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withMissingRequiredField_shouldReturnFalse() throws SQLException {
         // Given
-        String invalidDoc = "{\"age\": 30}";
-        BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
+        @NotNull String invalidDoc = "{\"age\": 30}";
+        @NotNull BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -60,11 +62,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withInvalidType_shouldReturnFalse() throws SQLException {
         // Given
-        String invalidDoc = "{\"name\": \"John\", \"age\": \"thirty\"}";
-        BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
+        @NotNull String invalidDoc = "{\"name\": \"John\", \"age\": \"thirty\"}";
+        @NotNull BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -73,11 +75,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withNegativeAge_shouldReturnFalse() throws SQLException {
         // Given
-        String invalidDoc = "{\"name\": \"John\", \"age\": -5}";
-        BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
+        @NotNull String invalidDoc = "{\"name\": \"John\", \"age\": -5}";
+        @NotNull BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -86,11 +88,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withExtraFields_shouldReturnTrue() throws SQLException {
         // Given - Schema doesn't have additionalProperties: false
-        String validDoc = "{\"name\": \"John\", \"age\": 30, \"city\": \"Seoul\"}";
-        BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, validDoc);
+        @NotNull String validDoc = "{\"name\": \"John\", \"age\": 30, \"city\": \"Seoul\"}";
+        @NotNull BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, validDoc);
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -99,15 +101,15 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withArraySchema_shouldValidate() throws SQLException {
         // Given
-        String validArray = "[1, 2, 3, 4, 5]";
-        String invalidArray = "[1, \"two\", 3]";
+        @NotNull String validArray = "[1, 2, 3, 4, 5]";
+        @NotNull String invalidArray = "[1, \"two\", 3]";
 
-        BooleanExpression validCheck = jsonSchemaValid(ARRAY_SCHEMA, validArray);
-        BooleanExpression invalidCheck = jsonSchemaValid(ARRAY_SCHEMA, invalidArray);
+        @NotNull BooleanExpression validCheck = jsonSchemaValid(ARRAY_SCHEMA, validArray);
+        @NotNull BooleanExpression invalidCheck = jsonSchemaValid(ARRAY_SCHEMA, invalidArray);
 
         // When
-        String validResult = executeScalar(validCheck);
-        String invalidResult = executeScalar(invalidCheck);
+        @Nullable String validResult = executeScalar(validCheck);
+        @Nullable String invalidResult = executeScalar(invalidCheck);
 
         // Then
         assertThat(validResult).isEqualTo("1");
@@ -117,11 +119,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValid_withExpression_shouldWork() throws SQLException {
         // Given
-        StringExpression docExpr = Expressions.stringTemplate("json_object('name', 'Alice', 'age', 25)");
-        BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, docExpr);
+        @NotNull StringExpression docExpr = Expressions.stringTemplate("json_object('name', 'Alice', 'age', 25)");
+        @NotNull BooleanExpression valid = jsonSchemaValid(USER_SCHEMA, docExpr);
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -134,11 +136,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValidationReport_withValidDocument_shouldReturnValidTrue() throws SQLException {
         // Given
-        String validDoc = "{\"name\": \"John\", \"age\": 30}";
-        StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, validDoc);
+        @NotNull String validDoc = "{\"name\": \"John\", \"age\": 30}";
+        @NotNull StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, validDoc);
 
         // When
-        String result = executeScalar(report);
+        @Nullable String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -148,11 +150,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValidationReport_withInvalidDocument_shouldReturnReason() throws SQLException {
         // Given
-        String invalidDoc = "{\"age\": 30}";
-        StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
+        @NotNull String invalidDoc = "{\"age\": 30}";
+        @NotNull StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar(report);
+        @Nullable String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -163,11 +165,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValidationReport_withTypeError_shouldShowDetails() throws SQLException {
         // Given
-        String invalidDoc = "{\"name\": 123, \"age\": 30}";
-        StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
+        @NotNull String invalidDoc = "{\"name\": 123, \"age\": 30}";
+        @NotNull StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar(report);
+        @Nullable String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -178,11 +180,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonSchemaValidationReport_withMinimumViolation_shouldShowError() throws SQLException {
         // Given
-        String invalidDoc = "{\"name\": \"John\", \"age\": -10}";
-        StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
+        @NotNull String invalidDoc = "{\"name\": \"John\", \"age\": -10}";
+        @NotNull StringExpression report = jsonSchemaValidationReport(USER_SCHEMA, invalidDoc);
 
         // When
-        String result = executeScalar(report);
+        @Nullable String result = executeScalar(report);
 
         // Then
         assertThat(result).contains("\"valid\"");
@@ -197,11 +199,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void validate_shouldBeSameAsJsonSchemaValid() throws SQLException {
         // Given
-        String validDoc = "{\"name\": \"John\", \"age\": 30}";
-        BooleanExpression valid = validate(Expressions.constant(USER_SCHEMA), Expressions.constant(validDoc));
+        @NotNull String validDoc = "{\"name\": \"John\", \"age\": 30}";
+        @NotNull BooleanExpression valid = validate(Expressions.constant(USER_SCHEMA), Expressions.constant(validDoc));
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -210,11 +212,11 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isValidFromReport_withValidDocument_shouldReturnTrue() throws SQLException {
         // Given
-        String validDoc = "{\"name\": \"John\", \"age\": 30}";
-        BooleanExpression valid = isValidFromReport(Expressions.constant(USER_SCHEMA), Expressions.constant(validDoc));
+        @NotNull String validDoc = "{\"name\": \"John\", \"age\": 30}";
+        @NotNull BooleanExpression valid = isValidFromReport(Expressions.constant(USER_SCHEMA), Expressions.constant(validDoc));
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("1");
@@ -223,12 +225,12 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void isValidFromReport_withInvalidDocument_shouldReturnFalse() throws SQLException {
         // Given
-        String invalidDoc = "{\"age\": 30}";
-        BooleanExpression valid = isValidFromReport(Expressions.constant(USER_SCHEMA),
+        @NotNull String invalidDoc = "{\"age\": 30}";
+        @NotNull BooleanExpression valid = isValidFromReport(Expressions.constant(USER_SCHEMA),
                 Expressions.constant(invalidDoc));
 
         // When
-        String result = executeScalar(valid);
+        @Nullable String result = executeScalar(valid);
 
         // Then
         assertThat(result).isEqualTo("0");
@@ -237,12 +239,12 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void getValidationReason_withInvalidDocument_shouldReturnReason() throws SQLException {
         // Given
-        String invalidDoc = "{\"age\": 30}";
-        StringExpression reason = getValidationReason(Expressions.constant(USER_SCHEMA),
+        @NotNull String invalidDoc = "{\"age\": 30}";
+        @NotNull StringExpression reason = getValidationReason(Expressions.constant(USER_SCHEMA),
                 Expressions.constant(invalidDoc));
 
         // When
-        String result = executeScalar(reason);
+        @Nullable String result = executeScalar(reason);
 
         // Then
         assertThat(result).isNotNull();
@@ -253,12 +255,12 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void getValidationReason_withValidDocument_shouldReturnNull() throws SQLException {
         // Given
-        String validDoc = "{\"name\": \"John\", \"age\": 30}";
-        StringExpression reason = getValidationReason(Expressions.constant(USER_SCHEMA),
+        @NotNull String validDoc = "{\"name\": \"John\", \"age\": 30}";
+        @NotNull StringExpression reason = getValidationReason(Expressions.constant(USER_SCHEMA),
                 Expressions.constant(validDoc));
 
         // When
-        String result = executeScalar(reason);
+        @Nullable String result = executeScalar(reason);
 
         // Then
         assertThat(result).isNull();
@@ -267,12 +269,12 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void getFailedSchemaLocation_withInvalidDocument_shouldReturnLocation() throws SQLException {
         // Given
-        String invalidDoc = "{\"name\": \"John\", \"age\": -5}";
-        StringExpression location = getFailedSchemaLocation(Expressions.constant(USER_SCHEMA),
+        @NotNull String invalidDoc = "{\"name\": \"John\", \"age\": -5}";
+        @NotNull StringExpression location = getFailedSchemaLocation(Expressions.constant(USER_SCHEMA),
                 Expressions.constant(invalidDoc));
 
         // When
-        String result = executeScalar(location);
+        @Nullable String result = executeScalar(location);
 
         // Then
         if (result != null) {
@@ -284,12 +286,12 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void getFailedDocumentLocation_withInvalidDocument_shouldReturnLocation() throws SQLException {
         // Given
-        String invalidDoc = "{\"name\": \"John\", \"age\": -5}";
-        StringExpression location = getFailedDocumentLocation(Expressions.constant(USER_SCHEMA),
+        @NotNull String invalidDoc = "{\"name\": \"John\", \"age\": -5}";
+        @NotNull StringExpression location = getFailedDocumentLocation(Expressions.constant(USER_SCHEMA),
                 Expressions.constant(invalidDoc));
 
         // When
-        String result = executeScalar(location);
+        @Nullable String result = executeScalar(location);
 
         // Then
         if (result != null) {
@@ -309,7 +311,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
                 + "('John', 'john@test.com', '{\"name\": \"John\", \"age\": 30}')");
 
         // When
-        String valid = executeScalar(
+        @Nullable String valid = executeScalar(
                 "SELECT JSON_SCHEMA_VALID('" + USER_SCHEMA + "', metadata) FROM users WHERE name = 'John'");
 
         // Then
@@ -324,7 +326,7 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
                 + "('InvalidUser', 'invalid@test.com', '{\"age\": 30}')");
 
         // When
-        String count = executeScalar(
+        @Nullable String count = executeScalar(
                 "SELECT COUNT(*) FROM users WHERE JSON_SCHEMA_VALID('" + USER_SCHEMA + "', settings)");
 
         // Then
@@ -337,10 +339,10 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
         executeUpdate("INSERT INTO products (name, price, attributes) VALUES "
                 + "('InvalidProduct', 100.00, '{\"color\": 123}')");
 
-        String colorSchema = "{\"type\": \"object\", \"properties\": {\"color\": {\"type\": \"string\"}}}";
+        @NotNull String colorSchema = "{\"type\": \"object\", \"properties\": {\"color\": {\"type\": \"string\"}}}";
 
         // When
-        String report = executeScalar("SELECT JSON_SCHEMA_VALIDATION_REPORT('" + colorSchema + "', attributes) "
+        @Nullable String report = executeScalar("SELECT JSON_SCHEMA_VALIDATION_REPORT('" + colorSchema + "', attributes) "
                 + "FROM products WHERE name = 'InvalidProduct'");
 
         // Then
@@ -351,20 +353,20 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void complexSchema_withNestedObjects_shouldValidate() throws SQLException {
         // Given
-        String complexSchema = "{" + "\"type\": \"object\"," + "\"properties\": {" + "  \"user\": {"
+        @NotNull String complexSchema = "{" + "\"type\": \"object\"," + "\"properties\": {" + "  \"user\": {"
                 + "    \"type\": \"object\"," + "    \"properties\": {" + "      \"name\": {\"type\": \"string\"},"
                 + "      \"email\": {\"type\": \"string\", \"format\": \"email\"}" + "    },"
                 + "    \"required\": [\"name\", \"email\"]" + "  }" + "}" + "}";
 
-        String validDoc = "{\"user\": {\"name\": \"John\", \"email\": \"john@example.com\"}}";
-        String invalidDoc = "{\"user\": {\"name\": \"John\"}}";
+        @NotNull String validDoc = "{\"user\": {\"name\": \"John\", \"email\": \"john@example.com\"}}";
+        @NotNull String invalidDoc = "{\"user\": {\"name\": \"John\"}}";
 
-        BooleanExpression validCheck = jsonSchemaValid(complexSchema, validDoc);
-        BooleanExpression invalidCheck = jsonSchemaValid(complexSchema, invalidDoc);
+        @NotNull BooleanExpression validCheck = jsonSchemaValid(complexSchema, validDoc);
+        @NotNull BooleanExpression invalidCheck = jsonSchemaValid(complexSchema, invalidDoc);
 
         // When
-        String validResult = executeScalar(validCheck);
-        String invalidResult = executeScalar(invalidCheck);
+        @Nullable String validResult = executeScalar(validCheck);
+        @Nullable String invalidResult = executeScalar(invalidCheck);
 
         // Then
         assertThat(validResult).isEqualTo("1");
@@ -374,18 +376,18 @@ class JsonSchemaFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void schemaWithEnums_shouldValidate() throws SQLException {
         // Given
-        String enumSchema = "{" + "\"type\": \"object\"," + "\"properties\": {"
+        @NotNull String enumSchema = "{" + "\"type\": \"object\"," + "\"properties\": {"
                 + "  \"status\": {\"type\": \"string\", \"enum\": [\"active\", \"inactive\", \"pending\"]}" + "}" + "}";
 
-        String validDoc = "{\"status\": \"active\"}";
-        String invalidDoc = "{\"status\": \"deleted\"}";
+        @NotNull String validDoc = "{\"status\": \"active\"}";
+        @NotNull String invalidDoc = "{\"status\": \"deleted\"}";
 
-        BooleanExpression validCheck = jsonSchemaValid(enumSchema, validDoc);
-        BooleanExpression invalidCheck = jsonSchemaValid(enumSchema, invalidDoc);
+        @NotNull BooleanExpression validCheck = jsonSchemaValid(enumSchema, validDoc);
+        @NotNull BooleanExpression invalidCheck = jsonSchemaValid(enumSchema, invalidDoc);
 
         // When
-        String validResult = executeScalar(validCheck);
-        String invalidResult = executeScalar(invalidCheck);
+        @Nullable String validResult = executeScalar(validCheck);
+        @Nullable String invalidResult = executeScalar(invalidCheck);
 
         // Then
         assertThat(validResult).isEqualTo("1");

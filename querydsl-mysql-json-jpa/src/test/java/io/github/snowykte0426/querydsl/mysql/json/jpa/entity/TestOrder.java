@@ -1,6 +1,8 @@
 package io.github.snowykte0426.querydsl.mysql.json.jpa.entity;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -151,7 +153,7 @@ public class TestOrder {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "TestOrder{" + "id=" + id + ", orderNumber='" + orderNumber + '\'' + ", userId=" + userId
                 + ", totalAmount=" + totalAmount + ", status='" + status + '\'' + '}';
     }

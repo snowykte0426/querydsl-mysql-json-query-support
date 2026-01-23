@@ -4,6 +4,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory class for MySQL JSON utility functions.
@@ -56,7 +57,7 @@ public final class JsonUtilityFunctions {
      *            the JSON value expression to format
      * @return formatted JSON as string expression
      */
-    public static StringExpression jsonPretty(Expression<?> jsonValue) {
+    public static @NotNull StringExpression jsonPretty(Expression<?> jsonValue) {
         return Expressions.stringTemplate("json_pretty({0})", jsonValue);
     }
 
@@ -67,7 +68,7 @@ public final class JsonUtilityFunctions {
      *            the JSON string to format
      * @return formatted JSON as string expression
      */
-    public static StringExpression jsonPretty(String jsonString) {
+    public static @NotNull StringExpression jsonPretty(@NotNull String jsonString) {
         return Expressions.stringTemplate("json_pretty({0})", Expressions.constant(jsonString));
     }
 
@@ -100,7 +101,7 @@ public final class JsonUtilityFunctions {
      *            the JSON value expression
      * @return storage size in bytes as integer expression
      */
-    public static NumberExpression<Integer> jsonStorageSize(Expression<?> jsonValue) {
+    public static @NotNull NumberExpression<Integer> jsonStorageSize(Expression<?> jsonValue) {
         return Expressions.numberTemplate(Integer.class, "json_storage_size({0})", jsonValue);
     }
 
@@ -111,7 +112,7 @@ public final class JsonUtilityFunctions {
      *            the JSON string
      * @return storage size in bytes as integer expression
      */
-    public static NumberExpression<Integer> jsonStorageSize(String jsonString) {
+    public static @NotNull NumberExpression<Integer> jsonStorageSize(@NotNull String jsonString) {
         return Expressions.numberTemplate(Integer.class, "json_storage_size({0})", Expressions.constant(jsonString));
     }
 
@@ -151,7 +152,7 @@ public final class JsonUtilityFunctions {
      *            the JSON column expression
      * @return freed space in bytes as integer expression
      */
-    public static NumberExpression<Integer> jsonStorageFree(Expression<?> jsonColumn) {
+    public static @NotNull NumberExpression<Integer> jsonStorageFree(Expression<?> jsonColumn) {
         return Expressions.numberTemplate(Integer.class, "json_storage_free({0})", jsonColumn);
     }
 
@@ -167,7 +168,7 @@ public final class JsonUtilityFunctions {
      *            the JSON value to format
      * @return formatted JSON string
      */
-    public static StringExpression format(Expression<?> jsonValue) {
+    public static @NotNull StringExpression format(Expression<?> jsonValue) {
         return jsonPretty(jsonValue);
     }
 
@@ -183,7 +184,7 @@ public final class JsonUtilityFunctions {
      *            the JSON column expression
      * @return efficiency ratio as double expression (freed / size)
      */
-    public static NumberExpression<Double> storageEfficiency(Expression<?> jsonColumn) {
+    public static @NotNull NumberExpression<Double> storageEfficiency(Expression<?> jsonColumn) {
         return Expressions.numberTemplate(Double.class, "json_storage_free({0}) / json_storage_size({0})", jsonColumn);
     }
 
@@ -196,8 +197,8 @@ public final class JsonUtilityFunctions {
      *            the minimum freed bytes to consider significant
      * @return boolean expression
      */
-    public static com.querydsl.core.types.dsl.BooleanExpression hasSignificantFreedSpace(Expression<?> jsonColumn,
-            int thresholdBytes) {
+    public static com.querydsl.core.types.dsl.@NotNull BooleanExpression hasSignificantFreedSpace(Expression<?> jsonColumn,
+                                                                                                  int thresholdBytes) {
         return Expressions.booleanTemplate("json_storage_free({0}) > {1}", jsonColumn, thresholdBytes);
     }
 }

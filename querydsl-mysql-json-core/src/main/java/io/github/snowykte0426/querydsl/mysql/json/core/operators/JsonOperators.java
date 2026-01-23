@@ -1,6 +1,7 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.operators;
 
 import com.querydsl.core.types.Operator;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * MySQL JSON function operators.
@@ -305,7 +306,7 @@ public enum JsonOperators implements Operator {
     JSON_TABLE;
 
     @Override
-    public Class<?> getType() {
+    public @NotNull Class<?> getType() {
         return Object.class;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.snowykte0426.querydsl.mysql.json.core.utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,62 +16,62 @@ class JsonEscapeUtilsTest {
 
     @Test
     void escapeString_basicString_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("student:read");
+        @NotNull String result = JsonEscapeUtils.escapeString("student:read");
         assertEquals("\"student:read\"", result);
     }
 
     @Test
     void escapeString_withDoubleQuotes_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("He said \"Hi\"");
+        @NotNull String result = JsonEscapeUtils.escapeString("He said \"Hi\"");
         assertEquals("\"He said \\\"Hi\\\"\"", result);
     }
 
     @Test
     void escapeString_withBackslashes_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("path\\to\\file");
+        @NotNull String result = JsonEscapeUtils.escapeString("path\\to\\file");
         assertEquals("\"path\\\\to\\\\file\"", result);
     }
 
     @Test
     void escapeString_withNewline_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("line1\nline2");
+        @NotNull String result = JsonEscapeUtils.escapeString("line1\nline2");
         assertEquals("\"line1\\nline2\"", result);
     }
 
     @Test
     void escapeString_withCarriageReturn_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("line1\rline2");
+        @NotNull String result = JsonEscapeUtils.escapeString("line1\rline2");
         assertEquals("\"line1\\rline2\"", result);
     }
 
     @Test
     void escapeString_withTab_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("col1\tcol2");
+        @NotNull String result = JsonEscapeUtils.escapeString("col1\tcol2");
         assertEquals("\"col1\\tcol2\"", result);
     }
 
     @Test
     void escapeString_withMultipleSpecialChars_shouldEscape() {
-        String result = JsonEscapeUtils.escapeString("Line 1\n\tQuoted: \"value\"\n\\path");
+        @NotNull String result = JsonEscapeUtils.escapeString("Line 1\n\tQuoted: \"value\"\n\\path");
         assertEquals("\"Line 1\\n\\tQuoted: \\\"value\\\"\\n\\\\path\"", result);
     }
 
     @Test
     void escapeString_emptyString_shouldReturnEmptyQuoted() {
-        String result = JsonEscapeUtils.escapeString("");
+        @NotNull String result = JsonEscapeUtils.escapeString("");
         assertEquals("\"\"", result);
     }
 
     @Test
     void escapeString_null_shouldReturnNull() {
-        String result = JsonEscapeUtils.escapeString(null);
+        @NotNull String result = JsonEscapeUtils.escapeString(null);
         assertEquals("null", result);
     }
 
     @Test
     void escapeString_unicodeChars_shouldNotEscape() {
         // Unicode characters should pass through unchanged
-        String result = JsonEscapeUtils.escapeString("Hello 世界");
+        @NotNull String result = JsonEscapeUtils.escapeString("Hello 世界");
         assertEquals("\"Hello 世界\"", result);
     }
 
@@ -122,7 +123,7 @@ class JsonEscapeUtilsTest {
 
     @Test
     void escapeNumber_null_shouldReturnNull() {
-        String result = JsonEscapeUtils.escapeNumber(null);
+        @NotNull String result = JsonEscapeUtils.escapeNumber(null);
         assertEquals("null", result);
     }
 
@@ -132,13 +133,13 @@ class JsonEscapeUtilsTest {
 
     @Test
     void escapeBoolean_true_shouldReturnTrue() {
-        String result = JsonEscapeUtils.escapeBoolean(true);
+        @NotNull String result = JsonEscapeUtils.escapeBoolean(true);
         assertEquals("true", result);
     }
 
     @Test
     void escapeBoolean_false_shouldReturnFalse() {
-        String result = JsonEscapeUtils.escapeBoolean(false);
+        @NotNull String result = JsonEscapeUtils.escapeBoolean(false);
         assertEquals("false", result);
     }
 
@@ -149,25 +150,25 @@ class JsonEscapeUtilsTest {
     @Test
     void escapeString_realisticScenario_apiKey() {
         // User's actual use case
-        String result = JsonEscapeUtils.escapeString("student:read");
+        @NotNull String result = JsonEscapeUtils.escapeString("student:read");
         assertEquals("\"student:read\"", result);
     }
 
     @Test
     void escapeString_realisticScenario_role() {
-        String result = JsonEscapeUtils.escapeString("admin");
+        @NotNull String result = JsonEscapeUtils.escapeString("admin");
         assertEquals("\"admin\"", result);
     }
 
     @Test
     void escapeString_realisticScenario_email() {
-        String result = JsonEscapeUtils.escapeString("user@example.com");
+        @NotNull String result = JsonEscapeUtils.escapeString("user@example.com");
         assertEquals("\"user@example.com\"", result);
     }
 
     @Test
     void escapeString_realisticScenario_jsonPath() {
-        String result = JsonEscapeUtils.escapeString("$.user.name");
+        @NotNull String result = JsonEscapeUtils.escapeString("$.user.name");
         assertEquals("\"$.user.name\"", result);
     }
 
@@ -179,7 +180,7 @@ class JsonEscapeUtilsTest {
 
     @Test
     void escapeBoolean_realisticScenario_active() {
-        String result = JsonEscapeUtils.escapeBoolean(true);
+        @NotNull String result = JsonEscapeUtils.escapeBoolean(true);
         assertEquals("true", result);
     }
 }
