@@ -584,47 +584,4 @@ public final class JsonSearchFunctions {
         return Expressions.booleanTemplate("{0} member of({1})", valueExpr, jsonArray);
     }
 
-    // ========================================
-    // Convenience methods
-    // ========================================
-
-    /**
-     * Tests whether a JSON document is empty (array or object with no elements).
-     *
-     * @param jsonDoc
-     *            the JSON document expression
-     * @return boolean expression
-     * @deprecated Use {@link JsonAttributeFunctions#isEmpty(Expression)} instead.
-     *             This method is duplicated and will be removed in a future
-     *             version.
-     * @since 0.1.0-Dev.1
-     */
-    @Deprecated(since = "0.1.0", forRemoval = true)
-    public static @NotNull BooleanExpression jsonIsEmpty(@NotNull Expression<?> jsonDoc) {
-        return JsonAttributeFunctions.isEmpty(jsonDoc);
-    }
-
-    /**
-     * Returns the length (number of elements) of a JSON document.
-     *
-     * @param jsonDoc
-     *            the JSON document expression
-     * @return length as number expression
-     */
-    public static @NotNull NumberExpression<Integer> jsonLength(Expression<?> jsonDoc) {
-        return Expressions.numberTemplate(Integer.class, "json_length({0})", jsonDoc);
-    }
-
-    /**
-     * Returns the length of a JSON value at a specific path.
-     *
-     * @param jsonDoc
-     *            the JSON document expression
-     * @param path
-     *            the JSON path
-     * @return length as number expression
-     */
-    public static @NotNull NumberExpression<Integer> jsonLength(Expression<?> jsonDoc, @NotNull String path) {
-        return Expressions.numberTemplate(Integer.class, "json_length({0}, {1})", jsonDoc, Expressions.constant(path));
-    }
 }
