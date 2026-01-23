@@ -188,7 +188,8 @@ public final class JsonCreationFunctions {
      *            the string to quote
      * @return JsonValueExpression with quoted string
      */
-    public static JsonValueExpression jsonQuote(String value) {
+    @NotNull
+    public static JsonValueExpression jsonQuote(@NotNull String value) {
         return JsonValueExpression.quote(value);
     }
 
@@ -203,7 +204,8 @@ public final class JsonCreationFunctions {
      *            the string expression to quote
      * @return JsonValueExpression with quoted string
      */
-    public static JsonValueExpression jsonQuote(StringExpression expression) {
+    @NotNull
+    public static JsonValueExpression jsonQuote(@NotNull StringExpression expression) {
         return JsonValueExpression.quote(expression);
     }
 
@@ -218,7 +220,8 @@ public final class JsonCreationFunctions {
      *            the expression to quote
      * @return JsonValueExpression with quoted string
      */
-    public static JsonValueExpression jsonQuote(Expression<String> expression) {
+    @NotNull
+    public static JsonValueExpression jsonQuote(@NotNull Expression<String> expression) {
         return JsonValueExpression.quote(expression);
     }
 
@@ -233,7 +236,8 @@ public final class JsonCreationFunctions {
      *            the collection to convert
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression jsonArrayFrom(Iterable<?> collection) {
+    @NotNull
+    public static JsonArrayExpression jsonArrayFrom(@NotNull Iterable<?> collection) {
         if (collection instanceof java.util.Collection) {
             return jsonArray(((java.util.Collection<?>) collection).toArray());
         }
@@ -252,7 +256,8 @@ public final class JsonCreationFunctions {
      *            the map to convert
      * @return JsonObjectExpression
      */
-    public static JsonObjectExpression jsonObjectFrom(java.util.Map<String, ?> map) {
+    @NotNull
+    public static JsonObjectExpression jsonObjectFrom(@NotNull java.util.Map<String, ?> map) {
         Object[] keyValuePairs = new Object[map.size() * 2];
         int i = 0;
         for (java.util.Map.Entry<String, ?> entry : map.entrySet()) {
@@ -271,6 +276,7 @@ public final class JsonCreationFunctions {
      *
      * @return Expression representing JSON null
      */
+    @NotNull
     public static StringExpression jsonNull() {
         return Expressions.stringTemplate("CAST(NULL AS JSON)");
     }
