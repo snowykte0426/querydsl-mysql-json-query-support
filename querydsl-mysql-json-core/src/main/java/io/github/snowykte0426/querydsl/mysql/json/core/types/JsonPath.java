@@ -41,8 +41,46 @@ public final class JsonPath implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Pattern for validating MySQL JSON path syntax. Simplified validation - full
-     * validation happens at MySQL level.
+     * Pattern for validating MySQL JSON path syntax.
+     *
+     * <p>
+     * Matches the following patterns:
+     * <ul>
+     * <li>{@code $} - Root element (required start)</li>
+     * <li>{@code \.memberName} - Object member access (e.g., $.user.name)</li>
+     * <li>{@code \[n\]} - Array index access where n is a number (e.g., $[0],
+     * $[10])</li>
+     * <li>{@code \[\*\]} - Array wildcard (all elements)</li>
+     * <li>{@code \.\*} - Object wildcard (all members)</li>
+     * <li>{@code \*\*\.memberName} - Recursive descent (e.g., $**.price)</li>
+     * </ul>
+     *
+     * <p>
+     * Examples of valid paths:
+     *
+     * <pre>
+     * $                    ✓ Root
+     * $.user.name          ✓ Nested object access
+     * $.users[0].email     ✓ Array with index
+     * $.settings.*         ✓ Wildcard members
+     * $**.price            ✓ Recursive descent
+     * </pre>
+     *
+     * <p>
+     * <strong>Note:</strong> This is simplified client-side validation. Full
+     * validation happens at MySQL level. The regex breaks down as:
+     * <ul>
+     * <li>{@code ^\\$} - Must start with '$' (root)</li>
+     * <li>{@code (?:...)*} - Non-capturing group, repeated zero or more times</li>
+     * <li>{@code \\.[a-zA-Z_][a-zA-Z0-9_]*} - Dot followed by identifier (member
+     * access)</li>
+     * <li>{@code \\[\\d+\\]} - Array index in brackets</li>
+     * <li>{@code \\[\\*\\]} - Array wildcard in brackets</li>
+     * <li>{@code \\.\\*} - Object wildcard (all members)</li>
+     * <li>{@code \\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*} - Recursive descent to
+     * member</li>
+     * <li>{@code $} - End of string</li>
+     * </ul>
      */
     private static final Pattern PATH_PATTERN = Pattern
             .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*|\\[\\d+\\]|\\[\\*\\]|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
