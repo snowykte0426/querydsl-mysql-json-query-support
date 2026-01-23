@@ -9,8 +9,10 @@
  *
  * <h2>Main Classes</h2>
  * <ul>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.sql.SqlJsonFunctions} - SQL-specific JSON function wrappers</li>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.sql.MySQLJsonTemplates} - MySQL dialect templates with JSON function support</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.sql.SqlJsonFunctions} -
+ * SQL-specific JSON function wrappers</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.sql.MySQLJsonTemplates}
+ * - MySQL dialect templates with JSON function support</li>
  * </ul>
  *
  * <h2>Key Sub-packages</h2>

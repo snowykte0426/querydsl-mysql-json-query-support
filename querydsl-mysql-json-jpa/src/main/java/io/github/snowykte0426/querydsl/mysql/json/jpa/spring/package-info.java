@@ -9,14 +9,15 @@
  *
  * <h2>Main Classes</h2>
  * <ul>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.jpa.spring.JsonFunctionRepositorySupport} - Base repository support class with JSON function access</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.jpa.spring.JsonFunctionRepositorySupport}
+ * - Base repository support class with JSON function access</li>
  * </ul>
  *
  * <h2>Usage</h2>
  * <p>
  * Extend {@code JsonFunctionRepositorySupport} in your custom repository
- * implementations to gain access to pre-configured JSON functions for use
- * in QueryDSL queries.
+ * implementations to gain access to pre-configured JSON functions for use in
+ * QueryDSL queries.
  * </p>
  *
  * @author snowykte0426

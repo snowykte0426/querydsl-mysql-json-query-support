@@ -8,8 +8,10 @@
  *
  * <h2>Main Classes</h2>
  * <ul>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.validation.JsonValidator} - Validator for JSON paths and documents</li>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.validation.JsonValidationException} - Exception thrown on JSON validation failures</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.validation.JsonValidator}
+ * - Validator for JSON paths and documents</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.validation.JsonValidationException}
+ * - Exception thrown on JSON validation failures</li>
  * </ul>
  *
  * @author snowykte0426

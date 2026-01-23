@@ -9,8 +9,10 @@
  *
  * <h2>Main Classes</h2>
  * <ul>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.operators.JsonOperators} - Enum of all MySQL JSON operators</li>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.operators.JsonOperatorTemplates} - QueryDSL templates for JSON operators</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.operators.JsonOperators}
+ * - Enum of all MySQL JSON operators</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.operators.JsonOperatorTemplates}
+ * - QueryDSL templates for JSON operators</li>
  * </ul>
  *
  * @author snowykte0426

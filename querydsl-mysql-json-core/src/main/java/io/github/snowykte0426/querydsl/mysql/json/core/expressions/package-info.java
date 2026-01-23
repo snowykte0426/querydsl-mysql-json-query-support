@@ -9,10 +9,14 @@
  *
  * <h2>Main Classes</h2>
  * <ul>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonArrayExpression} - Represents JSON array expressions</li>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonObjectExpression} - Represents JSON object expressions</li>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonValueExpression} - Represents JSON value expressions</li>
- * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonTableExpression} - Represents JSON_TABLE expressions</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonArrayExpression}
+ * - Represents JSON array expressions</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonObjectExpression}
+ * - Represents JSON object expressions</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonValueExpression}
+ * - Represents JSON value expressions</li>
+ * <li>{@link io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonTableExpression}
+ * - Represents JSON_TABLE expressions</li>
  * </ul>
  *
  * @author snowykte0426
