@@ -9,7 +9,7 @@ plugins {
 
 allprojects {
     group = "io.github.snowykte0426"
-    version = "0.2.1"
+    version = "0.2.2"
 }
 
 subprojects {
@@ -47,7 +47,7 @@ subprojects {
             name.set("QueryDSL MySQL JSON Query Support - ${project.name}")
             description.set("A QueryDSL extension for MySQL JSON query support - ${project.name} module")
             url.set("https://github.com/snowykte0426/querydsl-mysql-json-query-support")
-            inceptionYear.set("2024")
+            inceptionYear.set("2026")
 
             licenses {
                 license {
