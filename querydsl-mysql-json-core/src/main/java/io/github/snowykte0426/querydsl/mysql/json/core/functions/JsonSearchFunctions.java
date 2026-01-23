@@ -7,7 +7,6 @@ import io.github.snowykte0426.querydsl.mysql.json.core.utils.JsonEscapeUtils;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.jetbrains.annotations.NotNull;
 
