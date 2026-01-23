@@ -84,20 +84,36 @@ public final class JsonAggregateFunctions {
     }
 
     /**
-     * Aggregates values into a JSON array with ORDER BY clause.
+     * Placeholder for DISTINCT aggregation.
      *
      * <p>
-     * SQL: {@code JSON_ARRAYAGG(value ORDER BY sort_expr)}
-     * </p>
+     * <strong>Note:</strong> MySQL doesn't support DISTINCT in JSON_ARRAYAGG
+     * directly. To achieve DISTINCT behavior, use a subquery with DISTINCT:
+     *
+     * <pre>{@code
+     * // MySQL query pattern:
+     * SELECT JSON_ARRAYAGG(DISTINCT_VALUE)
+     * FROM (
+     *   SELECT DISTINCT value AS DISTINCT_VALUE FROM table
+     * ) subquery
+     *
+     * // QueryDSL equivalent:
+     * QTable table = QTable.table;
+     * JPAQuery<String> distinctSubquery = queryFactory
+     *     .selectDistinct(table.value)
+     *     .from(table);
+     *
+     * JsonArrayExpression result = jsonArrayAgg(distinctSubquery);
+     * }</pre>
      *
      * <p>
-     * Note: The ORDER BY clause must be added using QueryDSL's standard ordering
-     * mechanisms in the query, not through this function. This overload is provided
-     * for explicit ordering in subqueries.
+     * This method currently behaves identically to {@link #jsonArrayAgg(Expression)}
+     * and is provided for API completeness. Users must implement DISTINCT logic
+     * using subqueries as shown above.
      *
      * @param value
      *            the expression to aggregate
-     * @return JSON array expression
+     * @return JSON array expression (behaves identically to jsonArrayAgg)
      */
     public static @NotNull JsonArrayExpression jsonArrayAggDistinct(Expression<?> value) {
         // MySQL doesn't support DISTINCT in JSON_ARRAYAGG directly
