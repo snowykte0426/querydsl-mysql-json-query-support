@@ -107,9 +107,9 @@ public final class JsonAggregateFunctions {
      * }</pre>
      *
      * <p>
-     * This method currently behaves identically to {@link #jsonArrayAgg(Expression)}
-     * and is provided for API completeness. Users must implement DISTINCT logic
-     * using subqueries as shown above.
+     * This method currently behaves identically to
+     * {@link #jsonArrayAgg(Expression)} and is provided for API completeness. Users
+     * must implement DISTINCT logic using subqueries as shown above.
      *
      * @param value
      *            the expression to aggregate
