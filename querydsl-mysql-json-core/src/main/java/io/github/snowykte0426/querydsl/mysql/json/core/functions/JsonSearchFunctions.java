@@ -581,9 +581,13 @@ public final class JsonSearchFunctions {
      * @param jsonDoc
      *            the JSON document expression
      * @return boolean expression
+     * @deprecated Use {@link JsonAttributeFunctions#isEmpty(Expression)} instead.
+     *             This method is duplicated and will be removed in a future version.
+     * @since 0.1.0-Dev.1
      */
+    @Deprecated(since = "0.1.0", forRemoval = true)
     public static BooleanExpression jsonIsEmpty(Expression<?> jsonDoc) {
-        return Expressions.booleanTemplate("json_length({0}) = 0", jsonDoc);
+        return JsonAttributeFunctions.isEmpty(jsonDoc);
     }
 
     /**

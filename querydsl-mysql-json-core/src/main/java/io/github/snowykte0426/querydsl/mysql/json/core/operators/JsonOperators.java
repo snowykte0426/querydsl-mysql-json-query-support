@@ -179,9 +179,13 @@ public enum JsonOperators implements Operator {
      * <p>
      * Usage: JSON_MERGE(json_doc, json_doc[, json_doc] ...)
      *
-     * @deprecated Use {@link #JSON_MERGE_PRESERVE} instead
+     * @deprecated This function is deprecated in MySQL 8.0.3 and may be removed in a future release.
+     *             Use {@link #JSON_MERGE_PRESERVE} instead for preserving duplicate keys,
+     *             or {@link #JSON_MERGE_PATCH} for RFC 7386 compliant merging.
+     * @see <a href="https://dev.mysql.com/doc/refman/8.0/en/json-modification-functions.html#function_json-merge">MySQL Documentation</a>
+     * @since 0.1.0-Dev.1
      */
-    @Deprecated
+    @Deprecated(since = "0.1.0", forRemoval = false)
     JSON_MERGE,
 
     /**
