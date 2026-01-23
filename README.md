@@ -1,7 +1,7 @@
 # QueryDSL MySQL JSON Query Support
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.1-red.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.2-red.svg)](https://central.sonatype.com/artifact/io.github.snowykte0426/querydsl-mysql-json-jpa)
 [![JitPack](https://jitpack.io/v/snowykte0426/querydsl-mysql-json-query-support.svg)](https://jitpack.io/#snowykte0426/querydsl-mysql-json-query-support)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
@@ -93,12 +93,12 @@ Based on the actively maintained [OpenFeign QueryDSL](https://github.com/OpenFei
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.2.1'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.2.2'
 
     // Choose your module
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.2.1'   // For SQL
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.2.2'   // For SQL
     // OR
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.2.1'   // For JPA
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-jpa:0.2.2'   // For JPA
 }
 ```
 
@@ -111,7 +111,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
 
     <!-- Choose your module -->
@@ -119,14 +119,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
 
     <!-- OR for JPA -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
     </dependency>
 </dependencies>
 ```
