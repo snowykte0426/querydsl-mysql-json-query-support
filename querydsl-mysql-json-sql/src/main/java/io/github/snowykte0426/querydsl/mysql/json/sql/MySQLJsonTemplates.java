@@ -93,7 +93,8 @@ public class MySQLJsonTemplates extends MySQLTemplates {
      */
     private void registerJsonOperators() {
         // Get all JSON operator templates from core module
-        @NotNull Map<Operator, String> jsonTemplates = JsonOperatorTemplates.getTemplates();
+        @NotNull
+        Map<Operator, String> jsonTemplates = JsonOperatorTemplates.getTemplates();
 
         // Register each operator with QueryDSL SQL template system
         // Precedence -1 means no special precedence handling (most JSON functions)

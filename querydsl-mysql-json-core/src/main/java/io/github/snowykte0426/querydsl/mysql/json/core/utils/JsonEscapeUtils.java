@@ -39,7 +39,8 @@ public final class JsonEscapeUtils {
             return "null";
         }
 
-        @NotNull String escaped = plainString.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
+        @NotNull
+        String escaped = plainString.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
                 .replace("\r", "\\r").replace("\t", "\\t");
 
         return "\"" + escaped + "\"";

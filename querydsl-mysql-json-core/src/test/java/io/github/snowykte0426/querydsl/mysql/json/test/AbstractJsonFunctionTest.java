@@ -204,10 +204,12 @@ public abstract class AbstractJsonFunctionTest {
      *             if query execution fails
      */
     protected @Nullable String executeScalar(@NotNull Expression<?> expression) throws SQLException {
-        @NotNull SQLSerializer localSerializer = new SQLSerializer(querydslConfig);
+        @NotNull
+        SQLSerializer localSerializer = new SQLSerializer(querydslConfig);
         localSerializer.handle(expression);
 
-        @NotNull String sql = "SELECT " + localSerializer.toString();
+        @NotNull
+        String sql = "SELECT " + localSerializer.toString();
         List<Object> constants = localSerializer.getConstants();
 
         // If no parameters, use simple statement
@@ -240,7 +242,8 @@ public abstract class AbstractJsonFunctionTest {
      */
     protected String toSql(@NotNull Expression<?> expression) {
         // Create a new serializer instance for each conversion to avoid state issues
-        @NotNull SQLSerializer newSerializer = new SQLSerializer(querydslConfig);
+        @NotNull
+        SQLSerializer newSerializer = new SQLSerializer(querydslConfig);
         newSerializer.handle(expression);
         return newSerializer.toString();
     }

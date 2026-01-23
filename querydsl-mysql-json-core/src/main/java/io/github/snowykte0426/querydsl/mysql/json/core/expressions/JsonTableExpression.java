@@ -70,7 +70,8 @@ public class JsonTableExpression {
      * @return SQL template string for QueryDSL
      */
     public @NotNull String toSql() {
-        @NotNull StringBuilder sql = new StringBuilder();
+        @NotNull
+        StringBuilder sql = new StringBuilder();
         sql.append("JSON_TABLE(");
 
         // JSON document (will be parameterized by QueryDSL)
@@ -106,7 +107,8 @@ public class JsonTableExpression {
      * @return complete SQL string
      */
     public @NotNull String toCompleteSql() {
-        @NotNull StringBuilder sql = new StringBuilder();
+        @NotNull
+        StringBuilder sql = new StringBuilder();
         sql.append("JSON_TABLE(");
 
         // JSON document - convert expression to SQL literal

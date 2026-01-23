@@ -45,7 +45,8 @@ public final class JsonOperatorTemplates {
      * @return Map of Operator to template String
      */
     private static @NotNull Map<Operator, String> getOperatorTemplateMap() {
-        @NotNull Map<Operator, String> templates = new HashMap<>();
+        @NotNull
+        Map<Operator, String> templates = new HashMap<>();
 
         // ========================================
         // Creation Functions (3)

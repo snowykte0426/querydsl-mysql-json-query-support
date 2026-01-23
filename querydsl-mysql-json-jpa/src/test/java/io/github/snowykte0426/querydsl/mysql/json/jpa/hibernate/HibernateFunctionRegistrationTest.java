@@ -33,7 +33,8 @@ class HibernateFunctionRegistrationTest extends AbstractJPAJsonFunctionTest {
     @Test
     @DisplayName("MySQLJsonFunctionContributor should be discoverable via ServiceLoader")
     void functionContributor_shouldBeDiscoverable() {
-        @NotNull ServiceLoader<FunctionContributor> loader = ServiceLoader.load(FunctionContributor.class);
+        @NotNull
+        ServiceLoader<FunctionContributor> loader = ServiceLoader.load(FunctionContributor.class);
 
         boolean found = false;
         for (FunctionContributor contributor : loader) {
@@ -271,7 +272,8 @@ class HibernateFunctionRegistrationTest extends AbstractJPAJsonFunctionTest {
 
         // When: Count query with json_contains
         assertThatCode(() -> {
-            @Nullable Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
+            @Nullable
+            Long count = queryFactory.select(QUser.user.count()).from(QUser.user)
                     .where(JPAJsonFunctions.jsonContains(QUser.user.roles, "\"admin\"")).fetchOne();
 
             // Then: Should not throw error and should return correct count

@@ -27,11 +27,13 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsString_basicString_shouldWork() {
         // Given: User with roles array containing "admin"
-        @NotNull User adminUser = new User("Alice", "alice@example.com");
+        @NotNull
+        User adminUser = new User("Alice", "alice@example.com");
         adminUser.setRoles("[\"admin\", \"user\"]");
         entityManager.persist(adminUser);
 
-        @NotNull User normalUser = new User("Bob", "bob@example.com");
+        @NotNull
+        User normalUser = new User("Bob", "bob@example.com");
         normalUser.setRoles("[\"user\"]");
         entityManager.persist(normalUser);
 
@@ -50,11 +52,13 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsString_withSpecialCharacters_shouldEscape() {
         // Given: User with scope containing special characters
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"scope\": \"student:read\"}");
         entityManager.persist(user1);
 
-        @NotNull User user2 = new User("User2", "user2@example.com");
+        @NotNull
+        User user2 = new User("User2", "user2@example.com");
         user2.setMetadata("{\"scope\": \"teacher:write\"}");
         entityManager.persist(user2);
 
@@ -73,7 +77,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsString_withQuotes_shouldEscape() {
         // Given: User with value containing quotes
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"message\": \"He said \\\"Hi\\\"\"}");
         entityManager.persist(user1);
 
@@ -92,7 +97,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsString_notFound_shouldReturnEmpty() {
         // Given: User without admin role
-        @NotNull User normalUser = new User("Bob", "bob@example.com");
+        @NotNull
+        User normalUser = new User("Bob", "bob@example.com");
         normalUser.setRoles("[\"user\", \"guest\"]");
         entityManager.persist(normalUser);
 
@@ -114,11 +120,13 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsNumber_integer_shouldWork() {
         // Given: User with age in metadata
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"age\": 25}");
         entityManager.persist(user1);
 
-        @NotNull User user2 = new User("User2", "user2@example.com");
+        @NotNull
+        User user2 = new User("User2", "user2@example.com");
         user2.setMetadata("{\"age\": 30}");
         entityManager.persist(user2);
 
@@ -137,7 +145,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsNumber_decimal_shouldWork() {
         // Given: User with price in metadata
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"price\": 99.99}");
         entityManager.persist(user1);
 
@@ -156,7 +165,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsNumber_inArray_shouldWork() {
         // Given: User with array of numbers
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"scores\": [85, 90, 95]}");
         entityManager.persist(user1);
 
@@ -179,11 +189,13 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsBoolean_true_shouldWork() {
         // Given: Users with active flag
-        @NotNull User activeUser = new User("ActiveUser", "active@example.com");
+        @NotNull
+        User activeUser = new User("ActiveUser", "active@example.com");
         activeUser.setSettings("{\"active\": true}");
         entityManager.persist(activeUser);
 
-        @NotNull User inactiveUser = new User("InactiveUser", "inactive@example.com");
+        @NotNull
+        User inactiveUser = new User("InactiveUser", "inactive@example.com");
         inactiveUser.setSettings("{\"active\": false}");
         entityManager.persist(inactiveUser);
 
@@ -202,11 +214,13 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsBoolean_false_shouldWork() {
         // Given: Users with verified flag
-        @NotNull User verifiedUser = new User("VerifiedUser", "verified@example.com");
+        @NotNull
+        User verifiedUser = new User("VerifiedUser", "verified@example.com");
         verifiedUser.setSettings("{\"verified\": true}");
         entityManager.persist(verifiedUser);
 
-        @NotNull User unverifiedUser = new User("UnverifiedUser", "unverified@example.com");
+        @NotNull
+        User unverifiedUser = new User("UnverifiedUser", "unverified@example.com");
         unverifiedUser.setSettings("{\"verified\": false}");
         entityManager.persist(unverifiedUser);
 
@@ -230,11 +244,13 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     void realisticScenario_apiKeyScopes_shouldWork() {
         // Given: API keys with different scopes
         // This mimics the user's actual production scenario
-        @NotNull User apiKey1 = new User("API Key 1", "key1@example.com");
+        @NotNull
+        User apiKey1 = new User("API Key 1", "key1@example.com");
         apiKey1.setRoles("[\"student:read\", \"student:write\"]");
         entityManager.persist(apiKey1);
 
-        @NotNull User apiKey2 = new User("API Key 2", "key2@example.com");
+        @NotNull
+        User apiKey2 = new User("API Key 2", "key2@example.com");
         apiKey2.setRoles("[\"teacher:read\"]");
         entityManager.persist(apiKey2);
 
@@ -260,7 +276,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsString_emptyString_shouldWork() {
         // Given: User with empty string value
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"value\": \"\"}");
         entityManager.persist(user1);
 
@@ -278,7 +295,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsNumber_zero_shouldWork() {
         // Given: User with zero value
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"count\": 0}");
         entityManager.persist(user1);
 
@@ -296,7 +314,8 @@ class JPAJsonContainsConvenienceTest extends AbstractJPAJsonFunctionTest {
     @Test
     void jsonContainsString_withBackslashes_shouldEscape() {
         // Given: User with value containing backslashes
-        @NotNull User user1 = new User("User1", "user1@example.com");
+        @NotNull
+        User user1 = new User("User1", "user1@example.com");
         user1.setMetadata("{\"path\": \"C:\\\\Users\\\\test\"}");
         entityManager.persist(user1);
 

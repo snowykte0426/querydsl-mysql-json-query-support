@@ -29,8 +29,10 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should format simple object")
         void formatSimpleObject() {
-            @NotNull String sql = "SELECT JSON_PRETTY('{\"a\":1,\"b\":2}')";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_PRETTY('{\"a\":1,\"b\":2}')";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"a\"");
             assertThat(result).contains("\"b\"");
@@ -40,8 +42,10 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should format nested object")
         void formatNestedObject() {
-            @NotNull String sql = "SELECT JSON_PRETTY('{\"user\":{\"name\":\"John\",\"age\":30}}')";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_PRETTY('{\"user\":{\"name\":\"John\",\"age\":30}}')";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"user\"");
             assertThat(result).contains("\"name\"");
@@ -51,8 +55,10 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should format array")
         void formatArray() {
-            @NotNull String sql = "SELECT JSON_PRETTY('[1,2,3]')";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_PRETTY('[1,2,3]')";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("[");
             assertThat(result).contains("]");
@@ -61,7 +67,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should handle null")
         void handleNull() {
-            @NotNull String sql = "SELECT JSON_PRETTY(NULL)";
+            @NotNull
+            String sql = "SELECT JSON_PRETTY(NULL)";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -70,8 +77,10 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should preserve data")
         void preserveData() {
-            @NotNull String sql = "SELECT JSON_PRETTY('{\"key\":\"value\"}')";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_PRETTY('{\"key\":\"value\"}')";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"key\"");
             assertThat(result).contains("\"value\"");
@@ -85,7 +94,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return size for simple object")
         void returnSizeForSimpleObject() {
-            @NotNull String sql = "SELECT JSON_STORAGE_SIZE('{\"a\": 1}')";
+            @NotNull
+            String sql = "SELECT JSON_STORAGE_SIZE('{\"a\": 1}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isGreaterThan(0);
@@ -94,7 +104,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return size for array")
         void returnSizeForArray() {
-            @NotNull String sql = "SELECT JSON_STORAGE_SIZE('[1, 2, 3]')";
+            @NotNull
+            String sql = "SELECT JSON_STORAGE_SIZE('[1, 2, 3]')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isGreaterThan(0);
@@ -103,8 +114,10 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return larger size for bigger document")
         void returnLargerSizeForBiggerDocument() {
-            @NotNull String sql1 = "SELECT JSON_STORAGE_SIZE('{\"a\": 1}')";
-            @NotNull String sql2 = "SELECT JSON_STORAGE_SIZE('{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5}')";
+            @NotNull
+            String sql1 = "SELECT JSON_STORAGE_SIZE('{\"a\": 1}')";
+            @NotNull
+            String sql2 = "SELECT JSON_STORAGE_SIZE('{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5}')";
 
             int size1 = ((Number) executeScalar(sql1)).intValue();
             int size2 = ((Number) executeScalar(sql2)).intValue();
@@ -115,7 +128,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null for null input")
         void returnNullForNullInput() {
-            @NotNull String sql = "SELECT JSON_STORAGE_SIZE(NULL)";
+            @NotNull
+            String sql = "SELECT JSON_STORAGE_SIZE(NULL)";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -124,7 +138,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return size for empty object")
         void returnSizeForEmptyObject() {
-            @NotNull String sql = "SELECT JSON_STORAGE_SIZE('{}')";
+            @NotNull
+            String sql = "SELECT JSON_STORAGE_SIZE('{}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isGreaterThan(0);
@@ -139,7 +154,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should return 0 for literal")
         void return0ForLiteral() {
             // JSON_STORAGE_FREE returns 0 for literals (not column values)
-            @NotNull String sql = "SELECT JSON_STORAGE_FREE('{\"a\": 1}')";
+            @NotNull
+            String sql = "SELECT JSON_STORAGE_FREE('{\"a\": 1}')";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(0);
@@ -152,7 +168,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
             createUser("Test", "test@example.com", "{\"data\": \"value\"}");
 
             // JSON_STORAGE_FREE on column should return 0 for non-updated values
-            @NotNull String sql = "SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE email = 'test@example.com'";
+            @NotNull
+            String sql = "SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE email = 'test@example.com'";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isGreaterThanOrEqualTo(0);
@@ -166,10 +183,13 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should compare storage sizes")
         void compareStorageSizes() {
-            @NotNull String small = "'{}'";
-            @NotNull String large = "'{\"a\":1,\"b\":2,\"c\":3,\"d\":4,\"e\":5}'";
+            @NotNull
+            String small = "'{}'";
+            @NotNull
+            String large = "'{\"a\":1,\"b\":2,\"c\":3,\"d\":4,\"e\":5}'";
 
-            @NotNull String sql = String.format("SELECT JSON_STORAGE_SIZE(%s) < JSON_STORAGE_SIZE(%s)", small, large);
+            @NotNull
+            String sql = String.format("SELECT JSON_STORAGE_SIZE(%s) < JSON_STORAGE_SIZE(%s)", small, large);
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);
@@ -179,7 +199,8 @@ class JPAJsonUtilityFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should pretty print and check validity")
         void prettyPrintAndCheckValidity() {
             // Pretty printed JSON should still be valid
-            @NotNull String sql = "SELECT JSON_VALID(JSON_PRETTY('{\"a\":1}'))";
+            @NotNull
+            String sql = "SELECT JSON_VALID(JSON_PRETTY('{\"a\":1}'))";
             Object result = executeScalar(sql);
 
             assertThat(((Number) result).intValue()).isEqualTo(1);

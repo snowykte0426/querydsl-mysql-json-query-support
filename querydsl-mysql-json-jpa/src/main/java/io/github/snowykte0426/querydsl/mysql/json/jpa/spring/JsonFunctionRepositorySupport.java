@@ -256,8 +256,8 @@ public abstract class JsonFunctionRepositorySupport extends QuerydslRepositorySu
      * @return boolean expression
      */
     protected com.querydsl.core.types.dsl.@NotNull BooleanExpression jsonContains(Expression<?> jsonDoc,
-                                                                                  String value,
-                                                                                  String path) {
+            String value,
+            String path) {
         return JPAJsonFunctions.jsonContains(jsonDoc, value, path);
     }
 

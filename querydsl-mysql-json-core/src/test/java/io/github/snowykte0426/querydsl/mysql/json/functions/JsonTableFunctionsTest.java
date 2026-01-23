@@ -31,13 +31,17 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withSimpleArray_shouldExtractRows() throws SQLException {
         // Given
-        @NotNull String json = "[{\"id\": 1, \"name\": \"John\"}, {\"id\": 2, \"name\": \"Jane\"}]";
-        @NotNull JsonTableExpression table = jsonTable(json, "$[*]").column("id", "INT", "$.id")
+        @NotNull
+        String json = "[{\"id\": 1, \"name\": \"John\"}, {\"id\": 2, \"name\": \"Jane\"}]";
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$[*]").column("id", "INT", "$.id")
                 .column("name", "VARCHAR(100)", "$.name").alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT jt.* FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT jt.* FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("id"), rs.getString("name")});
@@ -53,14 +57,18 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withNestedObject_shouldExtractData() throws SQLException {
         // Given
-        @NotNull String json = "{\"user\": {\"id\": 1, \"name\": \"Alice\", \"email\": \"alice@test.com\"}}";
-        @NotNull JsonTableExpression table = jsonTable().jsonDoc(json).path("$.user").column("user_id", "INT", "$.id")
+        @NotNull
+        String json = "{\"user\": {\"id\": 1, \"name\": \"Alice\", \"email\": \"alice@test.com\"}}";
+        @NotNull
+        JsonTableExpression table = jsonTable().jsonDoc(json).path("$.user").column("user_id", "INT", "$.id")
                 .column("user_name", "VARCHAR(100)", "$.name").column("user_email", "VARCHAR(255)", "$.email")
                 .alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("user_id"), rs.getString("user_name"), rs.getString("user_email")});
@@ -75,14 +83,18 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withMultipleColumnTypes_shouldHandleDifferentTypes() throws SQLException {
         // Given
-        @NotNull String json = "{\"id\": 123, \"name\": \"Test\", \"price\": 99.99, \"active\": true}";
-        @NotNull JsonTableExpression table = jsonTable().jsonDoc(json).path("$").column(intColumn("id", "$.id"))
+        @NotNull
+        String json = "{\"id\": 123, \"name\": \"Test\", \"price\": 99.99, \"active\": true}";
+        @NotNull
+        JsonTableExpression table = jsonTable().jsonDoc(json).path("$").column(intColumn("id", "$.id"))
                 .column(varcharColumn("name", 100, "$.name")).column(decimalColumn("price", 10, 2, "$.price"))
                 .column(booleanColumn("active", "$.active")).alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("id"), rs.getString("name"), rs.getString("price"),
@@ -105,13 +117,17 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withExistsColumn_shouldIndicatePresence() throws SQLException {
         // Given
-        @NotNull String json = "[{\"id\": 1, \"email\": \"user1@test.com\"}, {\"id\": 2}]";
-        @NotNull JsonTableExpression table = jsonTable(json, "$[*]").column("id", "INT", "$.id")
+        @NotNull
+        String json = "[{\"id\": 1, \"email\": \"user1@test.com\"}, {\"id\": 2}]";
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$[*]").column("id", "INT", "$.id")
                 .existsColumn("has_email", "$.email").alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("id"), rs.getString("has_email")});
@@ -131,13 +147,17 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withOrdinalityColumn_shouldNumberRows() throws SQLException {
         // Given
-        @NotNull String json = "[\"a\", \"b\", \"c\", \"d\"]";
-        @NotNull JsonTableExpression table = jsonTable(json, "$[*]").ordinalityColumn("row_num")
+        @NotNull
+        String json = "[\"a\", \"b\", \"c\", \"d\"]";
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$[*]").ordinalityColumn("row_num")
                 .column("value", "VARCHAR(10)", "$").alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("row_num"), rs.getString("value")});
@@ -159,16 +179,21 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withColumnBuilder_shouldSupportCustomSettings() throws SQLException {
         // Given
-        @NotNull String json = "[{\"age\": 25}, {\"age\": null}, {}]";
+        @NotNull
+        String json = "[{\"age\": 25}, {\"age\": null}, {}]";
         // Note: MySQL 8.0.33 only supports string DEFAULT values in JSON_TABLE
-        @NotNull JsonTableColumn statusColumn = columnBuilder().columnName("status").sqlType("VARCHAR(50)").jsonPath("$.status")
+        @NotNull
+        JsonTableColumn statusColumn = columnBuilder().columnName("status").sqlType("VARCHAR(50)").jsonPath("$.status")
                 .onEmpty("DEFAULT '\"unknown\"'").onError("DEFAULT '\"error\"'").build();
 
-        @NotNull JsonTableExpression table = jsonTable(json, "$[*]").column(statusColumn).alias("jt").build();
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$[*]").column(statusColumn).alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String> statuses = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String> statuses = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 statuses.add(rs.getString("status"));
@@ -188,14 +213,18 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withTypeHelpers_shouldCreateCorrectColumns() throws SQLException {
         // Given
-        @NotNull String json = "{\"int_val\": 42, \"big_val\": 9999999999, \"text_val\": \"hello\", \"date_val\": \"2024-01-01\"}";
-        @NotNull JsonTableExpression table = jsonTable(json, "$").column(intColumn("int_val", "$.int_val"))
+        @NotNull
+        String json = "{\"int_val\": 42, \"big_val\": 9999999999, \"text_val\": \"hello\", \"date_val\": \"2024-01-01\"}";
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$").column(intColumn("int_val", "$.int_val"))
                 .column(bigIntColumn("big_val", "$.big_val")).column(textColumn("text_val", "$.text_val"))
                 .column(dateColumn("date_val", "$.date_val")).alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("int_val"), rs.getString("big_val"), rs.getString("text_val"),
@@ -216,13 +245,17 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withJsonColumn_shouldExtractNestedJson() throws SQLException {
         // Given
-        @NotNull String json = "{\"user\": {\"name\": \"John\", \"address\": {\"city\": \"Seoul\", \"zip\": \"12345\"}}}";
-        @NotNull JsonTableExpression table = jsonTable(json, "$.user").column("name", "VARCHAR(100)", "$.name")
+        @NotNull
+        String json = "{\"user\": {\"name\": \"John\", \"address\": {\"city\": \"Seoul\", \"zip\": \"12345\"}}}";
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$.user").column("name", "VARCHAR(100)", "$.name")
                 .column(jsonColumn("address", "$.address")).alias("jt").build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("name"), rs.getString("address")});
@@ -271,11 +304,13 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
                 + "('John', 'john@test.com', '[{\"key\": \"age\", \"value\": 30}, {\"key\": \"city\", \"value\": \"Seoul\"}]')");
 
         // When - Extract key-value pairs from metadata array
-        @NotNull String sql = "SELECT jt.* FROM users, " + "JSON_TABLE(metadata, '$[*]' COLUMNS("
+        @NotNull
+        String sql = "SELECT jt.* FROM users, " + "JSON_TABLE(metadata, '$[*]' COLUMNS("
                 + "  k VARCHAR(50) PATH '$.key'," + "  v VARCHAR(100) PATH '$.value'" + ")) AS jt "
                 + "WHERE users.name = 'John'";
 
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("k"), rs.getString("v")});
@@ -295,10 +330,12 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Product1', 100.00, '{\"tags\": [\"electronics\", \"sale\"]}')");
 
         // When - Extract tags as rows and join
-        @NotNull String sql = "SELECT p.name, jt.tag FROM products p, " + "JSON_TABLE(p.attributes, '$.tags[*]' COLUMNS("
+        @NotNull
+        String sql = "SELECT p.name, jt.tag FROM products p, " + "JSON_TABLE(p.attributes, '$.tags[*]' COLUMNS("
                 + "  tag VARCHAR(50) PATH '$'" + ")) AS jt " + "WHERE p.name = 'Product1'";
 
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("name"), rs.getString("tag")});
@@ -314,18 +351,22 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonTable_withComplexNesting_shouldExtractAllLevels() throws SQLException {
         // Given
-        @NotNull String json = "{\"users\": ["
+        @NotNull
+        String json = "{\"users\": ["
                 + "{\"id\": 1, \"name\": \"Alice\", \"contacts\": [{\"type\": \"email\", \"value\": \"alice@test.com\"}]}, "
                 + "{\"id\": 2, \"name\": \"Bob\", \"contacts\": [{\"type\": \"phone\", \"value\": \"123-456\"}]}"
                 + "]}";
 
-        @NotNull JsonTableExpression table = jsonTable(json, "$.users[*]").column("user_id", "INT", "$.id")
+        @NotNull
+        JsonTableExpression table = jsonTable(json, "$.users[*]").column("user_id", "INT", "$.id")
                 .column("user_name", "VARCHAR(100)", "$.name").column(jsonColumn("contacts", "$.contacts")).alias("jt")
                 .build();
 
         // When
-        @NotNull String sql = "SELECT * FROM " + table.toCompleteSql();
-        @NotNull List<String[]> rows = new ArrayList<>();
+        @NotNull
+        String sql = "SELECT * FROM " + table.toCompleteSql();
+        @NotNull
+        List<String[]> rows = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 rows.add(new String[]{rs.getString("user_id"), rs.getString("user_name"), rs.getString("contacts")});
@@ -349,10 +390,12 @@ class JsonTableFunctionsTest extends AbstractJsonFunctionTest {
                 + "('TestUser', 'test@test.com', '{\"items\": [1, 2, 3, 4, 5]}')");
 
         // When - Use JSON_TABLE with column expression
-        @NotNull String sql = "SELECT jt.* FROM users, " + "JSON_TABLE(users.metadata, '$.items[*]' COLUMNS("
+        @NotNull
+        String sql = "SELECT jt.* FROM users, " + "JSON_TABLE(users.metadata, '$.items[*]' COLUMNS("
                 + "  item INT PATH '$'" + ")) AS jt " + "WHERE users.name = 'TestUser'";
 
-        @NotNull List<String> items = new ArrayList<>();
+        @NotNull
+        List<String> items = new ArrayList<>();
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 items.add(rs.getString("item"));

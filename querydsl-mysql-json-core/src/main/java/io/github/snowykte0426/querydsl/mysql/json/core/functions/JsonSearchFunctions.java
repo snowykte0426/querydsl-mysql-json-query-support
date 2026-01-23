@@ -174,7 +174,9 @@ public final class JsonSearchFunctions {
      *            the JSON path to search within
      * @return boolean expression
      */
-    public static @NotNull BooleanExpression jsonContains(Expression<?> jsonDoc, @NotNull String value, @NotNull String path) {
+    public static @NotNull BooleanExpression jsonContains(Expression<?> jsonDoc,
+            @NotNull String value,
+            @NotNull String path) {
         return Expressions.booleanTemplate("json_contains({0}, {1}, {2})",
                 jsonDoc,
                 Expressions.constant(value),
@@ -243,7 +245,9 @@ public final class JsonSearchFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static @NotNull BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString, @NotNull String path) {
+    public static @NotNull BooleanExpression jsonContainsString(Expression<?> jsonDoc,
+            String plainString,
+            @NotNull String path) {
         return jsonContains(jsonDoc, JsonEscapeUtils.escapeString(plainString), path);
     }
 
@@ -280,7 +284,9 @@ public final class JsonSearchFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static @NotNull BooleanExpression jsonContainsNumber(Expression<?> jsonDoc, Number number, @NotNull String path) {
+    public static @NotNull BooleanExpression jsonContainsNumber(Expression<?> jsonDoc,
+            Number number,
+            @NotNull String path) {
         return jsonContains(jsonDoc, JsonEscapeUtils.escapeNumber(number), path);
     }
 
@@ -317,7 +323,9 @@ public final class JsonSearchFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static @NotNull BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc, boolean bool, @NotNull String path) {
+    public static @NotNull BooleanExpression jsonContainsBoolean(Expression<?> jsonDoc,
+            boolean bool,
+            @NotNull String path) {
         return jsonContains(jsonDoc, JsonEscapeUtils.escapeBoolean(bool), path);
     }
 
@@ -351,7 +359,9 @@ public final class JsonSearchFunctions {
      *            the paths to check
      * @return boolean expression
      */
-    public static @NotNull BooleanExpression jsonContainsPath(Expression<?> jsonDoc, @NotNull String oneOrAll, String @NotNull ... paths) {
+    public static @NotNull BooleanExpression jsonContainsPath(Expression<?> jsonDoc,
+            @NotNull String oneOrAll,
+            String @NotNull... paths) {
         Object @NotNull [] args = new Object[paths.length + 2];
         args[0] = jsonDoc;
         args[1] = Expressions.constant(oneOrAll);
@@ -359,7 +369,8 @@ public final class JsonSearchFunctions {
             args[i + 2] = Expressions.constant(paths[i]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_contains_path({0}, {1}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_contains_path({0}, {1}");
         for (int i = 0; i < paths.length; i++) {
             template.append(", {").append(i + 2).append("}");
         }
@@ -478,10 +489,10 @@ public final class JsonSearchFunctions {
      * @return path(s) to the value
      */
     public static @NotNull JsonValueExpression jsonSearch(Expression<?> jsonDoc,
-                                                          String oneOrAll,
-                                                          String searchString,
-                                                          String escapeChar,
-                                                          String... paths) {
+            String oneOrAll,
+            String searchString,
+            String escapeChar,
+            String... paths) {
         return JsonValueExpression.search(jsonDoc, oneOrAll, searchString, escapeChar, paths);
     }
 
@@ -554,7 +565,8 @@ public final class JsonSearchFunctions {
      * @return boolean expression
      */
     public static @NotNull BooleanExpression memberOf(Object value, Expression<?> jsonArray) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return Expressions.booleanTemplate("{0} member of({1})", valueExpr, jsonArray);
     }

@@ -149,7 +149,8 @@ public class JsonPathExpression extends SimpleExpression<String> {
             return false;
         if (!super.equals(o))
             return false;
-        @NotNull JsonPathExpression that = (JsonPathExpression) o;
+        @NotNull
+        JsonPathExpression that = (JsonPathExpression) o;
         return path.equals(that.path);
     }
 

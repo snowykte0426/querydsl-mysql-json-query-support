@@ -209,7 +209,8 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
      * @return extracted JSON expression
      */
     public static @NotNull JsonExpression<String> jsonExtract(Expression<?> jsonDoc, @NotNull String path) {
-        @NotNull StringExpression expr = Expressions
+        @NotNull
+        StringExpression expr = Expressions
                 .stringTemplate("json_extract({0}, {1})", jsonDoc, Expressions.constant(path));
         return new JsonExpressionImpl<>(expr);
     }
@@ -223,18 +224,20 @@ public abstract class JsonExpression<T> extends SimpleExpression<T> {
      *            the JSON paths
      * @return extracted JSON expression
      */
-    public static @NotNull JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String @NotNull ... paths) {
+    public static @NotNull JsonExpression<String> jsonExtract(Expression<?> jsonDoc, String @NotNull... paths) {
         Object @NotNull [] args = new Object[paths.length + 1];
         args[0] = jsonDoc;
         for (int i = 0; i < paths.length; i++) {
             args[i + 1] = Expressions.constant(paths[i]);
         }
-        @NotNull StringBuilder template = new StringBuilder("json_extract({0}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_extract({0}");
         for (int i = 0; i < paths.length; i++) {
             template.append(", {").append(i + 1).append("}");
         }
         template.append(")");
-        @NotNull StringExpression expr = Expressions.stringTemplate(template.toString(), args);
+        @NotNull
+        StringExpression expr = Expressions.stringTemplate(template.toString(), args);
         return new JsonExpressionImpl<>(expr);
     }
 

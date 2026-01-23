@@ -161,7 +161,9 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the string to search for (supports % and _ wildcards)
      * @return JsonValueExpression with the path(s) where value was found
      */
-    public static @NotNull JsonValueExpression search(Expression<?> jsonDoc, @NotNull String oneOrAll, @NotNull String searchString) {
+    public static @NotNull JsonValueExpression search(Expression<?> jsonDoc,
+            @NotNull String oneOrAll,
+            @NotNull String searchString) {
         return new JsonValueExpression(Expressions.stringTemplate("json_search({0}, {1}, {2})",
                 jsonDoc,
                 Expressions.constant(oneOrAll),
@@ -189,10 +191,10 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @return JsonValueExpression with the path(s) where value was found
      */
     public static @NotNull JsonValueExpression search(Expression<?> jsonDoc,
-                                                      @NotNull String oneOrAll,
-                                                      @NotNull String searchString,
-                                                      @NotNull String escapeChar,
-                                                      String @NotNull ... paths) {
+            @NotNull String oneOrAll,
+            @NotNull String searchString,
+            @NotNull String escapeChar,
+            String @NotNull... paths) {
         Expression<?> @NotNull [] args = new Expression<?>[4 + paths.length];
         args[0] = jsonDoc;
         args[1] = Expressions.constant(oneOrAll);
@@ -222,7 +224,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @return JsonValueExpression with updated document
      */
     public static @NotNull JsonValueExpression set(Expression<?> jsonDoc, @NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(
                 Expressions.stringTemplate("json_set({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -244,7 +247,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @return JsonValueExpression with updated document
      */
     public static @NotNull JsonValueExpression insert(Expression<?> jsonDoc, @NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(Expressions
                 .stringTemplate("json_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -266,7 +270,8 @@ public class JsonValueExpression extends JsonExpression<String> {
      * @return JsonValueExpression with updated document
      */
     public static @NotNull JsonValueExpression replace(Expression<?> jsonDoc, @NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return new JsonValueExpression(Expressions
                 .stringTemplate("json_replace({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -285,7 +290,7 @@ public class JsonValueExpression extends JsonExpression<String> {
      *            the paths to remove
      * @return JsonValueExpression with updated document
      */
-    public static @NotNull JsonValueExpression remove(Expression<?> jsonDoc, String @NotNull ... paths) {
+    public static @NotNull JsonValueExpression remove(Expression<?> jsonDoc, String @NotNull... paths) {
         Expression<?> @NotNull [] args = new Expression<?>[paths.length + 1];
         args[0] = jsonDoc;
 
@@ -294,7 +299,8 @@ public class JsonValueExpression extends JsonExpression<String> {
         }
 
         // Build template with proper number of placeholders
-        @NotNull StringBuilder template = new StringBuilder("json_remove(");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_remove(");
         for (int i = 0; i < args.length; i++) {
             if (i > 0)
                 template.append(", ");

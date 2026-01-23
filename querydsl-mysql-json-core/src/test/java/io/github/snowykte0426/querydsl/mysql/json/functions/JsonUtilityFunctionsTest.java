@@ -28,10 +28,12 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_withCompactObject_shouldFormatWithIndentation() throws SQLException {
         // Given
-        @NotNull StringExpression pretty = jsonPretty("{\"a\":1,\"b\":2}");
+        @NotNull
+        StringExpression pretty = jsonPretty("{\"a\":1,\"b\":2}");
 
         // When
-        @Nullable String result = executeScalar(pretty);
+        @Nullable
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("\"a\"", "\"b\"");
@@ -43,10 +45,12 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_withCompactArray_shouldFormatWithIndentation() throws SQLException {
         // Given
-        @NotNull StringExpression pretty = jsonPretty("[1,2,3,4,5]");
+        @NotNull
+        StringExpression pretty = jsonPretty("[1,2,3,4,5]");
 
         // When
-        @Nullable String result = executeScalar(pretty);
+        @Nullable
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("1", "2", "3", "4", "5");
@@ -56,11 +60,14 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_withNestedStructure_shouldFormatNicely() throws SQLException {
         // Given
-        @NotNull String doc = "{\"user\":{\"name\":\"John\",\"age\":30}}";
-        @NotNull StringExpression pretty = jsonPretty(Expressions.constant(doc));
+        @NotNull
+        String doc = "{\"user\":{\"name\":\"John\",\"age\":30}}";
+        @NotNull
+        StringExpression pretty = jsonPretty(Expressions.constant(doc));
 
         // When
-        @Nullable String result = executeScalar(pretty);
+        @Nullable
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("\"user\"", "\"name\"", "\"John\"");
@@ -70,11 +77,14 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_withExpression_shouldFormat() throws SQLException {
         // Given
-        @NotNull StringExpression arrayExpr = Expressions.stringTemplate("json_array(1, 2, 3)");
-        @NotNull StringExpression pretty = jsonPretty(arrayExpr);
+        @NotNull
+        StringExpression arrayExpr = Expressions.stringTemplate("json_array(1, 2, 3)");
+        @NotNull
+        StringExpression pretty = jsonPretty(arrayExpr);
 
         // When
-        @Nullable String result = executeScalar(pretty);
+        @Nullable
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("1", "2", "3");
@@ -83,11 +93,14 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void format_shouldBeSameAsJsonPretty() throws SQLException {
         // Given
-        @NotNull String doc = "{\"a\":1}";
-        @NotNull StringExpression pretty = format(Expressions.constant(doc));
+        @NotNull
+        String doc = "{\"a\":1}";
+        @NotNull
+        StringExpression pretty = format(Expressions.constant(doc));
 
         // When
-        @Nullable String result = executeScalar(pretty);
+        @Nullable
+        String result = executeScalar(pretty);
 
         // Then
         assertThat(result).contains("\"a\"", "1");
@@ -101,10 +114,12 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_withSmallObject_shouldReturnSize() throws SQLException {
         // Given
-        @NotNull NumberExpression<Integer> size = jsonStorageSize("{\"a\": 1}");
+        @NotNull
+        NumberExpression<Integer> size = jsonStorageSize("{\"a\": 1}");
 
         // When
-        @Nullable String result = executeScalar(size);
+        @Nullable
+        String result = executeScalar(size);
 
         // Then
         int sizeValue = Integer.parseInt(result);
@@ -115,10 +130,12 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_withArray_shouldReturnSize() throws SQLException {
         // Given
-        @NotNull NumberExpression<Integer> size = jsonStorageSize("[1, 2, 3, 4, 5]");
+        @NotNull
+        NumberExpression<Integer> size = jsonStorageSize("[1, 2, 3, 4, 5]");
 
         // When
-        @Nullable String result = executeScalar(size);
+        @Nullable
+        String result = executeScalar(size);
 
         // Then
         int sizeValue = Integer.parseInt(result);
@@ -128,12 +145,15 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_withExpression_shouldReturnSize() throws SQLException {
         // Given
-        @NotNull StringExpression jsonExpr = Expressions
+        @NotNull
+        StringExpression jsonExpr = Expressions
                 .stringTemplate("json_object('name', 'John', 'age', 30, 'city', 'Seoul')");
-        @NotNull NumberExpression<Integer> size = jsonStorageSize(jsonExpr);
+        @NotNull
+        NumberExpression<Integer> size = jsonStorageSize(jsonExpr);
 
         // When
-        @Nullable String result = executeScalar(size);
+        @Nullable
+        String result = executeScalar(size);
 
         // Then
         int sizeValue = Integer.parseInt(result);
@@ -143,15 +163,21 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonStorageSize_largerDocument_shouldReturnLargerSize() throws SQLException {
         // Given
-        @NotNull String small = "{\"a\": 1}";
-        @NotNull String large = "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5, \"f\": 6}";
+        @NotNull
+        String small = "{\"a\": 1}";
+        @NotNull
+        String large = "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5, \"f\": 6}";
 
-        @NotNull NumberExpression<Integer> smallSize = jsonStorageSize(small);
-        @NotNull NumberExpression<Integer> largeSize = jsonStorageSize(large);
+        @NotNull
+        NumberExpression<Integer> smallSize = jsonStorageSize(small);
+        @NotNull
+        NumberExpression<Integer> largeSize = jsonStorageSize(large);
 
         // When
-        @Nullable String smallResult = executeScalar(smallSize);
-        @Nullable String largeResult = executeScalar(largeSize);
+        @Nullable
+        String smallResult = executeScalar(smallSize);
+        @Nullable
+        String largeResult = executeScalar(largeSize);
 
         // Then
         int smallValue = Integer.parseInt(smallResult);
@@ -170,7 +196,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 + "('John', 'john@test.com', '{\"a\": 1, \"b\": 2, \"c\": 3}')");
 
         // When
-        @Nullable String freed = executeScalar("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE name = 'John'");
+        @Nullable
+        String freed = executeScalar("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE name = 'John'");
 
         // Then
         assertThat(freed).isEqualTo("0");
@@ -184,7 +211,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
 
         // When - Perform partial update (remove a field)
         executeUpdate("UPDATE users SET metadata = JSON_REMOVE(metadata, '$.field2', '$.field3') WHERE name = 'Alice'");
-        @Nullable String freed = executeScalar("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE name = 'Alice'");
+        @Nullable
+        String freed = executeScalar("SELECT JSON_STORAGE_FREE(metadata) FROM users WHERE name = 'Alice'");
 
         // Then - Should have some freed space (might be 0 if MySQL optimizes, but not
         // negative)
@@ -204,7 +232,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 "UPDATE products SET attributes = JSON_REMOVE(attributes, '$.attr4', '$.attr5') WHERE name = 'Product'");
         executeUpdate("UPDATE products SET attributes = JSON_REMOVE(attributes, '$.attr6') WHERE name = 'Product'");
 
-        @Nullable String freed = executeScalar("SELECT JSON_STORAGE_FREE(attributes) FROM products WHERE name = 'Product'");
+        @Nullable
+        String freed = executeScalar("SELECT JSON_STORAGE_FREE(attributes) FROM products WHERE name = 'Product'");
 
         // Then
         int freedValue = Integer.parseInt(freed);
@@ -223,7 +252,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
         executeUpdate("UPDATE users SET settings = JSON_REMOVE(settings, '$.notifications') WHERE name = 'Bob'");
 
         // When
-        @Nullable String efficiency = executeScalar(
+        @Nullable
+        String efficiency = executeScalar(
                 "SELECT JSON_STORAGE_FREE(settings) / JSON_STORAGE_SIZE(settings) FROM users WHERE name = 'Bob'");
 
         // Then - Should be a ratio between 0 and 1
@@ -239,7 +269,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Charlie', 'charlie@test.com', '{\"key\": \"value\"}')");
 
         // When
-        @Nullable String hasSpace = executeScalar("SELECT JSON_STORAGE_FREE(metadata) > 10 FROM users WHERE name = 'Charlie'");
+        @Nullable
+        String hasSpace = executeScalar("SELECT JSON_STORAGE_FREE(metadata) > 10 FROM users WHERE name = 'Charlie'");
 
         // Then - New document should have no freed space
         assertThat(hasSpace).isEqualTo("0");
@@ -256,7 +287,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Debug', 'debug@test.com', '{\"theme\":\"dark\",\"lang\":\"en\"}')");
 
         // When
-        @Nullable String pretty = executeScalar("SELECT JSON_PRETTY(settings) FROM users WHERE name = 'Debug'");
+        @Nullable
+        String pretty = executeScalar("SELECT JSON_PRETTY(settings) FROM users WHERE name = 'Debug'");
 
         // Then
         assertThat(pretty).contains("\"theme\"", "\"dark\"");
@@ -270,7 +302,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Widget', 50.00, '{\"color\": \"red\", \"size\": \"medium\"}')");
 
         // When
-        @Nullable String size = executeScalar("SELECT JSON_STORAGE_SIZE(attributes) FROM products WHERE name = 'Widget'");
+        @Nullable
+        String size = executeScalar("SELECT JSON_STORAGE_SIZE(attributes) FROM products WHERE name = 'Widget'");
 
         // Then
         int sizeValue = Integer.parseInt(size);
@@ -284,7 +317,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Large', 20.00, '{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5, \"f\": 6}')");
 
         // When - Find products with large JSON attributes
-        @Nullable String count = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_STORAGE_SIZE(attributes) > 30");
+        @Nullable
+        String count = executeScalar("SELECT COUNT(*) FROM products WHERE JSON_STORAGE_SIZE(attributes) > 30");
 
         // Then - At least the large one should match
         int countValue = Integer.parseInt(count);
@@ -298,7 +332,8 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
                 + "('MultiTest', 'multi@test.com', '{\"data\": [1, 2, 3]}')");
 
         // When - Use multiple utility functions
-        @Nullable String result = executeScalar("SELECT CONCAT(" + "  'Size: ', JSON_STORAGE_SIZE(metadata), "
+        @Nullable
+        String result = executeScalar("SELECT CONCAT(" + "  'Size: ', JSON_STORAGE_SIZE(metadata), "
                 + "  ', Free: ', JSON_STORAGE_FREE(metadata)" + ") FROM users WHERE name = 'MultiTest'");
 
         // Then
@@ -308,14 +343,16 @@ class JsonUtilityFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonPretty_withComplexNesting_shouldFormatCorrectly() throws SQLException {
         // Given
-        @NotNull String complexDoc = "{" + "\"user\": {" + "  \"profile\": {" + "    \"name\": \"John\","
+        @NotNull
+        String complexDoc = "{" + "\"user\": {" + "  \"profile\": {" + "    \"name\": \"John\","
                 + "    \"contacts\": [\"email\", \"phone\"]" + "  }," + "  \"settings\": {\"theme\": \"dark\"}" + "}"
                 + "}";
         executeUpdate("INSERT INTO users (name, email, metadata) VALUES " + "('Complex', 'complex@test.com', '"
                 + complexDoc.replace("\"", "\\\"") + "')");
 
         // When
-        @Nullable String pretty = executeScalar("SELECT JSON_PRETTY(metadata) FROM users WHERE name = 'Complex'");
+        @Nullable
+        String pretty = executeScalar("SELECT JSON_PRETTY(metadata) FROM users WHERE name = 'Complex'");
 
         // Then
         assertThat(pretty).contains("\"user\"", "\"profile\"", "\"name\"");

@@ -177,7 +177,8 @@ public final class JsonSchemaFunctions {
      *            the JSON document as string
      * @return validation report as string expression
      */
-    public static @NotNull StringExpression jsonSchemaValidationReport(@NotNull String schemaJson, @NotNull String documentJson) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(@NotNull String schemaJson,
+            @NotNull String documentJson) {
         return Expressions.stringTemplate("json_schema_validation_report({0}, {1})",
                 Expressions.constant(schemaJson),
                 Expressions.constant(documentJson));
@@ -192,7 +193,8 @@ public final class JsonSchemaFunctions {
      *            the JSON document expression
      * @return validation report as string expression
      */
-    public static @NotNull StringExpression jsonSchemaValidationReport(@NotNull String schemaJson, Expression<?> document) {
+    public static @NotNull StringExpression jsonSchemaValidationReport(@NotNull String schemaJson,
+            Expression<?> document) {
         return Expressions
                 .stringTemplate("json_schema_validation_report({0}, {1})", Expressions.constant(schemaJson), document);
     }

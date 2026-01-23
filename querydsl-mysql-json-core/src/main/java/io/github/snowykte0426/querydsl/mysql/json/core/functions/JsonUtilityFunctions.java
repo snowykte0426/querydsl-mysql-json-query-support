@@ -197,8 +197,9 @@ public final class JsonUtilityFunctions {
      *            the minimum freed bytes to consider significant
      * @return boolean expression
      */
-    public static com.querydsl.core.types.dsl.@NotNull BooleanExpression hasSignificantFreedSpace(Expression<?> jsonColumn,
-                                                                                                  int thresholdBytes) {
+    public static com.querydsl.core.types.dsl.@NotNull BooleanExpression hasSignificantFreedSpace(
+            Expression<?> jsonColumn,
+            int thresholdBytes) {
         return Expressions.booleanTemplate("json_storage_free({0}) > {1}", jsonColumn, thresholdBytes);
     }
 }

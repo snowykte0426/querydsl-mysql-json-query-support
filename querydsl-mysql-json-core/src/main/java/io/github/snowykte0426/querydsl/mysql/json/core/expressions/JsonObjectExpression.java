@@ -65,7 +65,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      * @throws IllegalArgumentException
      *             if odd number of arguments
      */
-    public static @NotNull JsonObjectExpression create(Object @NotNull ... keyValuePairs) {
+    public static @NotNull JsonObjectExpression create(Object @NotNull... keyValuePairs) {
         if (keyValuePairs.length % 2 != 0) {
             throw new IllegalArgumentException("JSON_OBJECT requires an even number of arguments (key-value pairs)");
         }
@@ -82,7 +82,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
         }
 
         // Build template with proper number of placeholders
-        @NotNull StringBuilder template = new StringBuilder("json_object(");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_object(");
         for (int i = 0; i < args.length; i++) {
             if (i > 0)
                 template.append(", ");
@@ -147,7 +148,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
      * @return boolean expression
      */
     public @NotNull SimpleExpression<Boolean> contains(Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return Expressions.booleanTemplate("json_contains({0}, {1})", this, valueExpr);
     }
@@ -166,7 +168,8 @@ public class JsonObjectExpression extends JsonExpression<String> {
      * @return boolean expression
      */
     public @NotNull SimpleExpression<Boolean> contains(Object value, @NotNull String path) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return Expressions.booleanTemplate("json_contains({0}, {1}, {2})", this, valueExpr, Expressions.constant(path));
     }
@@ -182,7 +185,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the JSON documents to merge
      * @return merged JsonObjectExpression
      */
-    public @NotNull JsonObjectExpression mergePatch(Expression<?> @NotNull ... others) {
+    public @NotNull JsonObjectExpression mergePatch(Expression<?> @NotNull... others) {
         Expression<?> @NotNull [] args = new Expression<?>[others.length + 1];
         args[0] = this;
         System.arraycopy(others, 0, args, 1, others.length);
@@ -201,7 +204,7 @@ public class JsonObjectExpression extends JsonExpression<String> {
      *            the JSON documents to merge
      * @return merged JsonObjectExpression
      */
-    public @NotNull JsonObjectExpression mergePreserve(Expression<?> @NotNull ... others) {
+    public @NotNull JsonObjectExpression mergePreserve(Expression<?> @NotNull... others) {
         Expression<?> @NotNull [] args = new Expression<?>[others.length + 1];
         args[0] = this;
         System.arraycopy(others, 0, args, 1, others.length);

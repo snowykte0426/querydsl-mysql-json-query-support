@@ -31,10 +31,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArray_withSimpleValues_shouldCreateArray() throws SQLException {
         // Given
-        @NotNull JsonArrayExpression arr = jsonArray("a", "b", "c");
+        @NotNull
+        JsonArrayExpression arr = jsonArray("a", "b", "c");
 
         // When
-        @Nullable String result = executeScalar(arr);
+        @Nullable
+        String result = executeScalar(arr);
 
         // Then - Note: MySQL formats JSON with spaces
         assertThat(result).isIn("[\"a\", \"b\", \"c\"]", "[\"a\",\"b\",\"c\"]");
@@ -43,10 +45,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArray_withNumbers_shouldCreateArray() throws SQLException {
         // Given
-        @NotNull JsonArrayExpression arr = jsonArray(1, 2, 3);
+        @NotNull
+        JsonArrayExpression arr = jsonArray(1, 2, 3);
 
         // When
-        @Nullable String result = executeScalar(arr);
+        @Nullable
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).isIn("[1, 2, 3]", "[1,2,3]");
@@ -55,10 +59,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArray_withMixedTypes_shouldCreateArray() throws SQLException {
         // Given
-        @NotNull JsonArrayExpression arr = jsonArray("text", 42, true, 3.14);
+        @NotNull
+        JsonArrayExpression arr = jsonArray("text", 42, true, 3.14);
 
         // When
-        @Nullable String result = executeScalar(arr);
+        @Nullable
+        String result = executeScalar(arr);
 
         // Then
         // Note: MySQL JSON_ARRAY converts boolean true/false to 1/0
@@ -69,10 +75,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArray_empty_shouldCreateEmptyArray() throws SQLException {
         // Given
-        @NotNull JsonArrayExpression arr = emptyJsonArray();
+        @NotNull
+        JsonArrayExpression arr = emptyJsonArray();
 
         // When
-        @Nullable String result = executeScalar(arr);
+        @Nullable
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).isEqualTo("[]");
@@ -81,11 +89,14 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArrayFrom_withList_shouldCreateArray() throws SQLException {
         // Given
-        @NotNull List<String> list = List.of("x", "y", "z");
-        @NotNull JsonArrayExpression arr = jsonArrayFrom(list);
+        @NotNull
+        List<String> list = List.of("x", "y", "z");
+        @NotNull
+        JsonArrayExpression arr = jsonArrayFrom(list);
 
         // When
-        @Nullable String result = executeScalar(arr);
+        @Nullable
+        String result = executeScalar(arr);
 
         // Then
         assertThat(result).contains("x", "y", "z");
@@ -98,10 +109,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonObject_withKeyValuePairs_shouldCreateObject() throws SQLException {
         // Given
-        @NotNull JsonObjectExpression obj = jsonObject("name", "John", "age", 30);
+        @NotNull
+        JsonObjectExpression obj = jsonObject("name", "John", "age", 30);
 
         // When
-        @Nullable String result = executeScalar(obj);
+        @Nullable
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).contains("\"name\"", "\"John\"", "\"age\"", "30");
@@ -110,10 +123,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonObject_withBuilder_shouldCreateObject() throws SQLException {
         // Given
-        @NotNull JsonObjectExpression obj = jsonObjectBuilder().put("city", "Seoul").put("country", "Korea").build();
+        @NotNull
+        JsonObjectExpression obj = jsonObjectBuilder().put("city", "Seoul").put("country", "Korea").build();
 
         // When
-        @Nullable String result = executeScalar(obj);
+        @Nullable
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).contains("\"city\"", "\"Seoul\"", "\"country\"", "\"Korea\"");
@@ -122,10 +137,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonObject_empty_shouldCreateEmptyObject() throws SQLException {
         // Given
-        @NotNull JsonObjectExpression obj = emptyJsonObject();
+        @NotNull
+        JsonObjectExpression obj = emptyJsonObject();
 
         // When
-        @Nullable String result = executeScalar(obj);
+        @Nullable
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).isEqualTo("{}");
@@ -141,11 +158,14 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonObjectFrom_withMap_shouldCreateObject() throws SQLException {
         // Given
-        @NotNull Map<String, Object> map = Map.of("status", "active", "count", 5);
-        @NotNull JsonObjectExpression obj = jsonObjectFrom(map);
+        @NotNull
+        Map<String, Object> map = Map.of("status", "active", "count", 5);
+        @NotNull
+        JsonObjectExpression obj = jsonObjectFrom(map);
 
         // When
-        @Nullable String result = executeScalar(obj);
+        @Nullable
+        String result = executeScalar(obj);
 
         // Then
         assertThat(result).contains("\"status\"", "\"active\"", "\"count\"", "5");
@@ -158,10 +178,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonQuote_withSimpleString_shouldQuoteString() throws SQLException {
         // Given
-        @NotNull JsonValueExpression quoted = jsonQuote("hello");
+        @NotNull
+        JsonValueExpression quoted = jsonQuote("hello");
 
         // When
-        @Nullable String result = executeScalar(quoted);
+        @Nullable
+        String result = executeScalar(quoted);
 
         // Then
         assertThat(result).isEqualTo("\"hello\"");
@@ -170,10 +192,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonQuote_withSpecialCharacters_shouldEscapeString() throws SQLException {
         // Given
-        @NotNull JsonValueExpression quoted = jsonQuote("Hello \"World\"");
+        @NotNull
+        JsonValueExpression quoted = jsonQuote("Hello \"World\"");
 
         // When
-        @Nullable String result = executeScalar(quoted);
+        @Nullable
+        String result = executeScalar(quoted);
 
         // Then
         assertThat(result).contains("Hello").contains("World");
@@ -184,10 +208,12 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonQuote_withNewline_shouldEscapeNewline() throws SQLException {
         // Given
-        @NotNull JsonValueExpression quoted = jsonQuote("line1\nline2");
+        @NotNull
+        JsonValueExpression quoted = jsonQuote("line1\nline2");
 
         // When
-        @Nullable String result = executeScalar(quoted);
+        @Nullable
+        String result = executeScalar(quoted);
 
         // Then
         assertThat(result).contains("line1").contains("line2");
@@ -204,7 +230,8 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Test User', 'test@example.com', JSON_ARRAY('tag1', 'tag2', 'tag3'))");
 
         // When
-        @Nullable String tags = executeScalar("SELECT metadata FROM users WHERE name = 'Test User'");
+        @Nullable
+        String tags = executeScalar("SELECT metadata FROM users WHERE name = 'Test User'");
 
         // Then
         assertThat(tags).isNotNull();
@@ -218,7 +245,8 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Test User', 'test@example.com', JSON_OBJECT('theme', 'dark', 'lang', 'en'))");
 
         // When
-        @Nullable String settings = executeScalar("SELECT settings FROM users WHERE id = " + userId);
+        @Nullable
+        String settings = executeScalar("SELECT settings FROM users WHERE id = " + userId);
 
         // Then
         assertThat(settings).contains("\"theme\"", "\"dark\"", "\"lang\"", "\"en\"");
@@ -227,11 +255,13 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void nestedJsonStructures_shouldWork() throws SQLException {
         // Given - Create nested JSON: {"user": {"name": "John", "tags": ["a", "b"]}}
-        @NotNull String sql = "SELECT JSON_OBJECT(" + "'user', JSON_OBJECT(" + "'name', 'John', "
+        @NotNull
+        String sql = "SELECT JSON_OBJECT(" + "'user', JSON_OBJECT(" + "'name', 'John', "
                 + "'tags', JSON_ARRAY('a', 'b')" + ")" + ")";
 
         // When
-        @Nullable String result = executeScalar(sql);
+        @Nullable
+        String result = executeScalar(sql);
 
         // Then
         assertThat(result).contains("\"user\"", "\"name\"", "\"John\"", "\"tags\"");
@@ -241,7 +271,8 @@ class JsonCreationFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonNull_shouldCreateNullValue() throws SQLException {
         // When
-        @Nullable String result = executeScalar("SELECT " + jsonNull());
+        @Nullable
+        String result = executeScalar("SELECT " + jsonNull());
 
         // Then
         assertThat(result).isNull();

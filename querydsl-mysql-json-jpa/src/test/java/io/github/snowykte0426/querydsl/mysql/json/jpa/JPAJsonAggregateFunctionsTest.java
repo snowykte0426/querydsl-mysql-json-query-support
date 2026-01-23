@@ -49,8 +49,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate names into array")
         void aggregateNamesIntoArray() {
-            @NotNull String sql = "SELECT JSON_ARRAYAGG(name) FROM products WHERE category = 'Electronics'";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_ARRAYAGG(name) FROM products WHERE category = 'Electronics'";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("Laptop", "Phone", "Tablet");
             assertThat(result).startsWith("[");
@@ -60,8 +62,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate prices into array")
         void aggregatePricesIntoArray() {
-            @NotNull String sql = "SELECT JSON_ARRAYAGG(price) FROM products WHERE category = 'Furniture'";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_ARRAYAGG(price) FROM products WHERE category = 'Furniture'";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("199.99", "299.99");
         }
@@ -69,7 +73,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return empty array for no rows")
         void returnNullForNoRows() {
-            @NotNull String sql = "SELECT JSON_ARRAYAGG(name) FROM products WHERE category = 'NonExistent'";
+            @NotNull
+            String sql = "SELECT JSON_ARRAYAGG(name) FROM products WHERE category = 'NonExistent'";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             // JSON_ARRAYAGG returns NULL when no rows match
@@ -80,8 +85,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should aggregate single value")
         void aggregateSingleValue() {
             // First, let's make sure we only have one row
-            @NotNull String sql = "SELECT JSON_ARRAYAGG(name) FROM products WHERE name = 'Laptop'";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_ARRAYAGG(name) FROM products WHERE name = 'Laptop'";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).isEqualTo("[\"Laptop\"]");
         }
@@ -89,7 +96,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate with GROUP BY")
         void aggregateWithGroupBy() {
-            @NotNull String sql = "SELECT category, JSON_ARRAYAGG(name) FROM products GROUP BY category ORDER BY category";
+            @NotNull
+            String sql = "SELECT category, JSON_ARRAYAGG(name) FROM products GROUP BY category ORDER BY category";
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
             assertThat(results).hasSize(3);
@@ -106,8 +114,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate JSON values")
         void aggregateJsonValues() {
-            @NotNull String sql = "SELECT JSON_ARRAYAGG(attributes) FROM products WHERE category = 'Electronics'";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_ARRAYAGG(attributes) FROM products WHERE category = 'Electronics'";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("Dell", "Apple", "Samsung");
         }
@@ -120,8 +130,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate key-value pairs into object")
         void aggregateKeyValuePairsIntoObject() {
-            @NotNull String sql = "SELECT JSON_OBJECTAGG(name, price) FROM products WHERE category = 'Clothing'";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_OBJECTAGG(name, price) FROM products WHERE category = 'Clothing'";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"Shirt\"");
             assertThat(result).contains("\"Pants\"");
@@ -132,7 +144,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should return null for no rows")
         void returnNullForNoRows() {
-            @NotNull String sql = "SELECT JSON_OBJECTAGG(name, price) FROM products WHERE category = 'NonExistent'";
+            @NotNull
+            String sql = "SELECT JSON_OBJECTAGG(name, price) FROM products WHERE category = 'NonExistent'";
             Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
             assertThat(result).isNull();
@@ -141,7 +154,8 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate with GROUP BY")
         void aggregateWithGroupBy() {
-            @NotNull String sql = "SELECT category, JSON_OBJECTAGG(name, price) FROM products GROUP BY category ORDER BY category";
+            @NotNull
+            String sql = "SELECT category, JSON_OBJECTAGG(name, price) FROM products GROUP BY category ORDER BY category";
             List<?> results = entityManager.createNativeQuery(sql).getResultList();
 
             assertThat(results).hasSize(3);
@@ -164,8 +178,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @DisplayName("should handle duplicate keys (last value wins)")
         void handleDuplicateKeys() {
             // Create products with same category as key
-            @NotNull String sql = "SELECT JSON_OBJECTAGG(category, name) FROM products";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_OBJECTAGG(category, name) FROM products";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             // Each category should appear once with one of its product names
             assertThat(result).contains("Electronics", "Furniture", "Clothing");
@@ -174,9 +190,11 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate category counts")
         void aggregateCategoryCounts() {
-            @NotNull String sql = "SELECT JSON_OBJECTAGG(category, cnt) FROM "
+            @NotNull
+            String sql = "SELECT JSON_OBJECTAGG(category, cnt) FROM "
                     + "(SELECT category, COUNT(*) as cnt FROM products GROUP BY category) t";
-            @Nullable String result = executeNativeQuery(sql);
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("Electronics", "3");
             assertThat(result).contains("Furniture", "2");
@@ -191,8 +209,10 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should nest array in object")
         void nestArrayInObject() {
-            @NotNull String sql = "SELECT JSON_OBJECT('products', JSON_ARRAYAGG(name)) FROM products WHERE category = 'Electronics'";
-            @Nullable String result = executeNativeQuery(sql);
+            @NotNull
+            String sql = "SELECT JSON_OBJECT('products', JSON_ARRAYAGG(name)) FROM products WHERE category = 'Electronics'";
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"products\"");
             assertThat(result).contains("[");
@@ -202,9 +222,11 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should create category summary")
         void createCategorySummary() {
-            @NotNull String sql = "SELECT JSON_OBJECTAGG(category, products) FROM "
+            @NotNull
+            String sql = "SELECT JSON_OBJECTAGG(category, products) FROM "
                     + "(SELECT category, JSON_ARRAYAGG(name) as products FROM products GROUP BY category) t";
-            @Nullable String result = executeNativeQuery(sql);
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("Electronics");
             assertThat(result).contains("Furniture");
@@ -214,9 +236,11 @@ class JPAJsonAggregateFunctionsTest extends AbstractJPAJsonFunctionTest {
         @Test
         @DisplayName("should aggregate product details")
         void aggregateProductDetails() {
-            @NotNull String sql = "SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'price', price)) "
+            @NotNull
+            String sql = "SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'price', price)) "
                     + "FROM products WHERE category = 'Furniture'";
-            @Nullable String result = executeNativeQuery(sql);
+            @Nullable
+            String result = executeNativeQuery(sql);
 
             assertThat(result).contains("\"name\"", "\"price\"");
             assertThat(result).contains("Chair", "Desk");

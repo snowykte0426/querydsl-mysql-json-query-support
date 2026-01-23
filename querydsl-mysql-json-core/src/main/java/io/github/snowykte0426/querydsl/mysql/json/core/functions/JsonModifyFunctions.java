@@ -76,7 +76,7 @@ public final class JsonModifyFunctions {
      * @throws IllegalArgumentException
      *             if odd number of path-value pairs
      */
-    public static @NotNull StringExpression jsonSet(Expression<?> jsonDoc, Object @NotNull ... pathsAndValues) {
+    public static @NotNull StringExpression jsonSet(Expression<?> jsonDoc, Object @NotNull... pathsAndValues) {
         if (pathsAndValues.length % 2 != 0) {
             throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
         }
@@ -91,7 +91,8 @@ public final class JsonModifyFunctions {
                     : Expressions.constant(pathsAndValues[i + 1]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_set({0}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_set({0}");
         for (int i = 0; i < pathsAndValues.length; i++) {
             template.append(", {").append(i + 1).append("}");
         }
@@ -140,7 +141,7 @@ public final class JsonModifyFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static @NotNull StringExpression jsonInsert(Expression<?> jsonDoc, Object @NotNull ... pathsAndValues) {
+    public static @NotNull StringExpression jsonInsert(Expression<?> jsonDoc, Object @NotNull... pathsAndValues) {
         if (pathsAndValues.length % 2 != 0) {
             throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
         }
@@ -155,7 +156,8 @@ public final class JsonModifyFunctions {
                     : Expressions.constant(pathsAndValues[i + 1]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_insert({0}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_insert({0}");
         for (int i = 0; i < pathsAndValues.length; i++) {
             template.append(", {").append(i + 1).append("}");
         }
@@ -204,7 +206,7 @@ public final class JsonModifyFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static @NotNull StringExpression jsonReplace(Expression<?> jsonDoc, Object @NotNull ... pathsAndValues) {
+    public static @NotNull StringExpression jsonReplace(Expression<?> jsonDoc, Object @NotNull... pathsAndValues) {
         if (pathsAndValues.length % 2 != 0) {
             throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
         }
@@ -219,7 +221,8 @@ public final class JsonModifyFunctions {
                     : Expressions.constant(pathsAndValues[i + 1]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_replace({0}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_replace({0}");
         for (int i = 0; i < pathsAndValues.length; i++) {
             template.append(", {").append(i + 1).append("}");
         }
@@ -285,8 +288,11 @@ public final class JsonModifyFunctions {
      *            the value to append
      * @return modified JSON expression
      */
-    public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc, @NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc,
+            @NotNull String path,
+            Object value) {
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return JsonArrayExpression.wrap(Expressions
                 .stringTemplate("json_array_append({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -305,7 +311,8 @@ public final class JsonModifyFunctions {
      *            alternating paths and values
      * @return modified JSON expression
      */
-    public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc, Object @NotNull ... pathsAndValues) {
+    public static @NotNull JsonArrayExpression jsonArrayAppend(Expression<?> jsonDoc,
+            Object @NotNull... pathsAndValues) {
         if (pathsAndValues.length % 2 != 0) {
             throw new IllegalArgumentException("Must provide path-value pairs (even number of arguments)");
         }
@@ -320,7 +327,8 @@ public final class JsonModifyFunctions {
                     : Expressions.constant(pathsAndValues[i + 1]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_array_append({0}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_array_append({0}");
         for (int i = 0; i < pathsAndValues.length; i++) {
             template.append(", {").append(i + 1).append("}");
         }
@@ -348,8 +356,11 @@ public final class JsonModifyFunctions {
      *            the value to insert
      * @return modified JSON expression
      */
-    public static @NotNull JsonArrayExpression jsonArrayInsert(Expression<?> jsonDoc, @NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+    public static @NotNull JsonArrayExpression jsonArrayInsert(Expression<?> jsonDoc,
+            @NotNull String path,
+            Object value) {
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return JsonArrayExpression.wrap(Expressions
                 .stringTemplate("json_array_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -387,7 +398,7 @@ public final class JsonModifyFunctions {
      *            additional documents (expressions or JSON strings)
      * @return merged JSON expression
      */
-    public static @NotNull StringExpression jsonMergePatch(Expression<?> first, Object @NotNull ... others) {
+    public static @NotNull StringExpression jsonMergePatch(Expression<?> first, Object @NotNull... others) {
         Object @NotNull [] args = new Object[others.length + 1];
         args[0] = first;
 
@@ -395,7 +406,8 @@ public final class JsonModifyFunctions {
             args[i + 1] = others[i] instanceof Expression ? others[i] : Expressions.constant(others[i]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_merge_patch({0}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_merge_patch({0}");
         for (int i = 0; i < others.length; i++) {
             template.append(", {").append(i + 1).append("}");
         }
@@ -419,13 +431,14 @@ public final class JsonModifyFunctions {
      *            the JSON documents to merge
      * @return merged JSON expression
      */
-    public static @NotNull StringExpression jsonMergePreserve(Expression<?> @NotNull ... jsonDocs) {
+    public static @NotNull StringExpression jsonMergePreserve(Expression<?> @NotNull... jsonDocs) {
         if (jsonDocs.length == 0) {
             throw new IllegalArgumentException("json_merge_preserve requires at least one argument");
         }
 
         // Build template with proper number of placeholders
-        @NotNull StringBuilder template = new StringBuilder("json_merge_preserve(");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_merge_preserve(");
         for (int i = 0; i < jsonDocs.length; i++) {
             if (i > 0)
                 template.append(", ");

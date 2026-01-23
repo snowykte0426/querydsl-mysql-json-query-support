@@ -95,7 +95,8 @@ public class JsonTableColumn {
             return columnName + " " + (sqlType != null ? sqlType : "INT") + " EXISTS PATH " + quoteIfNeeded(jsonPath);
         }
 
-        @NotNull StringBuilder sql = new StringBuilder();
+        @NotNull
+        StringBuilder sql = new StringBuilder();
         sql.append(columnName);
 
         if (sqlType != null) {

@@ -56,7 +56,8 @@ public abstract class AbstractJPAJsonFunctionTest {
 
     @BeforeAll
     static void setupEntityManagerFactory() {
-        @NotNull Map<String, Object> properties = new HashMap<>();
+        @NotNull
+        Map<String, Object> properties = new HashMap<>();
         properties.put("jakarta.persistence.jdbc.url",
                 mysql.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000");
         properties.put("jakarta.persistence.jdbc.user", mysql.getUsername());
@@ -106,7 +107,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      * @return the persisted user
      */
     protected @NotNull User createUser(String name, String email, String metadata) {
-        @NotNull User user = new User(name, email, metadata);
+        @NotNull
+        User user = new User(name, email, metadata);
         entityManager.persist(user);
         entityManager.flush();
         return user;
@@ -128,7 +130,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      * @return the persisted user
      */
     protected @NotNull User createUser(String name, String email, String metadata, String settings, String roles) {
-        @NotNull User user = new User(name, email, metadata);
+        @NotNull
+        User user = new User(name, email, metadata);
         user.setSettings(settings);
         user.setRoles(roles);
         entityManager.persist(user);
@@ -150,7 +153,8 @@ public abstract class AbstractJPAJsonFunctionTest {
      * @return the persisted product
      */
     protected @NotNull Product createProduct(String name, BigDecimal price, String category, String attributes) {
-        @NotNull Product product = new Product(name, price, category);
+        @NotNull
+        Product product = new Product(name, price, category);
         product.setAttributes(attributes);
         entityManager.persist(product);
         entityManager.flush();
@@ -172,8 +176,13 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON tags array
      * @return the persisted product
      */
-    protected @NotNull Product createProduct(String name, BigDecimal price, String category, String attributes, String tags) {
-        @NotNull Product product = new Product(name, price, category);
+    protected @NotNull Product createProduct(String name,
+            BigDecimal price,
+            String category,
+            String attributes,
+            String tags) {
+        @NotNull
+        Product product = new Product(name, price, category);
         product.setAttributes(attributes);
         product.setTags(tags);
         entityManager.persist(product);
@@ -194,8 +203,12 @@ public abstract class AbstractJPAJsonFunctionTest {
      *            the JSON order data
      * @return the persisted order
      */
-    protected @NotNull TestOrder createOrder(String orderNumber, Long userId, BigDecimal totalAmount, String orderData) {
-        @NotNull TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
+    protected @NotNull TestOrder createOrder(String orderNumber,
+            Long userId,
+            BigDecimal totalAmount,
+            String orderData) {
+        @NotNull
+        TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
         order.setOrderData(orderData);
         entityManager.persist(order);
         entityManager.flush();
@@ -218,11 +231,12 @@ public abstract class AbstractJPAJsonFunctionTest {
      * @return the persisted order
      */
     protected @NotNull TestOrder createOrder(String orderNumber,
-                                             Long userId,
-                                             BigDecimal totalAmount,
-                                             String orderData,
-                                             String shippingInfo) {
-        @NotNull TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
+            Long userId,
+            BigDecimal totalAmount,
+            String orderData,
+            String shippingInfo) {
+        @NotNull
+        TestOrder order = new TestOrder(orderNumber, userId, totalAmount);
         order.setOrderData(orderData);
         order.setShippingInfo(shippingInfo);
         entityManager.persist(order);

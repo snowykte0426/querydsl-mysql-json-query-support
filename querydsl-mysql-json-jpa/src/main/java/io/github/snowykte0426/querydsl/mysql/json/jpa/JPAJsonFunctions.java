@@ -345,7 +345,9 @@ public final class JPAJsonFunctions {
      * @return boolean expression
      * @since 0.1.0-Beta.4
      */
-    public static @NotNull BooleanExpression jsonContainsString(Expression<?> jsonDoc, String plainString, String path) {
+    public static @NotNull BooleanExpression jsonContainsString(Expression<?> jsonDoc,
+            String plainString,
+            String path) {
         return JsonSearchFunctions.jsonContainsString(jsonDoc, plainString, path);
     }
 

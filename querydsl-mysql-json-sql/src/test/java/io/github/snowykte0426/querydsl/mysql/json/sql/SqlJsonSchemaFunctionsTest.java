@@ -44,7 +44,8 @@ class SqlJsonSchemaFunctionsTest extends AbstractSqlJsonFunctionTest {
 
     @Test
     void jsonSchemaValid_withTypeValidation_shouldWork() throws SQLException {
-        @NotNull String schema = "{\"type\":\"array\"}";
+        @NotNull
+        String schema = "{\"type\":\"array\"}";
 
         String validResult = executeNativeQuery("SELECT JSON_SCHEMA_VALID('" + schema + "', '[1,2,3]')");
         assertThat(validResult).isEqualTo("1");

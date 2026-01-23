@@ -28,7 +28,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Product3', 30.00)");
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products");
 
         // Then
         assertThat(result).contains("\"Product1\"", "\"Product2\"", "\"Product3\"");
@@ -43,7 +44,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Item3', 30.00)");
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(price) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(price) FROM products");
 
         // Then
         assertThat(result).contains("10", "20", "30");
@@ -58,7 +60,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
 
         // When - Note: Subquery ORDER BY may not be preserved without LIMIT
         // Using ORDER BY with LIMIT forces MySQL to maintain the order
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM "
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM "
                 + "(SELECT name FROM products ORDER BY name ASC LIMIT 999999) AS sorted");
 
         // Then
@@ -73,9 +76,11 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Books1', 10.00, '[\"books\"]'), " + "('Books2', 20.00, '[\"books\"]')");
 
         // When - Aggregate names by category (extracted from tags)
-        @Nullable String electronicsNames = executeScalar(
+        @Nullable
+        String electronicsNames = executeScalar(
                 "SELECT JSON_ARRAYAGG(name) FROM products " + "WHERE JSON_CONTAINS(tags, '\"electronics\"')");
-        @Nullable String booksNames = executeScalar(
+        @Nullable
+        String booksNames = executeScalar(
                 "SELECT JSON_ARRAYAGG(name) FROM products " + "WHERE JSON_CONTAINS(tags, '\"books\"')");
 
         // Then
@@ -91,7 +96,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Product3', 30.00, '{\"color\": \"blue\"}')");
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(attributes) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(attributes) FROM products");
 
         // Then - NULL values should be ignored
         assertThat(result).contains("red", "blue");
@@ -101,7 +107,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void jsonArrayAgg_withEmptyResult_shouldReturnNull() throws SQLException {
         // When - No rows match the condition
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products WHERE price > 1000000");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products WHERE price > 1000000");
 
         // Then
         assertThat(result).isNull();
@@ -120,7 +127,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('setting3', 'value3@test.com', '{\"key\": \"tz\"}')");
 
         // When - Aggregate using JSON_EXTRACT for keys
-        @Nullable String result = executeScalar("SELECT JSON_OBJECTAGG(JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.key')), name) "
+        @Nullable
+        String result = executeScalar("SELECT JSON_OBJECTAGG(JSON_UNQUOTE(JSON_EXTRACT(metadata, '$.key')), name) "
                 + "FROM users WHERE JSON_EXTRACT(metadata, '$.key') IS NOT NULL");
 
         // Then
@@ -137,7 +145,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('ProductC', 30.00)");
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_OBJECTAGG(name, price) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_OBJECTAGG(name, price) FROM products");
 
         // Then
         assertThat(result).contains("\"ProductA\"", "\"ProductB\"", "\"ProductC\"");
@@ -153,7 +162,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
         // When - Filter out User2 at SQL level since MySQL doesn't allow NULL keys in
         // JSON_OBJECTAGG
         // Note: MySQL throws error "JSON documents may not contain NULL member names"
-        @Nullable String result = executeScalar("SELECT JSON_OBJECTAGG(name, email) FROM users WHERE name != 'User2'");
+        @Nullable
+        String result = executeScalar("SELECT JSON_OBJECTAGG(name, email) FROM users WHERE name != 'User2'");
 
         // Then - User2 should not be in result
         assertThat(result).isNotNull();
@@ -168,7 +178,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 "INSERT INTO products (name, price) VALUES " + "('DuplicateKey', 10.00), " + "('DuplicateKey', 20.00)");
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_OBJECTAGG(name, price) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_OBJECTAGG(name, price) FROM products");
 
         // Then
         assertThat(result).contains("\"DuplicateKey\"");
@@ -187,7 +198,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Item3', 30.00)");
 
         // When - Create array of objects
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'price', price)) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'price', price)) FROM products");
 
         // Then
         assertThat(result).contains("\"name\"", "\"price\"");
@@ -204,9 +216,11 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
 
         // When - Create object where keys are categories and values are arrays of names
         // This requires a subquery approach
-        @Nullable String electronicsArray = executeScalar(
+        @Nullable
+        String electronicsArray = executeScalar(
                 "SELECT JSON_ARRAYAGG(name) FROM products WHERE JSON_CONTAINS(tags, '\"electronics\"')");
-        @Nullable String booksArray = executeScalar(
+        @Nullable
+        String booksArray = executeScalar(
                 "SELECT JSON_ARRAYAGG(name) FROM products WHERE JSON_CONTAINS(tags, '\"books\"')");
 
         // Then
@@ -226,7 +240,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('User3', 'user3@test.com', '{\"age\": 35}')");
 
         // When - Aggregate ages
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(JSON_EXTRACT(metadata, '$.age')) FROM users");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(JSON_EXTRACT(metadata, '$.age')) FROM users");
 
         // Then
         assertThat(result).contains("25", "30", "35");
@@ -239,7 +254,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('timezone', 'UTC')");
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_OBJECTAGG(name, email) FROM users");
+        @Nullable
+        String result = executeScalar("SELECT JSON_OBJECTAGG(name, email) FROM users");
 
         // Then
         assertThat(result).contains("\"theme\"", "\"dark\"");
@@ -255,7 +271,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Product3', 30.00, '[\"tag1\", \"tag3\"]')");
 
         // When - Get array of all product names
-        @Nullable String names = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products");
+        @Nullable
+        String names = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products");
 
         // Then
         assertThat(names).contains("Product1", "Product2", "Product3");
@@ -268,7 +285,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
                 + "('Expensive1', 100.00), " + "('Expensive2', 200.00)");
 
         // When - Aggregate only cheap products
-        @Nullable String cheapProducts = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products WHERE price < 10");
+        @Nullable
+        String cheapProducts = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products WHERE price < 10");
 
         // Then
         assertThat(cheapProducts).contains("Cheap1", "Cheap2");
@@ -278,7 +296,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
     @Test
     void largeDatasetAggregation_shouldHandle() throws SQLException {
         // Given - Insert many rows
-        @NotNull StringBuilder values = new StringBuilder();
+        @NotNull
+        StringBuilder values = new StringBuilder();
         for (int i = 1; i <= 100; i++) {
             if (i > 1)
                 values.append(", ");
@@ -287,7 +306,8 @@ class JsonAggregateFunctionsTest extends AbstractJsonFunctionTest {
         executeUpdate("INSERT INTO products (name, price) VALUES " + values);
 
         // When
-        @Nullable String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products");
+        @Nullable
+        String result = executeScalar("SELECT JSON_ARRAYAGG(name) FROM products");
 
         // Then
         assertThat(result).contains("Product1", "Product50", "Product100");

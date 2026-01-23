@@ -174,7 +174,8 @@ public final class JsonPath implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        @NotNull JsonPath jsonPath = (JsonPath) o;
+        @NotNull
+        JsonPath jsonPath = (JsonPath) o;
         return path.equals(jsonPath.path);
     }
 

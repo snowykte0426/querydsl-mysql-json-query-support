@@ -120,7 +120,8 @@ public class TestDataBuilder {
          *             if insertion fails
          */
         public long insert() throws SQLException {
-            @NotNull String sql = "INSERT INTO users (name, email, metadata, settings) VALUES (?, ?, ?, ?)";
+            @NotNull
+            String sql = "INSERT INTO users (name, email, metadata, settings) VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, name);
                 stmt.setString(2, email);
@@ -189,7 +190,8 @@ public class TestDataBuilder {
          *             if insertion fails
          */
         public long insert() throws SQLException {
-            @NotNull String sql = "INSERT INTO products (name, price, attributes, tags) VALUES (?, ?, ?, ?)";
+            @NotNull
+            String sql = "INSERT INTO products (name, price, attributes, tags) VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setString(1, name);
                 stmt.setDouble(2, price);
@@ -252,7 +254,8 @@ public class TestDataBuilder {
          *             if insertion fails
          */
         public long insert() throws SQLException {
-            @NotNull String sql = "INSERT INTO orders (user_id, order_data, shipping_info) VALUES (?, ?, ?)";
+            @NotNull
+            String sql = "INSERT INTO orders (user_id, order_data, shipping_info) VALUES (?, ?, ?)";
             try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setLong(1, userId);
                 stmt.setString(2, toJson(orderData));
@@ -290,11 +293,12 @@ public class TestDataBuilder {
      *            alternating keys and values
      * @return Map representing JSON object
      */
-    public static @NotNull Map<String, Object> json(Object @NotNull ... keyValuePairs) {
+    public static @NotNull Map<String, Object> json(Object @NotNull... keyValuePairs) {
         if (keyValuePairs.length % 2 != 0) {
             throw new IllegalArgumentException("Key-value pairs must be even");
         }
-        @NotNull Map<String, Object> map = new HashMap<>();
+        @NotNull
+        Map<String, Object> map = new HashMap<>();
         for (int i = 0; i < keyValuePairs.length; i += 2) {
             map.put(keyValuePairs[i].toString(), keyValuePairs[i + 1]);
         }

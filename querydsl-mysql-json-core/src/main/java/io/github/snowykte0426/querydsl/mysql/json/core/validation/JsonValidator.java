@@ -229,7 +229,8 @@ public final class JsonValidator {
             throw new IllegalArgumentException("String value cannot be null");
         }
 
-        @NotNull StringBuilder sb = new StringBuilder(value.length() + 20);
+        @NotNull
+        StringBuilder sb = new StringBuilder(value.length() + 20);
 
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);

@@ -204,7 +204,7 @@ public class SqlJsonExpression extends SimpleExpression<String> {
      *            the paths to check
      * @return boolean expression
      */
-    public @NotNull BooleanExpression containsPath(@NotNull String oneOrAll, String @NotNull ... paths) {
+    public @NotNull BooleanExpression containsPath(@NotNull String oneOrAll, String @NotNull... paths) {
         Object @NotNull [] args = new Object[paths.length + 2];
         args[0] = jsonDoc;
         args[1] = Expressions.constant(oneOrAll);
@@ -212,7 +212,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
             args[i + 2] = Expressions.constant(paths[i]);
         }
 
-        @NotNull StringBuilder template = new StringBuilder("json_contains_path({0}, {1}");
+        @NotNull
+        StringBuilder template = new StringBuilder("json_contains_path({0}, {1}");
         for (int i = 0; i < paths.length; i++) {
             template.append(", {").append(i + 2).append("}");
         }
@@ -376,7 +377,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
      * @return modified JSON expression
      */
     public @NotNull JsonArrayExpression arrayAppend(@NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return JsonArrayExpression.wrap(Expressions
                 .stringTemplate("json_array_append({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));
@@ -395,7 +397,8 @@ public class SqlJsonExpression extends SimpleExpression<String> {
      * @return modified JSON expression
      */
     public @NotNull JsonArrayExpression arrayInsert(@NotNull String path, Object value) {
-        @NotNull Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
+        @NotNull
+        Expression<?> valueExpr = value instanceof Expression ? (Expression<?>) value : Expressions.constant(value);
 
         return JsonArrayExpression.wrap(Expressions
                 .stringTemplate("json_array_insert({0}, {1}, {2})", jsonDoc, Expressions.constant(path), valueExpr));

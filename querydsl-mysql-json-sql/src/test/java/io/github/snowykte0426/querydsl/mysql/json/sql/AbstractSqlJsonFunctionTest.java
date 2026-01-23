@@ -64,7 +64,8 @@ public abstract class AbstractSqlJsonFunctionTest {
         configuration = new Configuration(MySQLJsonTemplates.DEFAULT);
 
         // Setup HikariCP DataSource
-        @NotNull HikariConfig hikariConfig = new HikariConfig();
+        @NotNull
+        HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(mysql.getJdbcUrl() + "?connectTimeout=30000&socketTimeout=30000");
         hikariConfig.setUsername(mysql.getUsername());
         hikariConfig.setPassword(mysql.getPassword());
@@ -174,9 +175,11 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected @NotNull Long createUser(@NotNull String name, @NotNull String email, @NotNull String metadata) throws SQLException {
+    protected @NotNull Long createUser(@NotNull String name, @NotNull String email, @NotNull String metadata)
+            throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            @NotNull String sql = String.format("INSERT INTO users (name, email, metadata) VALUES ('%s', '%s', '%s')",
+            @NotNull
+            String sql = String.format("INSERT INTO users (name, email, metadata) VALUES ('%s', '%s', '%s')",
                     name.replace("'", "''"),
                     email.replace("'", "''"),
                     metadata.replace("'", "''"));
@@ -206,10 +209,14 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected @NotNull Long createUser(@NotNull String name, @NotNull String email, @NotNull String metadata, @NotNull String settings, @NotNull String roles)
-            throws SQLException {
+    protected @NotNull Long createUser(@NotNull String name,
+            @NotNull String email,
+            @NotNull String metadata,
+            @NotNull String settings,
+            @NotNull String roles) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            @NotNull String sql = String.format(
+            @NotNull
+            String sql = String.format(
                     "INSERT INTO users (name, email, metadata, settings, roles) VALUES ('%s', '%s', '%s', '%s', '%s')",
                     name.replace("'", "''"),
                     email.replace("'", "''"),
@@ -240,10 +247,13 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected @NotNull Long createProduct(@NotNull String name, @NotNull BigDecimal price, @NotNull String category, @NotNull String attributes)
-            throws SQLException {
+    protected @NotNull Long createProduct(@NotNull String name,
+            @NotNull BigDecimal price,
+            @NotNull String category,
+            @NotNull String attributes) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            @NotNull String sql = String.format(
+            @NotNull
+            String sql = String.format(
                     "INSERT INTO products (name, price, category, attributes) VALUES ('%s', %s, '%s', '%s')",
                     name.replace("'", "''"),
                     price.toString(),
@@ -275,10 +285,14 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected @NotNull Long createProduct(@NotNull String name, @NotNull BigDecimal price, @NotNull String category, @NotNull String attributes, @NotNull String tags)
-            throws SQLException {
+    protected @NotNull Long createProduct(@NotNull String name,
+            @NotNull BigDecimal price,
+            @NotNull String category,
+            @NotNull String attributes,
+            @NotNull String tags) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            @NotNull String sql = String.format(
+            @NotNull
+            String sql = String.format(
                     "INSERT INTO products (name, price, category, attributes, tags) VALUES ('%s', %s, '%s', '%s', '%s')",
                     name.replace("'", "''"),
                     price.toString(),
@@ -309,10 +323,13 @@ public abstract class AbstractSqlJsonFunctionTest {
      * @throws SQLException
      *             if database error occurs
      */
-    protected @NotNull Long createOrder(@NotNull String orderNumber, Long userId, @NotNull BigDecimal totalAmount, @NotNull String orderData)
-            throws SQLException {
+    protected @NotNull Long createOrder(@NotNull String orderNumber,
+            Long userId,
+            @NotNull BigDecimal totalAmount,
+            @NotNull String orderData) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            @NotNull String sql = String.format(
+            @NotNull
+            String sql = String.format(
                     "INSERT INTO orders (order_number, user_id, total_amount, order_data) VALUES ('%s', %d, %s, '%s')",
                     orderNumber.replace("'", "''"),
                     userId,
@@ -345,12 +362,13 @@ public abstract class AbstractSqlJsonFunctionTest {
      *             if database error occurs
      */
     protected @NotNull Long createOrder(@NotNull String orderNumber,
-                                        Long userId,
-                                        @NotNull BigDecimal totalAmount,
-                                        @NotNull String orderData,
-                                        @NotNull String shippingInfo) throws SQLException {
+            Long userId,
+            @NotNull BigDecimal totalAmount,
+            @NotNull String orderData,
+            @NotNull String shippingInfo) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
-            @NotNull String sql = String.format(
+            @NotNull
+            String sql = String.format(
                     "INSERT INTO orders (order_number, user_id, total_amount, order_data, shipping_info) VALUES ('%s', %d, %s, '%s', '%s')",
                     orderNumber.replace("'", "''"),
                     userId,
