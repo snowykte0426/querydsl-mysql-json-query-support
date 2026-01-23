@@ -6,6 +6,7 @@ import io.github.snowykte0426.querydsl.mysql.json.core.expressions.JsonValueExpr
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Factory class for MySQL JSON creation functions.
@@ -67,7 +68,8 @@ public final class JsonCreationFunctions {
      *            the array values
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression jsonArray(Object... values) {
+    @NotNull
+    public static JsonArrayExpression jsonArray(@NotNull Object... values) {
         return JsonArrayExpression.create(values);
     }
 
@@ -82,7 +84,8 @@ public final class JsonCreationFunctions {
      *            the value expressions
      * @return JsonArrayExpression
      */
-    public static JsonArrayExpression jsonArray(Expression<?>... expressions) {
+    @NotNull
+    public static JsonArrayExpression jsonArray(@NotNull Expression<?>... expressions) {
         return JsonArrayExpression.create((Object[]) expressions);
     }
 
@@ -95,6 +98,7 @@ public final class JsonCreationFunctions {
      *
      * @return empty JsonArrayExpression
      */
+    @NotNull
     public static JsonArrayExpression emptyJsonArray() {
         return JsonArrayExpression.empty();
     }
@@ -124,7 +128,8 @@ public final class JsonCreationFunctions {
      * @throws IllegalArgumentException
      *             if odd number of arguments
      */
-    public static JsonObjectExpression jsonObject(Object... keyValuePairs) {
+    @NotNull
+    public static JsonObjectExpression jsonObject(@NotNull Object... keyValuePairs) {
         return JsonObjectExpression.create(keyValuePairs);
     }
 
@@ -137,6 +142,7 @@ public final class JsonCreationFunctions {
      *
      * @return empty JsonObjectExpression
      */
+    @NotNull
     public static JsonObjectExpression emptyJsonObject() {
         return JsonObjectExpression.empty();
     }
@@ -153,6 +159,7 @@ public final class JsonCreationFunctions {
      *
      * @return JsonObjectBuilder
      */
+    @NotNull
     public static JsonObjectExpression.JsonObjectBuilder jsonObjectBuilder() {
         return JsonObjectExpression.builder();
     }
@@ -227,17 +234,15 @@ public final class JsonCreationFunctions {
      * @return JsonArrayExpression
      */
     public static JsonArrayExpression jsonArrayFrom(Iterable<?> collection) {
-        Object[] array;
         if (collection instanceof java.util.Collection) {
-            array = ((java.util.Collection<?>) collection).toArray();
-        } else {
-            java.util.List<Object> list = new java.util.ArrayList<>();
-            for (Object item : collection) {
-                list.add(item);
-            }
-            array = list.toArray();
+            return jsonArray(((java.util.Collection<?>) collection).toArray());
         }
-        return jsonArray(array);
+
+        java.util.List<Object> list = new java.util.ArrayList<>();
+        for (Object item : collection) {
+            list.add(item);
+        }
+        return jsonArray(list.toArray());
     }
 
     /**
