@@ -547,17 +547,6 @@ public final class SqlJsonFunctions {
         return JsonSearchFunctions.memberOf(valueExpr, jsonArray);
     }
 
-    /**
-     * Tests whether a JSON document is empty.
-     *
-     * @param jsonDoc
-     *            the JSON document expression
-     * @return boolean expression
-     */
-    public static @NotNull BooleanExpression jsonIsEmpty(@NotNull Expression<?> jsonDoc) {
-        return JsonAttributeFunctions.isEmpty(jsonDoc);
-    }
-
     // ============================================================
     // Modification Functions (JSON_SET, JSON_INSERT, etc.)
     // ============================================================
