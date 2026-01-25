@@ -83,7 +83,7 @@ public final class JsonPath implements Serializable {
      * </ul>
      */
     private static final Pattern PATH_PATTERN = Pattern
-            .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*|\\[\\d+\\]|\\[\\*\\]|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
+            .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*|\\[\\d+]|\\[\\*]|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
 
     /**
      * Root path constant.
