@@ -41,7 +41,11 @@ subprojects {
     configure<MavenPublishBaseExtension> {
         publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-        signAllPublications()
+        // Only sign publications if not building on JitPack
+        // JitPack doesn't require signing and won't have signing credentials
+        if (System.getenv("JITPACK") == null) {
+            signAllPublications()
+        }
 
         pom {
             name.set("QueryDSL MySQL JSON Query Support - ${project.name}")
