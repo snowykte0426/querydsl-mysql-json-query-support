@@ -1,6 +1,6 @@
 # QueryDSL MySQL JSON - SQL Module
 
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.2-red.svg)]()
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.3-red.svg)]()
 [![JitPack](https://jitpack.io/v/snowykte0426/querydsl-mysql-json-query-support.svg)](https://jitpack.io/#snowykte0426/querydsl-mysql-json-query-support)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
