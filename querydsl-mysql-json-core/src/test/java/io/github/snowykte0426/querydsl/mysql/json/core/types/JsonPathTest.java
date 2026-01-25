@@ -18,29 +18,28 @@ class JsonPathTest {
     // ============ Valid Path Tests ============
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "$",                            // Root
-            "$.user",                       // Simple member
-            "$.user.name",                  // Nested member
-            "$.a.b.c.d.e",                  // Deeply nested
-            "$[0]",                         // Simple array
-            "$[123]",                       // Large index
-            "$[0][1][2]",                   // Nested arrays
-            "$.users[0]",                   // Member then array
-            "$[0].name",                    // Array then member
-            "$.users[0].name",              // Mixed access
+    @ValueSource(strings = {"$", // Root
+            "$.user", // Simple member
+            "$.user.name", // Nested member
+            "$.a.b.c.d.e", // Deeply nested
+            "$[0]", // Simple array
+            "$[123]", // Large index
+            "$[0][1][2]", // Nested arrays
+            "$.users[0]", // Member then array
+            "$[0].name", // Array then member
+            "$.users[0].name", // Mixed access
             "$.users[0].addresses[1].city", // Complex path
-            "$[*]",                         // Array wildcard
-            "$.*",                          // Object wildcard
-            "$.settings.*",                 // Member then wildcard
-            "$**.price",                    // Recursive descent
-            "$.catalog.**.price",           // Recursive in path
-            "$.a_b_c",                      // Underscores
-            "$._private",                   // Leading underscore
-            "$.userName",                   // CamelCase
-            "$.user_name",                  // Snake case
-            "$.user123",                    // Numbers in identifier
-            "$.ABC",                        // Uppercase
+            "$[*]", // Array wildcard
+            "$.*", // Object wildcard
+            "$.settings.*", // Member then wildcard
+            "$**.price", // Recursive descent
+            "$.catalog.**.price", // Recursive in path
+            "$.a_b_c", // Underscores
+            "$._private", // Leading underscore
+            "$.userName", // CamelCase
+            "$.user_name", // Snake case
+            "$.user123", // Numbers in identifier
+            "$.ABC", // Uppercase
     })
     @DisplayName("isValidPath should return true for valid paths")
     void isValidPath_withValidPath_shouldReturnTrue(String path) {
@@ -48,16 +47,7 @@ class JsonPathTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "$",
-            "$.user",
-            "$.user.name",
-            "$[0]",
-            "$.users[0].name",
-            "$[*]",
-            "$.*",
-            "$**.price"
-    })
+    @ValueSource(strings = {"$", "$.user", "$.user.name", "$[0]", "$.users[0].name", "$[*]", "$.*", "$**.price"})
     @DisplayName("of() should create JsonPath for valid paths")
     void of_withValidPath_shouldCreateJsonPath(String path) {
         @NotNull
@@ -68,29 +58,28 @@ class JsonPathTest {
     // ============ Invalid Path Tests ============
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "user",                         // Missing root
-            "[0]",                          // Missing root with array
-            "$.user.name.",                 // Trailing dot
-            "$invalid",                     // No dot after root
-            "$.123start",                   // Identifier starts with digit
-            "$.user-name",                  // Hyphen not allowed
-            "$.user name",                  // Space not allowed
-            "$.user.name!",                 // Special character
-            "$.",                           // Empty member
-            "$..",                          // Double dot
-            "$[]",                          // Empty array index
-            "$[abc]",                       // Non-numeric index
-            "$[-1]",                        // Negative index
-            "$.user]",                      // Unmatched bracket
-            "$.user[",                      // Unclosed bracket
-            "$[0",                          // Missing closing bracket
-            "$**",                          // Invalid recursive (no member)
-            "$..**",                        // Invalid recursive (no member)
-            "$.user.**",                    // Invalid recursive (no member)
-            "$.user..name",                 // Double dot in path
-            "$[*",                          // Unclosed wildcard
-            "$.user[*",                     // Unclosed wildcard
+    @ValueSource(strings = {"user", // Missing root
+            "[0]", // Missing root with array
+            "$.user.name.", // Trailing dot
+            "$invalid", // No dot after root
+            "$.123start", // Identifier starts with digit
+            "$.user-name", // Hyphen not allowed
+            "$.user name", // Space not allowed
+            "$.user.name!", // Special character
+            "$.", // Empty member
+            "$..", // Double dot
+            "$[]", // Empty array index
+            "$[abc]", // Non-numeric index
+            "$[-1]", // Negative index
+            "$.user]", // Unmatched bracket
+            "$.user[", // Unclosed bracket
+            "$[0", // Missing closing bracket
+            "$**", // Invalid recursive (no member)
+            "$..**", // Invalid recursive (no member)
+            "$.user.**", // Invalid recursive (no member)
+            "$.user..name", // Double dot in path
+            "$[*", // Unclosed wildcard
+            "$.user[*", // Unclosed wildcard
     })
     @DisplayName("isValidPath should return false for invalid paths")
     void isValidPath_withInvalidPath_shouldReturnFalse(String path) {
@@ -98,17 +87,10 @@ class JsonPathTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "$invalid",
-            "$.123start",
-            "$.user-name",
-            "$.",
-            "$[]"
-    })
+    @ValueSource(strings = {"$invalid", "$.123start", "$.user-name", "$.", "$[]"})
     @DisplayName("of() should throw IllegalArgumentException for invalid paths")
     void of_withInvalidPath_shouldThrowException(String path) {
-        assertThatThrownBy(() -> JsonPath.of(path))
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> JsonPath.of(path)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid JSON path");
     }
 
@@ -127,8 +109,7 @@ class JsonPathTest {
     @Test
     @DisplayName("of() should throw NullPointerException for null")
     void of_withNull_shouldThrowException() {
-        assertThatThrownBy(() -> JsonPath.of(null))
-                .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> JsonPath.of(null)).isInstanceOf(NullPointerException.class);
     }
 
     // ============ ReDoS Resistance Tests ============
@@ -192,24 +173,21 @@ class JsonPathTest {
     @ValueSource(strings = {"123start", "user-name", "user name", "user.name", "user[0]", ""})
     @DisplayName("member() should reject invalid identifiers")
     void member_withInvalidIdentifier_shouldThrowException(String key) {
-        assertThatThrownBy(() -> JsonPath.member(key))
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> JsonPath.member(key)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid identifier");
     }
 
     @Test
     @DisplayName("member() should throw NullPointerException for null key")
     void member_withNullKey_shouldThrowException() {
-        assertThatThrownBy(() -> JsonPath.member(null))
-                .isInstanceOf(NullPointerException.class)
+        assertThatThrownBy(() -> JsonPath.member(null)).isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("key must not be null");
     }
 
     @Test
     @DisplayName("member() should provide helpful error message")
     void member_withInvalidKey_shouldProvideHelpfulMessage() {
-        assertThatThrownBy(() -> JsonPath.member("123invalid"))
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> JsonPath.member("123invalid")).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("must start with letter/underscore")
                 .hasMessageContaining("contain only alphanumeric/underscore");
     }
@@ -237,10 +215,8 @@ class JsonPathTest {
     @ValueSource(ints = {-1, -10, -100, Integer.MIN_VALUE})
     @DisplayName("arrayElement() should reject negative indices")
     void arrayElement_withNegativeIndex_shouldThrowException(int index) {
-        assertThatThrownBy(() -> JsonPath.arrayElement(index))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Array index must be non-negative")
-                .hasMessageContaining(String.valueOf(index));
+        assertThatThrownBy(() -> JsonPath.arrayElement(index)).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Array index must be non-negative").hasMessageContaining(String.valueOf(index));
     }
 
     // ============ Factory Method: recursiveDescent() ============
@@ -265,9 +241,7 @@ class JsonPathTest {
     @DisplayName("recursiveDescent() should support chaining")
     void recursiveDescent_chained_shouldCreateCorrectPath() {
         @NotNull
-        JsonPath path = JsonPath.ROOT
-                .recursiveDescent("users")
-                .recursiveDescent("name");
+        JsonPath path = JsonPath.ROOT.recursiveDescent("users").recursiveDescent("name");
         assertThat(path.getPath()).isEqualTo("$.**.users.**.name");
     }
 
@@ -284,16 +258,14 @@ class JsonPathTest {
     @ValueSource(strings = {"123start", "user-name", "user name", ""})
     @DisplayName("recursiveDescent() should reject invalid identifiers")
     void recursiveDescent_withInvalidIdentifier_shouldThrowException(String key) {
-        assertThatThrownBy(() -> JsonPath.ROOT.recursiveDescent(key))
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> JsonPath.ROOT.recursiveDescent(key)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid identifier");
     }
 
     @Test
     @DisplayName("recursiveDescent() should throw NullPointerException for null key")
     void recursiveDescent_withNullKey_shouldThrowException() {
-        assertThatThrownBy(() -> JsonPath.ROOT.recursiveDescent(null))
-                .isInstanceOf(NullPointerException.class)
+        assertThatThrownBy(() -> JsonPath.ROOT.recursiveDescent(null)).isInstanceOf(NullPointerException.class)
                 .hasMessageContaining("key must not be null");
     }
 
@@ -477,8 +449,7 @@ class JsonPathTest {
     @DisplayName("Should build complex path with multiple operations")
     void buildComplexPath_shouldCreateCorrectPath() {
         @NotNull
-        JsonPath path = JsonPath.member("users")
-                .wildcard();
+        JsonPath path = JsonPath.member("users").wildcard();
         assertThat(path.getPath()).isEqualTo("$.users[*]");
     }
 

@@ -82,8 +82,8 @@ public final class JsonPath implements Serializable {
      * <li>{@code $} - End of string</li>
      * </ul>
      */
-    private static final Pattern PATH_PATTERN = Pattern
-            .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*+|\\[\\d++]|\\[\\*]|\\.\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*+|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*+)*+$");
+    private static final Pattern PATH_PATTERN = Pattern.compile(
+            "^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*+|\\[\\d++]|\\[\\*]|\\.\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*+|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*+)*+$");
 
     /**
      * Pattern for validating JSON member identifiers.
@@ -254,9 +254,8 @@ public final class JsonPath implements Serializable {
      */
     private static void validateIdentifier(String identifier) {
         if (!IDENTIFIER_PATTERN.matcher(identifier).matches()) {
-            throw new IllegalArgumentException(
-                    "Invalid identifier: '" + identifier
-                            + "' (must start with letter/underscore, contain only alphanumeric/underscore)");
+            throw new IllegalArgumentException("Invalid identifier: '" + identifier
+                    + "' (must start with letter/underscore, contain only alphanumeric/underscore)");
         }
     }
 
