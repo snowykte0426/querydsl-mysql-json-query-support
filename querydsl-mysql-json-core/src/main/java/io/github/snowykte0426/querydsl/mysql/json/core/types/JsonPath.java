@@ -83,7 +83,19 @@ public final class JsonPath implements Serializable {
      * </ul>
      */
     private static final Pattern PATH_PATTERN = Pattern
-            .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*|\\[\\d+]|\\[\\*]|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
+            .compile("^\\$(?:\\.[a-zA-Z_][a-zA-Z0-9_]*+|\\[\\d++]|\\[\\*]|\\.\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*+|\\.\\*|\\*\\*\\.[a-zA-Z_][a-zA-Z0-9_]*+)*+$");
+
+    /**
+     * Pattern for validating JSON member identifiers.
+     *
+     * <p>
+     * Identifiers must:
+     * <ul>
+     * <li>Start with a letter (a-z, A-Z) or underscore (_)</li>
+     * <li>Contain only letters, digits (0-9), or underscores</li>
+     * </ul>
+     */
+    private static final Pattern IDENTIFIER_PATTERN = Pattern.compile("^[a-zA-Z_][a-zA-Z0-9_]*$");
 
     /**
      * Root path constant.
@@ -120,8 +132,15 @@ public final class JsonPath implements Serializable {
     }
 
     /**
-     * Creates a JsonPath without validation. Use only when path is already
-     * validated or comes from trusted source.
+     * Creates a JsonPath without validation. Use only when:
+     * <ul>
+     * <li>Path is already validated</li>
+     * <li>Path comes from trusted source (database, config)</li>
+     * <li>Using non-standard MySQL path syntax</li>
+     * </ul>
+     *
+     * <p>
+     * <strong>WARNING:</strong> Invalid paths will cause MySQL errors at runtime.
      *
      * @param path
      *            the JSON path
@@ -137,8 +156,12 @@ public final class JsonPath implements Serializable {
      * @param key
      *            the object key
      * @return JsonPath to the member
+     * @throws IllegalArgumentException
+     *             if the key is not a valid identifier
      */
     public static @NotNull JsonPath member(String key) {
+        Objects.requireNonNull(key, "key must not be null");
+        validateIdentifier(key);
         return new JsonPath("$." + key);
     }
 
@@ -148,8 +171,13 @@ public final class JsonPath implements Serializable {
      * @param index
      *            the array index
      * @return JsonPath to the element
+     * @throws IllegalArgumentException
+     *             if the index is negative
      */
     public static @NotNull JsonPath arrayElement(int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException("Array index must be non-negative: " + index);
+        }
         return new JsonPath("$[" + index + "]");
     }
 
@@ -168,9 +196,13 @@ public final class JsonPath implements Serializable {
      * @param key
      *            the member key to search recursively
      * @return new JsonPath with recursive descent
+     * @throws IllegalArgumentException
+     *             if the key is not a valid identifier
      */
     public @NotNull JsonPath recursiveDescent(String key) {
-        return new JsonPath(this.path + "**." + key);
+        Objects.requireNonNull(key, "key must not be null");
+        validateIdentifier(key);
+        return new JsonPath(this.path + ".**." + key);
     }
 
     /**
@@ -202,8 +234,30 @@ public final class JsonPath implements Serializable {
         if (path == null || path.isEmpty()) {
             return false;
         }
-        // Basic validation - MySQL will do full validation
-        return path.startsWith("$");
+        return PATH_PATTERN.matcher(path).matches();
+    }
+
+    /**
+     * Validates that a string is a valid JSON member identifier.
+     *
+     * <p>
+     * Valid identifiers must:
+     * <ul>
+     * <li>Start with a letter (a-z, A-Z) or underscore (_)</li>
+     * <li>Contain only letters, digits (0-9), or underscores</li>
+     * </ul>
+     *
+     * @param identifier
+     *            the identifier to validate
+     * @throws IllegalArgumentException
+     *             if the identifier is invalid
+     */
+    private static void validateIdentifier(String identifier) {
+        if (!IDENTIFIER_PATTERN.matcher(identifier).matches()) {
+            throw new IllegalArgumentException(
+                    "Invalid identifier: '" + identifier
+                            + "' (must start with letter/underscore, contain only alphanumeric/underscore)");
+        }
     }
 
     @Override
