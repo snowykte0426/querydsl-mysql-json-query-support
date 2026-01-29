@@ -1,11 +1,10 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.DeploymentValidation
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    id("com.vanniktech.maven.publish") version "0.28.0" apply false
-    id("com.diffplug.spotless") version "8.1.0" apply false
+    id("com.vanniktech.maven.publish") version "0.36.0" apply false
+    id("com.diffplug.spotless") version "8.2.1" apply false
 }
 
 allprojects {
