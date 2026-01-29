@@ -37,7 +37,7 @@ This project provides comprehensive MySQL JSON function support for QueryDSL, en
 ### Prerequisites
 
 - **Java**: 17, 21, or 25
-- **Gradle**: 8.5+ (Java 25 requires Gradle 9.2.1+)
+- **Gradle**: 9.0.0+
 - **Docker**: Required for integration tests (Testcontainers)
 - **Git**: Version control
 
