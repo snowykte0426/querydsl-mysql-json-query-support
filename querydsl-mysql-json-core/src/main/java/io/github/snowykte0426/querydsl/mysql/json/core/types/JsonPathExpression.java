@@ -79,7 +79,7 @@ public class JsonPathExpression extends SimpleExpression<String> {
      *
      * @return the JSON path
      */
-    public JsonPath getPath() {
+    public @NotNull JsonPath getPath() {
         return path;
     }
 
