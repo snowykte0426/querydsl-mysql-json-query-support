@@ -1,6 +1,6 @@
 # QueryDSL MySQL JSON - JPA Module
 
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.3-red.svg)]()
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.4-red.svg)]()
 [![JitPack](https://jitpack.io/v/snowykte0426/querydsl-mysql-json-query-support.svg)](https://jitpack.io/#snowykte0426/querydsl-mysql-json-query-support)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
@@ -39,7 +39,7 @@ The JPA module provides seamless integration of MySQL JSON functions with QueryD
 
 ```kotlin
 dependencies {
-    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.2.3")
+    implementation("io.github.snowykte0426:querydsl-mysql-json-jpa:0.2.4")
 
     // Required dependencies (if not already included)
     implementation("io.github.openfeign.querydsl:querydsl-jpa:7.1")
@@ -58,7 +58,7 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-jpa</artifactId>
-        <version>0.2.2</version>
+        <version>0.2.4</version>
     </dependency>
 
     <!-- Required dependencies -->
@@ -295,16 +295,16 @@ public class Order {
 
 All 35 MySQL JSON functions are available in the JPA module:
 
-| Category | Functions | Count |
-|----------|-----------|-------|
-| **Creation** | JSON_ARRAY, JSON_OBJECT, JSON_QUOTE | 3 |
-| **Search** | JSON_EXTRACT, JSON_CONTAINS, JSON_SEARCH, JSON_KEYS, JSON_OVERLAPS, MEMBER OF, JSON_CONTAINS_PATH, JSON_VALUE | 10 |
-| **Modification** | JSON_SET, JSON_INSERT, JSON_REPLACE, JSON_REMOVE, JSON_ARRAY_APPEND, JSON_ARRAY_INSERT, JSON_MERGE_PATCH, JSON_MERGE_PRESERVE, JSON_UNQUOTE | 9 |
-| **Attribute** | JSON_DEPTH, JSON_LENGTH, JSON_TYPE, JSON_VALID | 4 |
-| **Utility** | JSON_PRETTY, JSON_STORAGE_SIZE, JSON_STORAGE_FREE | 3 |
-| **Schema** | JSON_SCHEMA_VALID, JSON_SCHEMA_VALIDATION_REPORT | 2 |
-| **Aggregate** | JSON_ARRAYAGG, JSON_OBJECTAGG | 2 |
-| **Table** | JSON_TABLE | 1 |
+| Category         | Functions                                                                                                                                   | Count |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|-------|
+| **Creation**     | JSON_ARRAY, JSON_OBJECT, JSON_QUOTE                                                                                                         | 3     |
+| **Search**       | JSON_EXTRACT, JSON_CONTAINS, JSON_SEARCH, JSON_KEYS, JSON_OVERLAPS, MEMBER OF, JSON_CONTAINS_PATH, JSON_VALUE                               | 10    |
+| **Modification** | JSON_SET, JSON_INSERT, JSON_REPLACE, JSON_REMOVE, JSON_ARRAY_APPEND, JSON_ARRAY_INSERT, JSON_MERGE_PATCH, JSON_MERGE_PRESERVE, JSON_UNQUOTE | 9     |
+| **Attribute**    | JSON_DEPTH, JSON_LENGTH, JSON_TYPE, JSON_VALID                                                                                              | 4     |
+| **Utility**      | JSON_PRETTY, JSON_STORAGE_SIZE, JSON_STORAGE_FREE                                                                                           | 3     |
+| **Schema**       | JSON_SCHEMA_VALID, JSON_SCHEMA_VALIDATION_REPORT                                                                                            | 2     |
+| **Aggregate**    | JSON_ARRAYAGG, JSON_OBJECTAGG                                                                                                               | 2     |
+| **Table**        | JSON_TABLE                                                                                                                                  | 1     |
 
 ## Advanced Usage
 

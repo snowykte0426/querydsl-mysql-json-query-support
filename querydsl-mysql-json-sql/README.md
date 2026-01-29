@@ -1,6 +1,6 @@
 # QueryDSL MySQL JSON - SQL Module
 
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.3-red.svg)]()
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-0.2.4-red.svg)]()
 [![JitPack](https://jitpack.io/v/snowykte0426/querydsl-mysql-json-query-support.svg)](https://jitpack.io/#snowykte0426/querydsl-mysql-json-query-support)
 [![Java: 17+](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 [![QueryDSL: 7.1](https://img.shields.io/badge/QueryDSL-7.1-blue.svg)](https://github.com/OpenFeign/querydsl)
@@ -48,10 +48,10 @@ The SQL module provides type-safe access to all 35 MySQL JSON functions through 
 ```gradle
 dependencies {
     // Core module (required)
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.2.2'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-core:0.2.4'
 
     // SQL module
-    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.2.2'
+    implementation 'io.github.snowykte0426:querydsl-mysql-json-sql:0.2.4'
 
     // QueryDSL SQL (if not already included)
     implementation 'io.github.openfeign.querydsl:querydsl-sql:7.1'
@@ -72,14 +72,14 @@ dependencies {
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-core</artifactId>
-        <version>0.2.2</version>
+        <version>0.2.4</version>
     </dependency>
 
     <!-- SQL module -->
     <dependency>
         <groupId>io.github.snowykte0426</groupId>
         <artifactId>querydsl-mysql-json-sql</artifactId>
-        <version>0.2.2</version>
+        <version>0.2.4</version>
     </dependency>
 
     <!-- QueryDSL SQL -->
@@ -237,76 +237,76 @@ All 35 MySQL JSON functions are available:
 
 ### Creation Functions (3)
 
-| Function | Description | Example |
-|----------|-------------|---------|
-| `jsonArray()` | Create JSON array | `SqlJsonFunctions.jsonArray("a", "b", "c")` |
-| `jsonObject()` | Create JSON object | `SqlJsonFunctions.jsonObject("key", "value")` |
-| `jsonQuote()` | Quote string as JSON | `SqlJsonFunctions.jsonQuote("text")` |
+| Function       | Description          | Example                                       |
+|----------------|----------------------|-----------------------------------------------|
+| `jsonArray()`  | Create JSON array    | `SqlJsonFunctions.jsonArray("a", "b", "c")`   |
+| `jsonObject()` | Create JSON object   | `SqlJsonFunctions.jsonObject("key", "value")` |
+| `jsonQuote()`  | Quote string as JSON | `SqlJsonFunctions.jsonQuote("text")`          |
 
 ### Search Functions (10)
 
-| Function | Description | MySQL Version |
-|----------|-------------|---------------|
-| `jsonExtract()` | Extract data from JSON | All |
-| `jsonValue()` | Extract scalar value | 8.0.21+ |
-| `jsonUnquoteExtract()` | Extract and unquote (`->>`) | All |
-| `jsonContains()` | Check if JSON contains value | All |
-| `jsonContainsPath()` | Check if path exists | All |
-| `jsonKeys()` | Get object keys | All |
-| `jsonSearch()` | Find path to value | All |
-| `jsonOverlaps()` | Check if two JSONs overlap | 8.0.17+ |
-| `memberOf()` | Check array membership | 8.0.17+ |
-| `jsonLength()` | Get element count | All |
+| Function               | Description                  | MySQL Version |
+|------------------------|------------------------------|---------------|
+| `jsonExtract()`        | Extract data from JSON       | All           |
+| `jsonValue()`          | Extract scalar value         | 8.0.21+       |
+| `jsonUnquoteExtract()` | Extract and unquote (`->>`)  | All           |
+| `jsonContains()`       | Check if JSON contains value | All           |
+| `jsonContainsPath()`   | Check if path exists         | All           |
+| `jsonKeys()`           | Get object keys              | All           |
+| `jsonSearch()`         | Find path to value           | All           |
+| `jsonOverlaps()`       | Check if two JSONs overlap   | 8.0.17+       |
+| `memberOf()`           | Check array membership       | 8.0.17+       |
+| `jsonLength()`         | Get element count            | All           |
 
 ### Modification Functions (9)
 
-| Function | Description |
-|----------|-------------|
-| `jsonSet()` | Insert or update value |
-| `jsonInsert()` | Insert without replacement |
-| `jsonReplace()` | Replace existing values |
-| `jsonRemove()` | Remove data from JSON |
-| `jsonArrayAppend()` | Append to array |
-| `jsonArrayInsert()` | Insert into array |
-| `jsonMergePatch()` | Merge with RFC 7386 |
+| Function              | Description                 |
+|-----------------------|-----------------------------|
+| `jsonSet()`           | Insert or update value      |
+| `jsonInsert()`        | Insert without replacement  |
+| `jsonReplace()`       | Replace existing values     |
+| `jsonRemove()`        | Remove data from JSON       |
+| `jsonArrayAppend()`   | Append to array             |
+| `jsonArrayInsert()`   | Insert into array           |
+| `jsonMergePatch()`    | Merge with RFC 7386         |
 | `jsonMergePreserve()` | Merge preserving duplicates |
-| `jsonUnquote()` | Unquote JSON string |
+| `jsonUnquote()`       | Unquote JSON string         |
 
 ### Attribute Functions (4)
 
-| Function | Description |
-|----------|-------------|
-| `jsonDepth()` | Get maximum depth |
+| Function       | Description       |
+|----------------|-------------------|
+| `jsonDepth()`  | Get maximum depth |
 | `jsonLength()` | Get element count |
-| `jsonType()` | Get value type |
-| `jsonValid()` | Validate JSON |
+| `jsonType()`   | Get value type    |
+| `jsonValid()`  | Validate JSON     |
 
 ### Utility Functions (3)
 
-| Function | Description |
-|----------|-------------|
-| `jsonPretty()` | Format JSON for readability |
-| `jsonStorageSize()` | Get storage size in bytes |
+| Function            | Description                  |
+|---------------------|------------------------------|
+| `jsonPretty()`      | Format JSON for readability  |
+| `jsonStorageSize()` | Get storage size in bytes    |
 | `jsonStorageFree()` | Get freed space after update |
 
 ### Schema Validation (2)
 
-| Function | Description | MySQL Version |
-|----------|-------------|---------------|
-| `jsonSchemaValid()` | Validate against JSON schema | 8.0.17+ |
-| `jsonSchemaValidationReport()` | Get validation report | 8.0.17+ |
+| Function                       | Description                  | MySQL Version |
+|--------------------------------|------------------------------|---------------|
+| `jsonSchemaValid()`            | Validate against JSON schema | 8.0.17+       |
+| `jsonSchemaValidationReport()` | Get validation report        | 8.0.17+       |
 
 ### Aggregate Functions (2)
 
-| Function | Description |
-|----------|-------------|
-| `jsonArrayAgg()` | Aggregate values into array |
-| `jsonObjectAgg()` | Aggregate key-value pairs |
+| Function          | Description                 |
+|-------------------|-----------------------------|
+| `jsonArrayAgg()`  | Aggregate values into array |
+| `jsonObjectAgg()` | Aggregate key-value pairs   |
 
 ### Table Functions (1)
 
-| Function | Description |
-|----------|-------------|
+| Function      | Description                      |
+|---------------|----------------------------------|
 | `jsonTable()` | Convert JSON to relational table |
 
 ---

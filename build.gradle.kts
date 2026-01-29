@@ -1,4 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.vanniktech.maven.publish.DeploymentValidation
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 
@@ -9,7 +10,7 @@ plugins {
 
 allprojects {
     group = "io.github.snowykte0426"
-    version = "0.2.3"
+    version = "0.2.4"
 }
 
 subprojects {
@@ -39,10 +40,7 @@ subprojects {
     }
 
     configure<MavenPublishBaseExtension> {
-        publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-        // Only sign publications if not building on JitPack
-        // JitPack doesn't require signing and won't have signing credentials
+        publishToMavenCentral(true, DeploymentValidation.PUBLISHED)
         if (System.getenv("JITPACK") == null) {
             signAllPublications()
         }
