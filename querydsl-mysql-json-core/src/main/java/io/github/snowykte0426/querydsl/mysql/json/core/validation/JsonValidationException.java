@@ -53,7 +53,7 @@ public class JsonValidationException extends RuntimeException {
      * @param invalidInput
      *            the input value that failed validation
      */
-    public JsonValidationException(String message, String invalidInput) {
+    public JsonValidationException(String message, @Nullable String invalidInput) {
         super(message + " (input: " + truncate(invalidInput) + ")");
         this.invalidInput = invalidInput;
     }
@@ -69,7 +69,7 @@ public class JsonValidationException extends RuntimeException {
      * @param cause
      *            the underlying cause of the validation failure
      */
-    public JsonValidationException(String message, String invalidInput, Throwable cause) {
+    public JsonValidationException(String message, @Nullable String invalidInput, Throwable cause) {
         super(message + " (input: " + truncate(invalidInput) + ")", cause);
         this.invalidInput = invalidInput;
     }
@@ -79,7 +79,7 @@ public class JsonValidationException extends RuntimeException {
      *
      * @return the invalid input, or {@code null} if not available
      */
-    public String getInvalidInput() {
+    public @Nullable String getInvalidInput() {
         return invalidInput;
     }
 
