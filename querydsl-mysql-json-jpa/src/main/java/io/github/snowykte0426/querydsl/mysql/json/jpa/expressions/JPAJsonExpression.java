@@ -25,25 +25,22 @@ import java.io.Serial;
  * Example usage:
  *
  * <pre>
- * {
- *     &#64;code
- *     // Given a JPA entity with a JSON column
- *     &#64;Entity
- *     public class User {
- *         @Column(columnDefinition = "JSON")
- *         private String metadata;
- *     }
- *
- *     // Create a JSON expression wrapper
- *     JPAJsonExpression jsonMetadata = JPAJsonExpression.of(QUser.user.metadata);
- *
- *     // Use fluent API for queries
- *     List<User> admins = queryFactory.selectFrom(user).where(jsonMetadata.extract("$.role").eq("\"admin\"")).fetch();
- *
- *     // Or use static method style
- *     List<User> users = queryFactory.selectFrom(user)
- *             .where(JPAJsonExpression.of(user.settings).contains("\"dark\"", "$.theme")).fetch();
+ * // Given a JPA entity with a JSON column
+ * &#64;Entity
+ * public class User {
+ *     &#64;Column(columnDefinition = "JSON")
+ *     private String metadata;
  * }
+ *
+ * // Create a JSON expression wrapper
+ * JPAJsonExpression jsonMetadata = JPAJsonExpression.of(QUser.user.metadata);
+ *
+ * // Use fluent API for queries
+ * List&lt;User&gt; admins = queryFactory.selectFrom(user).where(jsonMetadata.extract("$.role").eq("\"admin\"")).fetch();
+ *
+ * // Or use static method style
+ * List&lt;User&gt; users = queryFactory.selectFrom(user)
+ *         .where(JPAJsonExpression.of(user.settings).contains("\"dark\"", "$.theme")).fetch();
  * </pre>
  *
  * @author snowykte0426

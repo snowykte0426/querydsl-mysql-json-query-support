@@ -25,29 +25,26 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
  * Example usage:
  *
  * <pre>
- * {
- *     &#64;code
- *     &#64;Repository
- *     public class UserRepositoryImpl extends JsonFunctionRepositorySupport implements UserRepositoryCustom {
+ * &#64;Repository
+ * public class UserRepositoryImpl extends JsonFunctionRepositorySupport implements UserRepositoryCustom {
  *
- *         public UserRepositoryImpl() {
- *             super(User.class);
- *         }
+ *     public UserRepositoryImpl() {
+ *         super(User.class);
+ *     }
  *
- *         &#64;Override
- *         public List<User> findByRole(String role) {
- *             QUser user = QUser.user;
- *             JPAJsonExpression metadata = jsonExpression(user.metadata);
+ *     &#64;Override
+ *     public List&lt;User&gt; findByRole(String role) {
+ *         QUser user = QUser.user;
+ *         JPAJsonExpression metadata = jsonExpression(user.metadata);
  *
- *             return from(user).where(metadata.extract("$.role").eq("\"" + role + "\"")).fetch();
- *         }
+ *         return from(user).where(metadata.extract("$.role").eq("\"" + role + "\"")).fetch();
+ *     }
  *
- *         @Override
- *         public List<User> findUsersWithPermission(String permission) {
- *             QUser user = QUser.user;
+ *     &#64;Override
+ *     public List&lt;User&gt; findUsersWithPermission(String permission) {
+ *         QUser user = QUser.user;
  *
- *             return from(user).where(JPAJsonFunctions.memberOf(permission, user.permissions)).fetch();
- *         }
+ *         return from(user).where(JPAJsonFunctions.memberOf(permission, user.permissions)).fetch();
  *     }
  * }
  * </pre>
