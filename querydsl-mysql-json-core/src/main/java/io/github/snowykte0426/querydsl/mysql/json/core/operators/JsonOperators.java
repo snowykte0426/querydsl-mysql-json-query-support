@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * MySQL JSON function operators.
- *
+ * <p>
  * This enum defines all 35 MySQL JSON function operators for use with QueryDSL.
  * These operators map to MySQL 8.0.17+ JSON functions and are used with
  * QueryDSL templates.
