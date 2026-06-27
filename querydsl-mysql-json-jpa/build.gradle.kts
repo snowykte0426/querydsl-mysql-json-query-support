@@ -2,6 +2,8 @@ plugins {
     `java-library`
 }
 
+val springBootVersion = providers.gradleProperty("springBootVersion").orElse("4.1.0")
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
@@ -23,7 +25,8 @@ dependencies {
     // JetBrains annotations (for @Nullable)
     compileOnly("org.jetbrains:annotations:24.1.0")
 
-    // Spring Data JPA (for QuerydslRepositorySupport)
+    // Spring Data JPA (for QuerydslRepositorySupport).
+    // Compile against the lowest supported Spring Data 3.x API; CI verifies Spring Boot 3.x and 4.x runtimes.
     compileOnly("org.springframework.data:spring-data-jpa:3.2.1")
 
     // MySQL Connector (compileOnly, users will provide their own)
@@ -59,8 +62,9 @@ dependencies {
     testImplementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 
     // Spring Boot (optional, for JPA integration tests)
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.1")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.1")
+    testImplementation(platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion.get()}"))
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Assertions
     testImplementation("org.assertj:assertj-core:3.25.1")

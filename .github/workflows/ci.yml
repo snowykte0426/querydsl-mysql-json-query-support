@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Java ${{ matrix.java }} | Gradle ${{ matrix.gradle }} | ${{ matrix.mysql }}
+    name: Java ${{ matrix.java }} | Gradle ${{ matrix.gradle }} | ${{ matrix.mysql }} | Boot ${{ matrix.spring-boot }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -16,6 +16,10 @@ jobs:
         java: [ '17', '21', '25' ]
         gradle: [ '9.0.0', '9.2.1' ]
         mysql: [ 'mysql:8.0.33', 'mysql:8.4', 'mysql:9.2' ]
+        spring-boot: [ '3.5.16', '4.1.0' ]
+        exclude:
+          - java: '25'
+            gradle: '9.0.0'
 
     steps:
     - uses: actions/checkout@v6
@@ -32,4 +36,4 @@ jobs:
         gradle-version: ${{ matrix.gradle }}
 
     - name: Run Tests
-      run: gradle check -Djava.toolchain.version=${{ matrix.java }} -Dtest.mysql.image="${{ matrix.mysql }}" --no-configuration-cache --info
+      run: gradle check -Djava.toolchain.version=${{ matrix.java }} -Dtest.mysql.image="${{ matrix.mysql }}" -PspringBootVersion=${{ matrix.spring-boot }} --no-configuration-cache --info

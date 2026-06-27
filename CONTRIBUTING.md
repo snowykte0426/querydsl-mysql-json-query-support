@@ -280,10 +280,11 @@ changes
 Our CI pipeline tests against multiple versions to ensure compatibility:
 
 - **Java**: 17, 21, 25
-- **Gradle**: 8.5, 8.10.2, 9.2.1
+- **Gradle**: 9.0.0, 9.2.1
 - **MySQL**: 8.0.33, 8.4, 9.2
+- **Spring Boot**: 3.5.16, 4.1.0
 
-**Total**: 21 test combinations (excluding incompatible combinations)
+**Total**: 30 test combinations
 
 **Note**: Java 25 requires Gradle 9.2.1+, so incompatible combinations are excluded.
 

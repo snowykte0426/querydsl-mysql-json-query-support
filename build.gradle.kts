@@ -9,7 +9,7 @@ plugins {
 
 allprojects {
     group = "io.github.snowykte0426"
-    version = "0.2.4"
+    version = "0.2.5"
 }
 
 subprojects {
